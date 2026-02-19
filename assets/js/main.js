@@ -2390,10 +2390,10 @@
             let masterTL = gsap.timeline({
                 scrollTrigger: {
                     trigger: section,
-                    start: "top top",
-                    end: "bottom top",
+                    start: "top 80%",
+                    end: "top 10%",
                     pin: false,
-                    scrub: 1.2,
+                    scrub: 0.8,
                     markers: false
                 }
             });
