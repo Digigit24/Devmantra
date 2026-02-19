@@ -57045,10 +57045,6 @@ only screen and (min-width: 768px) and (max-width: 991px),
     color: rgba(0, 0, 0, 0.5);
 }
 
-.agntix-light .cr-testimonial-item-top img {
-    filter: invert(1);
-}
-
 .agntix-light .cr-testimonial-item-title {
     color: var(--tp-common-black);
 }
