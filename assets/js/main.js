@@ -2362,4 +2362,137 @@
 
 
 
+    // ===== Disperse Services Animation =====
+    if (document.querySelector('.dm-disperse-area')) {
+        let disperseMedia = gsap.matchMedia();
+
+        disperseMedia.add("(min-width: 992px)", () => {
+            let section = document.querySelector('.dm-disperse-area');
+            let container = document.querySelector('.dm-disperse-container');
+            let heading = document.querySelector('.dm-disperse-heading');
+            let glow = document.querySelector('.dm-disperse-glow');
+            let items = document.querySelectorAll('.dm-disperse-item');
+
+            // Curved-path easing pairs — different ease for x vs y creates arc motion
+            let curvePairs = [
+                { xEase: "power3.out", yEase: "sine.in" },
+                { xEase: "sine.out",   yEase: "power3.in" },
+                { xEase: "power2.out", yEase: "power4.in" },
+                { xEase: "power4.out", yEase: "power2.in" },
+                { xEase: "circ.out",   yEase: "sine.in" },
+                { xEase: "sine.out",   yEase: "circ.in" },
+                { xEase: "power3.out", yEase: "power2.in" },
+                { xEase: "power2.out", yEase: "circ.in" },
+                { xEase: "circ.out",   yEase: "power3.in" }
+            ];
+
+            // Master timeline pinned to section
+            let masterTL = gsap.timeline({
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top top",
+                    end: "bottom top",
+                    pin: false,
+                    scrub: 1.2,
+                    markers: false
+                }
+            });
+
+            // Phase 1: Heading fades in + glow pulses
+            masterTL.fromTo(heading,
+                { opacity: 0, scale: 0.7 },
+                { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
+            );
+
+            // Phase 2: Items appear at center
+            masterTL.fromTo(items,
+                { opacity: 0, scale: 0.5 },
+                { opacity: 1, scale: 1, duration: 0.15, stagger: 0.02, ease: "power1.out" },
+                0.15
+            );
+
+            // Phase 3: Disperse outward along curved paths
+            // Animate x and y SEPARATELY with different easings for curved motion
+            items.forEach((item, i) => {
+                let containerRect = container.getBoundingClientRect();
+                let finalXPercent = parseFloat(item.dataset.finalX) || 0;
+                let finalYPercent = parseFloat(item.dataset.finalY) || 0;
+
+                // Convert percentage to actual px offset
+                let finalX = (finalXPercent / 100) * containerRect.width;
+                let finalY = (finalYPercent / 100) * containerRect.height;
+
+                let curve = curvePairs[i % curvePairs.length];
+                let disperseStart = 0.35;
+
+                // X movement with one easing
+                masterTL.to(item, {
+                    x: finalX,
+                    duration: 0.55,
+                    ease: curve.xEase
+                }, disperseStart + (i * 0.03));
+
+                // Y movement with DIFFERENT easing → creates a curve
+                masterTL.to(item, {
+                    y: finalY,
+                    duration: 0.55,
+                    ease: curve.yEase
+                }, disperseStart + (i * 0.03));
+            });
+
+            // Expand glow as items disperse
+            masterTL.to(glow, {
+                width: 700,
+                height: 700,
+                opacity: 0.3,
+                duration: 0.5,
+                ease: "power2.out"
+            }, 0.35);
+
+            // Mark items as interactive once dispersed
+            masterTL.call(() => {
+                items.forEach(el => el.classList.add('is-dispersed'));
+            });
+        });
+
+        // Mobile: no animation, just lay them out in a simple flow
+        disperseMedia.add("(max-width: 991px)", () => {
+            let heading = document.querySelector('.dm-disperse-heading');
+            let items = document.querySelectorAll('.dm-disperse-item');
+            let glow = document.querySelector('.dm-disperse-glow');
+
+            // Reset positioning for mobile — stack as flex
+            gsap.set(heading, { opacity: 1, position: 'relative', top: 'auto', left: 'auto', transform: 'none', marginBottom: '30px' });
+            gsap.set(items, { opacity: 1, position: 'relative', top: 'auto', left: 'auto', transform: 'none' });
+            gsap.set(glow, { display: 'none' });
+
+            let container = document.querySelector('.dm-disperse-container');
+            container.style.display = 'flex';
+            container.style.flexWrap = 'wrap';
+            container.style.justifyContent = 'center';
+            container.style.alignItems = 'center';
+            container.style.gap = '10px';
+            container.style.height = 'auto';
+
+            items.forEach(el => {
+                el.style.margin = '4px';
+                el.classList.add('is-dispersed');
+            });
+
+            // Simple stagger fade-in on scroll
+            gsap.from(items, {
+                scrollTrigger: {
+                    trigger: '.dm-disperse-area',
+                    start: 'top 80%',
+                },
+                opacity: 0,
+                y: 30,
+                duration: 0.6,
+                stagger: 0.08,
+                ease: "power2.out"
+            });
+        });
+    }
+
+
 })(jQuery);
