@@ -58939,33 +58939,89 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 .dm-disperse-item span {
-  display: inline-block;
-  padding: 10px 22px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
   border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: rgba(255, 255, 255, 0.9);
   font-family: 'Onest', sans-serif;
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
   letter-spacing: 0.01em;
-  transition: border-color 0.3s, background 0.3s, color 0.3s;
+  box-shadow:
+    0 0 20px rgba(99, 102, 241, 0.08),
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   overflow: hidden;
   max-width: 0;
   opacity: 0;
+}
+
+/* Accent dot before text */
+.dm-disperse-item span::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.8);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.6);
+}
+
+/* Shimmer sweep on hover */
+.dm-disperse-item span::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 50%, transparent 100%);
+  transition: left 0.6s ease;
+  pointer-events: none;
 }
 
 .dm-disperse-item.is-dispersed {
   pointer-events: auto;
 }
 
+/* Subtle float after dispersing */
+.dm-disperse-item.is-dispersed span {
+  animation: dm-float 4s ease-in-out infinite;
+  animation-delay: calc(var(--float-delay, 0) * 1s);
+}
+
 .dm-disperse-item.is-dispersed span:hover {
-  border-color: rgba(99, 102, 241, 0.5);
-  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.45);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0.06) 100%);
   color: #fff;
+  box-shadow:
+    0 0 30px rgba(99, 102, 241, 0.2),
+    0 6px 24px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.dm-disperse-item.is-dispersed span:hover::after {
+  left: 100%;
+}
+
+.dm-disperse-item.is-dispersed span:hover::before {
+  background: rgba(99, 102, 241, 1);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.8);
+}
+
+@keyframes dm-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
 @media (max-width: 991px) {
@@ -58981,6 +59037,14 @@ only screen and (min-width: 768px) and (max-width: 991px),
   .dm-disperse-item span {
     font-size: 12px;
     padding: 8px 16px;
+    gap: 8px;
+    max-width: none;
+    opacity: 1;
+    animation: none;
+  }
+  .dm-disperse-item span::before {
+    width: 5px;
+    height: 5px;
   }
 }
 
@@ -58993,6 +59057,11 @@ only screen and (min-width: 768px) and (max-width: 991px),
   .dm-disperse-item span {
     font-size: 11px;
     padding: 6px 12px;
+    gap: 6px;
+  }
+  .dm-disperse-item span::before {
+    width: 4px;
+    height: 4px;
   }
 }
 
