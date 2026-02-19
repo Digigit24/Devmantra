@@ -2386,56 +2386,45 @@
                 { xEase: "circ.out",   yEase: "power3.in" }
             ];
 
-            // Master timeline pinned to section
-            let masterTL = gsap.timeline({
-                scrollTrigger: {
-                    trigger: section,
-                    start: "top 75%",
-                    toggleActions: "play none none none",
-                    markers: false
-                }
-            });
+            // Build the timeline but don't play yet
+            let masterTL = gsap.timeline({ paused: true });
 
-            // Phase 1: Heading fades in + glow pulses
+            // Phase 1: Heading fades in clearly
             masterTL.fromTo(heading,
-                { opacity: 0, scale: 0.7 },
-                { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }
+                { opacity: 0, scale: 0.8, y: 20 },
+                { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: "power2.out" }
             );
 
-            // Phase 2: Items appear at center
+            // Phase 2: Items pop in at center with stagger
             masterTL.fromTo(items,
-                { opacity: 0, scale: 0.5 },
-                { opacity: 1, scale: 1, duration: 0.3, stagger: 0.04, ease: "power1.out" },
-                0.3
+                { opacity: 0, scale: 0 },
+                { opacity: 1, scale: 1, duration: 0.4, stagger: 0.05, ease: "back.out(1.4)" },
+                0.4
             );
 
             // Phase 3: Disperse outward along curved paths
-            // Animate x and y SEPARATELY with different easings for curved motion
             items.forEach((item, i) => {
                 let containerRect = container.getBoundingClientRect();
                 let finalXPercent = parseFloat(item.dataset.finalX) || 0;
                 let finalYPercent = parseFloat(item.dataset.finalY) || 0;
 
-                // Convert percentage to actual px offset
                 let finalX = (finalXPercent / 100) * containerRect.width;
                 let finalY = (finalYPercent / 100) * containerRect.height;
 
                 let curve = curvePairs[i % curvePairs.length];
-                let disperseStart = 0.7;
+                let disperseStart = 1.2;
 
-                // X movement with one easing
                 masterTL.to(item, {
                     x: finalX,
-                    duration: 1,
+                    duration: 1.1,
                     ease: curve.xEase
-                }, disperseStart + (i * 0.06));
+                }, disperseStart + (i * 0.07));
 
-                // Y movement with DIFFERENT easing → creates a curve
                 masterTL.to(item, {
                     y: finalY,
-                    duration: 1,
+                    duration: 1.1,
                     ease: curve.yEase
-                }, disperseStart + (i * 0.06));
+                }, disperseStart + (i * 0.07));
             });
 
             // Expand glow as items disperse
@@ -2443,14 +2432,26 @@
                 width: 700,
                 height: 700,
                 opacity: 0.3,
-                duration: 0.8,
+                duration: 1,
                 ease: "power2.out"
-            }, 0.7);
+            }, 1.2);
 
             // Mark items as interactive once dispersed
             masterTL.call(() => {
                 items.forEach(el => el.classList.add('is-dispersed'));
             });
+
+            // Use IntersectionObserver — completely independent of scroll
+            let observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        masterTL.play();
+                        observer.disconnect();
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            observer.observe(section);
         });
 
         // Mobile: no animation, just lay them out in a simple flow
