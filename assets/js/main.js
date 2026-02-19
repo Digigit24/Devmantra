@@ -2373,77 +2373,59 @@
             let glow = document.querySelector('.dm-disperse-glow');
             let items = document.querySelectorAll('.dm-disperse-item');
 
-            // Curved-path easing pairs — different ease for x vs y creates arc motion
-            let curvePairs = [
-                { xEase: "power3.out", yEase: "sine.in" },
-                { xEase: "sine.out",   yEase: "power3.in" },
-                { xEase: "power2.out", yEase: "power4.in" },
-                { xEase: "power4.out", yEase: "power2.in" },
-                { xEase: "circ.out",   yEase: "sine.in" },
-                { xEase: "sine.out",   yEase: "circ.in" },
-                { xEase: "power3.out", yEase: "power2.in" },
-                { xEase: "power2.out", yEase: "circ.in" },
-                { xEase: "circ.out",   yEase: "power3.in" }
-            ];
-
             // Build the timeline but don't play yet
             let masterTL = gsap.timeline({ paused: true });
 
-            // Phase 1: Heading fades in clearly
+            // Phase 1: Heading fades in
             masterTL.fromTo(heading,
-                { opacity: 0, scale: 0.8, y: 20 },
-                { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: "power2.out" }
+                { opacity: 0, y: 15 },
+                { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
             );
 
-            // Set items visible but spans start collapsed
+            // Set wrapper visible, spans stay collapsed via CSS
             gsap.set(items, { opacity: 1 });
 
-            // Disperse outward + reveal span width & opacity together
+            // Disperse: single smooth motion + reveal
+            let containerRect = container.getBoundingClientRect();
+
             items.forEach((item, i) => {
-                let containerRect = container.getBoundingClientRect();
                 let finalXPercent = parseFloat(item.dataset.finalX) || 0;
                 let finalYPercent = parseFloat(item.dataset.finalY) || 0;
 
                 let finalX = (finalXPercent / 100) * containerRect.width;
                 let finalY = (finalYPercent / 100) * containerRect.height;
 
-                let curve = curvePairs[i % curvePairs.length];
-                let disperseStart = 0.8;
-                let itemStart = disperseStart + (i * 0.08);
+                let disperseStart = 0.5;
+                let itemStart = disperseStart + (i * 0.07);
                 let span = item.querySelector('span');
 
-                // Move outward
+                // Single smooth tween for both x and y
                 masterTL.to(item, {
                     x: finalX,
-                    duration: 1.2,
-                    ease: curve.xEase
-                }, itemStart);
-
-                masterTL.to(item, {
                     y: finalY,
-                    duration: 1.2,
-                    ease: curve.yEase
+                    duration: 1.3,
+                    ease: "power3.out"
                 }, itemStart);
 
-                // Reveal span: width 0 → full + fade in as it moves
+                // Reveal span as it moves
                 masterTL.to(span, {
                     maxWidth: 500,
                     opacity: 1,
-                    duration: 0.9,
+                    duration: 0.8,
                     ease: "power2.out"
-                }, itemStart + 0.15);
+                }, itemStart + 0.1);
             });
 
-            // Expand glow as items disperse
+            // Expand glow
             masterTL.to(glow, {
                 width: 700,
                 height: 700,
                 opacity: 0.3,
-                duration: 1,
+                duration: 1.2,
                 ease: "power2.out"
-            }, 0.8);
+            }, 0.5);
 
-            // Mark items as interactive once dispersed
+            // Mark items as interactive
             masterTL.call(() => {
                 items.forEach(el => el.classList.add('is-dispersed'));
             });
