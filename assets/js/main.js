@@ -2390,10 +2390,8 @@
             let masterTL = gsap.timeline({
                 scrollTrigger: {
                     trigger: section,
-                    start: "top 80%",
-                    end: "top 10%",
-                    pin: false,
-                    scrub: 0.8,
+                    start: "top 75%",
+                    toggleActions: "play none none none",
                     markers: false
                 }
             });
@@ -2401,14 +2399,14 @@
             // Phase 1: Heading fades in + glow pulses
             masterTL.fromTo(heading,
                 { opacity: 0, scale: 0.7 },
-                { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
+                { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }
             );
 
             // Phase 2: Items appear at center
             masterTL.fromTo(items,
                 { opacity: 0, scale: 0.5 },
-                { opacity: 1, scale: 1, duration: 0.15, stagger: 0.02, ease: "power1.out" },
-                0.15
+                { opacity: 1, scale: 1, duration: 0.3, stagger: 0.04, ease: "power1.out" },
+                0.3
             );
 
             // Phase 3: Disperse outward along curved paths
@@ -2423,21 +2421,21 @@
                 let finalY = (finalYPercent / 100) * containerRect.height;
 
                 let curve = curvePairs[i % curvePairs.length];
-                let disperseStart = 0.35;
+                let disperseStart = 0.7;
 
                 // X movement with one easing
                 masterTL.to(item, {
                     x: finalX,
-                    duration: 0.55,
+                    duration: 1,
                     ease: curve.xEase
-                }, disperseStart + (i * 0.03));
+                }, disperseStart + (i * 0.06));
 
                 // Y movement with DIFFERENT easing → creates a curve
                 masterTL.to(item, {
                     y: finalY,
-                    duration: 0.55,
+                    duration: 1,
                     ease: curve.yEase
-                }, disperseStart + (i * 0.03));
+                }, disperseStart + (i * 0.06));
             });
 
             // Expand glow as items disperse
@@ -2445,9 +2443,9 @@
                 width: 700,
                 height: 700,
                 opacity: 0.3,
-                duration: 0.5,
+                duration: 0.8,
                 ease: "power2.out"
-            }, 0.35);
+            }, 0.7);
 
             // Mark items as interactive once dispersed
             masterTL.call(() => {
