@@ -2395,14 +2395,10 @@
                 { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: "power2.out" }
             );
 
-            // Phase 2: Items pop in at center with stagger
-            masterTL.fromTo(items,
-                { opacity: 0, scale: 0 },
-                { opacity: 1, scale: 1, duration: 0.4, stagger: 0.05, ease: "back.out(1.4)" },
-                0.4
-            );
+            // Set items visible but spans start collapsed
+            gsap.set(items, { opacity: 1 });
 
-            // Phase 3: Disperse outward along curved paths
+            // Disperse outward + reveal span width & opacity together
             items.forEach((item, i) => {
                 let containerRect = container.getBoundingClientRect();
                 let finalXPercent = parseFloat(item.dataset.finalX) || 0;
@@ -2412,19 +2408,30 @@
                 let finalY = (finalYPercent / 100) * containerRect.height;
 
                 let curve = curvePairs[i % curvePairs.length];
-                let disperseStart = 1.2;
+                let disperseStart = 0.8;
+                let itemStart = disperseStart + (i * 0.08);
+                let span = item.querySelector('span');
 
+                // Move outward
                 masterTL.to(item, {
                     x: finalX,
-                    duration: 1.1,
+                    duration: 1.2,
                     ease: curve.xEase
-                }, disperseStart + (i * 0.07));
+                }, itemStart);
 
                 masterTL.to(item, {
                     y: finalY,
-                    duration: 1.1,
+                    duration: 1.2,
                     ease: curve.yEase
-                }, disperseStart + (i * 0.07));
+                }, itemStart);
+
+                // Reveal span: width 0 → full + fade in as it moves
+                masterTL.to(span, {
+                    maxWidth: 500,
+                    opacity: 1,
+                    duration: 0.9,
+                    ease: "power2.out"
+                }, itemStart + 0.15);
             });
 
             // Expand glow as items disperse
@@ -2434,7 +2441,7 @@
                 opacity: 0.3,
                 duration: 1,
                 ease: "power2.out"
-            }, 1.2);
+            }, 0.8);
 
             // Mark items as interactive once dispersed
             masterTL.call(() => {
@@ -2463,6 +2470,9 @@
             // Reset positioning for mobile — stack as flex
             gsap.set(heading, { opacity: 1, position: 'relative', top: 'auto', left: 'auto', transform: 'none', marginBottom: '30px' });
             gsap.set(items, { opacity: 1, position: 'relative', top: 'auto', left: 'auto', transform: 'none' });
+            document.querySelectorAll('.dm-disperse-item span').forEach(span => {
+                gsap.set(span, { maxWidth: 'none', opacity: 1 });
+            });
             gsap.set(glow, { display: 'none' });
 
             let container = document.querySelector('.dm-disperse-container');
