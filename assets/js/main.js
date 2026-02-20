@@ -2407,12 +2407,12 @@
                     ease: "power3.out"
                 }, itemStart);
 
-                // Reveal span as it moves
+                // Reveal span as it moves — scale in for square card
                 masterTL.to(span, {
-                    maxWidth: 500,
+                    scale: 1,
                     opacity: 1,
-                    duration: 0.8,
-                    ease: "power2.out"
+                    duration: 0.6,
+                    ease: "back.out(1.4)"
                 }, itemStart + 0.1);
             });
 
@@ -2453,7 +2453,7 @@
             gsap.set(heading, { opacity: 1, position: 'relative', top: 'auto', left: 'auto', transform: 'none', marginBottom: '30px' });
             gsap.set(items, { opacity: 1, position: 'relative', top: 'auto', left: 'auto', transform: 'none' });
             document.querySelectorAll('.dm-disperse-item span').forEach(span => {
-                gsap.set(span, { maxWidth: 'none', opacity: 1 });
+                gsap.set(span, { scale: 1, opacity: 1 });
             });
             gsap.set(glow, { display: 'none' });
 
