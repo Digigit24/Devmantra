@@ -5,7 +5,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Agntix - Digital Agency & Creative Portfolio HTML Template</title>
+    <title>Devmantra</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -331,7 +331,8 @@
                 <!-- cr hero area start -->
                 <div style="background-color: black;" class="cr-hero-area fix cr-hero-ptb p-relative pt-170">
                     <div class="cr-hero-bg cr-hero-spline">
-                        <!-- <spline-viewer url="https://prod.spline.design/xHLGA5-DjAiR6SRV/scene.splinecode"></spline-viewer> -->
+                        <spline-viewer
+                            url="https://prod.spline.design/xHLGA5-DjAiR6SRV/scene.splinecode"></spline-viewer>
                     </div>
                     <div class="container-fluid">
                         <div class="row">
@@ -622,6 +623,52 @@
                 </div>
                 <!-- disperse services area end -->
 
+                <!-- Map area start -->
+                <section class="cr-world-area cr-brand-ptb fix">
+                    <div class="container container-1230">
+                        <div class="cr-multi-border pt-100 pb-100">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12 text-center mb-60">
+                                    <h3 class="tp-section-title-onest fs-72">Countries that we serve</h3>
+                                    <p>We work with clients across the globe, delivering solutions without borders.</p>
+                                </div>
+
+                                <div class="col-lg-10">
+                                    <div class="world-map-box">
+                                        <!-- Base SVG (unchanged) -->
+                                        <div class="map-base">
+                                            <img src="assets/img/logo/map.svg" alt="">
+                                        </div>
+
+                                        <!-- Overlay SVG for pins (same viewBox as your base SVG) -->
+                                        <svg class="map-overlay" viewBox="0 0 1000 500"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Pins (use circles at precise coordinates) -->
+                                            <g id="pins">
+                                                <circle class="pin" cx="150" cy="90" r="6" data-country="USA"></circle>
+                                                <circle class="pin" cx="395" cy="75" r="6" data-country="UK"></circle>
+                                                <circle class="pin" cx="450" cy="95" r="6" data-country="Italy">
+                                                </circle>
+                                                <circle class="pin" cx="570" cy="145" r="6" data-country="Oman">
+                                                </circle>
+                                                <circle class="pin" cx="670" cy="175" r="6" data-country="Sri Lanka">
+                                                </circle>
+                                                <circle class="pin" cx="740" cy="195" r="6" data-country="Singapore">
+                                                </circle>
+                                                <circle class="pin" cx="880" cy="245" r="6" data-country="Australia">
+                                                </circle>
+                                            </g>
+                                        </svg>
+
+                                        <div class="map-tooltip" id="mapTooltip"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Map area end -->
+
                 <!-- cr feature 2 area start -->
                 <div class="cr-feature-2-area p-relative cr-feature-2-ptb">
                     <div class="cr-feature-2-bg">
@@ -895,8 +942,102 @@
                 </div>
                 <!-- cr feature 2 area end -->
 
+                <div class="tp-testimonial-area tp-team-bg black-bg-3 p-relative fix"
+                    data-background="assets/img/home-01/testimonial/noise.png"
+                    style="background-image: url(/assets/img/home-13/testimonial/noise.webp);">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-6">
+                                <div class="tp-testimonial-title-wrap z-index-3">
+                                    <div class="tp-testimonial-title-box mb-75 text-center">
+                                        <h4 class="tp-section-title text-white fs-140">meet <br>
+                                            our team</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tp-team-slider-wrap">
+                        <div
+                            class="tp-team-slider-active swiper-container swiper-initialized swiper-horizontal swiper-pointer-events">
+                            <div class="swiper-wrapper slide-transtion"
+                                style="transition-duration: 0ms; transform: translate3d(-2055px, 0px, 0px);">
+                                <div class="swiper-slide" data-swiper-slide-index="0">
+                                    <div class="tp-team-item">
+                                        <div class="tp-team-item-thumb">
+                                            <a href="team-details-light.html">
+                                                <img src="assets/img/team/team-1.webp" alt="Andrew">
+                                            </a>
+                                            <div class="studio-team-content text-center">
+                                                <h4 class="studio-team-title-sm"><a href="team-details-light.html">Andrew</a></h4>
+                                                <span>Developer</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide" data-swiper-slide-index="1">
+                                    <div class="tp-team-item">
+                                        <div class="tp-team-item-thumb">
+                                            <a href="team-details-light.html">
+                                                <img src="assets/img/team/team-2.webp" alt="Sophia">
+                                            </a>
+                                            <div class="studio-team-content text-center">
+                                                <h4 class="studio-team-title-sm"><a href="team-details-light.html">Sophia</a></h4>
+                                                <span>Developer</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide" data-swiper-slide-index="2">
+                                    <div class="tp-team-item">
+                                        <div class="tp-team-item-thumb">
+                                            <a href="team-details-light.html">
+                                                <img src="assets/img/team/team-3.webp" alt="Emma">
+                                            </a>
+                                            <div class="studio-team-content text-center">
+                                                <h4 class="studio-team-title-sm"><a href="team-details-light.html">Emma</a></h4>
+                                                <span>Developer</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide" data-swiper-slide-index="3">
+                                    <div class="tp-team-item">
+                                        <div class="tp-team-item-thumb">
+                                            <a href="team-details-light.html">
+                                                <img src="assets/img/team/team-4.webp" alt="James">
+                                            </a>
+                                            <div class="studio-team-content text-center">
+                                                <h4 class="studio-team-title-sm"><a href="team-details-light.html">James</a></h4>
+                                                <span>Developer</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-slide" data-swiper-slide-index="4">
+                                    <div class="tp-team-item">
+                                        <div class="tp-team-item-thumb">
+                                            <a href="team-details-light.html">
+                                                <img src="assets/img/team/team-5.webp" alt="Oliver">
+                                            </a>
+                                            <div class="studio-team-content text-center">
+                                                <h4 class="studio-team-title-sm"><a href="team-details-light.html">Oliver</a></h4>
+                                                <span>Developer</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- cr feature 3 area start -->
-                <div class="cr-feature-3-area fix cr-feature-3-border">
+                <!-- <div class="cr-feature-3-area fix cr-feature-3-border">
                     <div class="container container-1230">
                         <div class="cr-feature-3-border-box">
                             <div class="cr-feature-3-box">
@@ -905,10 +1046,12 @@
                                         <div class="cr-feature-3-heading">
                                             <div class="tp-section-subtitle-gradient ct mb-20 tp_fade_anim"
                                                 data-delay=".3">Features</div>
-                                            <h4 style="color: black;" class="tp-section-title-onest tp-text-revel-anim">Robust & secure <br>
+                                            <h4 style="color: black;" class="tp-section-title-onest tp-text-revel-anim">
+                                                Robust & secure <br>
                                                 exchange platform</h4>
                                             <div class="tp_text_anim">
-                                                <p style="color: black;" >Whether you’re looking to trade major coins like <br> Bitcoin and
+                                                <p style="color: black;">Whether you’re looking to trade major coins
+                                                    like <br> Bitcoin and
                                                     Ethereum or interested in emerging altcoins, <br> our platform
                                                     provides all the tools you need.</p>
                                             </div>
@@ -935,7 +1078,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- cr feature 3 area end -->
 
                 <!-- testimonial area start -->
@@ -1380,7 +1523,32 @@
 
     <!-- JS here -->
 
+    <script>
+        const pins = document.querySelectorAll(".pin");
+        const tooltip = document.getElementById("mapTooltip");
+        const box = document.querySelector(".world-map-box");
 
+        pins.forEach(pin => {
+            pin.addEventListener("mouseenter", () => {
+                const name = pin.getAttribute("data-country");
+                tooltip.textContent = name;
+
+                const rect = box.getBoundingClientRect();
+                const pt = pin.getBoundingClientRect();
+
+                tooltip.style.left = (pt.left - rect.left) + "px";
+                tooltip.style.top = (pt.top - rect.top) + "px";
+                tooltip.style.opacity = "1";
+                tooltip.style.transform = "translate(-50%, -140%)";
+            });
+
+            pin.addEventListener("mouseleave", () => {
+                tooltip.style.opacity = "0";
+                tooltip.style.transform = "translate(-50%, -120%)";
+            });
+        });
+    </script>
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
     <script src="assets/js/vendor/jquery.js"></script>
     <script src="assets/js/bootstrap-bundle.js"></script>
     <script src="assets/js/swiper-bundle.js"></script>
