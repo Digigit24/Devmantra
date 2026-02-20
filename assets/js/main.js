@@ -2452,7 +2452,7 @@
             // Reset positioning for mobile — stack as flex
             gsap.set(heading, { opacity: 1, position: 'relative', top: 'auto', left: 'auto', transform: 'none', marginBottom: '30px' });
             gsap.set(items, { opacity: 1, position: 'relative', top: 'auto', left: 'auto', transform: 'none' });
-            document.querySelectorAll('.dm-disperse-item span').forEach(span => {
+            document.querySelectorAll('.dm-disperse-item > span').forEach(span => {
                 gsap.set(span, { scale: 1, opacity: 1 });
             });
             gsap.set(glow, { display: 'none' });
