@@ -59170,4 +59170,157 @@ margin:0;
 font-size:14px;
 color:#555;
 }
+/* ===== Horizontal Scroll Services Section ===== */
+.dm-hscroll-section {
+  position: relative;
+  overflow: hidden;
+}
+.dm-hscroll-pin {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 0;
+  background: #0b0d17;
+}
+.dm-hscroll-header {
+  text-align: center;
+  padding: 0 20px;
+  margin-bottom: 50px;
+}
+.dm-hscroll-title {
+  font-family: 'Onest', sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16px;
+}
+.dm-hscroll-subtitle {
+  font-size: 18px;
+  color: rgba(255,255,255,0.55);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.dm-hscroll-track {
+  overflow: visible;
+  width: 100%;
+}
+.dm-hscroll-cards {
+  display: flex;
+  gap: 32px;
+  padding: 0 60px;
+  will-change: transform;
+}
+.dm-hscroll-card {
+  flex: 0 0 380px;
+  min-width: 380px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.dm-hscroll-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(99,102,241,0.4);
+  box-shadow: 0 20px 60px rgba(99,102,241,0.12);
+}
+.dm-hscroll-card-img {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+.dm-hscroll-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.dm-hscroll-card:hover .dm-hscroll-card-img img {
+  transform: scale(1.08);
+}
+.dm-hscroll-card-body {
+  padding: 28px 28px 32px;
+}
+.dm-hscroll-card-body h3 {
+  font-family: 'Onest', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 12px;
+  line-height: 1.35;
+}
+.dm-hscroll-card-body p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 20px;
+}
+.dm-hscroll-btn {
+  display: inline-block;
+  font-family: 'Onest', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  padding: 10px 28px;
+  border-radius: 50px;
+  background: rgba(99,102,241,0.15);
+  border: 1px solid rgba(99,102,241,0.35);
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+}
+.dm-hscroll-btn:hover {
+  background: rgba(99,102,241,0.35);
+  border-color: rgba(99,102,241,0.6);
+  color: #fff;
+  transform: translateX(4px);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .dm-hscroll-title {
+    font-size: 38px;
+  }
+  .dm-hscroll-card {
+    flex: 0 0 320px;
+    min-width: 320px;
+  }
+  .dm-hscroll-card-img {
+    height: 180px;
+  }
+  .dm-hscroll-cards {
+    padding: 0 30px;
+    gap: 24px;
+  }
+}
+@media (max-width: 575px) {
+  .dm-hscroll-pin {
+    padding: 60px 0;
+  }
+  .dm-hscroll-title {
+    font-size: 30px;
+  }
+  .dm-hscroll-subtitle {
+    font-size: 15px;
+  }
+  .dm-hscroll-card {
+    flex: 0 0 280px;
+    min-width: 280px;
+  }
+  .dm-hscroll-card-img {
+    height: 160px;
+  }
+  .dm-hscroll-card-body {
+    padding: 20px 20px 24px;
+  }
+  .dm-hscroll-card-body h3 {
+    font-size: 18px;
+  }
+  .dm-hscroll-cards {
+    padding: 0 20px;
+    gap: 20px;
+  }
+}
 /*# sourceMappingURL=main.css.map */
