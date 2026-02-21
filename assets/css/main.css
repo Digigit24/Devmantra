@@ -59387,77 +59387,59 @@ color:#555;
   margin: 0 auto;
   line-height: 1.6;
 }
-.dm-team-group {
-  margin-bottom: 56px;
-}
-.dm-team-group:last-child {
-  margin-bottom: 0;
-}
 .dm-team-group-title {
   font-family: 'Onest', sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
   color: #1a1a2e;
-  margin-bottom: 32px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #e8e8ef;
-  display: inline-block;
+  margin-bottom: 28px;
 }
-.dm-team-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
-  justify-content: flex-start;
-}
-.dm-team-grid-founders {
-  justify-content: center;
+.dm-team-row {
+  margin-bottom: 48px;
 }
 .dm-team-member {
-  text-align: center;
-  width: 200px;
+  margin-bottom: 30px;
 }
 .dm-team-photo {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 16px;
   overflow: hidden;
-  margin: 0 auto 18px;
-  border: 4px solid #e8e8ef;
-  transition: border-color 0.3s ease, transform 0.3s ease;
-}
-.dm-team-member:hover .dm-team-photo {
-  border-color: #6366f1;
-  transform: scale(1.05);
+  background: #eeeef2;
+  margin-bottom: 16px;
 }
 .dm-team-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.dm-team-member:hover .dm-team-photo img {
+  transform: scale(1.05);
+}
+.dm-team-role {
+  display: block;
+  font-family: 'Onest', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6366f1;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 .dm-team-name {
   font-family: 'Onest', sans-serif;
   font-size: 18px;
   font-weight: 600;
   color: #1a1a2e;
-  margin-bottom: 4px;
-}
-.dm-team-role {
-  font-size: 14px;
-  color: #888;
-  line-height: 1.4;
   margin: 0;
 }
-
 @media (max-width: 991px) {
   .dm-team-section {
     padding: 70px 0;
   }
   .dm-team-main-title {
     font-size: 36px;
-  }
-  .dm-team-grid {
-    gap: 30px;
-    justify-content: center;
   }
 }
 @media (max-width: 575px) {
@@ -59467,21 +59449,14 @@ color:#555;
   .dm-team-main-title {
     font-size: 30px;
   }
-  .dm-team-member {
-    width: 140px;
-  }
-  .dm-team-photo {
-    width: 120px;
-    height: 120px;
-  }
   .dm-team-name {
     font-size: 16px;
   }
-  .dm-team-group {
-    margin-bottom: 40px;
+  .dm-team-role {
+    font-size: 12px;
   }
-  .dm-team-grid {
-    gap: 24px;
+  .dm-team-photo {
+    border-radius: 12px;
   }
 }
 /*# sourceMappingURL=main.css.map */
