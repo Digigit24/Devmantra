@@ -59278,21 +59278,47 @@ color:#555;
   transform: translateX(4px);
 }
 
-/* Responsive */
+/* Desktop / Mobile toggle */
+.dm-hscroll-mobile {
+  display: none;
+}
 @media (max-width: 991px) {
+  .dm-hscroll-desktop {
+    display: none;
+  }
+  .dm-hscroll-mobile {
+    display: block;
+    padding: 0 0 20px;
+  }
   .dm-hscroll-title {
     font-size: 38px;
   }
-  .dm-hscroll-card {
-    flex: 0 0 320px;
-    min-width: 320px;
+  .dm-hscroll-pin {
+    min-height: auto;
+  }
+  /* Swiper card sizing */
+  .dm-hscroll-mobile .dm-hscroll-card {
+    flex: none;
+    min-width: 0;
+    width: 100%;
   }
   .dm-hscroll-card-img {
-    height: 180px;
+    height: 200px;
   }
-  .dm-hscroll-cards {
-    padding: 0 30px;
-    gap: 24px;
+  /* Swiper pagination dots */
+  .dm-services-pagination {
+    margin-top: 24px;
+    text-align: center;
+  }
+  .dm-services-pagination .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: rgba(255,255,255,0.25);
+    opacity: 1;
+    margin: 0 5px;
+  }
+  .dm-services-pagination .swiper-pagination-bullet-active {
+    background: rgba(99,102,241,0.8);
   }
 }
 @media (max-width: 575px) {
@@ -59305,12 +59331,8 @@ color:#555;
   .dm-hscroll-subtitle {
     font-size: 15px;
   }
-  .dm-hscroll-card {
-    flex: 0 0 280px;
-    min-width: 280px;
-  }
   .dm-hscroll-card-img {
-    height: 160px;
+    height: 170px;
   }
   .dm-hscroll-card-body {
     padding: 20px 20px 24px;
@@ -59318,9 +59340,25 @@ color:#555;
   .dm-hscroll-card-body h3 {
     font-size: 18px;
   }
-  .dm-hscroll-cards {
-    padding: 0 20px;
-    gap: 20px;
-  }
+}
+
+/* ===== Always-visible country tooltips ===== */
+.map-tooltip-always {
+  position: absolute;
+  padding: 5px 10px;
+  background: #111;
+  color: #fff;
+  font-size: 11px;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 1;
+  transform: translate(-50%, -140%);
+  white-space: nowrap;
+  z-index: 10;
+  animation: tooltipFadeIn 0.6s ease forwards;
+}
+@keyframes tooltipFadeIn {
+  from { opacity: 0; transform: translate(-50%, -120%); }
+  to   { opacity: 1; transform: translate(-50%, -140%); }
 }
 /*# sourceMappingURL=main.css.map */
