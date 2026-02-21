@@ -17194,7 +17194,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 .cr-hero-heading {
-    padding-bottom: 150px;
+    padding-bottom: 0px;
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1399px),
@@ -57626,9 +57626,9 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 .agntix-light .tp-btn-white-border:hover {
-    color: var(--tp-common-black);
+    color: var(--tp-common-white);
     background-color: transparent;
-    border-color: var(--tp-common-black);
+    border-color: var(--tp-common-white);
 }
 
 .agntix-light .tp-btn-white-border.tp-btn-transparent {
