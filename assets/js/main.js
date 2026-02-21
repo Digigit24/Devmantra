@@ -2486,4 +2486,161 @@
     }
 
 
+    // =============================================
+    // World Map Countries Section – GSAP Animations
+    // =============================================
+    if (document.querySelector('.dm-worldmap-area')) {
+        let wmMedia = gsap.matchMedia();
+
+        wmMedia.add("(min-width: 1px)", () => {
+            let section = document.querySelector('.dm-worldmap-area');
+            let countries = section.querySelectorAll('.dm-country');
+            let markers = section.querySelectorAll('.dm-marker');
+            let connLines = section.querySelectorAll('.dm-conn-line');
+            let cards = section.querySelectorAll('.dm-country-card');
+            let subtitle = section.querySelector('.dm-worldmap-subtitle');
+            let title = section.querySelector('.dm-worldmap-title');
+            let glow = section.querySelector('.dm-worldmap-glow');
+
+            // Header animation
+            let headerTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 75%',
+                }
+            });
+
+            headerTl
+                .from(subtitle, {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.6,
+                    ease: "power2.out"
+                })
+                .from(title, {
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.7,
+                    ease: "power2.out"
+                }, "-=0.3");
+
+            // Glow scale animation
+            gsap.from(glow, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 60%',
+                },
+                scale: 0.3,
+                opacity: 0,
+                duration: 1.5,
+                ease: "power2.out"
+            });
+
+            // Map elements timeline
+            let mapTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '.dm-worldmap-wrap',
+                    start: 'top 70%',
+                }
+            });
+
+            // Continent outlines fade in
+            mapTl.from('.dm-map-continents path', {
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.05,
+                ease: "power1.inOut"
+            });
+
+            // Connection lines draw in
+            connLines.forEach((line, i) => {
+                let length = Math.sqrt(
+                    Math.pow(line.getAttribute('x2') - line.getAttribute('x1'), 2) +
+                    Math.pow(line.getAttribute('y2') - line.getAttribute('y1'), 2)
+                );
+                line.style.strokeDasharray = length;
+                line.style.strokeDashoffset = length;
+
+                mapTl.to(line, {
+                    strokeDashoffset: 0,
+                    opacity: 1,
+                    duration: 0.6,
+                    ease: "power1.inOut"
+                }, 0.3 + i * 0.1);
+            });
+
+            // Country shapes appear
+            countries.forEach((country, i) => {
+                mapTl.to(country, {
+                    opacity: 1,
+                    duration: 0.5,
+                    ease: "power2.out",
+                    onComplete: () => country.classList.add('is-visible')
+                }, 0.6 + i * 0.12);
+            });
+
+            // Markers pop in
+            markers.forEach((marker, i) => {
+                let dot = marker.querySelector('.dm-marker-dot');
+                let label = marker.querySelector('.dm-marker-label');
+
+                mapTl.to(marker, {
+                    opacity: 1,
+                    duration: 0.01,
+                    onComplete: () => marker.classList.add('is-visible')
+                }, 0.8 + i * 0.12);
+
+                mapTl.from(dot, {
+                    scale: 0,
+                    transformOrigin: "center center",
+                    duration: 0.4,
+                    ease: "back.out(2)"
+                }, 0.8 + i * 0.12);
+
+                mapTl.to(label, {
+                    opacity: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                }, 0.95 + i * 0.12);
+            });
+
+            // Country cards stagger in
+            cards.forEach((card, i) => {
+                mapTl.to(card, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: "power2.out",
+                    onComplete: () => card.classList.add('is-visible')
+                }, 1.4 + i * 0.08);
+            });
+
+            // Hover interactivity: highlight corresponding map elements
+            cards.forEach(card => {
+                let countryName = card.getAttribute('data-country');
+                let mapCountry = section.querySelector('.dm-country[data-country="' + countryName + '"]');
+                let mapMarker = section.querySelector('.dm-marker[data-country="' + countryName + '"]');
+
+                card.addEventListener('mouseenter', () => {
+                    if (mapCountry) {
+                        gsap.to(mapCountry, { fill: 'rgba(99,102,241,0.35)', stroke: 'rgba(99,102,241,0.9)', duration: 0.3 });
+                    }
+                    if (mapMarker) {
+                        gsap.to(mapMarker.querySelector('.dm-marker-dot'), { attr: { r: 7 }, duration: 0.3 });
+                    }
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    if (mapCountry) {
+                        gsap.to(mapCountry, { fill: 'rgba(99,102,241,0.15)', stroke: 'rgba(99,102,241,0.5)', duration: 0.3 });
+                    }
+                    if (mapMarker) {
+                        gsap.to(mapMarker.querySelector('.dm-marker-dot'), { attr: { r: 5 }, duration: 0.3 });
+                    }
+                });
+            });
+        });
+    }
+
+
 })(jQuery);

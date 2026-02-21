@@ -1219,6 +1219,177 @@
                 </div>
                 <!-- cr blog area end -->
 
+                <!-- world map countries section start -->
+                <div class="dm-worldmap-area">
+                    <div class="dm-worldmap-glow"></div>
+                    <div class="container">
+                        <div class="dm-worldmap-header">
+                            <span class="dm-worldmap-subtitle">Global Presence</span>
+                            <h2 class="dm-worldmap-title">Countries We Serve</h2>
+                        </div>
+                        <div class="dm-worldmap-wrap">
+                            <svg class="dm-worldmap-svg" viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="markerGlow" cx="50%" cy="50%" r="50%">
+                                        <stop offset="0%" stop-color="rgba(99,102,241,0.6)" />
+                                        <stop offset="100%" stop-color="rgba(99,102,241,0)" />
+                                    </radialGradient>
+                                    <filter id="glow">
+                                        <feGaussianBlur stdDeviation="3" result="blur" />
+                                        <feMerge>
+                                            <feMergeNode in="blur" />
+                                            <feMergeNode in="SourceGraphic" />
+                                        </feMerge>
+                                    </filter>
+                                </defs>
+
+                                <!-- Background continent outlines -->
+                                <g class="dm-map-continents" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1">
+                                    <!-- North America -->
+                                    <path d="M50,63 L83,55 L120,50 L150,55 L190,60 L227,57 L260,65 L290,73 L320,90 L340,97 L370,107 L400,113 L420,120 L410,107 L377,93 L370,83 L350,73 L333,70 L313,73 L300,80 L283,90 L267,97 L250,100 L235,93 L220,83 L200,77 L180,73 L160,70 L133,73 L100,77 L70,73 Z" fill="rgba(255,255,255,0.03)" />
+                                    <path d="M140,100 L167,90 L190,97 L210,110 L230,120 L250,127 L270,137 L285,150 L295,163 L307,177 L317,187 L327,197 L333,207 L337,213 L340,210 L347,200 L353,183 L357,170 L363,157 L370,143 L377,133 L387,127 L400,123 L413,120 L420,120 L410,130 L400,140 L390,143 L377,143 L370,150 L363,160 L357,170 L350,183 L343,197 L340,207 L337,213 L330,220 L320,230 L307,240 L297,250 L287,257 L277,260 L267,257 L260,247 L253,237 L247,230 L240,220 L233,213 L227,207 L220,200 L213,193 L207,187 L200,180 L193,173 L190,163 L187,153 L183,143 L177,133 L170,123 L163,113 L155,107 L147,103 Z" fill="rgba(255,255,255,0.03)" />
+                                    <!-- South America -->
+                                    <path d="M287,270 L297,263 L310,260 L323,257 L337,260 L350,267 L360,277 L367,290 L373,303 L377,320 L380,337 L380,353 L377,370 L370,387 L363,400 L353,413 L343,427 L330,440 L320,450 L310,460 L303,467 L297,460 L293,447 L290,433 L287,417 L283,400 L280,383 L277,367 L277,350 L277,333 L277,317 L280,300 L283,287 Z" fill="rgba(255,255,255,0.03)" />
+                                    <!-- Europe -->
+                                    <path d="M500,60 L520,55 L540,53 L560,55 L575,60 L590,67 L600,73 L613,80 L627,87 L640,93 L650,100 L655,110 L653,120 L647,130 L640,137 L630,143 L620,147 L607,150 L593,150 L580,147 L567,143 L555,137 L545,130 L537,120 L530,110 L523,100 L517,90 L510,80 L505,70 Z" fill="rgba(255,255,255,0.03)" />
+                                    <!-- Africa -->
+                                    <path d="M540,173 L553,167 L567,163 L580,163 L593,167 L607,173 L620,180 L630,190 L637,203 L643,217 L647,233 L650,250 L650,270 L650,290 L647,310 L643,327 L637,343 L630,357 L620,370 L610,383 L600,393 L590,400 L580,407 L570,410 L560,407 L550,400 L540,390 L533,377 L527,363 L523,347 L520,330 L517,313 L517,297 L517,280 L520,263 L523,247 L527,230 L530,217 L533,203 L537,190 Z" fill="rgba(255,255,255,0.03)" />
+                                    <!-- Asia -->
+                                    <path d="M660,53 L690,43 L723,40 L757,40 L790,43 L823,47 L857,53 L890,60 L920,70 L943,80 L960,90 L973,100 L983,113 L990,127 L993,140 L993,153 L990,167 L983,180 L973,190 L960,197 L943,203 L923,207 L900,207 L880,203 L860,197 L840,190 L823,183 L807,177 L790,170 L773,163 L757,157 L740,150 L723,143 L710,137 L697,130 L687,120 L677,110 L670,100 L663,87 L660,73 Z" fill="rgba(255,255,255,0.03)" />
+                                    <!-- Indian Subcontinent -->
+                                    <path d="M790,180 L810,177 L830,180 L847,190 L857,203 L860,220 L857,237 L847,253 L833,263 L820,270 L810,273 L800,270 L793,260 L787,247 L783,233 L780,217 L783,200 L787,190 Z" fill="rgba(255,255,255,0.03)" />
+                                    <!-- Southeast Asia -->
+                                    <path d="M900,210 L920,207 L940,210 L957,220 L967,233 L970,250 L967,267 L957,280 L943,287 L930,290 L917,287 L907,277 L900,263 L897,247 L897,230 Z" fill="rgba(255,255,255,0.03)" />
+                                    <!-- Australia -->
+                                    <path d="M970,347 L993,337 L1020,333 L1047,333 L1070,337 L1090,347 L1103,360 L1110,377 L1110,393 L1103,410 L1093,423 L1077,433 L1060,437 L1040,437 L1023,433 L1007,423 L993,413 L983,400 L977,387 L973,370 L970,357 Z" fill="rgba(255,255,255,0.03)" />
+                                </g>
+
+                                <!-- Highlighted country shapes -->
+                                <g class="dm-map-highlighted">
+                                    <!-- USA -->
+                                    <path class="dm-country" data-country="usa"
+                                        d="M150,120 L180,110 L210,115 L240,125 L260,135 L275,148 L285,160 L290,172 L285,182 L275,188 L260,192 L240,195 L220,192 L200,185 L185,175 L170,162 L158,148 L150,135 Z"
+                                        fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.5)" stroke-width="1.5" />
+                                    <!-- UK -->
+                                    <path class="dm-country" data-country="uk"
+                                        d="M520,75 L528,68 L536,65 L542,68 L545,75 L543,83 L538,90 L532,93 L525,92 L520,87 L518,80 Z"
+                                        fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.5)" stroke-width="1.5" />
+                                    <!-- Italy -->
+                                    <path class="dm-country" data-country="italy"
+                                        d="M587,108 L593,103 L600,105 L605,110 L608,118 L610,128 L608,138 L604,148 L598,155 L592,158 L587,155 L584,148 L583,138 L583,128 L585,118 Z"
+                                        fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.5)" stroke-width="1.5" />
+                                    <!-- Oman -->
+                                    <path class="dm-country" data-country="oman"
+                                        d="M690,195 L700,190 L710,192 L718,198 L720,208 L718,218 L712,225 L703,228 L695,225 L690,218 L688,208 Z"
+                                        fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.5)" stroke-width="1.5" />
+                                    <!-- Sri Lanka -->
+                                    <path class="dm-country" data-country="srilanka"
+                                        d="M818,252 L824,247 L830,248 L834,254 L834,262 L830,268 L824,270 L818,267 L816,260 L816,254 Z"
+                                        fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.5)" stroke-width="1.5" />
+                                    <!-- Singapore -->
+                                    <circle class="dm-country" data-country="singapore"
+                                        cx="933" cy="283" r="8"
+                                        fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.5)" stroke-width="1.5" />
+                                    <!-- Australia -->
+                                    <path class="dm-country" data-country="australia"
+                                        d="M970,347 L993,337 L1020,333 L1047,333 L1070,337 L1090,347 L1103,360 L1110,377 L1110,393 L1103,410 L1093,423 L1077,433 L1060,437 L1040,437 L1023,433 L1007,423 L993,413 L983,400 L977,387 L973,370 L970,357 Z"
+                                        fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.5)" stroke-width="1.5" />
+                                </g>
+
+                                <!-- Pulsing markers with labels -->
+                                <g class="dm-map-markers">
+                                    <!-- USA -->
+                                    <g class="dm-marker" data-country="usa">
+                                        <circle class="dm-marker-pulse" cx="220" cy="155" r="16" fill="url(#markerGlow)" opacity="0" />
+                                        <circle class="dm-marker-dot" cx="220" cy="155" r="5" fill="#6366f1" filter="url(#glow)" />
+                                        <text class="dm-marker-label" x="220" y="143" text-anchor="middle" fill="white" font-size="11" font-family="'Onest', sans-serif" font-weight="600" opacity="0">USA</text>
+                                    </g>
+                                    <!-- UK -->
+                                    <g class="dm-marker" data-country="uk">
+                                        <circle class="dm-marker-pulse" cx="532" cy="80" r="16" fill="url(#markerGlow)" opacity="0" />
+                                        <circle class="dm-marker-dot" cx="532" cy="80" r="5" fill="#6366f1" filter="url(#glow)" />
+                                        <text class="dm-marker-label" x="532" y="68" text-anchor="middle" fill="white" font-size="11" font-family="'Onest', sans-serif" font-weight="600" opacity="0">UK</text>
+                                    </g>
+                                    <!-- Italy -->
+                                    <g class="dm-marker" data-country="italy">
+                                        <circle class="dm-marker-pulse" cx="597" cy="130" r="16" fill="url(#markerGlow)" opacity="0" />
+                                        <circle class="dm-marker-dot" cx="597" cy="130" r="5" fill="#6366f1" filter="url(#glow)" />
+                                        <text class="dm-marker-label" x="597" y="118" text-anchor="middle" fill="white" font-size="11" font-family="'Onest', sans-serif" font-weight="600" opacity="0">Italy</text>
+                                    </g>
+                                    <!-- Oman -->
+                                    <g class="dm-marker" data-country="oman">
+                                        <circle class="dm-marker-pulse" cx="705" cy="210" r="16" fill="url(#markerGlow)" opacity="0" />
+                                        <circle class="dm-marker-dot" cx="705" cy="210" r="5" fill="#6366f1" filter="url(#glow)" />
+                                        <text class="dm-marker-label" x="705" y="198" text-anchor="middle" fill="white" font-size="11" font-family="'Onest', sans-serif" font-weight="600" opacity="0">Oman</text>
+                                    </g>
+                                    <!-- Sri Lanka -->
+                                    <g class="dm-marker" data-country="srilanka">
+                                        <circle class="dm-marker-pulse" cx="825" cy="260" r="16" fill="url(#markerGlow)" opacity="0" />
+                                        <circle class="dm-marker-dot" cx="825" cy="260" r="5" fill="#6366f1" filter="url(#glow)" />
+                                        <text class="dm-marker-label" x="825" y="248" text-anchor="middle" fill="white" font-size="11" font-family="'Onest', sans-serif" font-weight="600" opacity="0">Sri Lanka</text>
+                                    </g>
+                                    <!-- Singapore -->
+                                    <g class="dm-marker" data-country="singapore">
+                                        <circle class="dm-marker-pulse" cx="933" cy="283" r="16" fill="url(#markerGlow)" opacity="0" />
+                                        <circle class="dm-marker-dot" cx="933" cy="283" r="5" fill="#6366f1" filter="url(#glow)" />
+                                        <text class="dm-marker-label" x="933" y="271" text-anchor="middle" fill="white" font-size="11" font-family="'Onest', sans-serif" font-weight="600" opacity="0">Singapore</text>
+                                    </g>
+                                    <!-- Australia -->
+                                    <g class="dm-marker" data-country="australia">
+                                        <circle class="dm-marker-pulse" cx="1040" cy="383" r="16" fill="url(#markerGlow)" opacity="0" />
+                                        <circle class="dm-marker-dot" cx="1040" cy="383" r="5" fill="#6366f1" filter="url(#glow)" />
+                                        <text class="dm-marker-label" x="1040" y="371" text-anchor="middle" fill="white" font-size="11" font-family="'Onest', sans-serif" font-weight="600" opacity="0">Australia</text>
+                                    </g>
+                                </g>
+
+                                <!-- Connection lines from center -->
+                                <g class="dm-map-lines" stroke="rgba(99,102,241,0.2)" stroke-width="0.5" fill="none" stroke-dasharray="4,4">
+                                    <line class="dm-conn-line" x1="600" y1="250" x2="220" y2="155" />
+                                    <line class="dm-conn-line" x1="600" y1="250" x2="532" y2="80" />
+                                    <line class="dm-conn-line" x1="600" y1="250" x2="597" y2="130" />
+                                    <line class="dm-conn-line" x1="600" y1="250" x2="705" y2="210" />
+                                    <line class="dm-conn-line" x1="600" y1="250" x2="825" y2="260" />
+                                    <line class="dm-conn-line" x1="600" y1="250" x2="933" y2="283" />
+                                    <line class="dm-conn-line" x1="600" y1="250" x2="1040" y2="383" />
+                                </g>
+                            </svg>
+
+                            <!-- Country cards below map -->
+                            <div class="dm-worldmap-countries">
+                                <div class="dm-country-card" data-country="usa">
+                                    <div class="dm-country-card-dot"></div>
+                                    <span>USA</span>
+                                </div>
+                                <div class="dm-country-card" data-country="uk">
+                                    <div class="dm-country-card-dot"></div>
+                                    <span>UK</span>
+                                </div>
+                                <div class="dm-country-card" data-country="italy">
+                                    <div class="dm-country-card-dot"></div>
+                                    <span>Italy</span>
+                                </div>
+                                <div class="dm-country-card" data-country="oman">
+                                    <div class="dm-country-card-dot"></div>
+                                    <span>Oman</span>
+                                </div>
+                                <div class="dm-country-card" data-country="srilanka">
+                                    <div class="dm-country-card-dot"></div>
+                                    <span>Sri Lanka</span>
+                                </div>
+                                <div class="dm-country-card" data-country="singapore">
+                                    <div class="dm-country-card-dot"></div>
+                                    <span>Singapore</span>
+                                </div>
+                                <div class="dm-country-card" data-country="australia">
+                                    <div class="dm-country-card-dot"></div>
+                                    <span>Australia</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- world map countries section end -->
+
 
             </main>
 
