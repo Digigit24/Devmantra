@@ -59395,22 +59395,28 @@ color:#555;
   margin-bottom: 28px;
   text-align: center;
 }
+.dm-team-col {
+  flex: 0 0 20%;
+  max-width: 20%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
 .dm-team-row {
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 }
 .dm-team-member {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 .dm-team-photo {
-  width: 60%;
+  width: 80%;
   aspect-ratio: 3 / 4;
   margin-left: auto;
   margin-right: auto;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
   background: #eeeef2;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 .dm-team-photo img {
   width: 100%;
@@ -59424,16 +59430,16 @@ color:#555;
 .dm-team-role {
   display: block;
   font-family: 'Onest', sans-serif;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 500;
   color: #6366f1;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 .dm-team-name {
   font-family: 'Onest', sans-serif;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
   color: #1a1a2e;
   margin: 0;
@@ -59445,6 +59451,10 @@ color:#555;
   .dm-team-main-title {
     font-size: 36px;
   }
+  .dm-team-col {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+  }
 }
 @media (max-width: 575px) {
   .dm-team-section {
@@ -59453,14 +59463,18 @@ color:#555;
   .dm-team-main-title {
     font-size: 30px;
   }
+  .dm-team-col {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
   .dm-team-name {
-    font-size: 16px;
+    font-size: 13px;
   }
   .dm-team-role {
-    font-size: 12px;
+    font-size: 10px;
   }
   .dm-team-photo {
-    border-radius: 12px;
+    border-radius: 10px;
   }
 }
 /*# sourceMappingURL=main.css.map */
