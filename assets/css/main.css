@@ -60020,16 +60020,8 @@ only screen and (min-width: 768px) and (max-width: 991px),
 /* Track & row */
 .dm-6a-track {
     position: relative;
-    overflow-x: auto;
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    overflow: visible;
     padding: 20px 0 40px;
-}
-
-.dm-6a-track::-webkit-scrollbar {
-    display: none;
 }
 
 .dm-6a-row {
@@ -60037,8 +60029,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     align-items: flex-start;
     justify-content: center;
     gap: 0;
-    min-width: max-content;
-    padding: 0 20px;
+    padding: 0 10px;
 }
 
 /* Node */
@@ -60047,9 +60038,9 @@ only screen and (min-width: 768px) and (max-width: 991px),
     flex-direction: column;
     align-items: center;
     text-align: center;
-    width: 175px;
+    flex: 1;
+    max-width: 180px;
     min-height: 240px;
-    flex-shrink: 0;
     position: relative;
     cursor: pointer;
 }
@@ -60092,7 +60083,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 /* Step number */
 .dm-6a-step-num {
     font-family: 'Onest', sans-serif;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
     color: rgba(255, 255, 255, 0.8);
     line-height: 1;
@@ -60127,7 +60118,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 /* Title & desc */
 .dm-6a-node-title {
     font-family: 'Onest', sans-serif;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.8);
     margin-bottom: 10px;
@@ -60136,7 +60127,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 .dm-6a-node-desc {
-    font-size: 13px;
+    font-size: 15px;
     line-height: 1.65;
     color: rgba(255, 255, 255, 0.35);
     margin: 0;
@@ -60177,7 +60168,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
         font-size: 36px;
     }
     .dm-6a-node {
-        width: 155px;
+        max-width: 155px;
         min-height: 235px;
     }
     .dm-6a-circle {
@@ -60185,9 +60176,10 @@ only screen and (min-width: 768px) and (max-width: 991px),
         height: 70px;
     }
     .dm-6a-step-num {
-        font-size: 20px;
+        font-size: 22px;
     }
     .dm-6a-connector {
+        width: 32px;
         margin-top: 35px;
     }
 }
@@ -60197,14 +60189,14 @@ only screen and (min-width: 768px) and (max-width: 991px),
         flex-wrap: wrap;
         justify-content: center;
         gap: 24px 16px;
-        min-width: unset;
         padding: 0;
     }
     .dm-6a-connector {
         display: none;
     }
     .dm-6a-node {
-        width: calc(33.333% - 16px);
+        flex: 0 0 calc(33.333% - 16px);
+        max-width: calc(33.333% - 16px);
         min-width: 140px;
         min-height: 220px;
     }
@@ -60222,7 +60214,8 @@ only screen and (min-width: 768px) and (max-width: 991px),
         padding: 64px 0;
     }
     .dm-6a-node {
-        width: calc(50% - 16px);
+        flex: 0 0 calc(50% - 16px);
+        max-width: calc(50% - 16px);
         min-height: 200px;
     }
     .dm-6a-title {
