@@ -60038,6 +60038,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     align-items: center;
     text-align: center;
     width: 170px;
+    min-height: 260px;
     flex-shrink: 0;
     position: relative;
 }
@@ -60085,8 +60086,8 @@ only screen and (min-width: 768px) and (max-width: 991px),
     background: linear-gradient(90deg, rgba(99, 102, 241, 0.5), rgba(27, 60, 107, 0.5));
     border-radius: 3px;
     flex-shrink: 0;
-    align-self: center;
-    margin-top: -60px;
+    align-self: flex-start;
+    margin-top: 42px;
     position: relative;
 }
 
@@ -60116,18 +60117,14 @@ only screen and (min-width: 768px) and (max-width: 991px),
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.5);
     margin: 0;
-    max-height: 0;
-    overflow: hidden;
     opacity: 0;
-    transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease, padding 0.4s ease;
+    transition: opacity 0.45s ease;
     padding: 0 4px;
 }
 
 .dm-6a-node.is-active .dm-6a-node-desc,
 .dm-6a-node:hover .dm-6a-node-desc {
-    max-height: 200px;
     opacity: 1;
-    padding: 0 4px;
 }
 
 .dm-6a-node.is-active .dm-6a-hex {
@@ -60141,6 +60138,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     }
     .dm-6a-node {
         width: 150px;
+        min-height: 250px;
     }
 }
 
@@ -60158,11 +60156,10 @@ only screen and (min-width: 768px) and (max-width: 991px),
     .dm-6a-node {
         width: calc(33.333% - 12px);
         min-width: 140px;
+        min-height: 230px;
     }
     .dm-6a-node-desc {
-        max-height: none;
         opacity: 1;
-        padding: 0 4px;
     }
     .dm-6a-title {
         font-size: 32px;
@@ -60175,6 +60172,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     }
     .dm-6a-node {
         width: calc(50% - 12px);
+        min-height: 210px;
     }
     .dm-6a-title {
         font-size: 26px;
