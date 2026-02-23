@@ -2687,6 +2687,7 @@
 
             // --- Three.js WebGL Neural Sphere ---
             (function () {
+              try {
                 var webglCanvas = document.getElementById('dmAiWebGL');
                 if (!webglCanvas || typeof THREE === 'undefined') return;
 
@@ -2900,6 +2901,7 @@
                     camera.updateProjectionMatrix();
                     renderer.setSize(W, H);
                 });
+              } catch (e) { /* WebGL not available — section still works without it */ }
             })();
 
             // --- Mouse-reactive card glow ---
@@ -2914,65 +2916,26 @@
                 });
             });
 
-            // --- GSAP scroll-triggered reveal ---
-            var aiHeader = document.querySelector('.dm-ai-header');
-            var aiPlatform = document.querySelector('.dm-ai-platform');
-            var aiCards = document.querySelectorAll('.dm-ai-card');
-            var aiFooter = document.querySelector('.dm-ai-footer');
-
-            if (aiHeader) {
-                gsap.set(aiHeader, { y: 50, opacity: 0 });
-                gsap.set(aiPlatform, { y: 40, opacity: 0, scale: 0.8 });
-                gsap.set(aiCards, { y: 60, opacity: 0, scale: 0.9 });
-                gsap.set(aiFooter, { y: 30, opacity: 0 });
-
-                function revealAiSection() {
-                    var tl = gsap.timeline();
-
-                    tl.to(aiHeader, {
-                        y: 0, opacity: 1,
-                        duration: 0.8,
-                        ease: 'power3.out'
-                    });
-
-                    tl.to(aiPlatform, {
-                        y: 0, opacity: 1, scale: 1,
-                        duration: 1,
-                        ease: 'back.out(1.2)'
-                    }, '-=0.4');
-
-                    tl.to(aiCards, {
-                        y: 0, opacity: 1, scale: 1,
-                        duration: 0.6,
-                        stagger: 0.12,
-                        ease: 'back.out(1.3)'
-                    }, '-=0.5');
-
-                    tl.to(aiFooter, {
-                        y: 0, opacity: 1,
-                        duration: 0.6,
-                        ease: 'power2.out'
-                    }, '-=0.2');
-                }
-
-                // Check if already in viewport (page load / direct navigation)
-                var aiSect = document.querySelector('.dm-ai-section');
-                if (aiSect) {
-                    var rect = aiSect.getBoundingClientRect();
-                    if (rect.top < window.innerHeight * 0.85) {
-                        // Already visible — reveal immediately
-                        revealAiSection();
-                    } else {
-                        // Scroll-triggered reveal
-                        ScrollTrigger.create({
-                            trigger: '.dm-ai-section',
-                            start: 'top 85%',
-                            once: true,
-                            onEnter: revealAiSection
+            // --- GSAP scroll-triggered reveal (safe — no pre-hiding) ---
+            // Content is visible by default; animation enhances on scroll
+            try {
+                var aiElems = document.querySelectorAll('.dm-ai-header, .dm-ai-platform, .dm-ai-card, .dm-ai-footer');
+                if (aiElems.length && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                    aiElems.forEach(function (el) {
+                        gsap.from(el, {
+                            y: 40,
+                            opacity: 0,
+                            duration: 0.7,
+                            ease: 'power3.out',
+                            scrollTrigger: {
+                                trigger: el,
+                                start: 'top 92%',
+                                once: true
+                            }
                         });
-                    }
+                    });
                 }
-            }
+            } catch (e) { /* animations are progressive enhancement */ }
 
         })();
     </script>

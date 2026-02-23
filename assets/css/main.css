@@ -60232,29 +60232,36 @@ only screen and (min-width: 768px) and (max-width: 991px),
     z-index: 2;
 }
 
-/* ── Header (light) ── */
+/* ── Header ── */
 .dm-ai-header {
     margin-bottom: 56px;
+}
+
+.dm-ai-section .tp-section-subtitle-gradient {
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: #555555;
+    background-clip: unset;
+    color: #555555;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
 }
 
 .dm-ai-title {
     font-family: 'Onest', sans-serif;
     font-size: 48px;
     font-weight: 800;
+    color: #111111;
     line-height: 1.12;
     letter-spacing: -0.03em;
     margin-bottom: 22px;
-    background: linear-gradient(135deg, #1a1a2e 0%, #4f46e5 50%, #7c3aed 100%);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
 .dm-ai-subtitle {
     font-size: 17px;
     line-height: 1.75;
-    color: #64748b;
+    color: #555555;
     max-width: 640px;
     margin: 0 auto;
 }
@@ -60288,15 +60295,15 @@ only screen and (min-width: 768px) and (max-width: 991px),
     font-family: 'Onest', sans-serif;
     font-size: 11px;
     font-weight: 600;
-    color: #6366f1;
+    color: #333333;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 6px 18px;
     border-radius: 20px;
-    border: 1px solid rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     white-space: nowrap;
 }
 
@@ -60388,46 +60395,46 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .dm-ai-card-icon {
     width: 52px; height: 52px;
     border-radius: 12px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.05));
-    border: 1px solid rgba(99, 102, 241, 0.12);
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    color: #6366f1;
+    color: #333333;
     transition: border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
 }
 
 .dm-ai-card:hover .dm-ai-card-icon {
-    border-color: rgba(99, 102, 241, 0.3);
-    color: #4f46e5;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.08));
-    box-shadow: 0 0 24px rgba(99, 102, 241, 0.12);
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #111111;
+    background: rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.06);
 }
 
-/* Title & desc (light) */
+/* Title & desc */
 .dm-ai-card-title {
     font-family: 'Onest', sans-serif;
     font-size: 17px;
     font-weight: 600;
-    color: #1e1b4b;
+    color: #111111;
     margin-bottom: 12px;
     line-height: 1.35;
     transition: color 0.3s ease;
 }
 .dm-ai-card:hover .dm-ai-card-title {
-    color: #312e81;
+    color: #000000;
 }
 
 .dm-ai-card-desc {
     font-size: 14px;
     line-height: 1.7;
-    color: #94a3b8;
+    color: #666666;
     margin: 0;
     transition: color 0.3s ease;
 }
 .dm-ai-card:hover .dm-ai-card-desc {
-    color: #64748b;
+    color: #444444;
 }
 
 /* ── Footer tagline (light) ── */
@@ -60440,7 +60447,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     font-size: 16px;
     font-weight: 500;
     line-height: 1.75;
-    color: #94a3b8;
+    color: #555555;
     letter-spacing: 0.01em;
     margin: 0;
 }
