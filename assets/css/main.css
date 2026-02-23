@@ -59170,6 +59170,86 @@ margin:0;
 font-size:14px;
 color:#555;
 }
+
+/* Mission & Vision 2-up grid */
+.mv-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:24px;
+text-align:left;
+}
+.mv-card{
+background:#f7f9fc;
+border-radius:14px;
+padding:32px 28px;
+}
+.mv-card-icon{
+margin-bottom:16px;
+}
+.mv-card h4{
+color:#1b3c6b;
+font-size:22px;
+font-weight:700;
+margin-bottom:12px;
+}
+.mv-card p{
+color:#555;
+font-size:15px;
+line-height:1.7;
+margin:0;
+}
+@media(max-width:767px){
+.mv-grid{grid-template-columns:1fr;}
+}
+
+/* Values 6-card grid */
+.dm-values-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:24px;
+padding:0 15px;
+}
+.dm-value-card{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:14px;
+padding:30px 24px;
+transition:transform .3s ease, box-shadow .3s ease;
+}
+.dm-value-card:hover{
+transform:translateY(-4px);
+box-shadow:0 12px 28px rgba(0,0,0,0.15);
+}
+.dm-value-icon{
+width:56px;
+height:56px;
+border-radius:12px;
+background:rgba(27,60,107,0.1);
+display:flex;
+align-items:center;
+justify-content:center;
+margin-bottom:18px;
+color:#1b3c6b;
+}
+.dm-value-card h5{
+color:#fff;
+font-size:18px;
+font-weight:700;
+margin-bottom:10px;
+}
+.dm-value-card p{
+color:rgba(255,255,255,0.6);
+font-size:14px;
+line-height:1.65;
+margin:0;
+}
+@media(max-width:991px){
+.dm-values-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:575px){
+.dm-values-grid{grid-template-columns:1fr;}
+}
+
 /* ===== Horizontal Scroll Services Section ===== */
 .dm-hscroll-section {
   position: relative;
