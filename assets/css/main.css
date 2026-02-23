@@ -60083,7 +60083,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 /* Step number */
 .dm-6a-step-num {
     font-family: 'Onest', sans-serif;
-    font-size: 24px;
+    font-size: 23px;
     font-weight: 700;
     color: rgba(255, 255, 255, 0.8);
     line-height: 1;
@@ -60118,7 +60118,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 /* Title & desc */
 .dm-6a-node-title {
     font-family: 'Onest', sans-serif;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.8);
     margin-bottom: 10px;
@@ -60127,7 +60127,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 .dm-6a-node-desc {
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.65;
     color: rgba(255, 255, 255, 0.35);
     margin: 0;
@@ -60160,6 +60160,12 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .dm-6a-node.is-active .dm-6a-node-desc,
 .dm-6a-node:hover .dm-6a-node-desc {
     opacity: 1;
+}
+
+/* CTA button */
+.dm-6a-cta {
+    text-align: center;
+    margin-top: 48px;
 }
 
 /* ---- Responsive ---- */
