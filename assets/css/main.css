@@ -60284,6 +60284,79 @@ only screen and (min-width: 768px) and (max-width: 991px),
     width: 100%;
     height: 100%;
     display: block;
+    position: relative;
+    z-index: 2;
+}
+
+/* CSS fallback (visible when WebGL fails) */
+@keyframes dm-ai-fb-spin {
+    from { transform: translate(-50%, -50%) rotateX(65deg) rotateZ(0deg); }
+    to   { transform: translate(-50%, -50%) rotateX(65deg) rotateZ(360deg); }
+}
+@keyframes dm-ai-fb-spin-rev {
+    from { transform: translate(-50%, -50%) rotateX(65deg) rotateZ(360deg); }
+    to   { transform: translate(-50%, -50%) rotateX(65deg) rotateZ(0deg); }
+}
+@keyframes dm-ai-fb-pulse {
+    0%, 100% { box-shadow: 0 0 30px rgba(67, 56, 202, 0.15), 0 0 60px rgba(67, 56, 202, 0.05); }
+    50% { box-shadow: 0 0 50px rgba(67, 56, 202, 0.3), 0 0 100px rgba(99, 102, 241, 0.1); }
+}
+@keyframes dm-ai-fb-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+}
+
+.dm-ai-fallback {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    animation: dm-ai-fb-float 6s ease-in-out infinite;
+}
+
+.dm-ai-webgl-active .dm-ai-fallback {
+    display: none;
+}
+
+.dm-ai-fb-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    border-radius: 50%;
+    border: 2px solid transparent;
+}
+.dm-ai-fb-ring--1 {
+    width: 80%; height: 80%;
+    border-color: rgba(67, 56, 202, 0.12);
+    border-top-color: rgba(67, 56, 202, 0.5);
+    border-right-color: rgba(99, 102, 241, 0.3);
+    animation: dm-ai-fb-spin 8s linear infinite;
+}
+.dm-ai-fb-ring--2 {
+    width: 60%; height: 60%;
+    border-color: rgba(124, 58, 237, 0.08);
+    border-bottom-color: rgba(124, 58, 237, 0.45);
+    border-left-color: rgba(67, 56, 202, 0.25);
+    animation: dm-ai-fb-spin-rev 6s linear infinite;
+}
+.dm-ai-fb-ring--3 {
+    width: 40%; height: 40%;
+    border-color: rgba(59, 130, 246, 0.06);
+    border-top-color: rgba(59, 130, 246, 0.4);
+    animation: dm-ai-fb-spin 4s linear infinite;
+}
+
+.dm-ai-fb-core {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1.5px solid rgba(67, 56, 202, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: dm-ai-fb-pulse 3s ease-in-out infinite;
+    z-index: 2;
 }
 
 /* Label overlay on top of WebGL canvas */

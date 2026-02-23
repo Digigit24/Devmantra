@@ -1666,10 +1666,19 @@
                                 <p class="dm-ai-subtitle">Dev Mantra integrates automation and AI-assisted tools across its delivery model — ensuring faster turnarounds, fewer errors, and deeper financial insights for every client engagement.</p>
                             </div>
 
-                            <!-- WebGL AI Engine visual -->
+                            <!-- WebGL AI Engine visual (CSS fallback inside) -->
                             <div class="dm-ai-platform">
                                 <div class="dm-ai-webgl-wrap">
                                     <canvas class="dm-ai-webgl-canvas" id="dmAiWebGL"></canvas>
+                                    <!-- CSS fallback if WebGL fails -->
+                                    <div class="dm-ai-fallback">
+                                        <div class="dm-ai-fb-ring dm-ai-fb-ring--1"></div>
+                                        <div class="dm-ai-fb-ring dm-ai-fb-ring--2"></div>
+                                        <div class="dm-ai-fb-ring dm-ai-fb-ring--3"></div>
+                                        <div class="dm-ai-fb-core">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4338ca" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                                        </div>
+                                    </div>
                                     <span class="dm-ai-webgl-label">AI Engine</span>
                                 </div>
                             </div>
@@ -2685,7 +2694,7 @@
                 drawParticles();
             })();
 
-            // --- Three.js WebGL Neural Sphere ---
+            // --- Three.js WebGL Neural Sphere (r118-compatible) ---
             (function () {
               try {
                 var webglCanvas = document.getElementById('dmAiWebGL');
@@ -2702,8 +2711,9 @@
                     alpha: true,
                     antialias: true
                 });
-                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
                 renderer.setSize(W, H);
+                renderer.setClearColor(0x000000, 0);
 
                 // Scene & Camera
                 var scene = new THREE.Scene();
@@ -2711,22 +2721,24 @@
                 camera.position.z = 5;
 
                 // --- Core sphere (icosahedron wireframe) ---
-                var coreGeo = new THREE.IcosahedronGeometry(1.0, 2);
+                var CoreGeo = THREE.IcosahedronBufferGeometry || THREE.IcosahedronGeometry;
+                var coreGeo = new CoreGeo(1.0, 2);
                 var coreMat = new THREE.MeshBasicMaterial({
-                    color: 0x6366f1,
+                    color: 0x4338ca,
                     wireframe: true,
                     transparent: true,
-                    opacity: 0.4
+                    opacity: 0.5
                 });
                 var coreMesh = new THREE.Mesh(coreGeo, coreMat);
                 scene.add(coreMesh);
 
                 // --- Inner solid sphere (glowing core) ---
-                var innerGeo = new THREE.SphereGeometry(0.45, 32, 32);
+                var SphGeo = THREE.SphereBufferGeometry || THREE.SphereGeometry;
+                var innerGeo = new SphGeo(0.45, 32, 32);
                 var innerMat = new THREE.MeshBasicMaterial({
-                    color: 0x818cf8,
+                    color: 0x6366f1,
                     transparent: true,
-                    opacity: 0.3
+                    opacity: 0.35
                 });
                 var innerMesh = new THREE.Mesh(innerGeo, innerMat);
                 scene.add(innerMesh);
@@ -2734,8 +2746,6 @@
                 // --- Orbiting point cloud (neural nodes) ---
                 var NODE_COUNT = 200;
                 var nodePositions = new Float32Array(NODE_COUNT * 3);
-                var nodeColors = new Float32Array(NODE_COUNT * 3);
-                var nodeSpeeds = [];
                 var nodeOrbits = [];
 
                 for (var i = 0; i < NODE_COUNT; i++) {
@@ -2745,18 +2755,8 @@
                     nodePositions[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
                     nodePositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
                     nodePositions[i * 3 + 2] = r * Math.cos(phi);
-
-                    var c = new THREE.Color();
-                    c.setHSL(0.68 + Math.random() * 0.1, 0.7, 0.6 + Math.random() * 0.2);
-                    nodeColors[i * 3]     = c.r;
-                    nodeColors[i * 3 + 1] = c.g;
-                    nodeColors[i * 3 + 2] = c.b;
-
-                    nodeSpeeds.push(0.15 + Math.random() * 0.35);
                     nodeOrbits.push({
-                        radius: r,
-                        phi: phi,
-                        theta: theta,
+                        radius: r, phi: phi, theta: theta,
                         phiSpeed: (Math.random() - 0.5) * 0.004,
                         thetaSpeed: (Math.random() - 0.5) * 0.008
                     });
@@ -2764,33 +2764,34 @@
 
                 var nodeGeo = new THREE.BufferGeometry();
                 nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePositions, 3));
-                nodeGeo.setAttribute('color', new THREE.BufferAttribute(nodeColors, 3));
 
+                // Use plain color (no vertexColors) for r118 safety
                 var nodeMat = new THREE.PointsMaterial({
-                    size: 0.06,
-                    vertexColors: true,
+                    size: 0.055,
+                    color: 0x6366f1,
                     transparent: true,
-                    opacity: 0.9,
+                    opacity: 0.8,
                     sizeAttenuation: true
                 });
                 var nodePoints = new THREE.Points(nodeGeo, nodeMat);
                 scene.add(nodePoints);
 
                 // --- Neural connections (lines between nearby nodes) ---
-                var CONN_MAX = 350;
+                var CONN_MAX = 300;
                 var connPositions = new Float32Array(CONN_MAX * 6);
                 var connGeo = new THREE.BufferGeometry();
                 connGeo.setAttribute('position', new THREE.BufferAttribute(connPositions, 3));
                 var connMat = new THREE.LineBasicMaterial({
                     color: 0x6366f1,
                     transparent: true,
-                    opacity: 0.18
+                    opacity: 0.15
                 });
                 var connLines = new THREE.LineSegments(connGeo, connMat);
                 scene.add(connLines);
 
                 // --- Outer ring orbits (3 torus rings) ---
-                var ringColors = [0x6366f1, 0x8b5cf6, 0x3b82f6];
+                var TorGeo = THREE.TorusBufferGeometry || THREE.TorusGeometry;
+                var ringColors = [0x4338ca, 0x7c3aed, 0x3b82f6];
                 var ringScales = [1.8, 2.1, 2.4];
                 var ringRotations = [
                     { x: Math.PI / 2.5, y: 0, z: 0 },
@@ -2799,17 +2800,20 @@
                 ];
                 var rings = [];
                 for (var ri = 0; ri < 3; ri++) {
-                    var rGeo = new THREE.TorusGeometry(ringScales[ri], 0.015, 8, 100);
+                    var rGeo = new TorGeo(ringScales[ri], 0.018, 8, 100);
                     var rMat = new THREE.MeshBasicMaterial({
                         color: ringColors[ri],
                         transparent: true,
-                        opacity: 0.25 + ri * 0.05
+                        opacity: 0.3 + ri * 0.05
                     });
                     var rMesh = new THREE.Mesh(rGeo, rMat);
                     rMesh.rotation.set(ringRotations[ri].x, ringRotations[ri].y, ringRotations[ri].z);
                     scene.add(rMesh);
                     rings.push(rMesh);
                 }
+
+                // Mark WebGL as active — hide CSS fallback
+                wrap.classList.add('dm-ai-webgl-active');
 
                 // --- Animate ---
                 var clock = new THREE.Clock();
@@ -2818,10 +2822,10 @@
                     var posArr = nodeGeo.attributes.position.array;
                     var connIdx = 0;
                     var threshold = 0.9;
-                    for (var i = 0; i < NODE_COUNT && connIdx < CONN_MAX; i++) {
-                        var ax = posArr[i * 3], ay = posArr[i * 3 + 1], az = posArr[i * 3 + 2];
-                        for (var j = i + 1; j < NODE_COUNT && connIdx < CONN_MAX; j++) {
-                            var bx = posArr[j * 3], by = posArr[j * 3 + 1], bz = posArr[j * 3 + 2];
+                    for (var ci = 0; ci < NODE_COUNT && connIdx < CONN_MAX; ci++) {
+                        var ax = posArr[ci * 3], ay = posArr[ci * 3 + 1], az = posArr[ci * 3 + 2];
+                        for (var cj = ci + 1; cj < NODE_COUNT && connIdx < CONN_MAX; cj++) {
+                            var bx = posArr[cj * 3], by = posArr[cj * 3 + 1], bz = posArr[cj * 3 + 2];
                             var dx = ax - bx, dy = ay - by, dz = az - bz;
                             if (dx * dx + dy * dy + dz * dz < threshold) {
                                 connPositions[connIdx * 6]     = ax;
@@ -2834,8 +2838,8 @@
                             }
                         }
                     }
-                    for (var k = connIdx * 6; k < CONN_MAX * 6; k++) {
-                        connPositions[k] = 0;
+                    for (var ck = connIdx * 6; ck < CONN_MAX * 6; ck++) {
+                        connPositions[ck] = 0;
                     }
                     connGeo.attributes.position.needsUpdate = true;
                     connGeo.setDrawRange(0, connIdx * 2);
@@ -2846,35 +2850,29 @@
                     var t = clock.getElapsedTime();
                     var posArr = nodeGeo.attributes.position.array;
 
-                    // Orbit nodes
-                    for (var i = 0; i < NODE_COUNT; i++) {
-                        var orb = nodeOrbits[i];
+                    for (var ai = 0; ai < NODE_COUNT; ai++) {
+                        var orb = nodeOrbits[ai];
                         orb.phi += orb.phiSpeed;
                         orb.theta += orb.thetaSpeed;
-                        posArr[i * 3]     = orb.radius * Math.sin(orb.phi) * Math.cos(orb.theta);
-                        posArr[i * 3 + 1] = orb.radius * Math.sin(orb.phi) * Math.sin(orb.theta);
-                        posArr[i * 3 + 2] = orb.radius * Math.cos(orb.phi);
+                        posArr[ai * 3]     = orb.radius * Math.sin(orb.phi) * Math.cos(orb.theta);
+                        posArr[ai * 3 + 1] = orb.radius * Math.sin(orb.phi) * Math.sin(orb.theta);
+                        posArr[ai * 3 + 2] = orb.radius * Math.cos(orb.phi);
                     }
                     nodeGeo.attributes.position.needsUpdate = true;
 
-                    // Update connections every 3 frames
                     if (Math.round(t * 60) % 3 === 0) updateConnections();
 
-                    // Rotate core
                     coreMesh.rotation.x = t * 0.15 + mouseNorm.y * 0.3;
                     coreMesh.rotation.y = t * 0.2 + mouseNorm.x * 0.3;
 
-                    // Pulse inner
                     var pulse = 0.45 + Math.sin(t * 2) * 0.05;
                     innerMesh.scale.setScalar(pulse / 0.45);
-                    innerMat.opacity = 0.25 + Math.sin(t * 1.5) * 0.1;
+                    innerMat.opacity = 0.3 + Math.sin(t * 1.5) * 0.1;
 
-                    // Spin rings
                     rings[0].rotation.z += 0.003;
                     rings[1].rotation.z -= 0.0025;
                     rings[2].rotation.z += 0.002;
 
-                    // Mouse tilt the whole scene
                     scene.rotation.x = mouseNorm.y * 0.15;
                     scene.rotation.y = mouseNorm.x * 0.15;
 
@@ -2882,7 +2880,6 @@
                 }
                 animate();
 
-                // Mouse interaction
                 wrap.addEventListener('mousemove', function (e) {
                     var rect = wrap.getBoundingClientRect();
                     mouseNorm.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
@@ -2893,7 +2890,6 @@
                     mouseNorm.y = 0;
                 });
 
-                // Resize
                 window.addEventListener('resize', function () {
                     W = wrap.clientWidth;
                     H = wrap.clientHeight;
@@ -2901,7 +2897,7 @@
                     camera.updateProjectionMatrix();
                     renderer.setSize(W, H);
                 });
-              } catch (e) { /* WebGL not available — section still works without it */ }
+              } catch (e) { /* WebGL not available — CSS fallback shows instead */ }
             })();
 
             // --- Mouse-reactive card glow ---
