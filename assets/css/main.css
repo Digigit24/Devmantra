@@ -59860,4 +59860,396 @@ only screen and (min-width: 768px) and (max-width: 991px),
     }
 }
 
+/* ===== Combined Approach & Business Lifecycle Section ===== */
+.dm-approach-section {
+    padding: 100px 0 80px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.dm-approach-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.dm-approach-header .tp-section-subtitle-gradient.ct {
+    margin-bottom: 15px;
+}
+
+/* ── Tab Switcher ── */
+.dm-approach-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 50px;
+}
+
+.dm-approach-tab-btn {
+    position: relative;
+    background: none;
+    border: none;
+    padding: 14px 36px;
+    font-family: var(--tp-ff-onest);
+    font-size: 15px;
+    font-weight: 500;
+    color: #8a8a8a;
+    cursor: pointer;
+    transition: color 0.35s ease;
+    letter-spacing: 0.02em;
+}
+
+.dm-approach-tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #e0e0e0;
+    transition: background 0.35s ease;
+}
+
+.dm-approach-tab-btn.active {
+    color: #1a1a1a;
+}
+
+.dm-approach-tab-btn.active::after {
+    background: #1a1a1a;
+}
+
+.dm-approach-tab-btn:hover {
+    color: #1a1a1a;
+}
+
+/* ── Tab Panels ── */
+.dm-approach-panels {
+    position: relative;
+    min-height: 300px;
+}
+
+.dm-approach-panel {
+    display: none;
+}
+
+.dm-approach-panel.active {
+    display: block;
+}
+
+/* ── Panel 1: Our Approach (Checklist Grid) ── */
+.dm-approach-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+}
+
+.dm-approach-item {
+    position: relative;
+    padding: 28px 30px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    margin: -0.5px;
+    cursor: default;
+    overflow: hidden;
+    transition: background 0.3s ease;
+}
+
+.dm-approach-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 0;
+    background: #1a1a1a;
+    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dm-approach-item:hover {
+    background: #fafafa;
+}
+
+.dm-approach-item:hover::before {
+    height: 100%;
+}
+
+.dm-approach-item-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.dm-approach-check {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid #d0d0d0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.dm-approach-check svg {
+    width: 10px;
+    height: 10px;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dm-approach-item:hover .dm-approach-check {
+    border-color: #1a1a1a;
+    background: #1a1a1a;
+}
+
+.dm-approach-item:hover .dm-approach-check svg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.dm-approach-label {
+    font-family: var(--tp-ff-onest);
+    font-size: 15px;
+    font-weight: 500;
+    color: #3a3a3a;
+    line-height: 1.5;
+    transition: color 0.3s ease;
+}
+
+.dm-approach-item:hover .dm-approach-label {
+    color: #1a1a1a;
+}
+
+/* Positioning statement */
+.dm-approach-statement {
+    text-align: center;
+    margin-top: 48px;
+    padding: 0 20px;
+}
+
+.dm-approach-statement p {
+    font-family: var(--tp-ff-onest);
+    font-size: 17px;
+    font-weight: 400;
+    color: #5a5a5a;
+    font-style: italic;
+    line-height: 1.7;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+/* ── Panel 2: Business Lifecycle (Timeline) ── */
+.dm-lifecycle-wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.dm-lifecycle-stages {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+/* Connecting line behind stage buttons */
+.dm-lifecycle-stages::before {
+    content: '';
+    position: absolute;
+    top: 19px;
+    left: 12%;
+    right: 12%;
+    height: 2px;
+    background: #e8e8e8;
+    z-index: 0;
+}
+
+.dm-lifecycle-stage-btn {
+    position: relative;
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 0 24px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.dm-lifecycle-dot {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #d8d8d8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.35s ease, background 0.35s ease, transform 0.35s ease;
+}
+
+.dm-lifecycle-dot-inner {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #d8d8d8;
+    transition: background 0.35s ease, transform 0.35s ease;
+}
+
+.dm-lifecycle-stage-btn.active .dm-lifecycle-dot {
+    border-color: #1a1a1a;
+    background: #1a1a1a;
+    transform: scale(1.1);
+}
+
+.dm-lifecycle-stage-btn.active .dm-lifecycle-dot-inner {
+    background: #fff;
+    transform: scale(1.2);
+}
+
+.dm-lifecycle-stage-btn:hover .dm-lifecycle-dot {
+    border-color: #1a1a1a;
+    transform: scale(1.05);
+}
+
+.dm-lifecycle-stage-label {
+    font-family: var(--tp-ff-onest);
+    font-size: 13px;
+    font-weight: 500;
+    color: #999;
+    transition: color 0.35s ease;
+    white-space: nowrap;
+}
+
+.dm-lifecycle-stage-btn.active .dm-lifecycle-stage-label {
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.dm-lifecycle-stage-btn:hover .dm-lifecycle-stage-label {
+    color: #555;
+}
+
+/* Services reveal panel */
+.dm-lifecycle-content {
+    position: relative;
+    min-height: 180px;
+}
+
+.dm-lifecycle-panel {
+    display: none;
+    text-align: center;
+}
+
+.dm-lifecycle-panel.active {
+    display: block;
+}
+
+.dm-lifecycle-panel-title {
+    font-family: var(--tp-ff-onest);
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 24px;
+}
+
+.dm-lifecycle-services {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.dm-lifecycle-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #f7f7f7;
+    border: 1px solid #ececec;
+    border-radius: 100px;
+    font-family: var(--tp-ff-onest);
+    font-size: 13.5px;
+    font-weight: 400;
+    color: #444;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.25s ease;
+    cursor: default;
+}
+
+.dm-lifecycle-tag:hover {
+    background: #f0f0f0;
+    border-color: #d0d0d0;
+    transform: translateY(-2px);
+}
+
+.dm-lifecycle-tag-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #bbb;
+    flex-shrink: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 991px) {
+    .dm-approach-section {
+        padding: 70px 0 60px;
+    }
+
+    .dm-approach-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dm-lifecycle-stages {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .dm-lifecycle-stages::before {
+        display: none;
+    }
+
+    .dm-lifecycle-stage-btn {
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 575px) {
+    .dm-approach-section {
+        padding: 50px 0 40px;
+    }
+
+    .dm-approach-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dm-approach-tab-btn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .dm-lifecycle-stage-btn {
+        padding: 0 10px;
+    }
+
+    .dm-lifecycle-stage-label {
+        font-size: 11px;
+    }
+
+    .dm-lifecycle-panel-title {
+        font-size: 18px;
+    }
+
+    .dm-lifecycle-tag {
+        font-size: 12.5px;
+        padding: 8px 16px;
+    }
+
+    .dm-approach-statement p {
+        font-size: 15px;
+    }
+}
+
 /*# sourceMappingURL=main.css.map */
