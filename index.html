@@ -3154,19 +3154,58 @@
             }
 
             // Pin the entire section; scroll progress drives stage changes
-            ScrollTrigger.create({
-                trigger: aplSection,
-                pin: aplPin,
-                start: 'top top',
-                end: '+=' + (STAGE_COUNT * 350),
-                scrub: false,
-                onUpdate: function (self) {
-                    var progress = self.progress;
-                    var stageIndex = Math.min(Math.floor(progress * STAGE_COUNT), STAGE_COUNT - 1);
-                    if (stageIndex !== currentStage) {
-                        setActiveStage(stageIndex);
-                    }
+            // Only pin on desktop (>991px); on mobile/tablet use scroll-into-view
+            var MOBILE_BP = 991;
+            var aplScrollTrigger = null;
+
+            function initAplPin() {
+                // Kill previous instance
+                if (aplScrollTrigger) {
+                    aplScrollTrigger.kill();
+                    aplScrollTrigger = null;
+                    gsap.set(aplPin, { clearProps: 'all' });
                 }
+
+                if (window.innerWidth > MOBILE_BP) {
+                    // Desktop: pin and scrub through stages
+                    aplScrollTrigger = ScrollTrigger.create({
+                        trigger: aplSection,
+                        pin: aplPin,
+                        start: 'top top',
+                        end: '+=' + (STAGE_COUNT * 350),
+                        scrub: false,
+                        onUpdate: function (self) {
+                            var progress = self.progress;
+                            var stageIndex = Math.min(Math.floor(progress * STAGE_COUNT), STAGE_COUNT - 1);
+                            if (stageIndex !== currentStage) {
+                                setActiveStage(stageIndex);
+                            }
+                        }
+                    });
+                } else {
+                    // Mobile/tablet: no pin, just show all stages via scroll
+                    ScrollTrigger.create({
+                        trigger: '.dm-apl-right',
+                        start: 'top 70%',
+                        end: 'bottom 30%',
+                        scrub: false,
+                        onUpdate: function (self) {
+                            var progress = self.progress;
+                            var stageIndex = Math.min(Math.floor(progress * STAGE_COUNT), STAGE_COUNT - 1);
+                            if (stageIndex !== currentStage) {
+                                setActiveStage(stageIndex);
+                            }
+                        }
+                    });
+                }
+            }
+
+            initAplPin();
+
+            var aplResizeTimer;
+            window.addEventListener('resize', function () {
+                clearTimeout(aplResizeTimer);
+                aplResizeTimer = setTimeout(initAplPin, 250);
             });
 
             // Also allow clicking dots to jump

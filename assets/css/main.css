@@ -60848,31 +60848,90 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 /* ── Responsive ── */
+
+/* Tablet: stack columns, no pin */
 @media (max-width: 991px) {
     .dm-apl-pin {
-        padding: 60px 0;
+        min-height: auto;
+        padding: 70px 0;
     }
     .dm-apl-title {
         font-size: 34px;
     }
     .dm-apl-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 48px;
+    }
+    .dm-apl-header {
+        margin-bottom: 36px;
+    }
+    .dm-lc-stepper {
+        margin-bottom: 24px;
+    }
+    .dm-lc-dot-name {
+        font-size: 11px;
+    }
+    .dm-lc-panels {
+        min-height: 220px;
+    }
+    .dm-lc-panel-title {
+        font-size: 20px;
     }
 }
 
-@media (max-width: 575px) {
+/* Large mobile */
+@media (max-width: 767px) {
     .dm-apl-pin {
-        padding: 48px 0;
+        padding: 56px 0;
     }
     .dm-apl-title {
-        font-size: 26px;
+        font-size: 30px;
+    }
+    .dm-apl-col-title {
+        font-size: 16px;
+    }
+    .dm-lc-dot-circle {
+        width: 12px;
+        height: 12px;
+    }
+    .dm-lc-dot-name {
+        font-size: 10px;
+    }
+    .dm-lc-panel-title {
+        font-size: 18px;
+        margin-bottom: 14px;
+        padding-bottom: 10px;
+    }
+    .dm-lc-panel-list {
+        gap: 10px;
+    }
+    .dm-lc-panel-list li {
+        font-size: 13.5px;
+        padding-left: 18px;
+    }
+    .dm-lc-panel-list li::before {
+        width: 6px;
+        height: 6px;
+        top: 7px;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 575px) {
+    .dm-apl-pin {
+        padding: 44px 0;
+    }
+    .dm-apl-title {
+        font-size: 24px;
     }
     .dm-apl-subtitle {
         font-size: 14px;
     }
+    .dm-apl-header {
+        margin-bottom: 28px;
+    }
     .dm-apl-item {
-        padding: 8px 10px;
+        padding: 7px 8px;
         gap: 10px;
     }
     .dm-apl-check {
@@ -60880,16 +60939,33 @@ only screen and (min-width: 768px) and (max-width: 991px),
         height: 22px;
     }
     .dm-apl-text {
-        font-size: 13.5px;
+        font-size: 13px;
+    }
+    .dm-apl-col-title {
+        font-size: 15px;
+        margin-bottom: 14px;
+    }
+    .dm-lc-stepper {
+        margin-bottom: 20px;
+    }
+    .dm-lc-dot {
+        gap: 5px;
+    }
+    .dm-lc-dot-circle {
+        width: 10px;
+        height: 10px;
     }
     .dm-lc-dot-name {
-        font-size: 10px;
+        font-size: 9px;
+    }
+    .dm-lc-panels {
+        min-height: 200px;
     }
     .dm-lc-panel-title {
-        font-size: 20px;
+        font-size: 17px;
     }
     .dm-lc-panel-list li {
-        font-size: 13.5px;
+        font-size: 13px;
     }
 }
 
