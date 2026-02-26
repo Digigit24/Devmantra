@@ -3165,15 +3165,44 @@
                 }
             }
 
-            // Tab click handlers
+            // ── Auto-rotate every 5 seconds ──
+            var AUTO_INTERVAL = 5000;
+            var autoTimer = null;
+
+            function startAutoRotate() {
+                stopAutoRotate();
+                autoTimer = setInterval(function () {
+                    var nextTab = (activeTab + 1) % lcTabs.length;
+                    switchTab(nextTab);
+                }, AUTO_INTERVAL);
+            }
+
+            function stopAutoRotate() {
+                if (autoTimer) {
+                    clearInterval(autoTimer);
+                    autoTimer = null;
+                }
+            }
+
+            // Tab click handlers — reset timer on manual click
             lcTabs.forEach(function (tab, i) {
                 tab.addEventListener('click', function () {
                     switchTab(i);
+                    startAutoRotate(); // restart timer from this tab
                 });
             });
 
-            // Entrance animation for the vertical tabs container
+            // Pause auto-rotate on hover, resume on leave
             var vtabsContainer = aplSection.querySelector('.dm-lc-vtabs');
+            if (vtabsContainer) {
+                vtabsContainer.addEventListener('mouseenter', stopAutoRotate);
+                vtabsContainer.addEventListener('mouseleave', startAutoRotate);
+            }
+
+            // Start auto-rotate
+            startAutoRotate();
+
+            // Entrance animation for the vertical tabs container
             if (vtabsContainer) {
                 gsap.set(vtabsContainer, { y: 20, opacity: 0 });
                 ScrollTrigger.create({
