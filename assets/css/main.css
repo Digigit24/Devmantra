@@ -60583,9 +60583,6 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 .dm-apl-pin {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
     padding: 80px 0;
     background: #fff;
 }
@@ -60699,123 +60696,122 @@ only screen and (min-width: 768px) and (max-width: 991px),
     color: #1a1a2e;
 }
 
-/* ── RIGHT: Lifecycle (scroll-driven) ── */
+/* ── RIGHT: Lifecycle (vertical tabs) ── */
 
-/* Stepper dots — horizontal row */
-.dm-lc-stepper {
+/* Vertical tabs container */
+.dm-lc-vtabs {
     display: flex;
-    align-items: center;
     gap: 0;
-    position: relative;
-    margin-bottom: 28px;
-    padding: 0 4px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    min-height: 280px;
 }
 
-/* Horizontal track behind dots */
-.dm-lc-track {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #e5e7eb;
-    transform: translateY(-50%);
-    border-radius: 2px;
-    z-index: 0;
-}
-
-.dm-lc-track-fill {
-    height: 100%;
-    width: 0%;
-    background: #1d6aa9;
-    border-radius: 2px;
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Dot */
-.dm-lc-dot {
-    flex: 1;
+/* Left nav column */
+.dm-lc-vtabs-nav {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
+    width: 170px;
+    background: #f8f9fb;
+    border-right: 1px solid #e5e7eb;
+}
+
+/* Individual tab button */
+.dm-lc-vtab {
+    display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    padding: 16px 18px;
+    border: none;
+    background: transparent;
     cursor: pointer;
+    text-align: left;
     position: relative;
-    z-index: 1;
+    transition: background 0.25s ease;
 }
 
-.dm-lc-dot-circle {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #e5e7eb;
-    border: 2px solid #fff;
-    transition: background 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+.dm-lc-vtab:not(:last-child) {
+    border-bottom: 1px solid #e5e7eb;
 }
 
-.dm-lc-dot.is-active .dm-lc-dot-circle {
-    background: #1d6aa9;
-    box-shadow: 0 0 0 4px rgba(29, 106, 169, 0.18);
-    transform: scale(1.2);
+.dm-lc-vtab:hover {
+    background: rgba(29, 106, 169, 0.04);
 }
 
-.dm-lc-dot.is-passed .dm-lc-dot-circle {
-    background: #1d6aa9;
+.dm-lc-vtab.is-active {
+    background: #fff;
 }
 
-.dm-lc-dot-name {
-    font-family: 'Onest', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    color: #bbb;
-    white-space: nowrap;
-    transition: color 0.3s ease;
-}
-
-.dm-lc-dot.is-active .dm-lc-dot-name {
-    color: #1d6aa9;
-}
-
-.dm-lc-dot.is-passed .dm-lc-dot-name {
-    color: #888;
-}
-
-/* ── Content panels ── */
-.dm-lc-panels {
-    position: relative;
-    min-height: 260px;
-    overflow: hidden;
-}
-
-.dm-lc-panel {
+/* Left accent indicator */
+.dm-lc-vtab-indicator {
     position: absolute;
-    top: 0;
     left: 0;
-    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: transparent;
+    border-radius: 0 3px 3px 0;
+    transition: background 0.3s ease;
+}
+
+.dm-lc-vtab.is-active .dm-lc-vtab-indicator {
+    background: #1d6aa9;
+}
+
+/* Tab label */
+.dm-lc-vtab-label {
+    font-family: 'Onest', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #888;
+    transition: color 0.25s ease, font-weight 0.25s ease;
+}
+
+.dm-lc-vtab.is-active .dm-lc-vtab-label {
+    color: #1d6aa9;
+    font-weight: 600;
+}
+
+.dm-lc-vtab:hover .dm-lc-vtab-label {
+    color: #1a1a2e;
+}
+
+/* Right content area */
+.dm-lc-vtabs-content {
+    flex: 1;
+    position: relative;
+    padding: 28px;
+    overflow: hidden;
+    min-height: 280px;
+}
+
+/* Content panels */
+.dm-lc-vpanel {
+    position: absolute;
+    top: 28px;
+    left: 28px;
+    right: 28px;
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
-    z-index: 0;
 }
 
-.dm-lc-panel.is-active {
+.dm-lc-vpanel.is-active {
     opacity: 1;
     pointer-events: auto;
     visibility: visible;
     position: relative;
-    z-index: 2;
+    top: auto;
+    left: auto;
+    right: auto;
 }
 
-.dm-lc-panel.is-leaving {
-    visibility: visible;
-    position: absolute;
-    z-index: 1;
-    pointer-events: none;
-}
-
-.dm-lc-panel-title {
+.dm-lc-vpanel-title {
     font-family: 'Onest', sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     color: #1a1a2e;
     margin: 0 0 18px;
@@ -60823,7 +60819,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     border-bottom: 2px solid rgba(29, 106, 169, 0.12);
 }
 
-.dm-lc-panel-list {
+.dm-lc-vpanel-list {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -60832,7 +60828,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     gap: 12px;
 }
 
-.dm-lc-panel-list li {
+.dm-lc-vpanel-list li {
     font-family: 'Inter', sans-serif;
     font-size: 14.5px;
     color: #444;
@@ -60841,7 +60837,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     position: relative;
 }
 
-.dm-lc-panel-list li::before {
+.dm-lc-vpanel-list li::before {
     content: '';
     position: absolute;
     left: 0;
@@ -60849,17 +60845,12 @@ only screen and (min-width: 768px) and (max-width: 991px),
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: rgba(29, 106, 169, 0.25);
-    transition: background 0.3s ease;
-}
-
-.dm-lc-panel.is-active .dm-lc-panel-list li::before {
     background: #1d6aa9;
 }
 
 /* ── Responsive ── */
 
-/* Tablet: stack columns, no pin */
+/* Tablet: stack columns */
 @media (max-width: 991px) {
     .dm-apl-pin {
         min-height: auto;
@@ -60875,17 +60866,28 @@ only screen and (min-width: 768px) and (max-width: 991px),
     .dm-apl-header {
         margin-bottom: 36px;
     }
-    .dm-lc-stepper {
-        margin-bottom: 24px;
+    .dm-lc-vtabs {
+        min-height: 240px;
     }
-    .dm-lc-dot-name {
-        font-size: 11px;
+    .dm-lc-vtabs-nav {
+        width: 150px;
     }
-    .dm-lc-panels {
-        min-height: 220px;
+    .dm-lc-vtab {
+        padding: 14px 14px;
     }
-    .dm-lc-panel-title {
-        font-size: 20px;
+    .dm-lc-vtab-label {
+        font-size: 13px;
+    }
+    .dm-lc-vpanel-title {
+        font-size: 18px;
+    }
+    .dm-lc-vtabs-content {
+        padding: 22px;
+    }
+    .dm-lc-vpanel {
+        top: 22px;
+        left: 22px;
+        right: 22px;
     }
 }
 
@@ -60900,26 +60902,64 @@ only screen and (min-width: 768px) and (max-width: 991px),
     .dm-apl-col-title {
         font-size: 16px;
     }
-    .dm-lc-dot-circle {
-        width: 12px;
-        height: 12px;
+    /* Stack tabs horizontally on mobile */
+    .dm-lc-vtabs {
+        flex-direction: column;
+        min-height: auto;
     }
-    .dm-lc-dot-name {
-        font-size: 10px;
+    .dm-lc-vtabs-nav {
+        flex-direction: row;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
-    .dm-lc-panel-title {
+    .dm-lc-vtab {
+        flex: 1;
+        justify-content: center;
+        padding: 12px 10px;
+        white-space: nowrap;
+        min-width: 0;
+    }
+    .dm-lc-vtab:not(:last-child) {
+        border-bottom: none;
+        border-right: 1px solid #e5e7eb;
+    }
+    .dm-lc-vtab-indicator {
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        height: 3px;
+        border-radius: 3px 3px 0 0;
+    }
+    .dm-lc-vtab-label {
+        font-size: 12px;
+    }
+    .dm-lc-vtabs-content {
+        padding: 20px;
+        min-height: 200px;
+    }
+    .dm-lc-vpanel {
+        top: 20px;
+        left: 20px;
+        right: 20px;
+    }
+    .dm-lc-vpanel-title {
         font-size: 18px;
         margin-bottom: 14px;
         padding-bottom: 10px;
     }
-    .dm-lc-panel-list {
+    .dm-lc-vpanel-list {
         gap: 10px;
     }
-    .dm-lc-panel-list li {
+    .dm-lc-vpanel-list li {
         font-size: 13.5px;
         padding-left: 18px;
     }
-    .dm-lc-panel-list li::before {
+    .dm-lc-vpanel-list li::before {
         width: 6px;
         height: 6px;
         top: 7px;
@@ -60955,26 +60995,25 @@ only screen and (min-width: 768px) and (max-width: 991px),
         font-size: 15px;
         margin-bottom: 14px;
     }
-    .dm-lc-stepper {
-        margin-bottom: 20px;
+    .dm-lc-vtab {
+        padding: 10px 8px;
     }
-    .dm-lc-dot {
-        gap: 5px;
+    .dm-lc-vtab-label {
+        font-size: 11px;
     }
-    .dm-lc-dot-circle {
-        width: 10px;
-        height: 10px;
+    .dm-lc-vtabs-content {
+        padding: 16px;
+        min-height: 180px;
     }
-    .dm-lc-dot-name {
-        font-size: 9px;
+    .dm-lc-vpanel {
+        top: 16px;
+        left: 16px;
+        right: 16px;
     }
-    .dm-lc-panels {
-        min-height: 200px;
-    }
-    .dm-lc-panel-title {
+    .dm-lc-vpanel-title {
         font-size: 17px;
     }
-    .dm-lc-panel-list li {
+    .dm-lc-vpanel-list li {
         font-size: 13px;
     }
 }
