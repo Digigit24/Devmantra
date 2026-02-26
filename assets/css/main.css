@@ -36624,10 +36624,6 @@ only screen and (min-width: 992px) and (max-width: 1199px) {
     flex: 0 0 auto;
 }
 
-.cr-feature-item.hight {
-    height: 600px;
-}
-
 @media (max-width: 767px) {
     .cr-feature-item.hight {
         height: 440px;
