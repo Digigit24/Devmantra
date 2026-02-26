@@ -3900,7 +3900,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     line-height: 1;
     display: inline-block;
     text-transform: uppercase;
-    background: linear-gradient(139deg, #9968ff 0%, #ff6cb2 49%, #ffaf56 100%);
+    background: linear-gradient(139deg, #1d6aa9 0%, #3b9fe0 49%, #60c3f7 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -56886,7 +56886,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 .agntix-light .ai-blog-content span {
-    background: linear-gradient(139deg, #9968ff 0%, #ff6cb2 49%, #ffaf56 100%);
+    background: linear-gradient(139deg, #1d6aa9 0%, #3b9fe0 49%, #60c3f7 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
