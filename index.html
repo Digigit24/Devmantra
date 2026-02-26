@@ -3109,9 +3109,18 @@
             if (STAGE_COUNT === 0) return;
 
             var currentStage = 0;
+            var isTransitioning = false;
+            var pendingStage = null;
 
             function setActiveStage(index) {
                 if (index === currentStage) return;
+                // If a transition is running, queue the latest request
+                if (isTransitioning) {
+                    pendingStage = index;
+                    return;
+                }
+
+                isTransitioning = true;
                 var prevIndex = currentStage;
                 currentStage = index;
 
@@ -3125,26 +3134,64 @@
                 // Update horizontal track fill
                 if (lcTrackFill) {
                     var fillPercent = STAGE_COUNT > 1 ? (index / (STAGE_COUNT - 1)) * 100 : 0;
-                    gsap.to(lcTrackFill, { width: fillPercent + '%', duration: 0.5, ease: 'power2.out' });
+                    gsap.to(lcTrackFill, { width: fillPercent + '%', duration: 0.5, ease: 'power2.out', overwrite: true });
                 }
 
-                // Animate panels
                 var direction = index > prevIndex ? 1 : -1;
+                var outPanel = lcPanels[prevIndex];
+                var inPanel = lcPanels[index];
+
+                // Kill any running animations on all panels and their list items
+                lcPanels.forEach(function (panel) {
+                    gsap.killTweensOf(panel);
+                    var items = panel.querySelectorAll('li');
+                    if (items.length) gsap.killTweensOf(items);
+                });
+
+                // Immediately hide all panels except outgoing and incoming
                 lcPanels.forEach(function (panel, i) {
-                    if (i === index) {
-                        panel.classList.add('is-active');
-                        gsap.fromTo(panel,
-                            { opacity: 0, y: 20 * direction },
-                            { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }
-                        );
-                    } else {
-                        panel.classList.remove('is-active');
-                        gsap.to(panel, { opacity: 0, y: -12 * direction, duration: 0.25, ease: 'power2.in' });
+                    if (i !== prevIndex && i !== index) {
+                        panel.classList.remove('is-active', 'is-leaving');
+                        gsap.set(panel, { opacity: 0, y: 0 });
                     }
                 });
 
+                // Animate outgoing panel
+                outPanel.classList.remove('is-active');
+                outPanel.classList.add('is-leaving');
+                gsap.to(outPanel, {
+                    opacity: 0,
+                    y: -12 * direction,
+                    duration: 0.25,
+                    ease: 'power2.in',
+                    onComplete: function () {
+                        outPanel.classList.remove('is-leaving');
+                        gsap.set(outPanel, { y: 0 });
+                    }
+                });
+
+                // Animate incoming panel
+                inPanel.classList.add('is-active');
+                gsap.fromTo(inPanel,
+                    { opacity: 0, y: 20 * direction },
+                    {
+                        opacity: 1, y: 0, duration: 0.4, ease: 'power2.out',
+                        onComplete: function () {
+                            isTransitioning = false;
+                            // Process queued stage change if any
+                            if (pendingStage !== null && pendingStage !== currentStage) {
+                                var next = pendingStage;
+                                pendingStage = null;
+                                setActiveStage(next);
+                            } else {
+                                pendingStage = null;
+                            }
+                        }
+                    }
+                );
+
                 // Stagger-in list items for new panel
-                var newItems = lcPanels[index].querySelectorAll('li');
+                var newItems = inPanel.querySelectorAll('li');
                 if (newItems.length) {
                     gsap.fromTo(newItems,
                         { x: 10, opacity: 0 },
@@ -3158,40 +3205,82 @@
             var MOBILE_BP = 991;
             var aplScrollTrigger = null;
 
+            var aplMobileScrollTrigger = null;
+
+            function getStageFromProgress(progress) {
+                // Clamp progress and map evenly across stages
+                // Last stage gets the remaining fraction at progress=1
+                var p = Math.max(0, Math.min(1, progress));
+                var idx = Math.floor(p * STAGE_COUNT);
+                return Math.min(idx, STAGE_COUNT - 1);
+            }
+
+            function resetAllPanels() {
+                // Reset transition state
+                isTransitioning = false;
+                pendingStage = null;
+                currentStage = 0;
+
+                lcPanels.forEach(function (panel, i) {
+                    gsap.killTweensOf(panel);
+                    var items = panel.querySelectorAll('li');
+                    if (items.length) gsap.killTweensOf(items);
+                    panel.classList.remove('is-active', 'is-leaving');
+                    gsap.set(panel, { clearProps: 'all' });
+                    if (i === 0) {
+                        panel.classList.add('is-active');
+                    }
+                });
+
+                // Reset dots
+                lcDots.forEach(function (dot, i) {
+                    dot.classList.remove('is-active', 'is-passed');
+                    if (i === 0) dot.classList.add('is-active');
+                });
+
+                // Reset track fill
+                if (lcTrackFill) gsap.set(lcTrackFill, { width: '0%' });
+            }
+
             function initAplPin() {
-                // Kill previous instance
+                // Kill previous instances
                 if (aplScrollTrigger) {
                     aplScrollTrigger.kill();
                     aplScrollTrigger = null;
                     gsap.set(aplPin, { clearProps: 'all' });
                 }
+                if (aplMobileScrollTrigger) {
+                    aplMobileScrollTrigger.kill();
+                    aplMobileScrollTrigger = null;
+                }
+
+                resetAllPanels();
 
                 if (window.innerWidth > MOBILE_BP) {
                     // Desktop: pin and scrub through stages
+                    // 450px per stage gives more breathing room to prevent rapid transitions
                     aplScrollTrigger = ScrollTrigger.create({
                         trigger: aplSection,
                         pin: aplPin,
                         start: 'top top',
-                        end: '+=' + (STAGE_COUNT * 350),
+                        end: '+=' + (STAGE_COUNT * 450),
                         scrub: false,
                         onUpdate: function (self) {
-                            var progress = self.progress;
-                            var stageIndex = Math.min(Math.floor(progress * STAGE_COUNT), STAGE_COUNT - 1);
+                            var stageIndex = getStageFromProgress(self.progress);
                             if (stageIndex !== currentStage) {
                                 setActiveStage(stageIndex);
                             }
                         }
                     });
                 } else {
-                    // Mobile/tablet: no pin, just show all stages via scroll
-                    ScrollTrigger.create({
+                    // Mobile/tablet: no pin, scroll through stages based on right column position
+                    aplMobileScrollTrigger = ScrollTrigger.create({
                         trigger: '.dm-apl-right',
                         start: 'top 70%',
                         end: 'bottom 30%',
                         scrub: false,
                         onUpdate: function (self) {
-                            var progress = self.progress;
-                            var stageIndex = Math.min(Math.floor(progress * STAGE_COUNT), STAGE_COUNT - 1);
+                            var stageIndex = getStageFromProgress(self.progress);
                             if (stageIndex !== currentStage) {
                                 setActiveStage(stageIndex);
                             }
@@ -3208,9 +3297,20 @@
                 aplResizeTimer = setTimeout(initAplPin, 250);
             });
 
-            // Also allow clicking dots to jump
+            // Also allow clicking dots to jump — force immediate transition
             lcDots.forEach(function (dot, i) {
                 dot.addEventListener('click', function () {
+                    if (i === currentStage) return;
+                    // Force-clear any in-progress transition for immediate response
+                    if (isTransitioning) {
+                        lcPanels.forEach(function (panel) {
+                            gsap.killTweensOf(panel);
+                            var items = panel.querySelectorAll('li');
+                            if (items.length) gsap.killTweensOf(items);
+                        });
+                        isTransitioning = false;
+                        pendingStage = null;
+                    }
                     setActiveStage(i);
                 });
             });

@@ -60784,6 +60784,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .dm-lc-panels {
     position: relative;
     min-height: 260px;
+    overflow: hidden;
 }
 
 .dm-lc-panel {
@@ -60792,15 +60793,24 @@ only screen and (min-width: 768px) and (max-width: 991px),
     left: 0;
     right: 0;
     opacity: 0;
-    transform: translateY(16px);
     pointer-events: none;
+    visibility: hidden;
+    z-index: 0;
 }
 
 .dm-lc-panel.is-active {
     opacity: 1;
-    transform: translateY(0);
     pointer-events: auto;
+    visibility: visible;
     position: relative;
+    z-index: 2;
+}
+
+.dm-lc-panel.is-leaving {
+    visibility: visible;
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .dm-lc-panel-title {
