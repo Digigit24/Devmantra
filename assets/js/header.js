@@ -105,7 +105,7 @@
                                             <a href="${basePath}index.html">Home</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)">About Us</a>
+                                            <a href="${basePath}about.html">About Us</a>
                                         </li>
                                         <li class="has-dropdown">
                                             <a href="javascript:void(0)">Expertise</a>
