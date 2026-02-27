@@ -9,10 +9,8 @@
     <meta name="description" content="Contact Dev Mantra for corporate governance, financial advisory, and business consulting services.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Place favicon.ico in the root directory -->
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon/favicon.png">
 
-    <!-- CSS here -->
     <link rel="stylesheet" href="assets/css/bootstrap.css">
     <link rel="stylesheet" href="assets/css/slick.css">
     <link rel="stylesheet" href="assets/css/swiper-bundle.css">
@@ -20,501 +18,202 @@
     <link rel="stylesheet" href="assets/css/font-awesome-pro.css">
     <link rel="stylesheet" href="assets/css/spacing.css">
     <link rel="stylesheet" href="assets/css/main.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* Contact page custom styles */
         .dm-contact-hero {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1b1b2f 50%, #0f2b5c 100%);
-            padding: 200px 0 100px;
+            background-color: #000;
+            padding: 200px 0 120px;
             position: relative;
             overflow: hidden;
         }
-
-        .dm-contact-hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(59, 159, 224, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulseGlow 6s ease-in-out infinite;
-        }
-
-        .dm-contact-hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255, 87, 34, 0.06) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulseGlow 8s ease-in-out infinite reverse;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 1; }
-        }
-
-        .dm-contact-hero .container {
-            position: relative;
-            z-index: 2;
-        }
-
-        .dm-contact-hero-subtitle {
-            font-size: 16px;
-            font-weight: 500;
-            padding: 7px 20px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 20px;
-            background: linear-gradient(139deg, #1d6aa9 0%, #3b9fe0 49%, #60c3f7 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .dm-contact-hero-title {
-            font-size: 56px;
-            font-weight: 700;
-            color: #fff;
-            line-height: 1.2;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 991px) {
-            .dm-contact-hero-title {
-                font-size: 40px;
-            }
-        }
-
         @media (max-width: 767px) {
-            .dm-contact-hero {
-                padding: 160px 0 80px;
-            }
-            .dm-contact-hero-title {
-                font-size: 32px;
-            }
+            .dm-contact-hero { padding: 150px 0 80px; }
         }
-
-        .dm-contact-hero-text {
+        .dm-contact-hero-desc {
             font-size: 18px;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-            max-width: 600px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.7;
+            max-width: 520px;
+        }
+        @media (max-width: 767px) {
+            .dm-contact-hero-desc { font-size: 16px; }
         }
 
-        /* Contact info cards */
-        .dm-contact-info-area {
-            padding: 80px 0 40px;
-            background: #f8f9fa;
+        .dm-contact-info-strip {
+            border-bottom: 1px solid var(--tp-border-1);
         }
-
-        .dm-contact-info-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            height: 100%;
+        .dm-contact-info-item {
+            padding: 50px 0;
+            border-right: 1px solid var(--tp-border-1);
         }
-
-        .dm-contact-info-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-            border-color: rgba(59, 159, 224, 0.2);
+        .dm-contact-info-item:last-child { border-right: none; }
+        @media (max-width: 991px) {
+            .dm-contact-info-item { border-right: none; border-bottom: 1px solid var(--tp-border-1); }
+            .dm-contact-info-item:last-child { border-bottom: none; }
         }
-
-        .dm-contact-info-icon {
-            width: 70px;
-            height: 70px;
+        .dm-contact-info-item .icon {
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #0f2b5c 0%, #1d6aa9 100%);
-            display: flex;
+            border: 1px solid var(--tp-border-1);
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 24px;
-            transition: all 0.4s ease;
-        }
-
-        .dm-contact-info-card:hover .dm-contact-info-icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .dm-contact-info-icon i {
-            font-size: 24px;
-            color: #fff;
-        }
-
-        .dm-contact-info-card h4 {
-            font-size: 20px;
-            font-weight: 600;
-            color: #141414;
-            margin-bottom: 12px;
-        }
-
-        .dm-contact-info-card p,
-        .dm-contact-info-card a {
-            font-size: 15px;
-            color: #666;
-            line-height: 1.6;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .dm-contact-info-card a:hover {
-            color: #1d6aa9;
-        }
-
-        /* Form section */
-        .dm-contact-form-area {
-            padding: 80px 0 120px;
-            background: #f8f9fa;
-        }
-
-        .dm-contact-form-wrapper {
-            background: #fff;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 10px 60px rgba(0, 0, 0, 0.06);
-        }
-
-        .dm-contact-form-left {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1b1b2f 50%, #0f2b5c 100%);
-            padding: 60px 50px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .dm-contact-form-left::before {
-            content: '';
-            position: absolute;
-            top: -30%;
-            right: -30%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(59, 159, 224, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .dm-contact-form-left h3 {
-            font-size: 36px;
-            font-weight: 700;
-            color: #fff;
             margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
+            color: var(--tp-common-black);
+            font-size: 18px;
+            transition: all 0.3s ease;
         }
-
-        .dm-contact-form-left p {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.7;
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 1;
+        .dm-contact-info-item:hover .icon {
+            background: var(--tp-common-black);
+            color: #fff;
+            border-color: var(--tp-common-black);
         }
-
-        .dm-contact-left-info {
-            position: relative;
-            z-index: 1;
-        }
-
-        .dm-contact-left-info-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            margin-bottom: 28px;
-        }
-
-        .dm-contact-left-info-item i {
-            font-size: 20px;
-            color: #3b9fe0;
-            margin-top: 3px;
-            flex-shrink: 0;
-        }
-
-        .dm-contact-left-info-item span {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.5;
-        }
-
-        .dm-contact-left-info-item a {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .dm-contact-left-info-item a:hover {
-            color: #3b9fe0;
-        }
-
-        @media (max-width: 991px) {
-            .dm-contact-form-left {
-                padding: 40px 30px;
-            }
-            .dm-contact-form-left h3 {
-                font-size: 28px;
-            }
-        }
-
-        /* Form right side */
-        .dm-contact-form-right {
-            padding: 60px 50px;
-        }
-
-        @media (max-width: 991px) {
-            .dm-contact-form-right {
-                padding: 40px 30px;
-            }
-        }
-
-        .dm-contact-form-right h4 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #141414;
-            margin-bottom: 8px;
-        }
-
-        .dm-contact-form-right > p {
-            font-size: 15px;
-            color: #666;
-            margin-bottom: 35px;
-        }
-
-        .dm-form-group {
-            margin-bottom: 24px;
-            position: relative;
-        }
-
-        .dm-form-group label {
+        .dm-contact-info-item h5 {
             font-size: 14px;
             font-weight: 600;
-            color: #141414;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(0,0,0,0.4);
             margin-bottom: 10px;
-            display: block;
-            transition: color 0.3s ease;
+            font-family: var(--tp-ff-onest);
+        }
+        .dm-contact-info-item p,
+        .dm-contact-info-item a {
+            font-size: 16px;
+            color: var(--tp-common-black);
+            line-height: 1.6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .dm-contact-info-item a:hover { opacity: 0.6; }
+
+        /* Form section */
+        .dm-contact-form-section { padding: 120px 0; }
+        @media (max-width: 767px) { .dm-contact-form-section { padding: 80px 0; } }
+
+        .dm-contact-form-section .section-label {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(0,0,0,0.4);
+            margin-bottom: 16px;
+            font-family: var(--tp-ff-onest);
         }
 
+        .dm-form-group { margin-bottom: 28px; }
+        .dm-form-group label {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--tp-common-black);
+            margin-bottom: 10px;
+            display: block;
+        }
         .dm-form-group input,
         .dm-form-group textarea {
             width: 100%;
-            padding: 14px 18px;
-            font-size: 15px;
-            color: #141414;
-            background: #f8f8fb;
-            border: 1.5px solid #f8f8fb;
-            border-radius: 10px;
+            padding: 16px 0;
+            font-size: 16px;
+            color: var(--tp-common-black);
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--tp-border-1);
             outline: none;
-            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-            font-family: inherit;
+            transition: border-color 0.3s ease;
+            font-family: var(--tp-ff-onest);
         }
-
         .dm-form-group input:focus,
         .dm-form-group textarea:focus {
-            background: #fff;
-            border-color: #1d6aa9;
-            box-shadow: 0 0 0 3px rgba(29, 106, 169, 0.1);
+            border-color: var(--tp-common-black);
         }
-
+        .dm-form-group input::placeholder,
+        .dm-form-group textarea::placeholder {
+            color: rgba(0,0,0,0.3);
+        }
+        .dm-form-group textarea {
+            resize: none;
+            height: 120px;
+        }
         .dm-form-group input.input-error,
         .dm-form-group textarea.input-error {
             border-color: #e74c3c;
-            background: #fff5f5;
         }
-
-        .dm-form-group input.input-error:focus,
-        .dm-form-group textarea.input-error:focus {
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
-        }
-
-        .dm-form-group textarea {
-            resize: none;
-            height: 140px;
-        }
-
         .dm-field-error {
-            font-size: 12px;
+            font-size: 13px;
             color: #e74c3c;
             margin-top: 6px;
             display: none;
-            animation: slideDown 0.3s ease;
         }
+        .dm-field-error.visible { display: block; }
 
-        .dm-field-error.visible {
-            display: block;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Submit button */
-        .dm-contact-submit-btn {
-            width: 100%;
-            padding: 18px 40px;
-            font-size: 17px;
-            font-weight: 600;
-            color: #fff;
-            background: linear-gradient(135deg, #0f2b5c 0%, #1d6aa9 100%);
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-
-        .dm-contact-submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1d6aa9 0%, #3b9fe0 100%);
-            transition: left 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            z-index: 0;
-        }
-
-        .dm-contact-submit-btn:hover::before {
-            left: 0;
-        }
-
-        .dm-contact-submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(29, 106, 169, 0.3);
-        }
-
-        .dm-contact-submit-btn span {
-            position: relative;
-            z-index: 1;
+        .dm-submit-btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            padding: 20px 48px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            background: var(--tp-common-black);
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-family: var(--tp-ff-onest);
+            letter-spacing: -0.01em;
         }
-
-        .dm-contact-submit-btn:disabled {
-            opacity: 0.7;
+        .dm-submit-btn:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
+        .dm-submit-btn:disabled {
+            opacity: 0.5;
             cursor: not-allowed;
-            transform: none !important;
+            transform: none;
         }
-
-        .dm-contact-submit-btn:disabled::before {
+        .dm-submit-btn .spinner {
             display: none;
-        }
-
-        .dm-contact-submit-btn:disabled:hover {
-            box-shadow: none;
-        }
-
-        /* Spinner */
-        .dm-btn-spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            width: 18px; height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
             border-top-color: #fff;
             border-radius: 50%;
-            animation: spin 0.7s linear infinite;
+            animation: dm-spin 0.6s linear infinite;
         }
+        .dm-submit-btn.loading .spinner { display: inline-block; }
+        .dm-submit-btn.loading .btn-label { display: none; }
+        .dm-submit-btn.loading .btn-loading { display: inline; }
+        .dm-submit-btn .btn-loading { display: none; }
+        @keyframes dm-spin { to { transform: rotate(360deg); } }
 
-        .dm-contact-submit-btn.loading .dm-btn-spinner {
-            display: inline-block;
-        }
-
-        .dm-contact-submit-btn.loading .dm-btn-text {
-            display: none;
-        }
-
-        .dm-contact-submit-btn.loading .dm-btn-loading-text {
-            display: inline;
-        }
-
-        .dm-btn-loading-text {
-            display: none;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Response messages */
         .dm-form-response {
-            margin-top: 20px;
+            margin-top: 24px;
             padding: 16px 20px;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 15px;
-            font-weight: 500;
             display: none;
-            animation: fadeInUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-
-        .dm-form-response.visible {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .dm-form-response.visible { display: block; }
         .dm-form-response.success {
             background: #f0fdf4;
             color: #166534;
             border: 1px solid #bbf7d0;
         }
-
         .dm-form-response.error {
             background: #fef2f2;
             color: #991b1b;
             border: 1px solid #fecaca;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Map section */
-        .dm-contact-map-area {
-            position: relative;
-        }
-
-        .dm-contact-map-area iframe {
+        .dm-contact-map iframe {
             width: 100%;
-            height: 400px;
+            height: 450px;
             border: 0;
-            filter: grayscale(30%);
-            transition: filter 0.4s ease;
+            filter: grayscale(100%);
+            transition: filter 0.6s ease;
         }
-
-        .dm-contact-map-area iframe:hover {
-            filter: grayscale(0%);
-        }
-
-        /* Stagger animation utility */
-        .dm-stagger-item {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-
-        .dm-stagger-item.animated {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .dm-contact-map iframe:hover { filter: grayscale(0%); }
     </style>
 
 </head>
@@ -525,7 +224,6 @@
     <div id="magic-cursor" class="cursor-white-bg">
         <div id="ball"></div>
     </div>
-    <!-- End magic cursor -->
 
     <!-- preloader -->
     <div id="preloader">
@@ -534,20 +232,17 @@
             <span></span>
         </div>
     </div>
-    <!-- preloader end -->
 
     <!-- back to top start -->
     <div class="back-to-top-wrapper">
         <button id="back_to_top" type="button" class="back-to-top-btn">
             <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11 6L6 1L1 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                    stroke-linejoin="round" />
+                <path d="M11 6L6 1L1 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </button>
     </div>
-    <!-- back to top end -->
 
-    <!-- offcanvas start here -->
+    <!-- offcanvas -->
     <div class="tp-offcanvas-area">
         <div class="tp-offcanvas-wrapper @@class">
             <div class="tp-offcanvas-top d-flex align-items-center justify-content-between">
@@ -560,10 +255,8 @@
                 <div class="tp-offcanvas-close">
                     <button class="tp-offcanvas-close-btn">
                         <svg width="37" height="38" viewBox="0 0 37 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.19141 9.80762L27.5762 28.1924" stroke="currentColor" stroke-width="1.5"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M9.19141 28.1924L27.5762 9.80761" stroke="currentColor" stroke-width="1.5"
-                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9.19141 9.80762L27.5762 28.1924" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9.19141 28.1924L27.5762 9.80761" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </button>
                 </div>
@@ -588,7 +281,6 @@
         </div>
     </div>
     <div class="body-overlay"></div>
-    <!-- offcanvas end here -->
 
     <script src="assets/js/header.js"></script>
 
@@ -597,21 +289,19 @@
 
             <main>
 
-                <!-- hero area start -->
+                <!-- hero -->
                 <div class="dm-contact-hero">
                     <div class="container container-1230">
-                        <div class="row align-items-center">
-                            <div class="col-lg-7">
-                                <div class="tp_fade_anim" data-delay=".3">
-                                    <div class="dm-contact-hero-subtitle">Contact Us</div>
+                        <div class="row">
+                            <div class="col-xl-8">
+                                <div class="tp-section-subtitle-gradient ct mb-20 tp_fade_anim" data-delay=".3">
+                                    Contact Us
                                 </div>
-                                <h1 class="dm-contact-hero-title tp_fade_anim" data-delay=".5">
-                                    Let's Discuss!<br>
-                                    Ready to Elevate<br>
-                                    Your Business?
-                                </h1>
-                                <div class="tp_fade_anim" data-delay=".7">
-                                    <p class="dm-contact-hero-text">
+                                <h2 class="tp-section-title-onest fs-68 tp-text-revel-anim" style="color:#fff;">
+                                    Let's Discuss!<br>Ready to Elevate<br>Your Business?
+                                </h2>
+                                <div class="tp_text_anim mt-30">
+                                    <p class="dm-contact-hero-desc">
                                         Dev Mantra is here to help you take your organization to new heights.
                                         Contact us today to learn more about how our corporate governance services
                                         can support your mission. Together, we can create a lasting impact.
@@ -621,194 +311,140 @@
                         </div>
                     </div>
                 </div>
-                <!-- hero area end -->
 
-                <!-- contact info area start -->
-                <div class="dm-contact-info-area">
+                <!-- contact info strip -->
+                <div class="dm-contact-info-strip">
                     <div class="container container-1230">
-                        <div class="row g-4">
-                            <div class="col-lg-4 col-md-6">
-                                <div class="dm-contact-info-card dm-stagger-item">
-                                    <div class="dm-contact-info-icon">
-                                        <i class="fa-solid fa-phone"></i>
-                                    </div>
-                                    <h4>Call Us</h4>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="dm-contact-info-item tp_fade_anim" data-delay=".3">
+                                    <div class="icon"><i class="fa-solid fa-phone"></i></div>
+                                    <h5>Call Us</h5>
                                     <a href="tel:+918042061247">+91-8042061247</a>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div class="dm-contact-info-card dm-stagger-item">
-                                    <div class="dm-contact-info-icon">
-                                        <i class="fa-solid fa-envelope"></i>
-                                    </div>
-                                    <h4>Email Us</h4>
+                            <div class="col-lg-4">
+                                <div class="dm-contact-info-item tp_fade_anim" data-delay=".5">
+                                    <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+                                    <h5>Email Us</h5>
                                     <a href="mailto:support@devmantra.com">support@devmantra.com</a>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-12">
-                                <div class="dm-contact-info-card dm-stagger-item">
-                                    <div class="dm-contact-info-icon">
-                                        <i class="fa-solid fa-location-dot"></i>
-                                    </div>
-                                    <h4>Visit Us</h4>
-                                    <p>NO.85/1, 2ND FLOOR, 10TH CROSS<br>CBI ROAD, GANGANAGAR<br>BENGALURU 560024</p>
+                            <div class="col-lg-4">
+                                <div class="dm-contact-info-item tp_fade_anim" data-delay=".7">
+                                    <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                                    <h5>Visit Us</h5>
+                                    <p>NO.85/1, 2ND FLOOR, 10TH CROSS<br>CBI ROAD, GANGANAGAR, BENGALURU 560024</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- contact info area end -->
 
-                <!-- contact form area start -->
-                <div class="dm-contact-form-area">
+                <!-- form section -->
+                <div class="dm-contact-form-section">
                     <div class="container container-1230">
-                        <div class="dm-contact-form-wrapper dm-stagger-item">
-                            <div class="row g-0">
-                                <div class="col-lg-5">
-                                    <div class="dm-contact-form-left">
-                                        <h3 class="tp_fade_anim" data-delay=".3">Get in Touch</h3>
-                                        <p class="tp_fade_anim" data-delay=".5">Have a question or want to work together?
-                                            Fill out the form and we'll get back to you within 24 hours.</p>
-
-                                        <div class="dm-contact-left-info tp_fade_anim" data-delay=".7">
-                                            <div class="dm-contact-left-info-item">
-                                                <i class="fa-solid fa-phone"></i>
-                                                <a href="tel:+918042061247">+91-8042061247</a>
-                                            </div>
-                                            <div class="dm-contact-left-info-item">
-                                                <i class="fa-solid fa-envelope"></i>
-                                                <a href="mailto:support@devmantra.com">support@devmantra.com</a>
-                                            </div>
-                                            <div class="dm-contact-left-info-item">
-                                                <i class="fa-solid fa-location-dot"></i>
-                                                <span>NO.85/1, 2ND FLOOR, 10TH CROSS CBI ROAD, GANGANAGAR BENGALURU 560024</span>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="pr-lg-4">
+                                    <div class="section-label tp_fade_anim" data-delay=".3">Get in Touch</div>
+                                    <h3 class="tp-section-title-onest tp-text-revel-anim" style="color:var(--tp-common-black);">
+                                        Send us a<br>message
+                                    </h3>
+                                    <div class="tp_text_anim mt-20 mb-40">
+                                        <p style="color:rgba(0,0,0,0.5); font-size:16px; line-height:1.7;">
+                                            Have a question or want to work together? Fill out the form and
+                                            we'll get back to you within 24 hours.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <form id="dm-contact-form" novalidate>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="dm-form-group tp_fade_anim" data-delay=".4">
+                                                <label for="dm-name">Full Name *</label>
+                                                <input type="text" id="dm-name" name="name" placeholder="Your full name" required>
+                                                <div class="dm-field-error" id="dm-name-error"></div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-7">
-                                    <div class="dm-contact-form-right">
-                                        <h4 class="tp_fade_anim" data-delay=".3">Send a Message</h4>
-                                        <p class="tp_fade_anim" data-delay=".5">Fill in the details below and we will reach out to you.</p>
-
-                                        <form id="dm-contact-form" novalidate>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="dm-form-group tp_fade_anim" data-delay=".5">
-                                                        <label for="dm-name">Full Name <span style="color:#e74c3c;">*</span></label>
-                                                        <input type="text" id="dm-name" name="name" placeholder="Your full name" required>
-                                                        <div class="dm-field-error" id="dm-name-error">Please enter your full name.</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="dm-form-group tp_fade_anim" data-delay=".6">
-                                                        <label for="dm-email">Email Address <span style="color:#e74c3c;">*</span></label>
-                                                        <input type="email" id="dm-email" name="email" placeholder="your@email.com" required>
-                                                        <div class="dm-field-error" id="dm-email-error">Please enter a valid email address.</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="dm-form-group tp_fade_anim" data-delay=".7">
-                                                        <label for="dm-mobile">Mobile Number <span style="color:#e74c3c;">*</span></label>
-                                                        <input type="tel" id="dm-mobile" name="mobile" placeholder="+91 XXXXX XXXXX" required>
-                                                        <div class="dm-field-error" id="dm-mobile-error">Please enter a valid mobile number.</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="dm-form-group tp_fade_anim" data-delay=".8">
-                                                        <label for="dm-message">Message <span style="color:#e74c3c;">*</span></label>
-                                                        <textarea id="dm-message" name="message" placeholder="Tell us about your requirements..." required></textarea>
-                                                        <div class="dm-field-error" id="dm-message-error">Please enter your message.</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12 tp_fade_anim" data-delay=".9">
-                                                    <button type="submit" class="dm-contact-submit-btn" id="dm-submit-btn">
-                                                        <span>
-                                                            <span class="dm-btn-text">Send Message <i class="fa-solid fa-paper-plane"></i></span>
-                                                            <span class="dm-btn-loading-text">Sending...</span>
-                                                            <span class="dm-btn-spinner"></span>
-                                                        </span>
-                                                    </button>
-                                                    <div class="dm-form-response" id="dm-form-response"></div>
-                                                </div>
+                                        <div class="col-md-6">
+                                            <div class="dm-form-group tp_fade_anim" data-delay=".5">
+                                                <label for="dm-email">Email Address *</label>
+                                                <input type="email" id="dm-email" name="email" placeholder="your@email.com" required>
+                                                <div class="dm-field-error" id="dm-email-error"></div>
                                             </div>
-                                        </form>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="dm-form-group tp_fade_anim" data-delay=".6">
+                                                <label for="dm-mobile">Mobile Number *</label>
+                                                <input type="tel" id="dm-mobile" name="mobile" placeholder="+91 XXXXX XXXXX" required>
+                                                <div class="dm-field-error" id="dm-mobile-error"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="dm-form-group tp_fade_anim" data-delay=".7">
+                                                <label for="dm-message">Message *</label>
+                                                <textarea id="dm-message" name="message" placeholder="Tell us about your requirements..." required></textarea>
+                                                <div class="dm-field-error" id="dm-message-error"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 tp_fade_anim" data-delay=".8">
+                                            <button type="submit" class="dm-submit-btn" id="dm-submit-btn">
+                                                <span class="btn-label">Send Message</span>
+                                                <span class="btn-loading">Sending...</span>
+                                                <span class="spinner"></span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" viewBox="0 0 15 12" fill="none">
+                                                    <path d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z" fill="currentColor"></path>
+                                                </svg>
+                                            </button>
+                                            <div class="dm-form-response" id="dm-form-response"></div>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- contact form area end -->
 
-                <!-- map area start -->
-                <div class="dm-contact-map-area dm-stagger-item">
+                <!-- map -->
+                <div class="dm-contact-map">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.3!2d77.58!3d13.01!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sGanganagar%2C+Bengaluru!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                         allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
-                <!-- map area end -->
 
             </main>
 
             <footer class="z-index-1 include-bg">
-
                 <div class="cr-footer-bg">
                     <img src="assets/img/home-13/footer/cr-footer-bg.png" alt="">
                 </div>
-                <!-- footer area start -->
                 <div class="dgm-footer-area cr-footer-area pb-60">
                     <div class="container container-1230">
-                        <div class="cr-footer-border-wrap pt-140 ">
+                        <div class="cr-footer-border-wrap pt-140">
                             <div class="cr-footer-inner-warp z-index-1">
                                 <div class="row">
-                                    <!-- Column 1 -->
                                     <div class="col-xl-4 col-lg-4 col-md-6 mb-40 tp_fade_anim" data-delay=".3">
                                         <div class="dgm-footer-widget cr-footer-col-1 z-index-1">
                                             <div class="dgm-footer-logo mb-20">
-                                                <a href="index.html"><img style="border-radius: 20px;"
-                                                        data-width="160px" src="assets/img/logo/logo.jpeg" alt=""></a>
+                                                <a href="index.html"><img style="border-radius: 20px;" data-width="160px" src="assets/img/logo/logo.jpeg" alt=""></a>
                                             </div>
                                             <div class="dgm-footer-widget-paragraph mb-30">
-                                                <p>Dev Mantra is a strategic partner in progress for businesses
-                                                    operating in a global and digital economy.</p>
+                                                <p>Dev Mantra is a strategic partner in progress for businesses operating in a global and digital economy.</p>
                                             </div>
-
                                             <div class="cr-footer-widget-social mb-35">
                                                 <div class="tp-footer-widget-social">
-                                                    <a href="javascript:void(0)" aria-label="Facebook">
-                                                        <span><i class="fa-brands fa-facebook-f"></i></span>
-                                                    </a>
-                                                    <a href="javascript:void(0)" aria-label="X">
-                                                        <span><i class="fa-brands fa-x-twitter"></i></span>
-                                                    </a>
-                                                    <a href="javascript:void(0)" aria-label="Website">
-                                                        <span><i class="fa-solid fa-globe"></i></span>
-                                                    </a>
-                                                    <a href="javascript:void(0)" aria-label="Instagram">
-                                                        <span><i class="fa-brands fa-instagram"></i></span>
-                                                    </a>
-                                                </div>
-                                            </div>
-
-                                            <div class="app-footer-rating">
-                                                <div class="app-hero-bottom-rating">
-                                                    <div class="app-hero-bottom-rating-point">
-                                                        <span>4.8</span>
-                                                    </div>
-                                                    <div class="app-hero-bottom-rating-star">
-                                                        <div class="app-hero-bottom-rating-stars">
-                                                        </div>
-                                                        <a class="tp-line-white" href="javascript:void(0)">Based on 204
-                                                            Reviews</a>
-                                                    </div>
+                                                    <a href="javascript:void(0)" aria-label="Facebook"><span><i class="fa-brands fa-facebook-f"></i></span></a>
+                                                    <a href="javascript:void(0)" aria-label="X"><span><i class="fa-brands fa-x-twitter"></i></span></a>
+                                                    <a href="javascript:void(0)" aria-label="Website"><span><i class="fa-solid fa-globe"></i></span></a>
+                                                    <a href="javascript:void(0)" aria-label="Instagram"><span><i class="fa-brands fa-instagram"></i></span></a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- Column 2: Quick Links -->
                                     <div class="col-xl-3 col-lg-4 col-md-3 mb-40 tp_fade_anim" data-delay=".5">
                                         <div class="dgm-footer-widget app-footer-widget cr-footer-col-2">
                                             <h4 class="dgm-footer-widget-title">Quick Links</h4>
@@ -819,14 +455,11 @@
                                                     <li><a href="javascript:void(0)">Our Team</a></li>
                                                     <li><a href="javascript:void(0)">Careers</a></li>
                                                     <li><a href="contact.html">Contact Us</a></li>
-                                                    <li><a href="javascript:void(0)">Insights</a></li>
-                                                    <li><a href="javascript:void(0)">Privacy Policy</a></li>
+                                                    <li><a href="blog.html">Insights</a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- Column 3: Expertise -->
                                     <div class="col-xl-3 col-lg-4 col-md-3 mb-40 tp_fade_anim" data-delay=".7">
                                         <div class="dgm-footer-widget app-footer-widget cr-footer-col-3">
                                             <h4 class="dgm-footer-widget-title">Expertise</h4>
@@ -836,48 +469,33 @@
                                                     <li><a href="javascript:void(0)">Deals & Transaction Advisory</a></li>
                                                     <li><a href="javascript:void(0)">Finance & Compliance Outsourcing</a></li>
                                                     <li><a href="javascript:void(0)">Corporate Governance</a></li>
-                                                    <li><a href="javascript:void(0)">Business Setup & Startup Support</a></li>
-                                                    <li><a href="javascript:void(0)">GCC (Global Capability Centers)</a></li>
-                                                    <li><a href="javascript:void(0)">IPO Advisory</a></li>
-                                                    <li><a href="javascript:void(0)">M & A Advisory</a></li>
                                                     <li><a href="javascript:void(0)">Virtual CFO Services</a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- Column 4: Contact -->
                                     <div class="col-xl-2 col-lg-3 col-md-3 mb-40 tp_fade_anim" data-delay=".9">
                                         <div class="dgm-footer-widget app-footer-widget cr-footer-col-4">
                                             <h4 class="dgm-footer-widget-title">Contact</h4>
-
                                             <div class="app-footer-widget-info mb-20">
                                                 <div class="app-footer-widget-info-title">Call us</div>
                                                 <a class="tp-line-white" href="tel:+918042061247">+91-8042061247</a>
                                             </div>
-
                                             <div class="app-footer-widget-info mb-20">
                                                 <div class="app-footer-widget-info-title">Email</div>
-                                                <a class="tp-line-white"
-                                                    href="mailto:support@devmantra.com">support@devmantra.com</a>
+                                                <a class="tp-line-white" href="mailto:support@devmantra.com">support@devmantra.com</a>
                                             </div>
-
                                             <div class="app-footer-widget-info">
                                                 <div class="app-footer-widget-info-title">Address</div>
-                                                <a>NO.85/1, 2ND FLOOR, 10TH CROSS CBI ROAD, GANGANAGAR BENGALURU
-                                                    560024</a>
+                                                <a>NO.85/1, 2ND FLOOR, 10TH CROSS CBI ROAD, GANGANAGAR BENGALURU 560024</a>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- footer area end -->
-
-                <!-- copyright area start -->
                 <div class="tp-copyright-2-area tp-copyright-2-border cr-copyright-border">
                     <div class="container container-1430">
                         <div class="row align-items-center">
@@ -889,16 +507,11 @@
                         </div>
                     </div>
                 </div>
-                <!-- copyright area end -->
-
             </footer>
 
         </div>
     </div>
 
-
-
-    <!-- JS here -->
     <script src="assets/js/vendor/jquery.js"></script>
     <script src="assets/js/bootstrap-bundle.js"></script>
     <script src="assets/js/swiper-bundle.js"></script>
@@ -926,280 +539,126 @@
     (function () {
         'use strict';
 
-        // ========== Stagger animation on scroll ==========
-        var staggerItems = document.querySelectorAll('.dm-stagger-item');
-        var staggerObserver = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry, i) {
-                if (entry.isIntersecting) {
-                    setTimeout(function () {
-                        entry.target.classList.add('animated');
-                    }, i * 150);
-                    staggerObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
-
-        staggerItems.forEach(function (item) {
-            staggerObserver.observe(item);
-        });
-
-        // ========== Dummy mobile number patterns ==========
         var dummyPatterns = [
-            /^(\d)\1{9}$/,                          // 1111111111, 0000000000
+            /^(\d)\1{9}$/,
             /^1234567890$/,
             /^0123456789$/,
             /^9876543210$/,
-            /^0987654321$/,
-            /^12345\d{5}$/,                          // 12345xxxxx
-            /^(\d)\1{4}(\d)\2{4}$/,                  // 11111 22222
-            /^1234512345$/,
-            /^0000000000$/,
-            /^9999999999$/,
+            /^0987654321$/
         ];
 
         function isDummyNumber(num) {
             var cleaned = num.replace(/[\s\-\+\(\)]/g, '');
-            // Strip country code prefix if present
-            if (cleaned.length > 10 && cleaned.charAt(0) === '9' && cleaned.charAt(1) === '1') {
-                cleaned = cleaned.substring(2);
-            }
-            if (cleaned.length > 10 && cleaned.substring(0, 2) === '91') {
-                cleaned = cleaned.substring(2);
-            }
+            if (cleaned.length > 10) cleaned = cleaned.replace(/^91/, '');
             for (var i = 0; i < dummyPatterns.length; i++) {
-                if (dummyPatterns[i].test(cleaned)) {
-                    return true;
-                }
+                if (dummyPatterns[i].test(cleaned)) return true;
             }
-            // Check sequential ascending
+            var isSeqAsc = true, isSeqDesc = true;
             if (cleaned.length >= 10) {
-                var isSequentialAsc = true;
-                var isSequentialDesc = true;
                 for (var j = 1; j < cleaned.length; j++) {
-                    if (parseInt(cleaned[j]) !== (parseInt(cleaned[j - 1]) + 1) % 10) {
-                        isSequentialAsc = false;
-                    }
-                    if (parseInt(cleaned[j]) !== (parseInt(cleaned[j - 1]) - 1 + 10) % 10) {
-                        isSequentialDesc = false;
-                    }
+                    if (parseInt(cleaned[j]) !== (parseInt(cleaned[j-1]) + 1) % 10) isSeqAsc = false;
+                    if (parseInt(cleaned[j]) !== (parseInt(cleaned[j-1]) - 1 + 10) % 10) isSeqDesc = false;
                 }
-                if (isSequentialAsc || isSequentialDesc) return true;
+                if (isSeqAsc || isSeqDesc) return true;
             }
             return false;
         }
 
         function isValidMobile(num) {
             var cleaned = num.replace(/[\s\-\+\(\)]/g, '');
-            // Allow 10 digit or with 91 prefix (12 digits)
-            if (/^91\d{10}$/.test(cleaned)) return true;
-            if (/^\d{10}$/.test(cleaned)) return true;
-            return false;
+            return /^91\d{10}$/.test(cleaned) || /^\d{10}$/.test(cleaned);
         }
 
         function isValidEmail(email) {
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         }
 
-        // ========== Field helpers ==========
-        function showFieldError(fieldId, errorId, message) {
-            var field = document.getElementById(fieldId);
-            var error = document.getElementById(errorId);
-            field.classList.add('input-error');
-            if (message) error.textContent = message;
-            error.classList.add('visible');
+        function showErr(fid, eid, msg) {
+            document.getElementById(fid).classList.add('input-error');
+            var e = document.getElementById(eid); e.textContent = msg; e.classList.add('visible');
+        }
+        function clearErr(fid, eid) {
+            document.getElementById(fid).classList.remove('input-error');
+            document.getElementById(eid).classList.remove('visible');
         }
 
-        function clearFieldError(fieldId, errorId) {
-            var field = document.getElementById(fieldId);
-            var error = document.getElementById(errorId);
-            field.classList.remove('input-error');
-            error.classList.remove('visible');
-        }
+        var nameEl = document.getElementById('dm-name');
+        var emailEl = document.getElementById('dm-email');
+        var mobileEl = document.getElementById('dm-mobile');
+        var msgEl = document.getElementById('dm-message');
 
-        // ========== Real-time validation on blur ==========
-        var nameInput = document.getElementById('dm-name');
-        var emailInput = document.getElementById('dm-email');
-        var mobileInput = document.getElementById('dm-mobile');
-        var messageInput = document.getElementById('dm-message');
+        nameEl.addEventListener('blur', function() { if(!this.value.trim()) showErr('dm-name','dm-name-error','Please enter your full name.'); else clearErr('dm-name','dm-name-error'); });
+        nameEl.addEventListener('input', function() { if(this.value.trim()) clearErr('dm-name','dm-name-error'); });
 
-        nameInput.addEventListener('blur', function () {
-            if (!this.value.trim()) {
-                showFieldError('dm-name', 'dm-name-error', 'Please enter your full name.');
-            } else {
-                clearFieldError('dm-name', 'dm-name-error');
-            }
+        emailEl.addEventListener('blur', function() {
+            if(!this.value.trim()) showErr('dm-email','dm-email-error','Email address is required.');
+            else if(!isValidEmail(this.value.trim())) showErr('dm-email','dm-email-error','Please enter a valid email address.');
+            else clearErr('dm-email','dm-email-error');
         });
+        emailEl.addEventListener('input', function() { if(this.value.trim() && isValidEmail(this.value.trim())) clearErr('dm-email','dm-email-error'); });
 
-        nameInput.addEventListener('input', function () {
-            if (this.value.trim()) clearFieldError('dm-name', 'dm-name-error');
+        mobileEl.addEventListener('blur', function() {
+            var v = this.value.trim();
+            if(!v) showErr('dm-mobile','dm-mobile-error','Mobile number is required.');
+            else if(!isValidMobile(v)) showErr('dm-mobile','dm-mobile-error','Please enter a valid 10-digit mobile number.');
+            else if(isDummyNumber(v)) showErr('dm-mobile','dm-mobile-error','Please enter a real mobile number.');
+            else clearErr('dm-mobile','dm-mobile-error');
         });
+        mobileEl.addEventListener('input', function() { var v=this.value.trim(); if(v && isValidMobile(v) && !isDummyNumber(v)) clearErr('dm-mobile','dm-mobile-error'); });
 
-        emailInput.addEventListener('blur', function () {
-            if (!this.value.trim()) {
-                showFieldError('dm-email', 'dm-email-error', 'Email address is required.');
-            } else if (!isValidEmail(this.value.trim())) {
-                showFieldError('dm-email', 'dm-email-error', 'Please enter a valid email address.');
-            } else {
-                clearFieldError('dm-email', 'dm-email-error');
-            }
-        });
+        msgEl.addEventListener('blur', function() { if(!this.value.trim()) showErr('dm-message','dm-message-error','Please enter your message.'); else clearErr('dm-message','dm-message-error'); });
+        msgEl.addEventListener('input', function() { if(this.value.trim()) clearErr('dm-message','dm-message-error'); });
 
-        emailInput.addEventListener('input', function () {
-            if (this.value.trim() && isValidEmail(this.value.trim())) {
-                clearFieldError('dm-email', 'dm-email-error');
-            }
-        });
-
-        mobileInput.addEventListener('blur', function () {
-            var val = this.value.trim();
-            if (!val) {
-                showFieldError('dm-mobile', 'dm-mobile-error', 'Mobile number is required.');
-            } else if (!isValidMobile(val)) {
-                showFieldError('dm-mobile', 'dm-mobile-error', 'Please enter a valid 10-digit mobile number.');
-            } else if (isDummyNumber(val)) {
-                showFieldError('dm-mobile', 'dm-mobile-error', 'Please enter a real mobile number, not a dummy/test number.');
-            } else {
-                clearFieldError('dm-mobile', 'dm-mobile-error');
-            }
-        });
-
-        mobileInput.addEventListener('input', function () {
-            var val = this.value.trim();
-            if (val && isValidMobile(val) && !isDummyNumber(val)) {
-                clearFieldError('dm-mobile', 'dm-mobile-error');
-            }
-        });
-
-        messageInput.addEventListener('blur', function () {
-            if (!this.value.trim()) {
-                showFieldError('dm-message', 'dm-message-error', 'Please enter your message.');
-            } else {
-                clearFieldError('dm-message', 'dm-message-error');
-            }
-        });
-
-        messageInput.addEventListener('input', function () {
-            if (this.value.trim()) clearFieldError('dm-message', 'dm-message-error');
-        });
-
-        // ========== Form submission ==========
         var form = document.getElementById('dm-contact-form');
-        var submitBtn = document.getElementById('dm-submit-btn');
-        var responseDiv = document.getElementById('dm-form-response');
+        var btn = document.getElementById('dm-submit-btn');
+        var resp = document.getElementById('dm-form-response');
 
-        form.addEventListener('submit', function (e) {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
+            resp.classList.remove('visible','success','error');
+            resp.innerHTML = '';
 
-            // Reset response
-            responseDiv.classList.remove('visible', 'success', 'error');
-            responseDiv.innerHTML = '';
-
-            // Validate all fields
             var valid = true;
-            var nameVal = nameInput.value.trim();
-            var emailVal = emailInput.value.trim();
-            var mobileVal = mobileInput.value.trim();
-            var messageVal = messageInput.value.trim();
+            var nv=nameEl.value.trim(), ev=emailEl.value.trim(), mv=mobileEl.value.trim(), msv=msgEl.value.trim();
 
-            if (!nameVal) {
-                showFieldError('dm-name', 'dm-name-error', 'Please enter your full name.');
-                valid = false;
-            } else {
-                clearFieldError('dm-name', 'dm-name-error');
-            }
+            if(!nv) { showErr('dm-name','dm-name-error','Please enter your full name.'); valid=false; } else clearErr('dm-name','dm-name-error');
+            if(!ev) { showErr('dm-email','dm-email-error','Email address is required.'); valid=false; }
+            else if(!isValidEmail(ev)) { showErr('dm-email','dm-email-error','Please enter a valid email address.'); valid=false; }
+            else clearErr('dm-email','dm-email-error');
+            if(!mv) { showErr('dm-mobile','dm-mobile-error','Mobile number is required.'); valid=false; }
+            else if(!isValidMobile(mv)) { showErr('dm-mobile','dm-mobile-error','Please enter a valid 10-digit mobile number.'); valid=false; }
+            else if(isDummyNumber(mv)) { showErr('dm-mobile','dm-mobile-error','Please enter a real mobile number.'); valid=false; }
+            else clearErr('dm-mobile','dm-mobile-error');
+            if(!msv) { showErr('dm-message','dm-message-error','Please enter your message.'); valid=false; } else clearErr('dm-message','dm-message-error');
 
-            if (!emailVal) {
-                showFieldError('dm-email', 'dm-email-error', 'Email address is required.');
-                valid = false;
-            } else if (!isValidEmail(emailVal)) {
-                showFieldError('dm-email', 'dm-email-error', 'Please enter a valid email address.');
-                valid = false;
-            } else {
-                clearFieldError('dm-email', 'dm-email-error');
-            }
+            if(!valid) { var fe=form.querySelector('.input-error'); if(fe){fe.scrollIntoView({behavior:'smooth',block:'center'});fe.focus();} return; }
 
-            if (!mobileVal) {
-                showFieldError('dm-mobile', 'dm-mobile-error', 'Mobile number is required.');
-                valid = false;
-            } else if (!isValidMobile(mobileVal)) {
-                showFieldError('dm-mobile', 'dm-mobile-error', 'Please enter a valid 10-digit mobile number.');
-                valid = false;
-            } else if (isDummyNumber(mobileVal)) {
-                showFieldError('dm-mobile', 'dm-mobile-error', 'Please enter a real mobile number, not a dummy/test number.');
-                valid = false;
-            } else {
-                clearFieldError('dm-mobile', 'dm-mobile-error');
-            }
-
-            if (!messageVal) {
-                showFieldError('dm-message', 'dm-message-error', 'Please enter your message.');
-                valid = false;
-            } else {
-                clearFieldError('dm-message', 'dm-message-error');
-            }
-
-            if (!valid) {
-                // Scroll to first error
-                var firstError = form.querySelector('.input-error');
-                if (firstError) {
-                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    firstError.focus();
-                }
-                return;
-            }
-
-            // Disable button & show loading state
-            submitBtn.disabled = true;
-            submitBtn.classList.add('loading');
-
-            var payload = {
-                name: nameVal,
-                email: emailVal,
-                mobile: mobileVal,
-                message: messageVal
-            };
+            btn.disabled = true;
+            btn.classList.add('loading');
 
             fetch('https://forms.celiyo.com/api/forms/submit/1a3fd24a-8af6-4c79-8f1d-edbf500301c8', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name:nv, email:ev, mobile:mv, message:msv })
             })
-            .then(function (response) {
-                if (response.ok || response.status === 200 || response.status === 201) {
-                    return response.json().then(function (data) {
-                        return { success: true, data: data };
-                    }).catch(function () {
-                        return { success: true, data: null };
-                    });
-                } else {
-                    return response.text().then(function (text) {
-                        throw new Error('Server returned status ' + response.status + '. Please try again.');
-                    });
-                }
+            .then(function(r) {
+                if(r.ok || r.status===200 || r.status===201) {
+                    return r.json().then(function(d){return{success:true};}).catch(function(){return{success:true};});
+                } else { throw new Error('Server returned status ' + r.status); }
             })
-            .then(function (result) {
-                if (result.success) {
-                    responseDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> Thank you! Your message has been sent successfully. We\'ll get back to you soon.';
-                    responseDiv.classList.add('visible', 'success');
-                    form.reset();
-                    // Keep button disabled to prevent duplicate submissions
-                    submitBtn.classList.remove('loading');
-                    submitBtn.innerHTML = '<span><span class="dm-btn-text"><i class="fa-solid fa-check"></i> Message Sent</span></span>';
-
-                    // Re-enable after 10 seconds for another submission
-                    setTimeout(function () {
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = '<span><span class="dm-btn-text">Send Message <i class="fa-solid fa-paper-plane"></i></span><span class="dm-btn-loading-text">Sending...</span><span class="dm-btn-spinner"></span></span>';
-                    }, 10000);
-                }
+            .then(function(res) {
+                resp.textContent = 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.';
+                resp.classList.add('visible','success');
+                form.reset();
+                btn.classList.remove('loading');
+                btn.querySelector('.btn-label').textContent = 'Message Sent';
+                setTimeout(function() { btn.disabled=false; btn.querySelector('.btn-label').textContent='Send Message'; }, 10000);
             })
-            .catch(function (err) {
-                responseDiv.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> ' + (err.message || 'Something went wrong. Please try again later.');
-                responseDiv.classList.add('visible', 'error');
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('loading');
+            .catch(function(err) {
+                resp.textContent = err.message || 'Something went wrong. Please try again.';
+                resp.classList.add('visible','error');
+                btn.disabled = false;
+                btn.classList.remove('loading');
             });
         });
     })();

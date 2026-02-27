@@ -11,6 +11,65 @@
   var basePath =
     pathAttr && pathAttr !== "." ? pathAttr.replace(/\/$/, "") + "/" : "";
 
+  var headerCSS = `
+    <style>
+        .tp-header-menu > nav > ul {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+        .tp-header-menu > nav > ul > li {
+            flex-shrink: 0;
+        }
+        @media (min-width: 1200px) and (max-width: 1399px) {
+            .tp-header-menu > nav > ul > li {
+                margin: 0 10px;
+            }
+            .tp-header-menu > nav > ul > li > a {
+                font-size: 15px;
+            }
+            .tp-header-btn-box .tp-btn-white-border {
+                font-size: 13px;
+                padding: 10px 16px;
+            }
+            .tp-header-right .tp-header-btn-box.d-none.d-md-block.ml-15:last-of-type {
+                display: none !important;
+            }
+        }
+        @media (min-width: 1400px) and (max-width: 1599px) {
+            .tp-header-menu > nav > ul > li {
+                margin: 0 12px;
+            }
+            .tp-header-menu > nav > ul > li > a {
+                font-size: 15px;
+            }
+            .tp-header-btn-box .tp-btn-white-border {
+                font-size: 13px;
+                padding: 12px 18px;
+            }
+        }
+        @media (min-width: 1600px) {
+            .tp-header-menu > nav > ul > li {
+                margin: 0 16px;
+            }
+        }
+        @media (max-width: 1199px) {
+            .tp-header-right .tp-header-btn-box {
+                display: none !important;
+            }
+        }
+        @media (min-width: 768px) and (max-width: 1199px) {
+            .tp-header-right .tp-header-btn-box:first-of-type {
+                display: block !important;
+            }
+            .tp-header-right .tp-header-btn-box .tp-btn-white-border {
+                font-size: 13px;
+                padding: 10px 16px;
+            }
+        }
+    </style>
+    `;
+
   var headerHTML = `
     <header>
 
@@ -126,9 +185,8 @@
     </header>
     `;
 
+  // Inject responsive header styles
+  document.write(headerCSS);
   // Write the HTML directly into the document where the script is currently located.
-  // This executes synchronously when the script tag is parsed, making it behave identically
-  // to placing the HTML tag naturally in the source file, guaranteeing zero layout shift
-  // and full immediate availability to downstream scripts.
   document.write(headerHTML);
 })();
