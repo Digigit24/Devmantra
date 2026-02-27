@@ -1,0 +1,443 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Newsletter - Dev Mantra</title>
+    <meta name="description" content="Subscribe to Dev Mantra's newsletter for expert insights on corporate governance, financial advisory, and business strategy.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon/favicon.png">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/font-awesome-pro.css">
+    <link rel="stylesheet" href="assets/css/spacing.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        .dm-newsletter-hero {
+            background-color: #000;
+            padding: 200px 0 120px;
+            position: relative;
+            overflow: hidden;
+        }
+        @media (max-width: 767px) { .dm-newsletter-hero { padding: 150px 0 80px; } }
+        .dm-newsletter-hero-desc {
+            font-size: 18px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.7;
+            max-width: 520px;
+        }
+        @media (max-width: 767px) { .dm-newsletter-hero-desc { font-size: 16px; } }
+
+        .dm-newsletter-subscribe {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--tp-border-1);
+        }
+        @media (max-width: 767px) { .dm-newsletter-subscribe { padding: 60px 0; } }
+
+        .dm-newsletter-subscribe .section-label {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(0,0,0,0.4);
+            margin-bottom: 16px;
+            font-family: var(--tp-ff-onest);
+        }
+
+        .dm-subscribe-form {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+            max-width: 560px;
+        }
+        @media (max-width: 575px) {
+            .dm-subscribe-form { flex-direction: column; }
+        }
+        .dm-subscribe-form input {
+            flex: 1;
+            padding: 16px 0;
+            font-size: 16px;
+            color: var(--tp-common-black);
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--tp-border-1);
+            outline: none;
+            transition: border-color 0.3s ease;
+            font-family: var(--tp-ff-onest);
+        }
+        .dm-subscribe-form input:focus {
+            border-color: var(--tp-common-black);
+        }
+        .dm-subscribe-form input::placeholder {
+            color: rgba(0,0,0,0.3);
+        }
+        .dm-subscribe-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            background: var(--tp-common-black);
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-family: var(--tp-ff-onest);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .dm-subscribe-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+        .dm-subscribe-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .dm-subscribe-btn .spinner {
+            display: none;
+            width: 16px; height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: dm-spin 0.6s linear infinite;
+        }
+        .dm-subscribe-btn.loading .spinner { display: inline-block; }
+        .dm-subscribe-btn.loading .btn-label { display: none; }
+        .dm-subscribe-btn.loading .btn-loading { display: inline; }
+        .dm-subscribe-btn .btn-loading { display: none; }
+        @keyframes dm-spin { to { transform: rotate(360deg); } }
+
+        .dm-subscribe-response {
+            margin-top: 16px;
+            font-size: 14px;
+            display: none;
+        }
+        .dm-subscribe-response.visible { display: block; }
+        .dm-subscribe-response.success { color: #166534; }
+        .dm-subscribe-response.error { color: #991b1b; }
+
+        /* Topics section */
+        .dm-newsletter-topics { padding: 100px 0; }
+        @media (max-width: 767px) { .dm-newsletter-topics { padding: 60px 0; } }
+
+        .dm-topic-item {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--tp-border-1);
+            transition: padding-left 0.3s ease;
+        }
+        .dm-topic-item:first-child { border-top: 1px solid var(--tp-border-1); }
+        .dm-topic-item:hover { padding-left: 16px; }
+
+        .dm-topic-number {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(0,0,0,0.3);
+            font-family: var(--tp-ff-onest);
+        }
+        .dm-topic-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--tp-common-black);
+            margin-bottom: 8px;
+            font-family: var(--tp-ff-onest);
+        }
+        @media (max-width: 767px) { .dm-topic-title { font-size: 20px; } }
+        .dm-topic-desc {
+            font-size: 15px;
+            color: rgba(0,0,0,0.55);
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        /* Past editions */
+        .dm-past-editions {
+            padding: 100px 0;
+            border-top: 1px solid var(--tp-border-1);
+        }
+        @media (max-width: 767px) { .dm-past-editions { padding: 60px 0; } }
+
+        .dm-edition-card {
+            margin-bottom: 40px;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .dm-edition-card:hover { transform: translateY(-4px); }
+        .dm-edition-card-date {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(0,0,0,0.4);
+            margin-bottom: 12px;
+            display: block;
+            font-family: var(--tp-ff-onest);
+        }
+        .dm-edition-card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--tp-common-black);
+            line-height: 1.4;
+            margin-bottom: 12px;
+            font-family: var(--tp-ff-onest);
+        }
+        .dm-edition-card-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        .dm-edition-card-title a:hover { opacity: 0.6; }
+        .dm-edition-card-excerpt {
+            font-size: 15px;
+            color: rgba(0,0,0,0.55);
+            line-height: 1.6;
+        }
+    </style>
+
+</head>
+
+<body class="tp-magic-cursor">
+
+    <div id="magic-cursor" class="cursor-white-bg">
+        <div id="ball"></div>
+    </div>
+
+    <div id="preloader">
+        <div class="preloader"><span></span><span></span></div>
+    </div>
+
+    <div class="back-to-top-wrapper">
+        <button id="back_to_top" type="button" class="back-to-top-btn">
+            <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 6L6 1L1 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+    </div>
+
+    <script src="assets/js/header.js"></script>
+
+    <div id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <main>
+
+                <!-- hero -->
+                <div class="dm-newsletter-hero">
+                    <div class="container container-1230">
+                        <div class="row">
+                            <div class="col-xl-8">
+                                <div class="tp-section-subtitle-gradient ct mb-20 tp_fade_anim" data-delay=".3">
+                                    Newsletter
+                                </div>
+                                <h2 class="tp-section-title-onest fs-68 tp-text-revel-anim" style="color:#fff;">
+                                    Stay Ahead with<br>Expert Insights
+                                </h2>
+                                <div class="tp_text_anim mt-30">
+                                    <p class="dm-newsletter-hero-desc">
+                                        Get the latest on corporate governance, regulatory changes,
+                                        tax alerts, and strategic business advisory delivered to your inbox.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- subscribe section -->
+                <div class="dm-newsletter-subscribe">
+                    <div class="container container-1230">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="section-label tp_fade_anim" data-delay=".3">Subscribe</div>
+                                <h3 class="tp-section-title-onest tp-text-revel-anim" style="color:var(--tp-common-black);">
+                                    Join our<br>mailing list
+                                </h3>
+                                <div class="tp_text_anim mt-20">
+                                    <p style="color:rgba(0,0,0,0.5); font-size:16px; line-height:1.7;">
+                                        Receive curated insights from our advisory team.
+                                        No spam, unsubscribe anytime.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 d-flex align-items-center">
+                                <div class="w-100">
+                                    <form id="dm-newsletter-form" class="tp_fade_anim" data-delay=".5" novalidate>
+                                        <div class="dm-subscribe-form">
+                                            <input type="email" id="dm-nl-email" placeholder="Your email address" required>
+                                            <button type="submit" class="dm-subscribe-btn" id="dm-nl-btn">
+                                                <span class="btn-label">Subscribe</span>
+                                                <span class="btn-loading">Subscribing...</span>
+                                                <span class="spinner"></span>
+                                            </button>
+                                        </div>
+                                        <div class="dm-subscribe-response" id="dm-nl-response"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- what we cover -->
+                <div class="dm-newsletter-topics">
+                    <div class="container container-1230">
+                        <div class="section-label mb-40 tp_fade_anim" data-delay=".3">What We Cover</div>
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <div class="dm-topic-item tp_fade_anim" data-delay=".3">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-1"><span class="dm-topic-number">01</span></div>
+                                        <div class="col-md-11">
+                                            <h4 class="dm-topic-title">Regulatory & Compliance Updates</h4>
+                                            <p class="dm-topic-desc">Key changes in tax laws, SEBI regulations, Companies Act amendments, and global compliance requirements that affect your business.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dm-topic-item tp_fade_anim" data-delay=".4">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-1"><span class="dm-topic-number">02</span></div>
+                                        <div class="col-md-11">
+                                            <h4 class="dm-topic-title">Financial Strategy & Advisory</h4>
+                                            <p class="dm-topic-desc">Insights on M&A trends, IPO readiness, virtual CFO best practices, and strategic financial planning for growing businesses.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dm-topic-item tp_fade_anim" data-delay=".5">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-1"><span class="dm-topic-number">03</span></div>
+                                        <div class="col-md-11">
+                                            <h4 class="dm-topic-title">Corporate Governance</h4>
+                                            <p class="dm-topic-desc">Board composition, ESG frameworks, stakeholder management, and governance best practices for organizations scaling globally.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dm-topic-item tp_fade_anim" data-delay=".6">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-1"><span class="dm-topic-number">04</span></div>
+                                        <div class="col-md-11">
+                                            <h4 class="dm-topic-title">Deal Alerts & Market Intelligence</h4>
+                                            <p class="dm-topic-desc">Notable M&A transactions, investment trends, sector-specific analysis, and opportunities in the Indian and global markets.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dm-topic-item tp_fade_anim" data-delay=".7">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-1"><span class="dm-topic-number">05</span></div>
+                                        <div class="col-md-11">
+                                            <h4 class="dm-topic-title">GCC & Business Setup</h4>
+                                            <p class="dm-topic-desc">Guidance on establishing Global Capability Centers in India, startup incorporation, and cross-border business structuring.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- past editions -->
+                <div class="dm-past-editions">
+                    <div class="container container-1230">
+                        <div class="section-label mb-40 tp_fade_anim" data-delay=".3">Past Editions</div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="dm-edition-card tp_fade_anim" data-delay=".3">
+                                    <span class="dm-edition-card-date">February 2025</span>
+                                    <h4 class="dm-edition-card-title">
+                                        <a href="blog-details.html">Union Budget 2025: Impact Analysis for Indian Businesses</a>
+                                    </h4>
+                                    <p class="dm-edition-card-excerpt">Breaking down the most impactful tax reforms and what they mean for your organization's financial planning.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="dm-edition-card tp_fade_anim" data-delay=".5">
+                                    <span class="dm-edition-card-date">January 2025</span>
+                                    <h4 class="dm-edition-card-title">
+                                        <a href="blog-details.html">SEBI's New Disclosure Norms: What Listed Companies Need to Know</a>
+                                    </h4>
+                                    <p class="dm-edition-card-excerpt">Comprehensive overview of the updated disclosure requirements and compliance timelines for listed entities.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="dm-edition-card tp_fade_anim" data-delay=".7">
+                                    <span class="dm-edition-card-date">December 2024</span>
+                                    <h4 class="dm-edition-card-title">
+                                        <a href="blog-details.html">Year-End Tax Planning: Strategies for Corporates & Startups</a>
+                                    </h4>
+                                    <p class="dm-edition-card-excerpt">Practical tax optimization strategies to maximize deductions and prepare for the new financial year.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+
+            <script src="assets/js/footer.js"></script>
+
+        </div>
+    </div>
+
+    <script src="assets/js/vendor/jquery.js"></script>
+    <script src="assets/js/bootstrap-bundle.js"></script>
+    <script src="assets/js/swiper-bundle.js"></script>
+    <script src="assets/js/plugin.js"></script>
+    <script src="assets/js/three.js"></script>
+    <script src="assets/js/slick.js"></script>
+    <script src="assets/js/scroll-magic.js"></script>
+    <script src="assets/js/hover-effect.umd.js"></script>
+    <script src="assets/js/magnific-popup.js"></script>
+    <script src="assets/js/parallax-slider.js"></script>
+    <script src="assets/js/nice-select.js"></script>
+    <script src="assets/js/purecounter.js"></script>
+    <script src="assets/js/isotope-pkgd.js"></script>
+    <script src="assets/js/imagesloaded-pkgd.js"></script>
+    <script src="assets/js/ajax-form.js"></script>
+    <script src="assets/js/Observer.min.js"></script>
+    <script src="assets/js/splitting.min.js"></script>
+    <script src="assets/js/webgl.js"></script>
+    <script src="assets/js/parallax-scroll.js"></script>
+    <script src="assets/js/slider-active.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/tp-cursor.js"></script>
+
+    <script>
+    (function() {
+        'use strict';
+        var form = document.getElementById('dm-newsletter-form');
+        var btn = document.getElementById('dm-nl-btn');
+        var resp = document.getElementById('dm-nl-response');
+        var emailEl = document.getElementById('dm-nl-email');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            resp.classList.remove('visible','success','error');
+            var email = emailEl.value.trim();
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                resp.textContent = 'Please enter a valid email address.';
+                resp.classList.add('visible','error');
+                return;
+            }
+            btn.disabled = true;
+            btn.classList.add('loading');
+            // Simulate subscription (replace with actual endpoint if available)
+            setTimeout(function() {
+                resp.textContent = 'Thank you for subscribing! You\'ll receive our next newsletter soon.';
+                resp.classList.add('visible','success');
+                form.reset();
+                btn.classList.remove('loading');
+                btn.querySelector('.btn-label').textContent = 'Subscribed';
+                setTimeout(function() {
+                    btn.disabled = false;
+                    btn.querySelector('.btn-label').textContent = 'Subscribe';
+                }, 8000);
+            }, 1200);
+        });
+    })();
+    </script>
+
+</body>
+
+</html>
