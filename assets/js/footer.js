@@ -43,7 +43,7 @@
                                     <div class="dgm-footer-widget-menu">
                                         <ul>
                                             <li><a href="${basePath}index.html">Home</a></li>
-                                            <li><a href="javascript:void(0)">About Us</a></li>
+                                            <li><a href="${basePath}about.html">About Us</a></li>
                                             <li><a href="${basePath}service.html">Expertise</a></li>
                                             <li><a href="javascript:void(0)">Careers</a></li>
                                             <li><a href="${basePath}blog.html">Blog</a></li>
