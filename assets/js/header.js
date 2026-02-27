@@ -107,17 +107,32 @@
                                         <li>
                                             <a href="javascript:void(0)">About Us</a>
                                         </li>
-                                        <li>
-                                            <a href="${basePath}service.html">Expertise</a>
+                                        <li class="has-dropdown">
+                                            <a href="javascript:void(0)">Expertise</a>
+                                            <ul class="tp-submenu submenu">
+                                                <li><a href="${basePath}service.html">Finance Accounts Compliance Outsourcing Services</a></li>
+                                                <li><a href="javascript:void(0)">Deals, Due Diligence & Transaction Advisory Services</a></li>
+                                                <li><a href="javascript:void(0)">Risk Advisory & Augmenting Business Process Services</a></li>
+                                                <li><a href="javascript:void(0)">IPO Advisory Services</a></li>
+                                                <li><a href="javascript:void(0)">Virtual CFO Services</a></li>
+                                                <li><a href="javascript:void(0)">M &amp; A Advisory Services</a></li>
+                                                <li><a href="javascript:void(0)">GCC (Global Capability Centers)</a></li>
+                                                <li><a href="javascript:void(0)">Business Setup &amp; Startup Collaboration Services</a></li>
+                                                <li><a href="javascript:void(0)">Corporate Governance Services</a></li>
+                                            </ul>
                                         </li>
                                         <li>
                                             <a href="javascript:void(0)">Careers</a>
                                         </li>
-                                        <li>
-                                            <a href="${basePath}blog.html">Blog</a>
-                                        </li>
-                                        <li>
-                                            <a href="${basePath}newsletter.html">Newsletter</a>
+                                        <li class="has-dropdown">
+                                            <a href="javascript:void(0)">Insights</a>
+                                            <ul class="tp-submenu submenu">
+                                                <li><a href="${basePath}newsletter.html">Newsletters</a></li>
+                                                <li><a href="${basePath}blog.html">Blogs</a></li>
+                                                <li><a href="javascript:void(0)">Tax Alert</a></li>
+                                                <li><a href="javascript:void(0)">Deal Alert</a></li>
+                                                <li><a href="javascript:void(0)">Case Study</a></li>
+                                            </ul>
                                         </li>
                                         <li>
                                             <a href="${basePath}contact.html">Contact Us</a>
