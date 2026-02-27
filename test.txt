@@ -1,0 +1,5 @@
+.header-sticky {
+    top: 10px;
+    width: calc(100% - 30px);
+    margin: 0 auto;
+}
