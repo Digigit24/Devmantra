@@ -60,8 +60,6 @@
         </button>
     </div>
 
-    <script src="{{ asset('assets/js/header.js') }}"></script>
-
     @include('frontend.partials.header')
 
     <div id="smooth-wrapper">

@@ -15,16 +15,77 @@
     .cr-blog-area-dark .cr-multi-border { border-color: rgba(255,255,255,0.07); }
     .cr-blog-area-dark .cr-multi-border::after,
     .cr-blog-area-dark .cr-multi-border::before { background-color: rgba(255,255,255,0.07); }
-    .cr-blog-area-dark .cr-cta-text { color: rgba(255,255,255,0.5); }
-    .cr-blog-area-dark .cr-cta-btn .tp-btn-white-border {
-        color: #000;
-        background-color: #fff;
-        border-color: #fff;
+    /* ── Light-section text overrides (theme defaults to white) ── */
+
+    /* Brand / Services / Company info area */
+    .cr-brand-area .tp-section-title-onest,
+    .cr-brand-area .cr-feature-item-icon-title,
+    .cr-brand-area .cr-feature-heading .tp-section-title-onest {
+        color: #111 !important;
     }
-    .cr-blog-area-dark .cr-cta-btn .tp-btn-white-border:hover {
-        background-color: transparent;
+    .cr-brand-area p,
+    .cr-brand-area .cr-feature-item-content p {
+        color: #333;
+    }
+
+    /* Map / World area */
+    .cr-world-area .tp-section-title-onest {
+        color: #111 !important;
+    }
+    .cr-world-area p {
+        color: #555;
+    }
+
+    /* Feature 2 (icon grid + center heading) */
+    .cr-feature-2-heading .tp-section-title-onest {
+        color: #fff !important;
+    }
+    .cr-feature-2-heading p {
+        color: rgba(255,255,255,0.7);
+    }
+
+    /* Testimonial area */
+    .cr-testimonial-area .cr-testimonial-title,
+    .cr-testimonial-wrap h3 {
+        color: #111 !important;
+    }
+    .cr-testimonial-area .cr-testimonial-item-title {
+        color: #222;
+    }
+    .cr-testimonial-area .cr-testimonial-content p,
+    .cr-testimonial-area .cr-testimonial-content span {
+        color: #333;
+    }
+    .cr-testimonial-area .cr-testimonial-item-subtitle {
+        color: #777;
+    }
+    .cr-testimonial-area .cr-testimonial-item-user span {
+        color: #111;
+    }
+    .cr-testimonial-area .cr-testimonial-item-user p {
+        color: #666;
+    }
+
+    /* Values cards text */
+    .dm-values-grid .dm-value-card h5 {
+        color: #111;
+    }
+
+    /* Light CTA section */
+    .cr-cta-area-light { background: #f8f9fa; }
+    .cr-cta-area-light .tp-section-title-onest { color: #111 !important; }
+    .cr-cta-area-light .cr-cta-text { color: #555; }
+    .cr-cta-area-light .cr-cta-btn .tp-btn-white-border,
+    .cr-cta-area-light .cr-cta-btn .tp-btn-light-bg {
         color: #fff;
-        border-color: #fff;
+        background-color: #1b3c6b;
+        border-color: #1b3c6b;
+    }
+    .cr-cta-area-light .cr-cta-btn .tp-btn-white-border:hover,
+    .cr-cta-area-light .cr-cta-btn .tp-btn-light-bg:hover {
+        background-color: #0f2b5c;
+        color: #fff;
+        border-color: #0f2b5c;
     }
 </style>
 <script>
@@ -425,7 +486,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         <div class="circle left">Taxation</div>
                                                         <div class="circle right">Advisory</div>
                                                     </div> -->
-                                                    <img width="70%" src="/assets/img/logo/graph.png') }}" alt="">
+                                                    <img width="70%" src="{{ asset('assets/img/logo/graph.png') }}" alt="">
 
                                                 </div>
                                             </div>
@@ -491,7 +552,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                         <div class="dm-value-card">
                                             <div class="dm-value-icon">
-                                                <img src="/assets/img/logo/icon/1.png') }}" alt="">
+                                                <img src="{{ asset('assets/img/logo/icon/1.png') }}" alt="">
                                             </div>
                                             <h5>Trust</h5>
                                             <p style="color: black;">
@@ -503,7 +564,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                         <div class="dm-value-card">
                                             <div class="dm-value-icon">
-                                                <img src="/assets/img/logo/icon/2.png') }}" alt="">
+                                                <img src="{{ asset('assets/img/logo/icon/2.png') }}" alt="">
                                             </div>
                                             <h5>Transparency</h5>
                                             <p style="color: black;">
@@ -514,7 +575,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                         <div class="dm-value-card">
                                             <div class="dm-value-icon">
-                                                <img src="/assets/img/logo/icon/3.png') }}" alt="">
+                                                <img src="{{ asset('assets/img/logo/icon/3.png') }}" alt="">
                                             </div>
                                             <h5>Integrity</h5>
                                             <p style="color: black;">
@@ -526,7 +587,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                         <div class="dm-value-card">
                                             <div class="dm-value-icon">
-                                                <img src="/assets/img/logo/icon/4.png') }}" alt="">
+                                                <img src="{{ asset('assets/img/logo/icon/4.png') }}" alt="">
                                             </div>
                                             <h5>Tech Integration</h5>
                                             <p style="color: black;">
@@ -537,7 +598,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                         <div class="dm-value-card">
                                             <div class="dm-value-icon">
-                                                <img src="/assets/img/logo/icon/5.png') }}" alt="">
+                                                <img src="{{ asset('assets/img/logo/icon/5.png') }}" alt="">
                                             </div>
                                             <h5>Excellence</h5>
                                             <p style="color: black;">
@@ -549,7 +610,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                         <div class="dm-value-card">
                                             <div class="dm-value-icon">
-                                                <img src="/assets/img/logo/icon/6.png') }}" alt="">
+                                                <img src="{{ asset('assets/img/logo/icon/6.png') }}" alt="">
                                             </div>
                                             <h5>Client-Centric Approach</h5>
                                             <p style="color: black;">
@@ -1597,7 +1658,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         <div class="cr-testimonial-item-top pb-40">
                                                             <p class="cr-testimonial-item-subtitle">Reviewed on</p>
                                                             <img width="70"
-                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png"
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
@@ -1622,7 +1683,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         <div class="cr-testimonial-item-top pb-40">
                                                             <p class="cr-testimonial-item-subtitle">Reviewed on</p>
                                                             <img width="70"
-                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png"
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
@@ -1648,7 +1709,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         <div class="cr-testimonial-item-top pb-40">
                                                             <p class="cr-testimonial-item-subtitle">Reviewed on</p>
                                                             <img width="70"
-                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png"
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
@@ -1672,7 +1733,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         <div class="cr-testimonial-item-top pb-40">
                                                             <p class="cr-testimonial-item-subtitle">Reviewed on</p>
                                                             <img width="70"
-                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png"
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
@@ -1699,7 +1760,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         <div class="cr-testimonial-item-top pb-40">
                                                             <p class="cr-testimonial-item-subtitle">Reviewed on</p>
                                                             <img width="70"
-                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png"
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
@@ -1721,7 +1782,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         <div class="cr-testimonial-item-top pb-40">
                                                             <p class="cr-testimonial-item-subtitle">Reviewed on</p>
                                                             <img width="70"
-                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png"
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
@@ -1743,7 +1804,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         <div class="cr-testimonial-item-top pb-40">
                                                             <p class="cr-testimonial-item-subtitle">Reviewed on</p>
                                                             <img width="70"
-                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png"
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
@@ -1768,7 +1829,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         <div class="cr-testimonial-item-top pb-40">
                                                             <p class="cr-testimonial-item-subtitle">Reviewed on</p>
                                                             <img width="70"
-                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png"
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
@@ -1790,7 +1851,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         <div class="cr-testimonial-item-top pb-40">
                                                             <p class="cr-testimonial-item-subtitle">Reviewed on</p>
                                                             <img width="70"
-                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png"
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
@@ -1817,33 +1878,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 <!-- testimonial area end -->
 
                 <!-- cr blog area start -->
-                <style>
-                    .cr-blog-area-dark {
-                        background: #000;
-                    }
-                    .cr-blog-area-dark .tp-section-subtitle-gradient.ct { color: #fff; }
-                    .cr-blog-area-dark .tp-section-title-onest { color: #fff !important; }
-                    .cr-blog-area-dark .cr-blog-item-category { color: #fff; }
-                    .cr-blog-area-dark .cr-blog-item-title { color: #fff; }
-                    .cr-blog-area-dark .cr-blog-item-title a { color: #fff; }
-                    .cr-blog-area-dark .cr-blog-item-meta { color: rgba(255,255,255,0.5); }
-                    .cr-blog-area-dark .cr-blog-bottom-text { color: #fff; }
-                    .cr-blog-area-dark .cr-blog-bottom-border { border-bottom-color: rgba(255,255,255,0.07); }
-                    .cr-blog-area-dark .cr-multi-border { border-color: rgba(255,255,255,0.07); }
-                    .cr-blog-area-dark .cr-multi-border::after,
-                    .cr-blog-area-dark .cr-multi-border::before { background-color: rgba(255,255,255,0.07); }
-                    .cr-blog-area-dark .cr-cta-text { color: rgba(255,255,255,0.5); }
-                    .cr-blog-area-dark .cr-cta-btn .tp-btn-white-border {
-                        color: #000;
-                        background-color: #fff;
-                        border-color: #fff;
-                    }
-                    .cr-blog-area-dark .cr-cta-btn .tp-btn-white-border:hover {
-                        background-color: transparent;
-                        color: #fff;
-                        border-color: #fff;
-                    }
-                </style>
                 <div class="cr-blog-area cr-blog-area-dark">
                     <div class="container container-1230">
                         <div class="cr-multi-border pt-120">
@@ -1859,7 +1893,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                     </div>
                                 </div>
 
-                                <div class="row">
                                 <div class="row">
                                     @foreach($blogs as $blog)
                                     <div class="col-lg-4 col-md-6">
@@ -1896,69 +1929,71 @@ document.addEventListener("DOMContentLoaded", function () {
                                 </div>
                             </div>
 
-                            <!-- CTA -->
-                            <div class="cr-cta-ptb p-relative pt-120 pb-100">
-                                <div class="cr-cta-bg">
-                                    <img src="{{ asset('assets/img/home-13/cta/cta-thumb-bg.png') }}" alt="">
-                                </div>
-                                <div class="cr-cta-shape">
-                                    <span class="shape-1"></span>
-                                    <span class="shape-2"></span>
-                                    <span class="shape-3"></span>
-                                    <span class="shape-4"></span>
-                                    <span class="shape-5"></span>
-                                    <span class="shape-6"></span>
-                                    <span class="shape-7"></span>
-                                    <span class="shape-8"></span>
-                                    <span class="shape-9"></span>
-                                    <span class="shape-10"></span>
-                                    <span class="shape-11"></span>
-                                    <span class="shape-12"></span>
-                                    <span class="shape-13"></span>
-                                    <span class="shape-14"></span>
-                                    <span class="shape-15"></span>
-                                </div>
-                                <div class="container container-1230">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="cr-cta-content text-center">
-                                                <div class="cr-cta-img p-relative mb-20">
-                                                    <img src="{{ asset('assets/img/home-13/cta/cta-thumb.gif') }}" alt="">
-                                                </div>
-                                                <h4 class="tp-section-title-onest fs-50 tp-text-revel-anim">
-                                                    Ready to Elevate Your <br> Business with Dev Mantra?
-                                                </h4>
-                                                <div class="tp_text_anim">
-                                                    <p class="cr-cta-text">
-                                                        Dev Mantra is here to help you scale with confidence through
-                                                        future-ready financial, governance, and advisory solutions.
-                                                    </p>
-                                                </div>
-                                                <div class="cr-cta-btn tp_fade_anim" data-delay=".7"
-                                                    data-fade-from="top" data-ease="bounce">
-                                                    <a href="" class="tp-btn-white-border">
-                                                        Book a Consultation
-                                                        <span>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15"
-                                                                height="12" viewBox="0 0 15 12" fill="none">
-                                                                <path
-                                                                    d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z"
-                                                                    fill="currentColor"></path>
-                                                            </svg>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- CTA end -->
-
                         </div>
                     </div>
                 </div>
                 <!-- cr blog area end -->
+
+                <!-- CTA (light section) -->
+                <div class="cr-cta-area-light">
+                    <div class="cr-cta-ptb p-relative pt-120 pb-100">
+                        <div class="cr-cta-bg">
+                            <img src="{{ asset('assets/img/home-13/cta/cta-thumb-bg.png') }}" alt="">
+                        </div>
+                        <div class="cr-cta-shape">
+                            <span class="shape-1"></span>
+                            <span class="shape-2"></span>
+                            <span class="shape-3"></span>
+                            <span class="shape-4"></span>
+                            <span class="shape-5"></span>
+                            <span class="shape-6"></span>
+                            <span class="shape-7"></span>
+                            <span class="shape-8"></span>
+                            <span class="shape-9"></span>
+                            <span class="shape-10"></span>
+                            <span class="shape-11"></span>
+                            <span class="shape-12"></span>
+                            <span class="shape-13"></span>
+                            <span class="shape-14"></span>
+                            <span class="shape-15"></span>
+                        </div>
+                        <div class="container container-1230">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="cr-cta-content text-center">
+                                        <div class="cr-cta-img p-relative mb-20">
+                                            <img src="{{ asset('assets/img/home-13/cta/cta-thumb.gif') }}" alt="">
+                                        </div>
+                                        <h4 class="tp-section-title-onest fs-50 tp-text-revel-anim" style="color: #111;">
+                                            Ready to Elevate Your <br> Business with Dev Mantra?
+                                        </h4>
+                                        <div class="tp_text_anim">
+                                            <p class="cr-cta-text" style="color: #555;">
+                                                Dev Mantra is here to help you scale with confidence through
+                                                future-ready financial, governance, and advisory solutions.
+                                            </p>
+                                        </div>
+                                        <div class="cr-cta-btn tp_fade_anim" data-delay=".7"
+                                            data-fade-from="top" data-ease="bounce">
+                                            <a href="{{ url('/contact') }}" class="tp-btn-white-border tp-btn-light-bg">
+                                                Book a Consultation
+                                                <span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15"
+                                                        height="12" viewBox="0 0 15 12" fill="none">
+                                                        <path
+                                                            d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z"
+                                                            fill="currentColor"></path>
+                                                    </svg>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- CTA end -->
 
 @endsection
 
@@ -2080,39 +2115,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         })();
     </script>
-    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
-    <script src="assets/js/vendor/jquery.js"></script>
-    <script src="assets/js/bootstrap-bundle.js"></script>
-    <script src="assets/js/swiper-bundle.js"></script>
-    <script src="assets/js/plugin.js"></script>
-    <script src="assets/js/three.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/scroll-magic.js"></script>
-    <script src="assets/js/hover-effect.umd.js"></script>
-    <script src="assets/js/magnific-popup.js"></script>
-    <script src="assets/js/parallax-slider.js"></script>
-    <script src="assets/js/nice-select.js"></script>
-    <script src="assets/js/purecounter.js"></script>
-    <script src="assets/js/isotope-pkgd.js"></script>
-    <script src="assets/js/imagesloaded-pkgd.js"></script>
-    <script src="assets/js/ajax-form.js"></script>
-    <script src="assets/js/Observer.min.js"></script>
-    <script src="assets/js/splitting.min.js"></script>
-    <script src="assets/js/webgl.js"></script>
-    <script src="assets/js/parallax-scroll.js"></script>
-    <script src="assets/js/atropos.js"></script>
-    <script src="assets/js/slider-active.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/tp-cursor.js"></script>
-    <script src="assets/js/portfolio-slider-1.js"></script>
-    <script type="module" src="assets/js/distortion-img.js"></script>
-    <script type="module" src="assets/js/skew-slider/index.js"></script>
-    <script type="module" src="assets/js/img-revel/index.js"></script>
-
-
-    <!-- JS here -->
-
-    <!-- JS here -->
 
     <!-- GSAP animations for USP + 6A Sections -->
     <script>
