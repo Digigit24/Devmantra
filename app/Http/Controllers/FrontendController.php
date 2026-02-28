@@ -35,8 +35,13 @@ class FrontendController extends Controller
             ->latest('published_at')
             ->take(3)
             ->get();
+        $sidebarBlogs = Blog::published()
+            ->where('id', '!=', $blog->id)
+            ->latest('published_at')
+            ->take(5)
+            ->get();
 
-        return view('frontend.blog-detail', compact('blog', 'related'));
+        return view('frontend.blog-detail', compact('blog', 'related', 'sidebarBlogs'));
     }
 
     public function serviceShow(string $slug)
