@@ -39,7 +39,7 @@
             @forelse($newsletters as $newsletter)
             <tr>
                 <td>
-                    <div style="font-weight:600;color:#fff;">{{ Str::limit($newsletter->title, 50) }}</div>
+                    <div style="font-weight:600;color:var(--dm-text);">{{ Str::limit($newsletter->title, 50) }}</div>
                     <div style="font-size:12px;color:var(--dm-text-muted);">/newsletter/{{ $newsletter->slug }}</div>
                 </td>
                 <td style="color:var(--dm-text-muted);">{{ $newsletter->edition_label ?? '-' }}</td>

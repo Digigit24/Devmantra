@@ -48,7 +48,7 @@
                     @endif
                 </td>
                 <td>
-                    <div style="font-weight:600;color:#fff;">{{ Str::limit($blog->title, 50) }}</div>
+                    <div style="font-weight:600;color:var(--dm-text);">{{ Str::limit($blog->title, 50) }}</div>
                     <div style="font-size:12px;color:var(--dm-text-muted);">/blog/{{ $blog->slug }}</div>
                 </td>
                 <td>{{ $blog->category }}</td>

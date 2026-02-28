@@ -47,7 +47,7 @@
                     @endif
                 </td>
                 <td>
-                    <div style="font-weight:600;color:#fff;">{{ Str::limit($service->title, 50) }}</div>
+                    <div style="font-weight:600;color:var(--dm-text);">{{ Str::limit($service->title, 50) }}</div>
                     <div style="font-size:12px;color:var(--dm-text-muted);">/services/{{ $service->slug }}</div>
                 </td>
                 <td>

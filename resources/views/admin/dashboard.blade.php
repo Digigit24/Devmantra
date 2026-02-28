@@ -53,7 +53,7 @@
                     @forelse($recentBlogs as $blog)
                     <tr>
                         <td>
-                            <a href="{{ route('admin.blogs.edit', $blog) }}" style="color:#fff;font-weight:500;">
+                            <a href="{{ route('admin.blogs.edit', $blog) }}" style="color:var(--dm-text);font-weight:500;">
                                 {{ Str::limit($blog->title, 40) }}
                             </a>
                         </td>
@@ -91,7 +91,7 @@
                     @forelse($recentServices as $service)
                     <tr>
                         <td>
-                            <a href="{{ route('admin.services.edit', $service) }}" style="color:#fff;font-weight:500;">
+                            <a href="{{ route('admin.services.edit', $service) }}" style="color:var(--dm-text);font-weight:500;">
                                 {{ Str::limit($service->title, 40) }}
                             </a>
                         </td>
