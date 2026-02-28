@@ -1,52 +1,92 @@
 <x-guest-layout>
+    @section('title', 'Create Account')
+
+    <div class="auth-form-header">
+        <h2 class="auth-form-title">Create an account</h2>
+        <p class="auth-form-desc">Get started with DevMantra today</p>
+    </div>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
         <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        <div class="auth-field">
+            <label for="name" class="auth-label">Full name</label>
+            <input id="name"
+                   type="text"
+                   name="name"
+                   value="{{ old('name') }}"
+                   class="auth-input {{ $errors->has('name') ? 'auth-input-error' : '' }}"
+                   placeholder="John Doe"
+                   required
+                   autofocus
+                   autocomplete="name">
+            @error('name')
+                <div class="auth-error-text">{{ $message }}</div>
+            @enderror
         </div>
 
         <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="auth-field">
+            <label for="email" class="auth-label">Email address</label>
+            <input id="email"
+                   type="email"
+                   name="email"
+                   value="{{ old('email') }}"
+                   class="auth-input {{ $errors->has('email') ? 'auth-input-error' : '' }}"
+                   placeholder="you@example.com"
+                   required
+                   autocomplete="username">
+            @error('email')
+                <div class="auth-error-text">{{ $message }}</div>
+            @enderror
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="auth-field">
+            <label for="password" class="auth-label">Password</label>
+            <div class="auth-password-wrap">
+                <input id="password"
+                       type="password"
+                       name="password"
+                       class="auth-input {{ $errors->has('password') ? 'auth-input-error' : '' }}"
+                       placeholder="Create a password"
+                       required
+                       autocomplete="new-password">
+                <button type="button" class="auth-password-toggle" aria-label="Toggle password">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+            </div>
+            @error('password')
+                <div class="auth-error-text">{{ $message }}</div>
+            @enderror
         </div>
 
         <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <div class="auth-field">
+            <label for="password_confirmation" class="auth-label">Confirm password</label>
+            <div class="auth-password-wrap">
+                <input id="password_confirmation"
+                       type="password"
+                       name="password_confirmation"
+                       class="auth-input"
+                       placeholder="Repeat your password"
+                       required
+                       autocomplete="new-password">
+                <button type="button" class="auth-password-toggle" aria-label="Toggle password">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+            </div>
+            @error('password_confirmation')
+                <div class="auth-error-text">{{ $message }}</div>
+            @enderror
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+        <!-- Submit -->
+        <button type="submit" class="auth-submit">Create account</button>
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
+        <div class="auth-footer-text">
+            Already have an account? <a href="{{ route('login') }}">Sign in</a>
         </div>
     </form>
 </x-guest-layout>
