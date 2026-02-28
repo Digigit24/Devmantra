@@ -50,6 +50,11 @@
                     <input type="text" name="read_time" value="{{ old('read_time', $blog->read_time) }}" class="dm-form-input" placeholder="e.g. 6 min read">
                 </div>
                 <div class="dm-form-group">
+                    <label class="dm-form-label">Publish Date</label>
+                    <input type="datetime-local" name="published_at" value="{{ old('published_at', $blog->published_at?->format('Y-m-d\TH:i')) }}" class="dm-form-input">
+                    <div class="dm-form-hint">Leave empty to publish immediately when status is Published</div>
+                </div>
+                <div class="dm-form-group">
                     <label class="dm-form-label">Featured Image</label>
                     @if($blog->featured_image)
                         <div class="mb-2">

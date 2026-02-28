@@ -489,9 +489,16 @@
                 </div>
             @endif
             @if($errors->any())
-                <div class="dm-alert dm-alert-error">
-                    <i class="fa-solid fa-circle-exclamation"></i>
-                    {{ $errors->first() }}
+                <div class="dm-alert dm-alert-error" style="flex-direction:column;align-items:flex-start;">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <strong>Please fix the following errors:</strong>
+                    </div>
+                    <ul style="margin:0;padding-left:24px;font-size:13px;">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
             @yield('content')

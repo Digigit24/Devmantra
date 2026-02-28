@@ -2,6 +2,11 @@
 @section('title', 'Blogs')
 
 @section('actions')
+@if($trashedCount > 0)
+<a href="{{ route('admin.blogs.trash') }}" class="dm-btn dm-btn-outline dm-btn-sm">
+    <i class="fa-solid fa-trash-can"></i> Trash ({{ $trashedCount }})
+</a>
+@endif
 <a href="{{ route('admin.blogs.create') }}" class="dm-btn dm-btn-primary">
     <i class="fa-solid fa-plus"></i> New Blog
 </a>

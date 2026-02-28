@@ -50,8 +50,14 @@
                     <input type="text" name="read_time" value="{{ old('read_time') }}" class="dm-form-input" placeholder="e.g. 6 min read">
                 </div>
                 <div class="dm-form-group">
+                    <label class="dm-form-label">Publish Date</label>
+                    <input type="datetime-local" name="published_at" value="{{ old('published_at') }}" class="dm-form-input">
+                    <div class="dm-form-hint">Leave empty to publish immediately when status is Published</div>
+                </div>
+                <div class="dm-form-group">
                     <label class="dm-form-label">Featured Image</label>
                     <input type="file" name="featured_image" class="dm-form-input" accept="image/*">
+                    <div class="dm-form-hint">Max 2MB. Formats: JPEG, PNG, GIF, WebP</div>
                 </div>
                 <div class="dm-form-group">
                     <label class="dm-form-label">Meta Description</label>

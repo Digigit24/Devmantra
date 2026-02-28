@@ -22,8 +22,22 @@ class ServiceController extends Controller
         }
 
         $services = $query->orderBy('sort_order')->paginate(10)->withQueryString();
+        $trashedCount = Service::onlyTrashed()->count();
 
-        return view('admin.services.index', compact('services'));
+        return view('admin.services.index', compact('services', 'trashedCount'));
+    }
+
+    public function trash(Request $request)
+    {
+        $query = Service::onlyTrashed();
+
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $services = $query->latest('deleted_at')->paginate(10)->withQueryString();
+
+        return view('admin.services.trash', compact('services'));
     }
 
     public function create()
@@ -39,8 +53,8 @@ class ServiceController extends Controller
             'short_description' => 'nullable|string',
             'content' => 'required|string',
             'icon' => 'nullable|string|max:100',
-            'image' => 'nullable|image|max:2048',
-            'hero_image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'hero_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'meta_description' => 'nullable|string|max:255',
             'show_on_homepage' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',
@@ -75,8 +89,8 @@ class ServiceController extends Controller
             'short_description' => 'nullable|string',
             'content' => 'required|string',
             'icon' => 'nullable|string|max:100',
-            'image' => 'nullable|image|max:2048',
-            'hero_image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'hero_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'meta_description' => 'nullable|string|max:255',
             'show_on_homepage' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',
@@ -99,10 +113,6 @@ class ServiceController extends Controller
         $validated['show_on_homepage'] = $request->boolean('show_on_homepage');
         $validated['sort_order'] = $validated['sort_order'] ?? 0;
 
-        if (!empty($validated['slug'])) {
-            $validated['slug'] = Str::slug($validated['slug']);
-        }
-
         $service->update($validated);
 
         return redirect()->route('admin.services.index')->with('success', 'Service updated successfully.');
@@ -110,14 +120,32 @@ class ServiceController extends Controller
 
     public function destroy(Service $service)
     {
+        $service->delete();
+
+        return redirect()->route('admin.services.index')->with('success', 'Service moved to trash.');
+    }
+
+    public function restore(int $id)
+    {
+        $service = Service::onlyTrashed()->findOrFail($id);
+        $service->restore();
+
+        return redirect()->route('admin.services.trash')->with('success', 'Service restored successfully.');
+    }
+
+    public function forceDelete(int $id)
+    {
+        $service = Service::onlyTrashed()->findOrFail($id);
+
         if ($service->image) {
             Storage::disk('public')->delete($service->image);
         }
         if ($service->hero_image) {
             Storage::disk('public')->delete($service->hero_image);
         }
-        $service->delete();
 
-        return redirect()->route('admin.services.index')->with('success', 'Service deleted successfully.');
+        $service->forceDelete();
+
+        return redirect()->route('admin.services.trash')->with('success', 'Service permanently deleted.');
     }
 }

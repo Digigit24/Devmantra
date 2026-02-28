@@ -22,8 +22,22 @@ class NewsletterController extends Controller
         }
 
         $newsletters = $query->latest()->paginate(10)->withQueryString();
+        $trashedCount = Newsletter::onlyTrashed()->count();
 
-        return view('admin.newsletters.index', compact('newsletters'));
+        return view('admin.newsletters.index', compact('newsletters', 'trashedCount'));
+    }
+
+    public function trash(Request $request)
+    {
+        $query = Newsletter::onlyTrashed();
+
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $newsletters = $query->latest('deleted_at')->paginate(10)->withQueryString();
+
+        return view('admin.newsletters.trash', compact('newsletters'));
     }
 
     public function create()
@@ -38,17 +52,18 @@ class NewsletterController extends Controller
             'slug' => 'nullable|string|max:255',
             'content' => 'required|string',
             'excerpt' => 'nullable|string',
-            'featured_image' => 'nullable|image|max:2048',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'edition_label' => 'nullable|string|max:100',
             'meta_description' => 'nullable|string|max:255',
             'status' => 'required|in:draft,published',
+            'published_at' => 'nullable|date',
         ]);
 
         if ($request->hasFile('featured_image')) {
             $validated['featured_image'] = $request->file('featured_image')->store('newsletters', 'public');
         }
 
-        if ($validated['status'] === 'published') {
+        if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = now();
         }
 
@@ -69,10 +84,11 @@ class NewsletterController extends Controller
             'slug' => 'nullable|string|max:255',
             'content' => 'required|string',
             'excerpt' => 'nullable|string',
-            'featured_image' => 'nullable|image|max:2048',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'edition_label' => 'nullable|string|max:100',
             'meta_description' => 'nullable|string|max:255',
             'status' => 'required|in:draft,published',
+            'published_at' => 'nullable|date',
         ]);
 
         if ($request->hasFile('featured_image')) {
@@ -82,12 +98,8 @@ class NewsletterController extends Controller
             $validated['featured_image'] = $request->file('featured_image')->store('newsletters', 'public');
         }
 
-        if ($validated['status'] === 'published' && !$newsletter->published_at) {
+        if ($validated['status'] === 'published' && !$newsletter->published_at && empty($validated['published_at'])) {
             $validated['published_at'] = now();
-        }
-
-        if (!empty($validated['slug'])) {
-            $validated['slug'] = Str::slug($validated['slug']);
         }
 
         $newsletter->update($validated);
@@ -97,11 +109,29 @@ class NewsletterController extends Controller
 
     public function destroy(Newsletter $newsletter)
     {
+        $newsletter->delete();
+
+        return redirect()->route('admin.newsletters.index')->with('success', 'Newsletter moved to trash.');
+    }
+
+    public function restore(int $id)
+    {
+        $newsletter = Newsletter::onlyTrashed()->findOrFail($id);
+        $newsletter->restore();
+
+        return redirect()->route('admin.newsletters.trash')->with('success', 'Newsletter restored successfully.');
+    }
+
+    public function forceDelete(int $id)
+    {
+        $newsletter = Newsletter::onlyTrashed()->findOrFail($id);
+
         if ($newsletter->featured_image) {
             Storage::disk('public')->delete($newsletter->featured_image);
         }
-        $newsletter->delete();
 
-        return redirect()->route('admin.newsletters.index')->with('success', 'Newsletter deleted successfully.');
+        $newsletter->forceDelete();
+
+        return redirect()->route('admin.newsletters.trash')->with('success', 'Newsletter permanently deleted.');
     }
 }

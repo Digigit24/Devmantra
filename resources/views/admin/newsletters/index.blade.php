@@ -2,6 +2,11 @@
 @section('title', 'Newsletters')
 
 @section('actions')
+@if($trashedCount > 0)
+<a href="{{ route('admin.newsletters.trash') }}" class="dm-btn dm-btn-outline dm-btn-sm">
+    <i class="fa-solid fa-trash-can"></i> Trash ({{ $trashedCount }})
+</a>
+@endif
 <a href="{{ route('admin.newsletters.create') }}" class="dm-btn dm-btn-primary">
     <i class="fa-solid fa-plus"></i> New Newsletter
 </a>

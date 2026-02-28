@@ -19,8 +19,23 @@ Route::get('/newsletter/{slug}', [FrontendController::class, 'newsletterShow'])-
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Blogs CRUD + Trash
+    Route::get('blogs/trash', [BlogController::class, 'trash'])->name('blogs.trash');
+    Route::post('blogs/{id}/restore', [BlogController::class, 'restore'])->name('blogs.restore');
+    Route::delete('blogs/{id}/force-delete', [BlogController::class, 'forceDelete'])->name('blogs.force-delete');
     Route::resource('blogs', BlogController::class)->except(['show']);
+
+    // Services CRUD + Trash
+    Route::get('services/trash', [ServiceController::class, 'trash'])->name('services.trash');
+    Route::post('services/{id}/restore', [ServiceController::class, 'restore'])->name('services.restore');
+    Route::delete('services/{id}/force-delete', [ServiceController::class, 'forceDelete'])->name('services.force-delete');
     Route::resource('services', ServiceController::class)->except(['show']);
+
+    // Newsletters CRUD + Trash
+    Route::get('newsletters/trash', [NewsletterController::class, 'trash'])->name('newsletters.trash');
+    Route::post('newsletters/{id}/restore', [NewsletterController::class, 'restore'])->name('newsletters.restore');
+    Route::delete('newsletters/{id}/force-delete', [NewsletterController::class, 'forceDelete'])->name('newsletters.force-delete');
     Route::resource('newsletters', NewsletterController::class)->except(['show']);
 });
 
