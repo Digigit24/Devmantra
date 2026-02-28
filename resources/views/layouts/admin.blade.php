@@ -10,17 +10,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --dm-dark: #0a0a0f;
-            --dm-sidebar: #111118;
-            --dm-card: #16161f;
-            --dm-border: rgba(255,255,255,0.06);
+            --dm-dark: #f4f6f9;
+            --dm-sidebar: #ffffff;
+            --dm-card: #ffffff;
+            --dm-border: rgba(0,0,0,0.08);
             --dm-purple: #7463FF;
-            --dm-purple-light: rgba(116,99,255,0.15);
-            --dm-text: #e4e4e7;
-            --dm-text-muted: rgba(255,255,255,0.45);
-            --dm-success: #22c55e;
-            --dm-danger: #ef4444;
-            --dm-warning: #f59e0b;
+            --dm-purple-light: rgba(116,99,255,0.08);
+            --dm-text: #1e293b;
+            --dm-text-muted: rgba(0,0,0,0.45);
+            --dm-success: #16a34a;
+            --dm-danger: #dc2626;
+            --dm-warning: #d97706;
         }
         * { box-sizing: border-box; }
         body {
@@ -31,7 +31,7 @@
             min-height: 100vh;
         }
         a { color: var(--dm-purple); text-decoration: none; }
-        a:hover { color: #9b8fff; }
+        a:hover { color: #5a48d4; }
 
         /* Sidebar */
         .dm-sidebar {
@@ -58,7 +58,7 @@
         .dm-sidebar-logo span {
             font-size: 18px; font-weight: 700;
             margin-left: 12px;
-            color: #fff;
+            color: var(--dm-text);
         }
         .dm-sidebar-nav {
             flex: 1;
@@ -87,7 +87,7 @@
         }
         .dm-sidebar-link:hover {
             background: var(--dm-purple-light);
-            color: #fff;
+            color: var(--dm-purple);
         }
         .dm-sidebar-link.active {
             background: var(--dm-purple);
@@ -121,7 +121,7 @@
         .dm-sidebar-footer .dm-user-name {
             font-size: 14px;
             font-weight: 600;
-            color: #fff;
+            color: var(--dm-text);
         }
         .dm-sidebar-footer .dm-user-email {
             font-size: 12px;
@@ -139,7 +139,7 @@
             justify-content: space-between;
             padding: 16px 32px;
             border-bottom: 1px solid var(--dm-border);
-            background: rgba(10,10,15,0.8);
+            background: rgba(255,255,255,0.85);
             backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
@@ -148,7 +148,7 @@
         .dm-topbar-title {
             font-size: 20px;
             font-weight: 700;
-            color: #fff;
+            color: var(--dm-text);
         }
         .dm-topbar-actions {
             display: flex;
@@ -166,6 +166,7 @@
             border-radius: 12px;
             padding: 24px;
             transition: all .3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
         .dm-stat-card:hover {
             border-color: var(--dm-purple);
@@ -183,7 +184,7 @@
         .dm-stat-value {
             font-size: 32px;
             font-weight: 800;
-            color: #fff;
+            color: var(--dm-text);
             line-height: 1;
         }
         .dm-stat-label {
@@ -220,7 +221,7 @@
         }
         .dm-btn-outline:hover {
             border-color: var(--dm-purple);
-            color: #fff;
+            color: var(--dm-purple);
         }
         .dm-btn-danger {
             background: rgba(239,68,68,0.15);
@@ -242,6 +243,7 @@
             border: 1px solid var(--dm-border);
             border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
         .dm-table-header {
             display: flex;
@@ -253,7 +255,7 @@
         .dm-table-title {
             font-size: 16px;
             font-weight: 700;
-            color: #fff;
+            color: var(--dm-text);
         }
         .dm-table {
             width: 100%;
@@ -276,7 +278,7 @@
             vertical-align: middle;
         }
         .dm-table tr:last-child td { border-bottom: none; }
-        .dm-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .dm-table tr:hover td { background: rgba(0,0,0,0.02); }
         .dm-table-thumb {
             width: 48px; height: 48px;
             border-radius: 8px;
@@ -314,7 +316,7 @@
         .dm-form-textarea {
             width: 100%;
             padding: 10px 14px;
-            background: var(--dm-dark);
+            background: #fff;
             border: 1px solid var(--dm-border);
             border-radius: 8px;
             color: var(--dm-text);
@@ -389,7 +391,7 @@
             display: none;
             background: none;
             border: none;
-            color: #fff;
+            color: var(--dm-text);
             font-size: 20px;
             cursor: pointer;
         }
@@ -440,6 +442,17 @@
             </a>
             <a href="{{ route('admin.newsletters.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.newsletters.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-newspaper"></i> Newsletters
+            </a>
+
+            <div class="dm-sidebar-label">Account</div>
+            <a href="{{ route('admin.profile') }}" class="dm-sidebar-link {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
+                <i class="fa-solid fa-user"></i> Profile
+            </a>
+            <a href="{{ route('admin.password') }}" class="dm-sidebar-link {{ request()->routeIs('admin.password') ? 'active' : '' }}">
+                <i class="fa-solid fa-lock"></i> Change Password
+            </a>
+            <a href="{{ route('admin.settings') }}" class="dm-sidebar-link {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
+                <i class="fa-solid fa-gear"></i> Settings
             </a>
 
             <div class="dm-sidebar-label">System</div>

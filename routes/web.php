@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsletterController;
@@ -37,6 +38,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('newsletters/{id}/restore', [NewsletterController::class, 'restore'])->name('newsletters.restore');
     Route::delete('newsletters/{id}/force-delete', [NewsletterController::class, 'forceDelete'])->name('newsletters.force-delete');
     Route::resource('newsletters', NewsletterController::class)->except(['show']);
+
+    // Account
+    Route::get('profile', [AccountController::class, 'profile'])->name('profile');
+    Route::put('profile', [AccountController::class, 'updateProfile'])->name('profile.update');
+    Route::get('password', [AccountController::class, 'password'])->name('password');
+    Route::put('password', [AccountController::class, 'updatePassword'])->name('password.update');
+    Route::get('settings', [AccountController::class, 'settings'])->name('settings');
+    Route::put('settings', [AccountController::class, 'updateSettings'])->name('settings.update');
 });
 
 // Redirect /dashboard to /admin
