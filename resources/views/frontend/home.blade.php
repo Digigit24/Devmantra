@@ -2,6 +2,33 @@
 @section('title', 'DevMantra - Strategic Financial & Advisory Services')
 
 @push('styles')
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.53/build/spline-viewer.js"></script>
+<script>
+    function removeSplineLogo() {
+        const viewers = document.querySelectorAll('spline-viewer');
+        viewers.forEach(viewer => {
+            const tryRemove = () => {
+                const logo = viewer.shadowRoot?.querySelector('#logo');
+                if (logo) {
+                    logo.remove();
+                } else {
+                    const observer = new MutationObserver(() => {
+                        const logo = viewer.shadowRoot?.querySelector('#logo');
+                        if (logo) {
+                            logo.remove();
+                            observer.disconnect();
+                        }
+                    });
+                    if (viewer.shadowRoot) {
+                        observer.observe(viewer.shadowRoot, { childList: true, subtree: true });
+                    }
+                }
+            };
+            tryRemove();
+        });
+    }
+    document.addEventListener('DOMContentLoaded', removeSplineLogo);
+</script>
 <style>
     .cr-blog-area-dark { background: #000; }
     .cr-blog-area-dark .tp-section-subtitle-gradient.ct { color: #fff; }
@@ -88,30 +115,11 @@
         border-color: #0f2b5c;
     }
 </style>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    var splineViewer = document.querySelector("spline-viewer");
-    if (splineViewer) {
-        var observer = new MutationObserver(function () {
-            if (splineViewer.shadowRoot) {
-                var logo = splineViewer.shadowRoot.querySelector("#logo");
-                if (logo) { logo.remove(); observer.disconnect(); }
-            }
-        });
-        observer.observe(splineViewer, { childList: true, subtree: true });
-        setTimeout(function () {
-            if (splineViewer.shadowRoot) {
-                var logo = splineViewer.shadowRoot.querySelector("#logo");
-                if (logo) logo.remove();
-            }
-        }, 3000);
-    }
-});
-</script>
 @endpush
 
 @section('content')
 
+                <!-- cr hero area start -->
                 <div style="background-color: black;" class="cr-hero-area fix cr-hero-ptb p-relative pt-170">
                     <div class="cr-hero-bg cr-hero-spline">
                         <spline-viewer
@@ -135,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                         </p>
                                     </div>
                                     <div class="cr-hero-btn">
-                                        <a href="#contact" class="tp-btn-white-border">Book a Free
+                                        <a href="#" class="tp-btn-white-border">Book a Free
                                             Consultation
                                             <span><svg xmlns="http://www.w3.org/2000/svg" width="15" height="12"
                                                     viewBox="0 0 15 12" fill="none">
@@ -164,65 +172,59 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
                 <!-- cr hero area end -->
 
+
                 <!-- horizontal scroll services start -->
-{{-- ===== DYNAMIC SERVICE SLIDER ===== --}}
-@if($services->count())
-<section class="dm-hscroll-section">
-    <div class="dm-hscroll-pin">
-        <div class="dm-hscroll-header">
-            <h2 class="dm-hscroll-title">What We Do</h2>
-            <p class="dm-hscroll-subtitle">Comprehensive financial and advisory services tailored for your business growth.</p>
-        </div>
-        <!-- Desktop: horizontal GSAP scroll -->
-        <div class="dm-hscroll-track dm-hscroll-desktop">
-            <div class="dm-hscroll-cards">
-                @foreach($services as $service)
-                <div class="dm-hscroll-card">
-                    <div class="dm-hscroll-card-img">
-                        @if($service->image)
-                            <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}">
-                        @else
-                            <img src="{{ asset('assets/img/home-13/feature/feature-thumb-' . (($loop->index % 3) + 1) . '.png') }}" alt="{{ $service->title }}">
-                        @endif
-                    </div>
-                    <div class="dm-hscroll-card-body">
-                        <h3>{{ $service->title }}</h3>
-                        <p>{{ $service->short_description ?? Str::limit(strip_tags($service->content), 120) }}</p>
-                        <a href="{{ route('service.show', $service->slug) }}" class="dm-hscroll-btn">Read More</a>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-        <!-- Mobile: Swiper slider -->
-        <div class="dm-hscroll-mobile">
-            <div class="swiper dm-services-swiper">
-                <div class="swiper-wrapper">
-                    @foreach($services as $service)
-                    <div class="swiper-slide">
-                        <div class="dm-hscroll-card">
-                            <div class="dm-hscroll-card-img">
-                                @if($service->image)
-                                    <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}">
-                                @else
-                                    <img src="{{ asset('assets/img/home-13/feature/feature-thumb-' . (($loop->index % 3) + 1) . '.png') }}" alt="{{ $service->title }}">
-                                @endif
+                <section class="dm-hscroll-section">
+                    <div class="dm-hscroll-pin">
+                        <div class="dm-hscroll-header">
+                            <h2 class="dm-hscroll-title">What We Do</h2>
+                            <p class="dm-hscroll-subtitle">Comprehensive financial and advisory services tailored for
+                                your business growth.</p>
+                        </div>
+                        <!-- Desktop: horizontal GSAP scroll -->
+                        <div class="dm-hscroll-track dm-hscroll-desktop">
+                            <div class="dm-hscroll-cards">
+                                @foreach($services as $service)
+                                <div class="dm-hscroll-card">
+                                    <div class="dm-hscroll-card-img">
+                                        <img src="{{ $service->image ? asset('storage/'.$service->image) : asset('assets/img/home-13/feature/feature-thumb-'.(($loop->index % 3)+1).'.png') }}" alt="{{ $service->title }}">
+                                    </div>
+                                    <div class="dm-hscroll-card-body">
+                                        <h3>{{ $service->title }}</h3>
+                                        <p>{{ $service->short_description }}</p>
+                                        <a href="{{ route('service.show', $service->slug) }}" class="dm-hscroll-btn">Read More</a>
+                                    </div>
+                                </div>
+                                @endforeach
                             </div>
-                            <div class="dm-hscroll-card-body">
-                                <h3>{{ $service->title }}</h3>
-                                <p>{{ $service->short_description ?? Str::limit(strip_tags($service->content), 120) }}</p>
-                                <a href="{{ route('service.show', $service->slug) }}" class="dm-hscroll-btn">Read More</a>
+                        </div>
+
+                        <!-- Mobile: Swiper slider -->
+                        <div class="dm-hscroll-mobile">
+                            <div class="swiper dm-services-swiper">
+                                <div class="swiper-wrapper">
+                                    @foreach($services as $service)
+                                    <div class="swiper-slide">
+                                        <div class="dm-hscroll-card">
+                                            <div class="dm-hscroll-card-img">
+                                                <img src="{{ $service->image ? asset('storage/'.$service->image) : asset('assets/img/home-13/feature/feature-thumb-'.(($loop->index % 3)+1).'.png') }}" alt="{{ $service->title }}">
+                                            </div>
+                                            <div class="dm-hscroll-card-body">
+                                                <h3>{{ $service->title }}</h3>
+                                                <p>{{ $service->short_description }}</p>
+                                                <a href="{{ route('service.show', $service->slug) }}" class="dm-hscroll-btn">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <div class="swiper-pagination dm-services-pagination"></div>
                             </div>
                         </div>
                     </div>
-                    @endforeach
-                </div>
-                <div class="swiper-pagination dm-services-pagination"></div>
-            </div>
-        </div>
-    </div>
-</section>
-@endif
+                </section>
+                <!-- horizontal scroll services end -->
+
 
                 <!-- cr brand area start -->
                 <div class="cr-brand-area cr-brand-ptb fix cr-multi-border-bottom">
@@ -243,106 +245,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <div class="cr-brand-wrapper pb-80">
                                         <div class="swiper-container app-brand-active fix">
                                             <div class="swiper-wrapper slider-transtion">
+                                                @for($i = 1; $i <= 20; $i++)
                                                 <div class="swiper-slide">
                                                     <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/1.png') }}" alt="">
+                                                        <img src="{{ asset('assets/img/logo/'.$i.'.png') }}" alt="">
                                                     </div>
                                                 </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/2.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/3.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/4.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/5.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/6.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/7.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/8.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/9.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/10.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/11.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/12.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/13.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/14.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/15.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/16.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/17.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/18.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/19.png') }}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="app-brand-item">
-                                                        <img src="{{ asset('assets/img/logo/20.png') }}" alt="">
-                                                    </div>
-                                                </div>
+                                                @endfor
                                             </div>
                                         </div>
                                     </div>
@@ -480,14 +389,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                             <div class="cr-feature-thumb anim-zoomin-wrap text-center">
                                                 <div class="cr-feature-thumb text-center">
-                                                    <!-- <div class="gcc-diagram">
-                                                        <div class="circle center">Partner-Led</div>
-                                                        <div class="circle top">Assurance</div>
-                                                        <div class="circle left">Taxation</div>
-                                                        <div class="circle right">Advisory</div>
-                                                    </div> -->
                                                     <img width="70%" src="{{ asset('assets/img/logo/graph.png') }}" alt="">
-
                                                 </div>
                                             </div>
                                         </div>
@@ -628,41 +530,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
                 <!-- cr brand area end -->
 
-                <!-- disperse services area start -->
-                <!-- <div class="dm-disperse-area p-relative">
-                    <div class="dm-disperse-glow"></div>
-                    <div class="dm-disperse-container">
-                        <h2 class="dm-disperse-heading">Our Expertise</h2>
-                        <div class="dm-disperse-item" data-final-x="0" data-final-y="-36">
-                            <span style="--float-delay: 0">Virtual CFO Services</span>
-                        </div>
-                        <div class="dm-disperse-item" data-final-x="-24" data-final-y="-20">
-                            <span style="--float-delay: 0.5">Finance Accounts Compliance Outsourcing</span>
-                        </div>
-                        <div class="dm-disperse-item" data-final-x="22" data-final-y="-20">
-                            <span style="--float-delay: 1.2">Deals, Due Diligence & Transaction Advisory</span>
-                        </div>
-                        <div class="dm-disperse-item" data-final-x="-38" data-final-y="-4">
-                            <span style="--float-delay: 0.8">Business Set Up & Startup Collaboration</span>
-                        </div>
-                        <div class="dm-disperse-item" data-final-x="38" data-final-y="4">
-                            <span style="--float-delay: 1.5">IPO Advisory Services</span>
-                        </div>
-                        <div class="dm-disperse-item" data-final-x="-26" data-final-y="20">
-                            <span style="--float-delay: 0.3">Corporate Governance</span>
-                        </div>
-                        <div class="dm-disperse-item" data-final-x="24" data-final-y="20">
-                            <span style="--float-delay: 1.8">GCC (Global Capability Centers)</span>
-                        </div>
-                        <div class="dm-disperse-item" data-final-x="-18" data-final-y="36">
-                            <span style="--float-delay: 0.7">M & A Advisory Services</span>
-                        </div>
-                        <div class="dm-disperse-item" data-final-x="20" data-final-y="36">
-                            <span style="--float-delay: 1.4">Risk Advisory & Augmenting Business Process</span>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- disperse services area end -->
 
                 <!-- SECTION 05 — 6A Strategies -->
                 <section class="dm-6a-section">
@@ -733,12 +600,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                 </div>
                             </div>
                             <div class="dm-6a-cta">
-                                <a href="6a-structure.html" class="tp-btn-white-border">View Complete Structure</a>
+                                <a href="#" class="tp-btn-white-border">View Complete Structure</a>
                             </div>
                         </div>
                     </div>
                 </section>
                 <!-- 6A section end -->
+
 
                 <!-- SECTION 06 — AI-Enabled Platform -->
                 <section class="dm-ai-section">
@@ -912,6 +780,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </section>
                 <!-- AI Platform section end -->
 
+
                 <!-- Map area start -->
                 <section class="cr-world-area cr-brand-ptb fix">
                     <div class="container container-1230">
@@ -957,6 +826,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </section>
                 <!-- Map area end -->
+
 
                 <!-- cr feature 2 area start -->
                 <div class="cr-feature-2-area p-relative cr-feature-2-ptb">
@@ -1115,7 +985,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 </div>
                             </div>
 
-                            <!-- RIGHT GRID (UNCHANGED IMAGES) -->
+                            <!-- RIGHT GRID -->
                             <div class="col-xxl-4 col-xl-6 order-2 order-xxl-3">
                                 <div class="cr-feature-2-right">
                                     <div class="cr-feature-2-box">
@@ -1230,6 +1100,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </div>
                 <!-- cr feature 2 area end -->
+
 
                 <!-- team section start -->
                 <section class="dm-team-section">
@@ -1366,6 +1237,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </section>
                 <!-- team section end -->
+
 
                 <!-- approach + lifecycle combined section start -->
                 <section class="dm-apl-section">
@@ -1556,50 +1428,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 </section>
                 <!-- approach + lifecycle combined section end -->
 
-                <!-- cr feature 3 area start -->
-                <!-- <div class="cr-feature-3-area fix cr-feature-3-border">
-                    <div class="container container-1230">
-                        <div class="cr-feature-3-border-box">
-                            <div class="cr-feature-3-box">
-                                <div class="row gx-0">
-                                    <div class="col-lg-6">
-                                        <div class="cr-feature-3-heading">
-                                            <div class="tp-section-subtitle-gradient ct mb-20 tp_fade_anim"
-                                                data-delay=".3">Features</div>
-                                            <h4 style="color: black;" class="tp-section-title-onest tp-text-revel-anim">
-                                                Robust & secure <br>
-                                                exchange platform</h4>
-                                            <div class="tp_text_anim">
-                                                <p style="color: black;">Whether you’re looking to trade major coins
-                                                    like <br> Bitcoin and
-                                                    Ethereum or interested in emerging altcoins, <br> our platform
-                                                    provides all the tools you need.</p>
-                                            </div>
-                                            <div class="cr-feature-3-btn tp_fade_anim" data-delay=".7"
-                                                data-fade-from="top" data-ease="bounce">
-                                                <a href="service-3-light.html"
-                                                    class="tp-btn-white-border tp-btn-light-bg">Find out more <span><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="15" height="12"
-                                                            viewBox="0 0 15 12" fill="none">
-                                                            <path
-                                                                d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z"
-                                                                fill="currentColor"></path>
-                                                        </svg></span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="cr-feature-3-thumb">
-                                            <img src="{{ asset('assets/img/home-13/feature/feature-3/feature-3-img.png') }}" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- cr feature 3 area end -->
 
                 <!-- testimonial area start -->
                 <div class="cr-testimonial-area cr-testimonial-ptb">
@@ -1662,13 +1490,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
-                                                            “We have been working with them since the inception of our
+                                                            "We have been working with them since the inception of our
                                                             company and we never had to look back at this relationship.
                                                             Not only on regular matters, they have also given us very
                                                             sound guidance, counsel and options when we have had any new
                                                             developments. We truly value this relationship with Dev
                                                             Mantra and look forward to working with them for a very long
-                                                            time to come.”
+                                                            time to come."
                                                         </h3>
                                                         <div class="cr-testimonial-item-user">
                                                             <span>Vaibhav Singh</span>
@@ -1687,14 +1515,14 @@ document.addEventListener("DOMContentLoaded", function () {
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
-                                                            “SecureSearch started working with Dev Mantra when starting
+                                                            "SecureSearch started working with Dev Mantra when starting
                                                             up as a new business. Their focus and understanding of the
                                                             needs of a new business were very good and were able to
                                                             guide us through the maze of starting up a new business,
                                                             dealing with new and large contracts and being compliant
                                                             always. The team at Dev Mantra has added real value to
                                                             SecureSearch by helping the Company through the various
-                                                            stages of growth from start-up to scaling up.”
+                                                            stages of growth from start-up to scaling up."
                                                         </h3>
                                                         <div class="cr-testimonial-item-user">
                                                             <span>Chetan Desai</span>
@@ -1713,12 +1541,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
-                                                            “We had an urgent need to raise finance. Dev Mantra Team was
+                                                            "We had an urgent need to raise finance. Dev Mantra Team was
                                                             able to guide us through troubled waters with skill and
                                                             intelligence. Their expertise in restructuring and corporate
                                                             finance, along with the wider firm's knowledge of
                                                             intellectual property, gave us the advice we needed in a
-                                                            quick and efficient manner.”
+                                                            quick and efficient manner."
                                                         </h3>
                                                         <div class="cr-testimonial-item-user">
                                                             <span>MBR Homes</span>
@@ -1737,7 +1565,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
-                                                            “We were really pleased with all of the support from the
+                                                            "We were really pleased with all of the support from the
                                                             entire team throughout the whole deal process. Great advice
                                                             in the areas we didn't understand and at the same time full
                                                             recognition of our requirements. Our interests were always
@@ -1745,7 +1573,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                             contribution to a successful outcome. The investment
                                                             transaction was completed successfully thanks to the
                                                             diligence and remarkable contribution by the Dev Mantra
-                                                            team.”
+                                                            team."
                                                         </h3>
                                                         <div class="cr-testimonial-item-user">
                                                             <span>Gouthami T S</span>
@@ -1764,10 +1592,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
-                                                            “N. Tatia & Associates, Chartered Accountants have been
+                                                            "N. Tatia & Associates, Chartered Accountants have been
                                                             appointed as tax advisors and representatives for litigation
                                                             support. This office acknowledged the satisfactory services
-                                                            extended by them from time to time.”
+                                                            extended by them from time to time."
                                                         </h3>
                                                         <div class="cr-testimonial-item-user">
                                                             <span>C. V. Sajeevan</span>
@@ -1786,10 +1614,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
-                                                            “Dev Mantra has been a huge help to our business since
+                                                            "Dev Mantra has been a huge help to our business since
                                                             incorporation. They are a really friendly and professional
                                                             team and always quick to respond. They really take the
-                                                            stress out of our finance function.”
+                                                            stress out of our finance function."
                                                         </h3>
                                                         <div class="cr-testimonial-item-user">
                                                             <span>MVS Prasad</span>
@@ -1808,13 +1636,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
-                                                            “Impact Group of Institutions has greatly benefitted with
+                                                            "Impact Group of Institutions has greatly benefitted with
                                                             tax and consulting with Dev Mantra for all our financial
                                                             compliances and other tax related issues — it has been
                                                             immensely beneficial. Their quality of work is highly
                                                             professional with a proactive approach. We can always count
                                                             on them for all our audit and taxation needs without
-                                                            worrying about the deadlines.”
+                                                            worrying about the deadlines."
                                                         </h3>
                                                         <div class="cr-testimonial-item-user">
                                                             <span>Dr Alice Abrahaim</span>
@@ -1833,10 +1661,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
-                                                            “Dev Mantra team under the leadership of director Vikash
+                                                            "Dev Mantra team under the leadership of director Vikash
                                                             Tatia has special capabilities to contribute across business
                                                             functions. The team contributes immensely to the growth of
-                                                            the organisation and we are able to see turnaround results.”
+                                                            the organisation and we are able to see turnaround results."
                                                         </h3>
                                                         <div class="cr-testimonial-item-user">
                                                             <span>Shri Sudhir Jain</span>
@@ -1855,9 +1683,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                                                 alt="Google">
                                                         </div>
                                                         <h3 class="cr-testimonial-item-title">
-                                                            “We appreciate the association of Dev Mantra in all tax
+                                                            "We appreciate the association of Dev Mantra in all tax
                                                             related matters and are always confident of meeting various
-                                                            deadlines.”
+                                                            deadlines."
                                                         </h3>
                                                         <div class="cr-testimonial-item-user">
                                                             <span>Director (Admin)</span>
@@ -1876,6 +1704,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </div>
                 <!-- testimonial area end -->
+
 
                 <!-- cr blog area start -->
                 <div class="cr-blog-area cr-blog-area-dark">
@@ -1902,12 +1731,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                                     @if($blog->featured_image)
                                                         <img src="{{ asset('storage/' . $blog->featured_image) }}" alt="{{ $blog->title }}">
                                                     @else
-                                                        <img src="{{ asset('assets/img/home-13/blog/blog-thumb-' . (($loop->index % 3) + 1) . '.jpg') }}" alt="{{ $blog->title }}">
+                                                        <img src="{{ asset('assets/img/home-13/blog/blog-thumb-'.(($loop->index % 3)+1).'.jpg') }}" alt="{{ $blog->title }}">
                                                     @endif
                                                 </a>
                                             </div>
                                             <div class="cr-blog-item-content">
-                                                <span class="cr-blog-item-category">{{ $blog->category }}</span>
+                                                <span class="cr-blog-item-category">{{ $blog->category ?? 'Blog' }}</span>
                                                 <h4 class="cr-blog-item-title">
                                                     <a class="tp-line-white" href="{{ route('blog.show', $blog->slug) }}">
                                                         {{ $blog->title }}
@@ -1922,8 +1751,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                 <div class="row justify-content-center">
                                     <div class="col-lg-8">
-                                        <div class="cr-blog-bottom text-center tp_fade_anim" data-delay=".7" data-fade-from="top" data-ease="bounce">
-                                            <a href="{{ route('blog.index') }}" class="cr-blog-bottom-text">Explore more insights from Dev Mantra</a>
+                                        <div class="cr-blog-bottom text-center tp_fade_anim" data-delay=".7"
+                                            data-fade-from="top" data-ease="bounce">
+                                            <a href="{{ route('blog.index') }}" class="cr-blog-bottom-text">Explore more insights from Dev
+                                                Mantra</a>
                                         </div>
                                     </div>
                                 </div>
@@ -1997,11 +1828,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 @endsection
 
+
 @push('scripts')
-    <script>
-
-        /* ---------------- CPA FIRM PRESSURE ---------------- */
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    /* ---------------- CPA FIRM PRESSURE ---------------- */
+    if(document.getElementById('cpaPressureChart')) {
         new Chart(document.getElementById('cpaPressureChart'), {
             type: 'bar',
             data: {
@@ -2026,10 +1858,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         });
+    }
 
-
-        /* ---------------- WORKFLOW IMPROVEMENT ---------------- */
-
+    /* ---------------- WORKFLOW IMPROVEMENT ---------------- */
+    if(document.getElementById('workflowChart')) {
         new Chart(document.getElementById('workflowChart'), {
             type: 'doughnut',
             data: {
@@ -2051,10 +1883,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 cutout: '70%'
             }
         });
+    }
 
-
-        /* ---------------- BUSINESS IMPACT ---------------- */
-
+    /* ---------------- BUSINESS IMPACT ---------------- */
+    if(document.getElementById('impactChart')) {
         new Chart(document.getElementById('impactChart'), {
             type: 'line',
             data: {
@@ -2077,735 +1909,736 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         });
+    }
+</script>
 
-    </script>
-    <!-- JS here -->
+<script>
+    (function () {
+        var pins = document.querySelectorAll(".pin");
+        var box = document.querySelector(".world-map-box");
+        if (!pins.length || !box) return;
 
-    <script>
-        (function () {
-            const pins = document.querySelectorAll(".pin");
-            const box = document.querySelector(".world-map-box");
-            if (!pins.length || !box) return;
+        // Remove the single shared tooltip
+        var oldTooltip = document.getElementById("mapTooltip");
+        if (oldTooltip) oldTooltip.remove();
 
-            // Remove the single shared tooltip
-            const oldTooltip = document.getElementById("mapTooltip");
-            if (oldTooltip) oldTooltip.remove();
+        // Create a permanent tooltip for each pin
+        pins.forEach(function (pin) {
+            var name = pin.getAttribute("data-country");
+            var tip = document.createElement("div");
+            tip.className = "map-tooltip map-tooltip-always";
+            tip.textContent = name;
+            box.appendChild(tip);
 
-            // Create a permanent tooltip for each pin
-            pins.forEach(function (pin) {
-                const name = pin.getAttribute("data-country");
-                const tip = document.createElement("div");
-                tip.className = "map-tooltip map-tooltip-always";
-                tip.textContent = name;
-                box.appendChild(tip);
+            function positionTip() {
+                var rect = box.getBoundingClientRect();
+                var pt = pin.getBoundingClientRect();
+                tip.style.left = (pt.left - rect.left + pt.width / 2) + "px";
+                tip.style.top = (pt.top - rect.top) + "px";
+            }
 
-                function positionTip() {
-                    const rect = box.getBoundingClientRect();
-                    const pt = pin.getBoundingClientRect();
-                    tip.style.left = (pt.left - rect.left + pt.width / 2) + "px";
-                    tip.style.top = (pt.top - rect.top) + "px";
+            // Position on load and resize
+            window.addEventListener("load", positionTip);
+            window.addEventListener("resize", positionTip);
+            // Also position immediately in case already loaded
+            setTimeout(positionTip, 200);
+            setTimeout(positionTip, 800);
+        });
+    })();
+</script>
+
+
+<!-- GSAP animations for USP + 6A Sections -->
+<script>
+    (function () {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // -- Section 04: USP cards stagger-in --
+        var uspCards = document.querySelectorAll('.dm-usp-card');
+        if (uspCards.length) {
+            gsap.set(uspCards, { y: 60, opacity: 0 });
+            ScrollTrigger.create({
+                trigger: '.dm-usp-section',
+                start: 'top 80%',
+                once: true,
+                onEnter: function () {
+                    gsap.to(uspCards, {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.7,
+                        stagger: 0.15,
+                        ease: 'power3.out'
+                    });
                 }
-
-                // Position on load and resize
-                window.addEventListener("load", positionTip);
-                window.addEventListener("resize", positionTip);
-                // Also position immediately in case already loaded
-                setTimeout(positionTip, 200);
-                setTimeout(positionTip, 800);
             });
+        }
+
+        // USP title reveal
+        var uspTitle = document.querySelector('.dm-usp-title');
+        if (uspTitle) {
+            gsap.set(uspTitle, { y: 30, opacity: 0 });
+            ScrollTrigger.create({
+                trigger: '.dm-usp-section',
+                start: 'top 85%',
+                once: true,
+                onEnter: function () {
+                    gsap.to(uspTitle, {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.6,
+                        ease: 'power2.out'
+                    });
+                }
+            });
+        }
+
+        // -- Section 05: 6A hexagons sequential reveal --
+        var sixANodes = document.querySelectorAll('.dm-6a-node');
+        var sixAConnectors = document.querySelectorAll('.dm-6a-connector');
+
+        if (sixANodes.length) {
+            gsap.set(sixANodes, { y: 40, opacity: 0, scale: 0.85 });
+            gsap.set(sixAConnectors, { scaleX: 0, transformOrigin: 'left center' });
+
+            ScrollTrigger.create({
+                trigger: '.dm-6a-section',
+                start: 'top 75%',
+                once: true,
+                onEnter: function () {
+                    // Build a timeline for sequential reveal
+                    var tl = gsap.timeline();
+
+                    sixANodes.forEach(function (node, i) {
+                        tl.to(node, {
+                            y: 0,
+                            opacity: 1,
+                            scale: 1,
+                            duration: 0.5,
+                            ease: 'back.out(1.4)'
+                        }, i * 0.2);
+
+                        // Animate the connector after each node (except last)
+                        if (sixAConnectors[i]) {
+                            tl.to(sixAConnectors[i], {
+                                scaleX: 1,
+                                duration: 0.3,
+                                ease: 'power2.inOut'
+                            }, i * 0.2 + 0.25);
+                        }
+                    });
+
+                    // After all nodes revealed, auto-activate them sequentially
+                    tl.call(function () {
+                        var activeIndex = 0;
+                        function activateNext() {
+                            sixANodes.forEach(function (n) { n.classList.remove('is-active'); });
+                            if (sixANodes[activeIndex]) {
+                                sixANodes[activeIndex].classList.add('is-active');
+                            }
+                            activeIndex = (activeIndex + 1) % sixANodes.length;
+                        }
+                        activateNext();
+                        setInterval(activateNext, 3000);
+                    });
+                }
+            });
+        }
+
+        // 6A header elements
+        var sixAHeader = document.querySelector('.dm-6a-header');
+        if (sixAHeader) {
+            gsap.set(sixAHeader, { y: 30, opacity: 0 });
+            ScrollTrigger.create({
+                trigger: '.dm-6a-section',
+                start: 'top 85%',
+                once: true,
+                onEnter: function () {
+                    gsap.to(sixAHeader, {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.6,
+                        ease: 'power2.out'
+                    });
+                }
+            });
+        }
+
+        // Click to toggle active node
+        document.querySelectorAll('.dm-6a-node').forEach(function (node) {
+            node.addEventListener('click', function () {
+                var wasActive = this.classList.contains('is-active');
+                document.querySelectorAll('.dm-6a-node').forEach(function (n) {
+                    n.classList.remove('is-active');
+                });
+                if (!wasActive) {
+                    this.classList.add('is-active');
+                }
+            });
+        });
+
+        // -- Section 06: AI-Enabled Platform (Light + WebGL) --
+
+        // --- Light-mode particle canvas ---
+        (function () {
+            var canvas = document.getElementById('dmAiParticles');
+            if (!canvas) return;
+            var ctx = canvas.getContext('2d');
+            var particles = [];
+            var PARTICLE_COUNT = 55;
+            var mouse = { x: -1000, y: -1000 };
+
+            function resize() {
+                var rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            canvas.parentElement.addEventListener('mousemove', function (e) {
+                var rect = canvas.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            });
+
+            for (var i = 0; i < PARTICLE_COUNT; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.35,
+                    vy: (Math.random() - 0.5) * 0.35,
+                    r: Math.random() * 2 + 0.5,
+                    alpha: Math.random() * 0.35 + 0.1
+                });
+            }
+
+            function drawParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (var i = 0; i < particles.length; i++) {
+                    var p = particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0) p.x = canvas.width;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height;
+                    if (p.y > canvas.height) p.y = 0;
+
+                    var dx = mouse.x - p.x;
+                    var dy = mouse.y - p.y;
+                    var dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 180) {
+                        p.vx += dx * 0.00012;
+                        p.vy += dy * 0.00012;
+                    }
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(99, 102, 241, ' + p.alpha + ')';
+                    ctx.fill();
+
+                    for (var j = i + 1; j < particles.length; j++) {
+                        var p2 = particles[j];
+                        var d = Math.sqrt(Math.pow(p.x - p2.x, 2) + Math.pow(p.y - p2.y, 2));
+                        if (d < 110) {
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.strokeStyle = 'rgba(99, 102, 241, ' + (0.055 * (1 - d / 110)) + ')';
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(drawParticles);
+            }
+            drawParticles();
         })();
-    </script>
 
-    <!-- GSAP animations for USP + 6A Sections -->
-    <script>
+
+        // --- Three.js WebGL Neural Sphere (r118-compatible) ---
         (function () {
-            gsap.registerPlugin(ScrollTrigger);
-
-            // ── Section 04: USP cards stagger-in ──
-            var uspCards = document.querySelectorAll('.dm-usp-card');
-            if (uspCards.length) {
-                gsap.set(uspCards, { y: 60, opacity: 0 });
-                ScrollTrigger.create({
-                    trigger: '.dm-usp-section',
-                    start: 'top 80%',
-                    once: true,
-                    onEnter: function () {
-                        gsap.to(uspCards, {
-                            y: 0,
-                            opacity: 1,
-                            duration: 0.7,
-                            stagger: 0.15,
-                            ease: 'power3.out'
-                        });
-                    }
-                });
-            }
-
-            // USP title reveal
-            var uspTitle = document.querySelector('.dm-usp-title');
-            if (uspTitle) {
-                gsap.set(uspTitle, { y: 30, opacity: 0 });
-                ScrollTrigger.create({
-                    trigger: '.dm-usp-section',
-                    start: 'top 85%',
-                    once: true,
-                    onEnter: function () {
-                        gsap.to(uspTitle, {
-                            y: 0,
-                            opacity: 1,
-                            duration: 0.6,
-                            ease: 'power2.out'
-                        });
-                    }
-                });
-            }
-
-            // ── Section 05: 6A hexagons sequential reveal ──
-            var sixANodes = document.querySelectorAll('.dm-6a-node');
-            var sixAConnectors = document.querySelectorAll('.dm-6a-connector');
-
-            if (sixANodes.length) {
-                gsap.set(sixANodes, { y: 40, opacity: 0, scale: 0.85 });
-                gsap.set(sixAConnectors, { scaleX: 0, transformOrigin: 'left center' });
-
-                ScrollTrigger.create({
-                    trigger: '.dm-6a-section',
-                    start: 'top 75%',
-                    once: true,
-                    onEnter: function () {
-                        // Build a timeline for sequential reveal
-                        var tl = gsap.timeline();
-
-                        sixANodes.forEach(function (node, i) {
-                            tl.to(node, {
-                                y: 0,
-                                opacity: 1,
-                                scale: 1,
-                                duration: 0.5,
-                                ease: 'back.out(1.4)'
-                            }, i * 0.2);
-
-                            // Animate the connector after each node (except last)
-                            if (sixAConnectors[i]) {
-                                tl.to(sixAConnectors[i], {
-                                    scaleX: 1,
-                                    duration: 0.3,
-                                    ease: 'power2.inOut'
-                                }, i * 0.2 + 0.25);
-                            }
-                        });
-
-                        // After all nodes revealed, auto-activate them sequentially
-                        tl.call(function () {
-                            var activeIndex = 0;
-                            function activateNext() {
-                                sixANodes.forEach(function (n) { n.classList.remove('is-active'); });
-                                if (sixANodes[activeIndex]) {
-                                    sixANodes[activeIndex].classList.add('is-active');
-                                }
-                                activeIndex = (activeIndex + 1) % sixANodes.length;
-                            }
-                            activateNext();
-                            setInterval(activateNext, 3000);
-                        });
-                    }
-                });
-            }
-
-            // 6A header elements
-            var sixAHeader = document.querySelector('.dm-6a-header');
-            if (sixAHeader) {
-                gsap.set(sixAHeader, { y: 30, opacity: 0 });
-                ScrollTrigger.create({
-                    trigger: '.dm-6a-section',
-                    start: 'top 85%',
-                    once: true,
-                    onEnter: function () {
-                        gsap.to(sixAHeader, {
-                            y: 0,
-                            opacity: 1,
-                            duration: 0.6,
-                            ease: 'power2.out'
-                        });
-                    }
-                });
-            }
-
-            // Click to toggle active node
-            document.querySelectorAll('.dm-6a-node').forEach(function (node) {
-                node.addEventListener('click', function () {
-                    var wasActive = this.classList.contains('is-active');
-                    document.querySelectorAll('.dm-6a-node').forEach(function (n) {
-                        n.classList.remove('is-active');
-                    });
-                    if (!wasActive) {
-                        this.classList.add('is-active');
-                    }
-                });
-            });
-
-            // ── Section 06: AI-Enabled Platform (Light + WebGL) ──
-
-            // --- Light-mode particle canvas ---
-            (function () {
-                var canvas = document.getElementById('dmAiParticles');
-                if (!canvas) return;
-                var ctx = canvas.getContext('2d');
-                var particles = [];
-                var PARTICLE_COUNT = 55;
-                var mouse = { x: -1000, y: -1000 };
-
-                function resize() {
-                    var rect = canvas.parentElement.getBoundingClientRect();
-                    canvas.width = rect.width;
-                    canvas.height = rect.height;
-                }
-                resize();
-                window.addEventListener('resize', resize);
-
-                canvas.parentElement.addEventListener('mousemove', function (e) {
-                    var rect = canvas.getBoundingClientRect();
-                    mouse.x = e.clientX - rect.left;
-                    mouse.y = e.clientY - rect.top;
-                });
-
-                for (var i = 0; i < PARTICLE_COUNT; i++) {
-                    particles.push({
-                        x: Math.random() * canvas.width,
-                        y: Math.random() * canvas.height,
-                        vx: (Math.random() - 0.5) * 0.35,
-                        vy: (Math.random() - 0.5) * 0.35,
-                        r: Math.random() * 2 + 0.5,
-                        alpha: Math.random() * 0.35 + 0.1
-                    });
-                }
-
-                function drawParticles() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    for (var i = 0; i < particles.length; i++) {
-                        var p = particles[i];
-                        p.x += p.vx;
-                        p.y += p.vy;
-                        if (p.x < 0) p.x = canvas.width;
-                        if (p.x > canvas.width) p.x = 0;
-                        if (p.y < 0) p.y = canvas.height;
-                        if (p.y > canvas.height) p.y = 0;
-
-                        var dx = mouse.x - p.x;
-                        var dy = mouse.y - p.y;
-                        var dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 180) {
-                            p.vx += dx * 0.00012;
-                            p.vy += dy * 0.00012;
-                        }
-
-                        ctx.beginPath();
-                        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(99, 102, 241, ' + p.alpha + ')';
-                        ctx.fill();
-
-                        for (var j = i + 1; j < particles.length; j++) {
-                            var p2 = particles[j];
-                            var d = Math.sqrt(Math.pow(p.x - p2.x, 2) + Math.pow(p.y - p2.y, 2));
-                            if (d < 110) {
-                                ctx.beginPath();
-                                ctx.moveTo(p.x, p.y);
-                                ctx.lineTo(p2.x, p2.y);
-                                ctx.strokeStyle = 'rgba(99, 102, 241, ' + (0.055 * (1 - d / 110)) + ')';
-                                ctx.lineWidth = 0.5;
-                                ctx.stroke();
-                            }
-                        }
-                    }
-                    requestAnimationFrame(drawParticles);
-                }
-                drawParticles();
-            })();
-
-            // --- Three.js WebGL Neural Sphere (r118-compatible) ---
-            (function () {
-                try {
-                    var webglCanvas = document.getElementById('dmAiWebGL');
-                    if (!webglCanvas || typeof THREE === 'undefined') return;
-
-                    var wrap = webglCanvas.parentElement;
-                    var W = wrap.clientWidth || 420;
-                    var H = wrap.clientHeight || 420;
-                    var mouseNorm = { x: 0, y: 0 };
-
-                    // Renderer
-                    var renderer = new THREE.WebGLRenderer({
-                        canvas: webglCanvas,
-                        alpha: true,
-                        antialias: true
-                    });
-                    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-                    renderer.setSize(W, H);
-                    renderer.setClearColor(0x000000, 0);
-
-                    // Scene & Camera
-                    var scene = new THREE.Scene();
-                    var camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 100);
-                    camera.position.z = 5;
-
-                    // --- Core sphere (icosahedron wireframe) ---
-                    var CoreGeo = THREE.IcosahedronBufferGeometry || THREE.IcosahedronGeometry;
-                    var coreGeo = new CoreGeo(1.0, 2);
-                    var coreMat = new THREE.MeshBasicMaterial({
-                        color: 0x4338ca,
-                        wireframe: true,
-                        transparent: true,
-                        opacity: 0.5
-                    });
-                    var coreMesh = new THREE.Mesh(coreGeo, coreMat);
-                    scene.add(coreMesh);
-
-                    // --- Inner solid sphere (glowing core) ---
-                    var SphGeo = THREE.SphereBufferGeometry || THREE.SphereGeometry;
-                    var innerGeo = new SphGeo(0.45, 32, 32);
-                    var innerMat = new THREE.MeshBasicMaterial({
-                        color: 0x6366f1,
-                        transparent: true,
-                        opacity: 0.35
-                    });
-                    var innerMesh = new THREE.Mesh(innerGeo, innerMat);
-                    scene.add(innerMesh);
-
-                    // --- Orbiting point cloud (neural nodes) ---
-                    var NODE_COUNT = 200;
-                    var nodePositions = new Float32Array(NODE_COUNT * 3);
-                    var nodeOrbits = [];
-
-                    for (var i = 0; i < NODE_COUNT; i++) {
-                        var phi = Math.acos(2 * Math.random() - 1);
-                        var theta = Math.random() * Math.PI * 2;
-                        var r = 1.0 + Math.random() * 0.8;
-                        nodePositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-                        nodePositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-                        nodePositions[i * 3 + 2] = r * Math.cos(phi);
-                        nodeOrbits.push({
-                            radius: r, phi: phi, theta: theta,
-                            phiSpeed: (Math.random() - 0.5) * 0.004,
-                            thetaSpeed: (Math.random() - 0.5) * 0.008
-                        });
-                    }
-
-                    var nodeGeo = new THREE.BufferGeometry();
-                    nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePositions, 3));
-
-                    // Use plain color (no vertexColors) for r118 safety
-                    var nodeMat = new THREE.PointsMaterial({
-                        size: 0.055,
-                        color: 0x6366f1,
-                        transparent: true,
-                        opacity: 0.8,
-                        sizeAttenuation: true
-                    });
-                    var nodePoints = new THREE.Points(nodeGeo, nodeMat);
-                    scene.add(nodePoints);
-
-                    // --- Neural connections (lines between nearby nodes) ---
-                    var CONN_MAX = 300;
-                    var connPositions = new Float32Array(CONN_MAX * 6);
-                    var connGeo = new THREE.BufferGeometry();
-                    connGeo.setAttribute('position', new THREE.BufferAttribute(connPositions, 3));
-                    var connMat = new THREE.LineBasicMaterial({
-                        color: 0x6366f1,
-                        transparent: true,
-                        opacity: 0.15
-                    });
-                    var connLines = new THREE.LineSegments(connGeo, connMat);
-                    scene.add(connLines);
-
-                    // --- Outer ring orbits (3 torus rings) ---
-                    var TorGeo = THREE.TorusBufferGeometry || THREE.TorusGeometry;
-                    var ringColors = [0x4338ca, 0x7c3aed, 0x3b82f6];
-                    var ringScales = [1.8, 2.1, 2.4];
-                    var ringRotations = [
-                        { x: Math.PI / 2.5, y: 0, z: 0 },
-                        { x: Math.PI / 3.5, y: Math.PI / 4, z: 0 },
-                        { x: Math.PI / 5, y: -Math.PI / 3, z: Math.PI / 6 }
-                    ];
-                    var rings = [];
-                    for (var ri = 0; ri < 3; ri++) {
-                        var rGeo = new TorGeo(ringScales[ri], 0.018, 8, 100);
-                        var rMat = new THREE.MeshBasicMaterial({
-                            color: ringColors[ri],
-                            transparent: true,
-                            opacity: 0.3 + ri * 0.05
-                        });
-                        var rMesh = new THREE.Mesh(rGeo, rMat);
-                        rMesh.rotation.set(ringRotations[ri].x, ringRotations[ri].y, ringRotations[ri].z);
-                        scene.add(rMesh);
-                        rings.push(rMesh);
-                    }
-
-                    // Mark WebGL as active — hide CSS fallback
-                    wrap.classList.add('dm-ai-webgl-active');
-
-                    // --- Animate ---
-                    var clock = new THREE.Clock();
-
-                    function updateConnections() {
-                        var posArr = nodeGeo.attributes.position.array;
-                        var connIdx = 0;
-                        var threshold = 0.9;
-                        for (var ci = 0; ci < NODE_COUNT && connIdx < CONN_MAX; ci++) {
-                            var ax = posArr[ci * 3], ay = posArr[ci * 3 + 1], az = posArr[ci * 3 + 2];
-                            for (var cj = ci + 1; cj < NODE_COUNT && connIdx < CONN_MAX; cj++) {
-                                var bx = posArr[cj * 3], by = posArr[cj * 3 + 1], bz = posArr[cj * 3 + 2];
-                                var dx = ax - bx, dy = ay - by, dz = az - bz;
-                                if (dx * dx + dy * dy + dz * dz < threshold) {
-                                    connPositions[connIdx * 6] = ax;
-                                    connPositions[connIdx * 6 + 1] = ay;
-                                    connPositions[connIdx * 6 + 2] = az;
-                                    connPositions[connIdx * 6 + 3] = bx;
-                                    connPositions[connIdx * 6 + 4] = by;
-                                    connPositions[connIdx * 6 + 5] = bz;
-                                    connIdx++;
-                                }
-                            }
-                        }
-                        for (var ck = connIdx * 6; ck < CONN_MAX * 6; ck++) {
-                            connPositions[ck] = 0;
-                        }
-                        connGeo.attributes.position.needsUpdate = true;
-                        connGeo.setDrawRange(0, connIdx * 2);
-                    }
-
-                    function animate() {
-                        requestAnimationFrame(animate);
-                        var t = clock.getElapsedTime();
-                        var posArr = nodeGeo.attributes.position.array;
-
-                        for (var ai = 0; ai < NODE_COUNT; ai++) {
-                            var orb = nodeOrbits[ai];
-                            orb.phi += orb.phiSpeed;
-                            orb.theta += orb.thetaSpeed;
-                            posArr[ai * 3] = orb.radius * Math.sin(orb.phi) * Math.cos(orb.theta);
-                            posArr[ai * 3 + 1] = orb.radius * Math.sin(orb.phi) * Math.sin(orb.theta);
-                            posArr[ai * 3 + 2] = orb.radius * Math.cos(orb.phi);
-                        }
-                        nodeGeo.attributes.position.needsUpdate = true;
-
-                        if (Math.round(t * 60) % 3 === 0) updateConnections();
-
-                        coreMesh.rotation.x = t * 0.15 + mouseNorm.y * 0.3;
-                        coreMesh.rotation.y = t * 0.2 + mouseNorm.x * 0.3;
-
-                        var pulse = 0.45 + Math.sin(t * 2) * 0.05;
-                        innerMesh.scale.setScalar(pulse / 0.45);
-                        innerMat.opacity = 0.3 + Math.sin(t * 1.5) * 0.1;
-
-                        rings[0].rotation.z += 0.003;
-                        rings[1].rotation.z -= 0.0025;
-                        rings[2].rotation.z += 0.002;
-
-                        scene.rotation.x = mouseNorm.y * 0.15;
-                        scene.rotation.y = mouseNorm.x * 0.15;
-
-                        renderer.render(scene, camera);
-                    }
-                    animate();
-
-                    wrap.addEventListener('mousemove', function (e) {
-                        var rect = wrap.getBoundingClientRect();
-                        mouseNorm.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-                        mouseNorm.y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-                    });
-                    wrap.addEventListener('mouseleave', function () {
-                        mouseNorm.x = 0;
-                        mouseNorm.y = 0;
-                    });
-
-                    window.addEventListener('resize', function () {
-                        W = wrap.clientWidth;
-                        H = wrap.clientHeight;
-                        camera.aspect = W / H;
-                        camera.updateProjectionMatrix();
-                        renderer.setSize(W, H);
-                    });
-                } catch (e) { /* WebGL not available — CSS fallback shows instead */ }
-            })();
-
-            // --- Mouse-reactive card glow ---
-            document.querySelectorAll('.dm-ai-card').forEach(function (card) {
-                card.addEventListener('mousemove', function (e) {
-                    var rect = card.getBoundingClientRect();
-                    var glow = card.querySelector('.dm-ai-card-glow');
-                    if (glow) {
-                        glow.style.left = (e.clientX - rect.left) + 'px';
-                        glow.style.top = (e.clientY - rect.top) + 'px';
-                    }
-                });
-            });
-
-            // --- GSAP scroll-triggered reveal (safe — no pre-hiding) ---
-            // Content is visible by default; animation enhances on scroll
             try {
-                var aiElems = document.querySelectorAll('.dm-ai-header, .dm-ai-platform, .dm-ai-card, .dm-ai-footer');
-                if (aiElems.length && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-                    aiElems.forEach(function (el) {
-                        gsap.from(el, {
-                            y: 40,
-                            opacity: 0,
-                            duration: 0.7,
-                            ease: 'power3.out',
-                            scrollTrigger: {
-                                trigger: el,
-                                start: 'top 92%',
-                                once: true
-                            }
-                        });
+                var webglCanvas = document.getElementById('dmAiWebGL');
+                if (!webglCanvas || typeof THREE === 'undefined') return;
+
+                var wrap = webglCanvas.parentElement;
+                var W = wrap.clientWidth || 420;
+                var H = wrap.clientHeight || 420;
+                var mouseNorm = { x: 0, y: 0 };
+
+                // Renderer
+                var renderer = new THREE.WebGLRenderer({
+                    canvas: webglCanvas,
+                    alpha: true,
+                    antialias: true
+                });
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                renderer.setSize(W, H);
+                renderer.setClearColor(0x000000, 0);
+
+                // Scene & Camera
+                var scene = new THREE.Scene();
+                var camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 100);
+                camera.position.z = 5;
+
+                // --- Core sphere (icosahedron wireframe) ---
+                var CoreGeo = THREE.IcosahedronBufferGeometry || THREE.IcosahedronGeometry;
+                var coreGeo = new CoreGeo(1.0, 2);
+                var coreMat = new THREE.MeshBasicMaterial({
+                    color: 0x4338ca,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.5
+                });
+                var coreMesh = new THREE.Mesh(coreGeo, coreMat);
+                scene.add(coreMesh);
+
+                // --- Inner solid sphere (glowing core) ---
+                var SphGeo = THREE.SphereBufferGeometry || THREE.SphereGeometry;
+                var innerGeo = new SphGeo(0.45, 32, 32);
+                var innerMat = new THREE.MeshBasicMaterial({
+                    color: 0x6366f1,
+                    transparent: true,
+                    opacity: 0.35
+                });
+                var innerMesh = new THREE.Mesh(innerGeo, innerMat);
+                scene.add(innerMesh);
+
+                // --- Orbiting point cloud (neural nodes) ---
+                var NODE_COUNT = 200;
+                var nodePositions = new Float32Array(NODE_COUNT * 3);
+                var nodeOrbits = [];
+
+                for (var i = 0; i < NODE_COUNT; i++) {
+                    var phi = Math.acos(2 * Math.random() - 1);
+                    var theta = Math.random() * Math.PI * 2;
+                    var r = 1.0 + Math.random() * 0.8;
+                    nodePositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+                    nodePositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+                    nodePositions[i * 3 + 2] = r * Math.cos(phi);
+                    nodeOrbits.push({
+                        radius: r, phi: phi, theta: theta,
+                        phiSpeed: (Math.random() - 0.5) * 0.004,
+                        thetaSpeed: (Math.random() - 0.5) * 0.008
                     });
                 }
-            } catch (e) { /* animations are progressive enhancement */ }
 
+                var nodeGeo = new THREE.BufferGeometry();
+                nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePositions, 3));
+
+                // Use plain color (no vertexColors) for r118 safety
+                var nodeMat = new THREE.PointsMaterial({
+                    size: 0.055,
+                    color: 0x6366f1,
+                    transparent: true,
+                    opacity: 0.8,
+                    sizeAttenuation: true
+                });
+                var nodePoints = new THREE.Points(nodeGeo, nodeMat);
+                scene.add(nodePoints);
+
+                // --- Neural connections (lines between nearby nodes) ---
+                var CONN_MAX = 300;
+                var connPositions = new Float32Array(CONN_MAX * 6);
+                var connGeo = new THREE.BufferGeometry();
+                connGeo.setAttribute('position', new THREE.BufferAttribute(connPositions, 3));
+                var connMat = new THREE.LineBasicMaterial({
+                    color: 0x6366f1,
+                    transparent: true,
+                    opacity: 0.15
+                });
+                var connLines = new THREE.LineSegments(connGeo, connMat);
+                scene.add(connLines);
+
+                // --- Outer ring orbits (3 torus rings) ---
+                var TorGeo = THREE.TorusBufferGeometry || THREE.TorusGeometry;
+                var ringColors = [0x4338ca, 0x7c3aed, 0x3b82f6];
+                var ringScales = [1.8, 2.1, 2.4];
+                var ringRotations = [
+                    { x: Math.PI / 2.5, y: 0, z: 0 },
+                    { x: Math.PI / 3.5, y: Math.PI / 4, z: 0 },
+                    { x: Math.PI / 5, y: -Math.PI / 3, z: Math.PI / 6 }
+                ];
+                var rings = [];
+                for (var ri = 0; ri < 3; ri++) {
+                    var rGeo = new TorGeo(ringScales[ri], 0.018, 8, 100);
+                    var rMat = new THREE.MeshBasicMaterial({
+                        color: ringColors[ri],
+                        transparent: true,
+                        opacity: 0.3 + ri * 0.05
+                    });
+                    var rMesh = new THREE.Mesh(rGeo, rMat);
+                    rMesh.rotation.set(ringRotations[ri].x, ringRotations[ri].y, ringRotations[ri].z);
+                    scene.add(rMesh);
+                    rings.push(rMesh);
+                }
+
+                // Mark WebGL as active — hide CSS fallback
+                wrap.classList.add('dm-ai-webgl-active');
+
+                // --- Animate ---
+                var clock = new THREE.Clock();
+
+                function updateConnections() {
+                    var posArr = nodeGeo.attributes.position.array;
+                    var connIdx = 0;
+                    var threshold = 0.9;
+                    for (var ci = 0; ci < NODE_COUNT && connIdx < CONN_MAX; ci++) {
+                        var ax = posArr[ci * 3], ay = posArr[ci * 3 + 1], az = posArr[ci * 3 + 2];
+                        for (var cj = ci + 1; cj < NODE_COUNT && connIdx < CONN_MAX; cj++) {
+                            var bx = posArr[cj * 3], by = posArr[cj * 3 + 1], bz = posArr[cj * 3 + 2];
+                            var dx = ax - bx, dy = ay - by, dz = az - bz;
+                            if (dx * dx + dy * dy + dz * dz < threshold) {
+                                connPositions[connIdx * 6] = ax;
+                                connPositions[connIdx * 6 + 1] = ay;
+                                connPositions[connIdx * 6 + 2] = az;
+                                connPositions[connIdx * 6 + 3] = bx;
+                                connPositions[connIdx * 6 + 4] = by;
+                                connPositions[connIdx * 6 + 5] = bz;
+                                connIdx++;
+                            }
+                        }
+                    }
+                    for (var ck = connIdx * 6; ck < CONN_MAX * 6; ck++) {
+                        connPositions[ck] = 0;
+                    }
+                    connGeo.attributes.position.needsUpdate = true;
+                    connGeo.setDrawRange(0, connIdx * 2);
+                }
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    var t = clock.getElapsedTime();
+                    var posArr = nodeGeo.attributes.position.array;
+
+                    for (var ai = 0; ai < NODE_COUNT; ai++) {
+                        var orb = nodeOrbits[ai];
+                        orb.phi += orb.phiSpeed;
+                        orb.theta += orb.thetaSpeed;
+                        posArr[ai * 3] = orb.radius * Math.sin(orb.phi) * Math.cos(orb.theta);
+                        posArr[ai * 3 + 1] = orb.radius * Math.sin(orb.phi) * Math.sin(orb.theta);
+                        posArr[ai * 3 + 2] = orb.radius * Math.cos(orb.phi);
+                    }
+                    nodeGeo.attributes.position.needsUpdate = true;
+
+                    if (Math.round(t * 60) % 3 === 0) updateConnections();
+
+                    coreMesh.rotation.x = t * 0.15 + mouseNorm.y * 0.3;
+                    coreMesh.rotation.y = t * 0.2 + mouseNorm.x * 0.3;
+
+                    var pulse = 0.45 + Math.sin(t * 2) * 0.05;
+                    innerMesh.scale.setScalar(pulse / 0.45);
+                    innerMat.opacity = 0.3 + Math.sin(t * 1.5) * 0.1;
+
+                    rings[0].rotation.z += 0.003;
+                    rings[1].rotation.z -= 0.0025;
+                    rings[2].rotation.z += 0.002;
+
+                    scene.rotation.x = mouseNorm.y * 0.15;
+                    scene.rotation.y = mouseNorm.x * 0.15;
+
+                    renderer.render(scene, camera);
+                }
+                animate();
+
+                wrap.addEventListener('mousemove', function (e) {
+                    var rect = wrap.getBoundingClientRect();
+                    mouseNorm.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+                    mouseNorm.y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+                });
+                wrap.addEventListener('mouseleave', function () {
+                    mouseNorm.x = 0;
+                    mouseNorm.y = 0;
+                });
+
+                window.addEventListener('resize', function () {
+                    W = wrap.clientWidth;
+                    H = wrap.clientHeight;
+                    camera.aspect = W / H;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(W, H);
+                });
+            } catch (e) { /* WebGL not available — CSS fallback shows instead */ }
         })();
-    </script>
 
-    <!-- Approach + Lifecycle section animations -->
-    <script>
-        (function () {
-            if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-
-            var aplSection = document.querySelector('.dm-apl-section');
-            var aplPin = document.querySelector('.dm-apl-pin');
-            if (!aplSection || !aplPin) return;
-
-            // ── Header fade-in ──
-            var aplHeader = aplSection.querySelector('.dm-apl-header');
-            if (aplHeader) {
-                gsap.set(aplHeader, { y: 30, opacity: 0 });
-                ScrollTrigger.create({
-                    trigger: aplSection,
-                    start: 'top 85%',
-                    once: true,
-                    onEnter: function () {
-                        gsap.to(aplHeader, { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' });
-                    }
-                });
-            }
-
-            // ── Checklist items stagger-in ──
-            var aplItems = aplSection.querySelectorAll('.dm-apl-item');
-            if (aplItems.length) {
-                gsap.set(aplItems, { x: -15, opacity: 0 });
-                ScrollTrigger.create({
-                    trigger: '.dm-apl-left',
-                    start: 'top 80%',
-                    once: true,
-                    onEnter: function () {
-                        gsap.to(aplItems, { x: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: 'power2.out' });
-                    }
-                });
-            }
-
-            // ── Hover microanimations on checklist items ──
-            aplItems.forEach(function (item) {
-                var check = item.querySelector('.dm-apl-check');
-                item.addEventListener('mouseenter', function () {
-                    gsap.to(item, { x: 4, duration: 0.25, ease: 'power2.out' });
-                    if (check) gsap.to(check, { scale: 1.15, rotation: 10, duration: 0.3, ease: 'back.out(2)' });
-                });
-                item.addEventListener('mouseleave', function () {
-                    gsap.to(item, { x: 0, duration: 0.25, ease: 'power2.out' });
-                    if (check) gsap.to(check, { scale: 1, rotation: 0, duration: 0.25, ease: 'power2.out' });
-                });
+        // --- Mouse-reactive card glow ---
+        document.querySelectorAll('.dm-ai-card').forEach(function (card) {
+            card.addEventListener('mousemove', function (e) {
+                var rect = card.getBoundingClientRect();
+                var glow = card.querySelector('.dm-ai-card-glow');
+                if (glow) {
+                    glow.style.left = (e.clientX - rect.left) + 'px';
+                    glow.style.top = (e.clientY - rect.top) + 'px';
+                }
             });
+        });
 
-            // ═══════════════════════════════════════════════
-            // LIFECYCLE — Vertical tab switching (click-based)
-            // ═══════════════════════════════════════════════
-
-            var lcTabs = aplSection.querySelectorAll('.dm-lc-vtab');
-            var lcPanels = aplSection.querySelectorAll('.dm-lc-vpanel');
-
-            if (!lcTabs.length || !lcPanels.length) return;
-
-            var activeTab = 0;
-
-            function switchTab(index) {
-                if (index === activeTab) return;
-                var prevIndex = activeTab;
-                activeTab = index;
-                var direction = index > prevIndex ? 1 : -1;
-
-                // Update tab buttons
-                lcTabs.forEach(function (tab, i) {
-                    tab.classList.toggle('is-active', i === index);
+        // --- GSAP scroll-triggered reveal (safe — no pre-hiding) ---
+        try {
+            var aiElems = document.querySelectorAll('.dm-ai-header, .dm-ai-platform, .dm-ai-card, .dm-ai-footer');
+            if (aiElems.length && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                aiElems.forEach(function (el) {
+                    gsap.from(el, {
+                        y: 40,
+                        opacity: 0,
+                        duration: 0.7,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: el,
+                            start: 'top 92%',
+                            once: true
+                        }
+                    });
                 });
+            }
+        } catch (e) { /* animations are progressive enhancement */ }
 
-                // Kill any running panel/list animations
-                lcPanels.forEach(function (panel) {
-                    gsap.killTweensOf(panel);
-                    var items = panel.querySelectorAll('li');
-                    if (items.length) gsap.killTweensOf(items);
-                });
+    })();
+</script>
 
-                // Hide all panels except the new one
-                lcPanels.forEach(function (panel, i) {
-                    if (i !== index) {
-                        panel.classList.remove('is-active');
-                        gsap.set(panel, { opacity: 0, y: 0 });
-                    }
-                });
 
-                // Animate in the new panel
-                var inPanel = lcPanels[index];
-                inPanel.classList.add('is-active');
-                gsap.fromTo(inPanel,
-                    { opacity: 0, y: 14 * direction },
-                    { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
-                );
+<!-- Approach + Lifecycle section animations -->
+<script>
+    (function () {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-                // Stagger-in list items
-                var newItems = inPanel.querySelectorAll('li');
-                if (newItems.length) {
-                    gsap.fromTo(newItems,
-                        { x: 8, opacity: 0 },
-                        { x: 0, opacity: 1, duration: 0.3, stagger: 0.04, delay: 0.1, ease: 'power2.out' }
-                    );
+        var aplSection = document.querySelector('.dm-apl-section');
+        var aplPin = document.querySelector('.dm-apl-pin');
+        if (!aplSection || !aplPin) return;
+
+        // -- Header fade-in --
+        var aplHeader = aplSection.querySelector('.dm-apl-header');
+        if (aplHeader) {
+            gsap.set(aplHeader, { y: 30, opacity: 0 });
+            ScrollTrigger.create({
+                trigger: aplSection,
+                start: 'top 85%',
+                once: true,
+                onEnter: function () {
+                    gsap.to(aplHeader, { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' });
                 }
-            }
+            });
+        }
 
-            // ── Auto-rotate every 5 seconds ──
-            var AUTO_INTERVAL = 5000;
-            var autoTimer = null;
-
-            function startAutoRotate() {
-                stopAutoRotate();
-                autoTimer = setInterval(function () {
-                    var nextTab = (activeTab + 1) % lcTabs.length;
-                    switchTab(nextTab);
-                }, AUTO_INTERVAL);
-            }
-
-            function stopAutoRotate() {
-                if (autoTimer) {
-                    clearInterval(autoTimer);
-                    autoTimer = null;
+        // -- Checklist items stagger-in --
+        var aplItems = aplSection.querySelectorAll('.dm-apl-item');
+        if (aplItems.length) {
+            gsap.set(aplItems, { x: -15, opacity: 0 });
+            ScrollTrigger.create({
+                trigger: '.dm-apl-left',
+                start: 'top 80%',
+                once: true,
+                onEnter: function () {
+                    gsap.to(aplItems, { x: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: 'power2.out' });
                 }
-            }
+            });
+        }
 
-            // Tab click handlers — reset timer on manual click
+        // -- Hover microanimations on checklist items --
+        aplItems.forEach(function (item) {
+            var check = item.querySelector('.dm-apl-check');
+            item.addEventListener('mouseenter', function () {
+                gsap.to(item, { x: 4, duration: 0.25, ease: 'power2.out' });
+                if (check) gsap.to(check, { scale: 1.15, rotation: 10, duration: 0.3, ease: 'back.out(2)' });
+            });
+            item.addEventListener('mouseleave', function () {
+                gsap.to(item, { x: 0, duration: 0.25, ease: 'power2.out' });
+                if (check) gsap.to(check, { scale: 1, rotation: 0, duration: 0.25, ease: 'power2.out' });
+            });
+        });
+
+        // ===============================================
+        // LIFECYCLE -- Vertical tab switching (click-based)
+        // ===============================================
+
+        var lcTabs = aplSection.querySelectorAll('.dm-lc-vtab');
+        var lcPanels = aplSection.querySelectorAll('.dm-lc-vpanel');
+
+        if (!lcTabs.length || !lcPanels.length) return;
+
+        var activeTab = 0;
+
+        function switchTab(index) {
+            if (index === activeTab) return;
+            var prevIndex = activeTab;
+            activeTab = index;
+            var direction = index > prevIndex ? 1 : -1;
+
+            // Update tab buttons
             lcTabs.forEach(function (tab, i) {
-                tab.addEventListener('click', function () {
-                    switchTab(i);
-                    startAutoRotate(); // restart timer from this tab
-                });
+                tab.classList.toggle('is-active', i === index);
             });
 
-            // Pause auto-rotate on hover, resume on leave
-            var vtabsContainer = aplSection.querySelector('.dm-lc-vtabs');
-            if (vtabsContainer) {
-                vtabsContainer.addEventListener('mouseenter', stopAutoRotate);
-                vtabsContainer.addEventListener('mouseleave', startAutoRotate);
-            }
+            // Kill any running panel/list animations
+            lcPanels.forEach(function (panel) {
+                gsap.killTweensOf(panel);
+                var items = panel.querySelectorAll('li');
+                if (items.length) gsap.killTweensOf(items);
+            });
 
-            // Start auto-rotate
-            startAutoRotate();
-
-            // Entrance animation for the vertical tabs container
-            if (vtabsContainer) {
-                gsap.set(vtabsContainer, { y: 20, opacity: 0 });
-                ScrollTrigger.create({
-                    trigger: '.dm-apl-right',
-                    start: 'top 80%',
-                    once: true,
-                    onEnter: function () {
-                        gsap.to(vtabsContainer, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' });
-                    }
-                });
-            }
-
-        })();
-    </script>
-
-    <!-- Horizontal scroll services (desktop GSAP + mobile Swiper) -->
-    <script>
-        (function () {
-            var MOBILE_BP = 991;
-
-            // ── Desktop: GSAP horizontal scroll ──
-            gsap.registerPlugin(ScrollTrigger);
-
-            var section = document.querySelector(".dm-hscroll-section");
-            var cards = document.querySelector(".dm-hscroll-cards");
-
-            function killHScroll() {
-                ScrollTrigger.getAll().forEach(function (t) {
-                    if (t.vars && t.vars.id === "dm-hscroll") t.kill();
-                });
-                if (cards) gsap.set(cards, { x: 0 });
-            }
-
-            function initHScroll() {
-                killHScroll();
-                if (!section || !cards) return;
-                if (window.innerWidth <= MOBILE_BP) return;
-
-                var scrollDistance = cards.scrollWidth - window.innerWidth + 120;
-                if (scrollDistance <= 0) return;
-
-                gsap.to(cards, {
-                    x: -scrollDistance,
-                    ease: "none",
-                    scrollTrigger: {
-                        id: "dm-hscroll",
-                        trigger: section,
-                        pin: true,
-                        scrub: 1,
-                        start: "top top",
-                        end: "+=" + scrollDistance,
-                        invalidateOnRefresh: true
-                    }
-                });
-            }
-
-            // ── Mobile: Swiper slider ──
-            var swiperInstance = null;
-
-            function initSwiper() {
-                if (window.innerWidth > MOBILE_BP) {
-                    if (swiperInstance) { swiperInstance.destroy(true, true); swiperInstance = null; }
-                    return;
+            // Hide all panels except the new one
+            lcPanels.forEach(function (panel, i) {
+                if (i !== index) {
+                    panel.classList.remove('is-active');
+                    gsap.set(panel, { opacity: 0, y: 0 });
                 }
-                if (swiperInstance) return; // already running
+            });
 
-                swiperInstance = new Swiper(".dm-services-swiper", {
-                    slidesPerView: 1.15,
-                    spaceBetween: 16,
-                    centeredSlides: true,
-                    grabCursor: true,
-                    pagination: {
-                        el: ".dm-services-pagination",
-                        clickable: true
-                    },
-                    breakpoints: {
-                        480: { slidesPerView: 1.3, spaceBetween: 20 },
-                        768: { slidesPerView: 2.2, spaceBetween: 24 }
-                    }
-                });
+            // Animate in the new panel
+            var inPanel = lcPanels[index];
+            inPanel.classList.add('is-active');
+            gsap.fromTo(inPanel,
+                { opacity: 0, y: 14 * direction },
+                { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
+            );
+
+            // Stagger-in list items
+            var newItems = inPanel.querySelectorAll('li');
+            if (newItems.length) {
+                gsap.fromTo(newItems,
+                    { x: 8, opacity: 0 },
+                    { x: 0, opacity: 1, duration: 0.3, stagger: 0.04, delay: 0.1, ease: 'power2.out' }
+                );
             }
+        }
 
-            // ── Init on load ──
-            window.addEventListener("load", function () {
-                setTimeout(function () {
-                    initHScroll();
-                    initSwiper();
-                }, 300);
-            });
+        // -- Auto-rotate every 5 seconds --
+        var AUTO_INTERVAL = 5000;
+        var autoTimer = null;
 
-            // ── Re-init on resize ──
-            var resizeTimer;
-            window.addEventListener("resize", function () {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function () {
-                    initHScroll();
-                    initSwiper();
-                }, 250);
+        function startAutoRotate() {
+            stopAutoRotate();
+            autoTimer = setInterval(function () {
+                var nextTab = (activeTab + 1) % lcTabs.length;
+                switchTab(nextTab);
+            }, AUTO_INTERVAL);
+        }
+
+        function stopAutoRotate() {
+            if (autoTimer) {
+                clearInterval(autoTimer);
+                autoTimer = null;
+            }
+        }
+
+        // Tab click handlers -- reset timer on manual click
+        lcTabs.forEach(function (tab, i) {
+            tab.addEventListener('click', function () {
+                switchTab(i);
+                startAutoRotate(); // restart timer from this tab
             });
-        })();
-    </script>
+        });
+
+        // Pause auto-rotate on hover, resume on leave
+        var vtabsContainer = aplSection.querySelector('.dm-lc-vtabs');
+        if (vtabsContainer) {
+            vtabsContainer.addEventListener('mouseenter', stopAutoRotate);
+            vtabsContainer.addEventListener('mouseleave', startAutoRotate);
+        }
+
+        // Start auto-rotate
+        startAutoRotate();
+
+        // Entrance animation for the vertical tabs container
+        if (vtabsContainer) {
+            gsap.set(vtabsContainer, { y: 20, opacity: 0 });
+            ScrollTrigger.create({
+                trigger: '.dm-apl-right',
+                start: 'top 80%',
+                once: true,
+                onEnter: function () {
+                    gsap.to(vtabsContainer, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' });
+                }
+            });
+        }
+
+    })();
+</script>
+
+<!-- Horizontal scroll services (desktop GSAP + mobile Swiper) -->
+<script>
+    (function () {
+        var MOBILE_BP = 991;
+
+        // -- Desktop: GSAP horizontal scroll --
+        gsap.registerPlugin(ScrollTrigger);
+
+        var section = document.querySelector(".dm-hscroll-section");
+        var cards = document.querySelector(".dm-hscroll-cards");
+
+        function killHScroll() {
+            ScrollTrigger.getAll().forEach(function (t) {
+                if (t.vars && t.vars.id === "dm-hscroll") t.kill();
+            });
+            if (cards) gsap.set(cards, { x: 0 });
+        }
+
+        function initHScroll() {
+            killHScroll();
+            if (!section || !cards) return;
+            if (window.innerWidth <= MOBILE_BP) return;
+
+            var scrollDistance = cards.scrollWidth - window.innerWidth + 120;
+            if (scrollDistance <= 0) return;
+
+            gsap.to(cards, {
+                x: -scrollDistance,
+                ease: "none",
+                scrollTrigger: {
+                    id: "dm-hscroll",
+                    trigger: section,
+                    pin: true,
+                    scrub: 1,
+                    start: "top top",
+                    end: "+=" + scrollDistance,
+                    invalidateOnRefresh: true
+                }
+            });
+        }
+
+        // -- Mobile: Swiper slider --
+        var swiperInstance = null;
+
+        function initSwiper() {
+            if (window.innerWidth > MOBILE_BP) {
+                if (swiperInstance) { swiperInstance.destroy(true, true); swiperInstance = null; }
+                return;
+            }
+            if (swiperInstance) return; // already running
+
+            swiperInstance = new Swiper(".dm-services-swiper", {
+                slidesPerView: 1.15,
+                spaceBetween: 16,
+                centeredSlides: true,
+                grabCursor: true,
+                pagination: {
+                    el: ".dm-services-pagination",
+                    clickable: true
+                },
+                breakpoints: {
+                    480: { slidesPerView: 1.3, spaceBetween: 20 },
+                    768: { slidesPerView: 2.2, spaceBetween: 24 }
+                }
+            });
+        }
+
+        // -- Init on load --
+        window.addEventListener("load", function () {
+            setTimeout(function () {
+                initHScroll();
+                initSwiper();
+            }, 300);
+        });
+
+        // -- Re-init on resize --
+        var resizeTimer;
+        window.addEventListener("resize", function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                initHScroll();
+                initSwiper();
+            }, 250);
+        });
+    })();
+</script>
 @endpush
