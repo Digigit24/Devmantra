@@ -30,6 +30,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.53/build/spline-viewer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     @stack('styles')
 </head>
 
@@ -56,6 +59,8 @@
             </svg>
         </button>
     </div>
+
+    <script src="{{ asset('assets/js/header.js') }}"></script>
 
     @include('frontend.partials.header')
 
@@ -94,6 +99,10 @@
     <script src="{{ asset('assets/js/slider-active.js') }}"></script>
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="{{ asset('assets/js/tp-cursor.js') }}"></script>
+    <script src="{{ asset('assets/js/portfolio-slider-1.js') }}"></script>
+    <script type="module" src="{{ asset('assets/js/distortion-img.js') }}"></script>
+    <script type="module" src="{{ asset('assets/js/skew-slider/index.js') }}"></script>
+    <script type="module" src="{{ asset('assets/js/img-revel/index.js') }}"></script>
 
     @stack('scripts')
 </body>

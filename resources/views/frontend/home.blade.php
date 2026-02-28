@@ -15,11 +15,95 @@
     .cr-blog-area-dark .cr-multi-border { border-color: rgba(255,255,255,0.07); }
     .cr-blog-area-dark .cr-multi-border::after,
     .cr-blog-area-dark .cr-multi-border::before { background-color: rgba(255,255,255,0.07); }
+    .cr-blog-area-dark .cr-cta-text { color: rgba(255,255,255,0.5); }
+    .cr-blog-area-dark .cr-cta-btn .tp-btn-white-border {
+        color: #000;
+        background-color: #fff;
+        border-color: #fff;
+    }
+    .cr-blog-area-dark .cr-cta-btn .tp-btn-white-border:hover {
+        background-color: transparent;
+        color: #fff;
+        border-color: #fff;
+    }
 </style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var splineViewer = document.querySelector("spline-viewer");
+    if (splineViewer) {
+        var observer = new MutationObserver(function () {
+            if (splineViewer.shadowRoot) {
+                var logo = splineViewer.shadowRoot.querySelector("#logo");
+                if (logo) { logo.remove(); observer.disconnect(); }
+            }
+        });
+        observer.observe(splineViewer, { childList: true, subtree: true });
+        setTimeout(function () {
+            if (splineViewer.shadowRoot) {
+                var logo = splineViewer.shadowRoot.querySelector("#logo");
+                if (logo) logo.remove();
+            }
+        }, 3000);
+    }
+});
+</script>
 @endpush
 
 @section('content')
 
+                <div style="background-color: black;" class="cr-hero-area fix cr-hero-ptb p-relative pt-170">
+                    <div class="cr-hero-bg cr-hero-spline">
+                        <spline-viewer
+                            url="https://prod.spline.design/xHLGA5-DjAiR6SRV/scene.splinecode"></spline-viewer>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="cr-hero-heading text-center z-index-1">
+                                    <div class="tp-section-subtitle-gradient ct mb-20 tp_fade_anim" data-delay=".3">
+                                        Commitment to Your Financial Success
+                                    </div>
+                                    <h4 class="tp-section-title-onest fs-68 tp-text-revel-anim" data-delay=".5">Unleash
+                                        the Power of <br> eXcellence Beyond Numbers</h4>
+                                </div>
+                                <div class="cr-hero-content text-center z-index-2">
+                                    <div class="tp_text_anim">
+                                        <p style="margin-bottom: 150px;">At Dev Mantra, the pinnacle of global financial
+                                            <br> services, we are driven
+                                            by a commitment to <br> excellence, integrity, and innovation.
+                                        </p>
+                                    </div>
+                                    <div class="cr-hero-btn">
+                                        <a href="#contact" class="tp-btn-white-border">Book a Free
+                                            Consultation
+                                            <span><svg xmlns="http://www.w3.org/2000/svg" width="15" height="12"
+                                                    viewBox="0 0 15 12" fill="none">
+                                                    <path
+                                                        d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z"
+                                                        fill="currentColor" />
+                                                </svg></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cr-hero-left">
+                        <div class="shape-1 tp_fade_anim" data-fade-from="left" data-delay=".5"><img
+                                src="{{ asset('assets/img/home-13/hero/hero-shape-1.png') }}" alt=""></div>
+                        <div class="shape-2 tp_fade_anim" data-fade-from="left" data-delay=".5"><img
+                                src="{{ asset('assets/img/home-13/hero/hero-shape-2.png') }}" alt=""></div>
+                    </div>
+                    <div class="cr-hero-right">
+                        <div class="shape-1 tp_fade_anim" data-fade-from="right" data-delay=".5"><img
+                                src="{{ asset('assets/img/home-13/hero/hero-shape-3.png') }}" alt=""></div>
+                        <div class="shape-2 tp_fade_anim" data-fade-from="right" data-delay=".5"><img
+                                src="{{ asset('assets/img/home-13/hero/hero-shape-4.png') }}" alt=""></div>
+                    </div>
+                </div>
+                <!-- cr hero area end -->
+
+                <!-- horizontal scroll services start -->
 {{-- ===== DYNAMIC SERVICE SLIDER ===== --}}
 @if($services->count())
 <section class="dm-hscroll-section">
@@ -28,8 +112,7 @@
             <h2 class="dm-hscroll-title">What We Do</h2>
             <p class="dm-hscroll-subtitle">Comprehensive financial and advisory services tailored for your business growth.</p>
         </div>
-
-        <!-- Desktop: horizontal scroll -->
+        <!-- Desktop: horizontal GSAP scroll -->
         <div class="dm-hscroll-track dm-hscroll-desktop">
             <div class="dm-hscroll-cards">
                 @foreach($services as $service)
@@ -38,7 +121,7 @@
                         @if($service->image)
                             <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}">
                         @else
-                            <img src="{{ asset('assets/img/home-13/feature/feature-thumb-1.png') }}" alt="{{ $service->title }}">
+                            <img src="{{ asset('assets/img/home-13/feature/feature-thumb-' . (($loop->index % 3) + 1) . '.png') }}" alt="{{ $service->title }}">
                         @endif
                     </div>
                     <div class="dm-hscroll-card-body">
@@ -50,7 +133,6 @@
                 @endforeach
             </div>
         </div>
-
         <!-- Mobile: Swiper slider -->
         <div class="dm-hscroll-mobile">
             <div class="swiper dm-services-swiper">
@@ -62,7 +144,7 @@
                                 @if($service->image)
                                     <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->title }}">
                                 @else
-                                    <img src="{{ asset('assets/img/home-13/feature/feature-thumb-1.png') }}" alt="{{ $service->title }}">
+                                    <img src="{{ asset('assets/img/home-13/feature/feature-thumb-' . (($loop->index % 3) + 1) . '.png') }}" alt="{{ $service->title }}">
                                 @endif
                             </div>
                             <div class="dm-hscroll-card-body">
@@ -81,69 +163,2647 @@
 </section>
 @endif
 
-{{-- ===== DYNAMIC BLOG SECTION ===== --}}
-@if($blogs->count())
-<div class="cr-blog-area cr-blog-area-dark">
-    <div class="container container-1230">
-        <div class="cr-multi-border pt-120">
-            <div class="cr-blog-bottom-border">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="cr-blog-heading text-center pb-60">
-                            <div class="tp-section-subtitle-gradient ct mb-20 tp_fade_anim" data-delay=".3">Insights</div>
-                            <h4 class="tp-section-title-onest fs-72 tp-text-revel-anim">Explore our <br> latest insights & updates</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    @foreach($blogs as $blog)
-                    <div class="col-lg-4 col-md-6">
-                        <div class="cr-blog-item mb-30">
-                            <div class="cr-blog-item-thumb">
-                                <a href="{{ route('blog.show', $blog->slug) }}">
-                                    @if($blog->featured_image)
-                                        <img src="{{ asset('storage/' . $blog->featured_image) }}" alt="{{ $blog->title }}">
-                                    @else
-                                        <img src="{{ asset('assets/img/home-13/blog/blog-thumb-1.jpg') }}" alt="{{ $blog->title }}">
-                                    @endif
-                                </a>
+                <!-- cr brand area start -->
+                <div class="cr-brand-area cr-brand-ptb fix cr-multi-border-bottom">
+                    <div class="container container-1230">
+                        <div class="cr-multi-border pt-100">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12">
+                                    <div class="cr-brand-heading text-center mb-60">
+                                        <div class="ca-brand-sub mb-70">
+                                            <img src="{{ asset('assets/img/home-13/brand/brand-sub.png') }}" alt="">
+                                        </div>
+                                        <div class="tp_text_anim">
+                                            <p>Our Clientele</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="cr-brand-wrapper pb-80">
+                                        <div class="swiper-container app-brand-active fix">
+                                            <div class="swiper-wrapper slider-transtion">
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/1.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/2.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/3.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/4.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/5.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/6.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/7.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/8.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/9.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/10.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/11.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/12.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/13.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/14.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/15.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/16.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/17.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/18.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/19.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="app-brand-item">
+                                                        <img src="{{ asset('assets/img/logo/20.png') }}" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cr-brand-bottom">
+                                        <img src="{{ asset('assets/img/home-13/brand/brand-bottom.png') }}" alt="">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="cr-blog-item-content">
-                                <span class="cr-blog-item-category">{{ $blog->category }}</span>
-                                <h4 class="cr-blog-item-title">
-                                    <a class="tp-line-white" href="{{ route('blog.show', $blog->slug) }}">
-                                        {{ $blog->title }}
-                                    </a>
-                                </h4>
-                                <p class="cr-blog-item-meta">{{ $blog->published_at ? $blog->published_at->format('M d, Y') : $blog->created_at->format('M d, Y') }}</p>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="cr-feature-heading text-center pt-100 pb-100">
+                                        <div class="tp-section-subtitle-gradient ct mb-20">
+                                            What We Do
+                                        </div>
+
+                                        <h4 class="tp-section-title-onest fs-72">
+                                            Services to Boost Business Growth
+                                        </h4>
+
+                                        <div class="tp_text_anim">
+                                            <p style="padding: 20px;">
+                                                We know navigating financial documentation and regulations can be
+                                                challenging. Rest easy our expert guidance in financial planning and
+                                                risk management is designed to enhance your performance and ensure
+                                                lasting success. Let's unlock your business's full potential together!
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="cr-feature-item-box">
+                                <div class="row gx-0">
+                                    <!-- CARD 1 — Dev Mantra -->
+                                    <div class="col-md-6">
+                                        <div class="cr-feature-item mb-15">
+                                            <div class="cr-feature-item-content">
+                                                <div class="cr-feature-item-icon d-flex">
+                                                    <span>
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-icon-1.png') }}" alt="">
+                                                    </span>
+                                                    <h5 class="cr-feature-item-icon-title">
+                                                        Dev Mantra Financial Services
+                                                    </h5>
+                                                </div>
+
+                                                <p>
+                                                    A Bengaluru-based financial services company founded in 2008,
+                                                    specializing in outsourced accounting, bookkeeping, financial
+                                                    reporting,
+                                                    virtual CFO services, audit support, compliance solutions and
+                                                    M&amp;A Services.
+                                                    With a structured delivery model and trained finance professionals,
+                                                    Dev Mantra supports clients across industries with accuracy,
+                                                    efficiency,
+                                                    and data security at its core. With over ₹5,000 crore (~USD 558
+                                                    million)
+                                                    in transactions and 150+ years of combined leadership experience,
+                                                    we bring deep expertise to every engagement.
+                                                </p>
+                                            </div>
+
+                                            <div class="cr-feature-thumb text-center anim-zoomin-wrap"
+                                                style="padding:25px;">
+                                                <div class="cr-feature-thumb text-start" style="padding:25px 35px;">
+                                                    <div class="metric">
+                                                        <span>Accounting &amp; Bookkeeping</span>
+                                                        <div class="bar">
+                                                            <div style="width:95%"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="metric">
+                                                        <span>Financial Reporting</span>
+                                                        <div class="bar">
+                                                            <div style="width:90%"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="metric">
+                                                        <span>Virtual CFO Services</span>
+                                                        <div class="bar">
+                                                            <div style="width:85%"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="metric">
+                                                        <span>Audit Support &amp; Compliance</span>
+                                                        <div class="bar">
+                                                            <div style="width:88%"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="metric">
+                                                        <span>M&amp;A Services</span>
+                                                        <div class="bar">
+                                                            <div style="width:82%"></div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- CARD 2 — N. Tatia & Associates -->
+                                    <div class="col-md-6">
+                                        <div class="cr-feature-item mb-15">
+                                            <div class="cr-feature-item-content">
+                                                <div class="cr-feature-item-icon d-flex">
+                                                    <span>
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-icon-2.png') }}" alt="">
+                                                    </span>
+                                                    <h5 class="cr-feature-item-icon-title">
+                                                        N. Tatia &amp; Associates
+                                                    </h5>
+                                                </div>
+
+                                                <p>
+                                                    A professionally managed, peer-reviewed firm offering assurance,
+                                                    taxation, and advisory services. Known for its partner-driven
+                                                    approach,
+                                                    compliance expertise, and strong governance framework — ensuring
+                                                    every
+                                                    client engagement adheres to the highest professional standards.
+                                                </p>
+
+                                                <p style="margin-top:14px; font-style:italic; opacity:0.85;">
+                                                    Guided by core values of trust, transparency, and professionalism,
+                                                    our client-first approach and local insight help us deliver
+                                                    consistent value and long-term impact.
+                                                </p>
+                                            </div>
+
+                                            <div class="cr-feature-thumb anim-zoomin-wrap text-center">
+                                                <div class="cr-feature-thumb text-center">
+                                                    <!-- <div class="gcc-diagram">
+                                                        <div class="circle center">Partner-Led</div>
+                                                        <div class="circle top">Assurance</div>
+                                                        <div class="circle left">Taxation</div>
+                                                        <div class="circle right">Advisory</div>
+                                                    </div> -->
+                                                    <img width="70%" src="/assets/img/logo/graph.png') }}" alt="">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- CARD 3 — Mission & Vision -->
+                                    <div class="col-lg-12">
+                                        <div class="cr-feature-item hight mb-15">
+                                            <div class="cr-feature-thumb big anim-zoomin-wrap text-center">
+                                                <div class="cr-feature-thumb big text-center"
+                                                    style="padding:20px 30px;">
+                                                    <div class="mv-grid">
+
+                                                        <div class="mv-card">
+                                                            <h4>Our Mission</h4>
+                                                            <p>
+                                                                To empower businesses across the globe by providing
+                                                                comprehensive financial and management consulting
+                                                                services
+                                                                that drive growth, ensure compliance, and enhance
+                                                                operational
+                                                                efficiency. We strive to build lasting relationships
+                                                                with
+                                                                our clients based on trust, transparency, and a deep
+                                                                understanding of their unique needs.
+                                                            </p>
+                                                        </div>
+
+                                                        <div class="mv-card">
+                                                            <h4>Our Vision</h4>
+                                                            <p>
+                                                                To be a trusted global financial services partner for
+                                                                CPA firms and businesses seeking reliability, expertise,
+                                                                and scalable support.
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- VALUES 6-CARD GRID -->
+                            <div class="row mt-50 pb-100">
+                                <div class="col-lg-12">
+                                    <div class="text-center mb-40">
+                                        <div class="tp-section-subtitle-gradient ct mb-15">
+                                            What Drives Us
+                                        </div>
+                                        <h4 class="tp-section-title-onest" style="font-size:42px;">
+                                            Our Values
+                                        </h4>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="dm-values-grid">
+
+                                        <div class="dm-value-card">
+                                            <div class="dm-value-icon">
+                                                <img src="/assets/img/logo/icon/1.png') }}" alt="">
+                                            </div>
+                                            <h5>Trust</h5>
+                                            <p style="color: black;">
+                                                We build strong, lasting relationships with our clients based on
+                                                mutual trust and respect. Our commitment to integrity ensures
+                                                that we always act in the best interest of our clients.
+                                            </p>
+                                        </div>
+
+                                        <div class="dm-value-card">
+                                            <div class="dm-value-icon">
+                                                <img src="/assets/img/logo/icon/2.png') }}" alt="">
+                                            </div>
+                                            <h5>Transparency</h5>
+                                            <p style="color: black;">
+                                                We maintain open and honest communication, ensuring our clients
+                                                are fully informed and confident in their financial decisions.
+                                            </p>
+                                        </div>
+
+                                        <div class="dm-value-card">
+                                            <div class="dm-value-icon">
+                                                <img src="/assets/img/logo/icon/3.png') }}" alt="">
+                                            </div>
+                                            <h5>Integrity</h5>
+                                            <p style="color: black;">
+                                                We uphold the highest ethical standards in all our dealings,
+                                                ensuring fairness and honesty. Integrity is the foundation
+                                                of our practice, guiding our actions and decisions.
+                                            </p>
+                                        </div>
+
+                                        <div class="dm-value-card">
+                                            <div class="dm-value-icon">
+                                                <img src="/assets/img/logo/icon/4.png') }}" alt="">
+                                            </div>
+                                            <h5>Tech Integration</h5>
+                                            <p style="color: black;">
+                                                We leverage the latest technology to provide innovative solutions
+                                                that enhance efficiency, accuracy, and convenience for our clients.
+                                            </p>
+                                        </div>
+
+                                        <div class="dm-value-card">
+                                            <div class="dm-value-icon">
+                                                <img src="/assets/img/logo/icon/5.png') }}" alt="">
+                                            </div>
+                                            <h5>Excellence</h5>
+                                            <p style="color: black;">
+                                                We are committed to delivering the highest quality services and
+                                                continuously improving our processes. Our dedication to excellence
+                                                drives us to exceed client expectations.
+                                            </p>
+                                        </div>
+
+                                        <div class="dm-value-card">
+                                            <div class="dm-value-icon">
+                                                <img src="/assets/img/logo/icon/6.png') }}" alt="">
+                                            </div>
+                                            <h5>Client-Centric Approach</h5>
+                                            <p style="color: black;">
+                                                We prioritize the needs and goals of our clients, offering
+                                                tailored solutions that align with their unique requirements.
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- cr brand area end -->
+
+                <!-- disperse services area start -->
+                <!-- <div class="dm-disperse-area p-relative">
+                    <div class="dm-disperse-glow"></div>
+                    <div class="dm-disperse-container">
+                        <h2 class="dm-disperse-heading">Our Expertise</h2>
+                        <div class="dm-disperse-item" data-final-x="0" data-final-y="-36">
+                            <span style="--float-delay: 0">Virtual CFO Services</span>
+                        </div>
+                        <div class="dm-disperse-item" data-final-x="-24" data-final-y="-20">
+                            <span style="--float-delay: 0.5">Finance Accounts Compliance Outsourcing</span>
+                        </div>
+                        <div class="dm-disperse-item" data-final-x="22" data-final-y="-20">
+                            <span style="--float-delay: 1.2">Deals, Due Diligence & Transaction Advisory</span>
+                        </div>
+                        <div class="dm-disperse-item" data-final-x="-38" data-final-y="-4">
+                            <span style="--float-delay: 0.8">Business Set Up & Startup Collaboration</span>
+                        </div>
+                        <div class="dm-disperse-item" data-final-x="38" data-final-y="4">
+                            <span style="--float-delay: 1.5">IPO Advisory Services</span>
+                        </div>
+                        <div class="dm-disperse-item" data-final-x="-26" data-final-y="20">
+                            <span style="--float-delay: 0.3">Corporate Governance</span>
+                        </div>
+                        <div class="dm-disperse-item" data-final-x="24" data-final-y="20">
+                            <span style="--float-delay: 1.8">GCC (Global Capability Centers)</span>
+                        </div>
+                        <div class="dm-disperse-item" data-final-x="-18" data-final-y="36">
+                            <span style="--float-delay: 0.7">M & A Advisory Services</span>
+                        </div>
+                        <div class="dm-disperse-item" data-final-x="20" data-final-y="36">
+                            <span style="--float-delay: 1.4">Risk Advisory & Augmenting Business Process</span>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- disperse services area end -->
+
+                <!-- SECTION 05 — 6A Strategies -->
+                <section class="dm-6a-section">
+                    <div class="container container-1230">
+                        <div class="dm-6a-inner">
+                            <div class="dm-6a-header text-center">
+                                <span class="tp-section-subtitle-gradient ct">Our Framework</span>
+                                <h2 class="dm-6a-title">The 6A Strategy Framework</h2>
+                                <p class="dm-6a-subtitle">A proven, structured approach that guides businesses from
+                                    assessment to transformation — at every stage of growth.</p>
+                            </div>
+                            <div class="dm-6a-track">
+                                <div class="dm-6a-row">
+                                    <div class="dm-6a-node" data-index="0">
+                                        <div class="dm-6a-circle">
+                                            <span class="dm-6a-step-num">01</span>
+                                        </div>
+                                        <h5 class="dm-6a-node-title">Assess</h5>
+                                        <p class="dm-6a-node-desc">Evaluate your business's current state by analyzing
+                                            finances, operations, marketing, and personnel to identify gaps and
+                                            opportunities.</p>
+                                    </div>
+                                    <div class="dm-6a-connector"></div>
+                                    <div class="dm-6a-node" data-index="1">
+                                        <div class="dm-6a-circle">
+                                            <span class="dm-6a-step-num">02</span>
+                                        </div>
+                                        <h5 class="dm-6a-node-title">Analyze</h5>
+                                        <p class="dm-6a-node-desc">Perform a SWOT analysis to understand strengths,
+                                            weaknesses, opportunities, and threats for informed decision-making.</p>
+                                    </div>
+                                    <div class="dm-6a-connector"></div>
+                                    <div class="dm-6a-node" data-index="2">
+                                        <div class="dm-6a-circle">
+                                            <span class="dm-6a-step-num">03</span>
+                                        </div>
+                                        <h5 class="dm-6a-node-title">Align</h5>
+                                        <p class="dm-6a-node-desc">Ensure business goals and strategies are cohesive,
+                                            setting clear objectives and tracking progress for greater efficiency.</p>
+                                    </div>
+                                    <div class="dm-6a-connector"></div>
+                                    <div class="dm-6a-node" data-index="3">
+                                        <div class="dm-6a-circle">
+                                            <span class="dm-6a-step-num">04</span>
+                                        </div>
+                                        <h5 class="dm-6a-node-title">Action</h5>
+                                        <p class="dm-6a-node-desc">Implement your action plan with SMART goals,
+                                            monitoring progress, and making adjustments to stay on track.</p>
+                                    </div>
+                                    <div class="dm-6a-connector"></div>
+                                    <div class="dm-6a-node" data-index="4">
+                                        <div class="dm-6a-circle">
+                                            <span class="dm-6a-step-num">05</span>
+                                        </div>
+                                        <h5 class="dm-6a-node-title">Accountability</h5>
+                                        <p class="dm-6a-node-desc">Take ownership of your actions, provide regular
+                                            updates, and maintain transparency to build trust and drive improvement.</p>
+                                    </div>
+                                    <div class="dm-6a-connector"></div>
+                                    <div class="dm-6a-node" data-index="5">
+                                        <div class="dm-6a-circle">
+                                            <span class="dm-6a-step-num">06</span>
+                                        </div>
+                                        <h5 class="dm-6a-node-title">Adaptability</h5>
+                                        <p class="dm-6a-node-desc">Be flexible and open to change, adjusting strategies
+                                            based on evolving market conditions and feedback to stay competitive.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dm-6a-cta">
+                                <a href="6a-structure.html" class="tp-btn-white-border">View Complete Structure</a>
                             </div>
                         </div>
                     </div>
-                    @endforeach
-                </div>
+                </section>
+                <!-- 6A section end -->
 
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="cr-blog-bottom text-center tp_fade_anim" data-delay=".7" data-fade-from="top" data-ease="bounce">
-                            <a href="{{ route('blog.index') }}" class="cr-blog-bottom-text">Explore more insights from Dev Mantra</a>
+                <!-- SECTION 06 — AI-Enabled Platform -->
+                <section class="dm-ai-section">
+                    <!-- Animated background layers -->
+                    <div class="dm-ai-bg">
+                        <div class="dm-ai-grid-plane"></div>
+                        <div class="dm-ai-orb dm-ai-orb--1"></div>
+                        <div class="dm-ai-orb dm-ai-orb--2"></div>
+                        <div class="dm-ai-orb dm-ai-orb--3"></div>
+                        <canvas class="dm-ai-particles" id="dmAiParticles"></canvas>
+                    </div>
+
+                    <div class="container container-1230">
+                        <div class="dm-ai-inner">
+                            <!-- Header -->
+                            <div class="dm-ai-header text-center">
+                                <span class="tp-section-subtitle-gradient ct">Technology at the Core</span>
+                                <h2 class="dm-ai-title">AI-Enabled Financial<br>Intelligence</h2>
+                                <p class="dm-ai-subtitle">Dev Mantra integrates automation and AI-assisted tools across
+                                    its delivery model — ensuring faster turnarounds, fewer errors, and deeper financial
+                                    insights for every client engagement.</p>
+                            </div>
+
+                            <!-- WebGL AI Engine visual (CSS fallback inside) -->
+                            <div class="dm-ai-platform">
+                                <div class="dm-ai-webgl-wrap">
+                                    <canvas class="dm-ai-webgl-canvas" id="dmAiWebGL"></canvas>
+                                    <!-- CSS fallback if WebGL fails -->
+                                    <div class="dm-ai-fallback">
+                                        <div class="dm-ai-fb-ring dm-ai-fb-ring--1"></div>
+                                        <div class="dm-ai-fb-ring dm-ai-fb-ring--2"></div>
+                                        <div class="dm-ai-fb-ring dm-ai-fb-ring--3"></div>
+                                        <div class="dm-ai-fb-core">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                                viewBox="0 0 24 24" fill="none" stroke="#1d6aa9" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                                                <path d="M2 17l10 5 10-5" />
+                                                <path d="M2 12l10 5 10-5" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <span class="dm-ai-webgl-label">AI Engine</span>
+                                </div>
+                            </div>
+
+                            <!-- Capability cards grid -->
+                            <div class="dm-ai-capabilities">
+                                <div class="dm-ai-card" data-ai-index="0">
+                                    <div class="dm-ai-card-glow"></div>
+                                    <div class="dm-ai-card-inner">
+                                        <div class="dm-ai-card-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path
+                                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                                                <line x1="12" y1="22.08" x2="12" y2="12" />
+                                            </svg>
+                                        </div>
+                                        <h4 class="dm-ai-card-title">Cloud Accounting & Real-Time Dashboards</h4>
+                                        <p class="dm-ai-card-desc">Cloud-based accounting implementation with live
+                                            reporting dashboards that give you instant visibility into your financial
+                                            health.</p>
+                                        <div class="dm-ai-card-line"></div>
+                                    </div>
+                                </div>
+
+                                <div class="dm-ai-card" data-ai-index="1">
+                                    <div class="dm-ai-card-glow"></div>
+                                    <div class="dm-ai-card-inner">
+                                        <div class="dm-ai-card-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                                            </svg>
+                                        </div>
+                                        <h4 class="dm-ai-card-title">Automated Reconciliation & Variance Detection</h4>
+                                        <p class="dm-ai-card-desc">Intelligent automation that reconciles transactions
+                                            and flags anomalies in real-time — eliminating manual errors at scale.</p>
+                                        <div class="dm-ai-card-line"></div>
+                                    </div>
+                                </div>
+
+                                <div class="dm-ai-card" data-ai-index="2">
+                                    <div class="dm-ai-card-glow"></div>
+                                    <div class="dm-ai-card-inner">
+                                        <div class="dm-ai-card-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                                <polyline points="14 2 14 8 20 8" />
+                                                <line x1="16" y1="13" x2="8" y2="13" />
+                                                <line x1="16" y1="17" x2="8" y2="17" />
+                                                <polyline points="10 9 9 9 8 9" />
+                                            </svg>
+                                        </div>
+                                        <h4 class="dm-ai-card-title">AI-Assisted Tax Workpaper Preparation</h4>
+                                        <p class="dm-ai-card-desc">Machine learning models that accelerate tax workpaper
+                                            preparation and review — reducing turnaround time dramatically.</p>
+                                        <div class="dm-ai-card-line"></div>
+                                    </div>
+                                </div>
+
+                                <div class="dm-ai-card" data-ai-index="3">
+                                    <div class="dm-ai-card-glow"></div>
+                                    <div class="dm-ai-card-inner">
+                                        <div class="dm-ai-card-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                            </svg>
+                                        </div>
+                                        <h4 class="dm-ai-card-title">Smart Audit & Compliance Workflows</h4>
+                                        <p class="dm-ai-card-desc">Automated workflows that maintain audit-readiness and
+                                            track compliance requirements — so nothing slips through the cracks.</p>
+                                        <div class="dm-ai-card-line"></div>
+                                    </div>
+                                </div>
+
+                                <div class="dm-ai-card" data-ai-index="4">
+                                    <div class="dm-ai-card-glow"></div>
+                                    <div class="dm-ai-card-inner">
+                                        <div class="dm-ai-card-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                            </svg>
+                                        </div>
+                                        <h4 class="dm-ai-card-title">Secure Data Rooms & Encrypted Portals</h4>
+                                        <p class="dm-ai-card-desc">Enterprise-grade encrypted data rooms and client
+                                            portals with role-based access — ensuring your sensitive data stays
+                                            protected.</p>
+                                        <div class="dm-ai-card-line"></div>
+                                    </div>
+                                </div>
+
+                                <div class="dm-ai-card" data-ai-index="5">
+                                    <div class="dm-ai-card-glow"></div>
+                                    <div class="dm-ai-card-inner">
+                                        <div class="dm-ai-card-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="3" />
+                                                <path
+                                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                                            </svg>
+                                        </div>
+                                        <h4 class="dm-ai-card-title">ERP & Accounting Platform Integration</h4>
+                                        <p class="dm-ai-card-desc">Seamless integration with leading ERP and accounting
+                                            platforms — connecting your existing tech stack without disruption.</p>
+                                        <div class="dm-ai-card-line"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bottom tagline -->
+                            <div class="dm-ai-footer text-center">
+                                <p class="dm-ai-tagline">Powered by modern tools. Governed by experienced
+                                    professionals.<br>Built to scale with your business.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- AI Platform section end -->
+
+                <!-- Map area start -->
+                <section class="cr-world-area cr-brand-ptb fix">
+                    <div class="container container-1230">
+                        <div class="cr-multi-border pt-100 pb-100">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12 text-center mb-60">
+                                    <h3 class="tp-section-title-onest fs-72">Countries that we serve</h3>
+                                    <p>We work with clients across the globe, delivering solutions without borders.</p>
+                                </div>
+
+                                <div class="col-lg-10">
+                                    <div class="world-map-box">
+                                        <!-- Base SVG (unchanged) -->
+                                        <div class="map-base">
+                                            <img src="{{ asset('assets/img/logo/map.svg') }}" alt="">
+                                        </div>
+
+                                        <!-- Overlay SVG for pins (same viewBox as your base SVG) -->
+                                        <svg class="map-overlay" viewBox="0 0 1000 500"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Pins (use circles at precise coordinates) -->
+                                            <g id="pins">
+                                                <circle class="pin" cx="150" cy="90" r="6" data-country="USA"></circle>
+                                                <circle class="pin" cx="395" cy="75" r="6" data-country="UK"></circle>
+                                                <circle class="pin" cx="450" cy="95" r="6" data-country="Italy">
+                                                </circle>
+                                                <circle class="pin" cx="570" cy="145" r="6" data-country="Oman">
+                                                </circle>
+                                                <circle class="pin" cx="670" cy="175" r="6" data-country="Sri Lanka">
+                                                </circle>
+                                                <circle class="pin" cx="740" cy="195" r="6" data-country="Singapore">
+                                                </circle>
+                                                <circle class="pin" cx="880" cy="245" r="6" data-country="Australia">
+                                                </circle>
+                                            </g>
+                                        </svg>
+
+                                        <div class="map-tooltip" id="mapTooltip"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Map area end -->
+
+                <!-- cr feature 2 area start -->
+                <div class="cr-feature-2-area p-relative cr-feature-2-ptb">
+                    <div class="cr-feature-2-bg">
+                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-bg.png') }}" alt="">
+                    </div>
+                    <div class="container-fluid gx-0">
+                        <div class="row g-0">
+                            <div class="col-xxl-4 col-xl-6 order-2 order-xxl-1">
+                                <div class="cr-feature-2-left">
+                                    <div class="cr-feature-2-box">
+                                        <div class="row row-cols-xl-5 gx-0">
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-1.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col"></div>
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon animation-2">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-2.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cr-feature-2-box">
+                                        <div class="row row-cols-xl-5 gx-0">
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-3.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon animation-2">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-4.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-5.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col"></div>
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon animation-2">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-6.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cr-feature-2-box">
+                                        <div class="row row-cols-xl-5 gx-0">
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-7.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col"></div>
+                                            <div class="col"></div>
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon animation-2">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-8.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CENTER CONTENT -->
+                            <div class="col-xxl-4 order-xl-12 order-1 order-xxl-2">
+                                <div class="cr-feature-2-heading text-center">
+                                    <div class="tp-section-subtitle-gradient ct mb-20 tp_fade_anim" data-delay=".3">
+                                        Our Commitment
+                                    </div>
+                                    <h4 class="tp-section-title-onest tp-text-revel-anim">
+                                        Our Commitment to Your Financial Success
+                                    </h4>
+                                    <div class="tp_text_anim">
+                                        <p>
+                                            Dev Mantra is a strategic partner in progress for businesses operating in a
+                                            global and digital economy
+                                        </p>
+                                    </div>
+                                    <div class="cr-feature-2-btn tp_fade_anim" data-delay=".7" data-fade-from="top"
+                                        data-ease="bounce">
+                                        <a href="javascript:void(0)" class="tp-btn-white-border">
+                                            Find out more
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="12"
+                                                    viewBox="0 0 15 12" fill="none">
+                                                    <path
+                                                        d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z"
+                                                        fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- RIGHT GRID (UNCHANGED IMAGES) -->
+                            <div class="col-xxl-4 col-xl-6 order-2 order-xxl-3">
+                                <div class="cr-feature-2-right">
+                                    <div class="cr-feature-2-box">
+                                        <div class="row row-cols-xl-5 gx-0 justify-content-end">
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon animation-2">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-9.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="cr-feature-2-item"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cr-feature-2-box">
+                                        <div class="row row-cols-xl-5 gx-0">
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-10.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col"></div>
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon animation-2">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-11.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-12.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon animation">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-13.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cr-feature-2-box">
+                                        <div class="row row-cols-xl-5 gx-0">
+                                            <div class="col"></div>
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-14.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col"></div>
+                                            <div class="col">
+                                                <div class="cr-feature-2-item">
+                                                    <span class="bullet-top-left"></span>
+                                                    <span class="bullet-top-right"></span>
+                                                    <span class="bullet-bottom-left"></span>
+                                                    <span class="bullet-bottom-right"></span>
+                                                    <div class="cr-feature-2-item-icon animation-2">
+                                                        <img src="{{ asset('assets/img/home-13/feature/feature-2/feature-2-15.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="cr-feature-2-item"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endif
+                <!-- cr feature 2 area end -->
+
+                <!-- team section start -->
+                <section class="dm-team-section">
+                    <div class="container">
+                        <div class="dm-team-header text-center">
+                            <h2 class="dm-team-main-title">Meet Our Team</h2>
+                            <p class="dm-team-main-subtitle">The people behind Devmantra who drive excellence every day.
+                            </p>
+                        </div>
+
+                        <!-- Founders -->
+                        <h3 class="dm-team-group-title">Founders</h3>
+                        <div class="row dm-team-row justify-content-center">
+                            <div class="dm-team-col">
+                                <div class="dm-team-member">
+                                    <div class="dm-team-photo">
+                                        <img src="{{ asset('assets/img/team/6.jpg') }}" alt="Vikash Tatia">
+                                    </div>
+                                    <span class="dm-team-role">Founder & MD</span>
+                                    <h4 class="dm-team-name">Vikash Tatia</h4>
+                                </div>
+                            </div>
+                            <div class="dm-team-col">
+                                <div class="dm-team-member">
+                                    <div class="dm-team-photo">
+                                        <img src="{{ asset('assets/img/team/7.jpg') }}" alt="Nidhi Tatia">
+                                    </div>
+                                    <span class="dm-team-role">Founder & Director</span>
+                                    <h4 class="dm-team-name">Nidhi Tatia</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Partners -->
+                        <h3 class="dm-team-group-title">Partners & Advisory Board</h3>
+                        <div class="row dm-team-row justify-content-center">
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                                <div class="dm-team-member">
+                                    <div class="dm-team-photo">
+                                        <img src="{{ asset('assets/img/team/8.jpg') }}" alt="">
+                                    </div>
+                                    <span class="dm-team-role">Director & Associate Partner</span>
+                                    <h4 class="dm-team-name">Sankaranarayanan</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                                <div class="dm-team-member">
+                                    <div class="dm-team-photo">
+                                        <img src="{{ asset('assets/img/team/9.jpeg') }}" alt="Kamal Parakh">
+                                    </div>
+                                    <span class="dm-team-role">Associate Director & Senior Partner</span>
+                                    <h4 class="dm-team-name">Kamal Parakh</h4>
+                                </div>
+                            </div>
+                            <div style="border-right: 2px solid #1b3c6b;" class="col-lg-2 col-md-4 col-sm-6 col-6">
+                                <div class="dm-team-member">
+                                    <div class="dm-team-photo">
+                                        <img src="{{ asset('assets/img/team/10.png') }}" alt="Darshit Bombaywala">
+                                    </div>
+                                    <span class="dm-team-role">Associate Partner</span>
+                                    <h4 class="dm-team-name">Darshit Bombaywala</h4>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                                <div class="dm-team-member">
+                                    <div class="dm-team-photo">
+                                        <img src="{{ asset('assets/img/team/11.jpg') }}" alt="">
+                                    </div>
+                                    <span class="dm-team-role">Advisor - Agri Business</span>
+                                    <h4 class="dm-team-name">Pawan Bhotika</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                                <div class="dm-team-member">
+                                    <div class="dm-team-photo">
+                                        <img src="{{ asset('assets/img/team/12.jpg') }}" alt="BC Datta">
+                                    </div>
+                                    <span class="dm-team-role">Associate Director - Corporate Affairs</span>
+                                    <h4 class="dm-team-name">BC Datta</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Team -->
+                        <h3 class="dm-team-group-title">Team</h3>
+                        <div class="row dm-team-row justify-content-center">
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                                <div class="dm-team-member">
+                                    <div class="dm-team-photo">
+                                        <img src="{{ asset('assets/img/team/1.jpg') }}" alt="Abhinaya Udayakumar">
+                                    </div>
+                                    <span class="dm-team-role">Associate - Investment Banking</span>
+                                    <h4 class="dm-team-name">Abhinaya U</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                                <div class="dm-team-member">
+                                    <div class="dm-team-photo">
+                                        <img src="{{ asset('assets/img/team/2.jpg') }}" alt="Sandeep Dhupar">
+                                    </div>
+                                    <span class="dm-team-role">Associate Director</span>
+                                    <h4 class="dm-team-name">Sandeep Dhupar</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                                <div class="dm-team-member">
+                                    <div class="dm-team-photo">
+                                        <img src="{{ asset('assets/img/team/3.jpg') }}" alt="Jalandhar Behera">
+                                    </div>
+                                    <span class="dm-team-role">Associate VP - FAO Services</span>
+                                    <h4 class="dm-team-name">Jalandhar Behera</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                                <div class="dm-team-member">
+                                    <div class="dm-team-photo">
+                                        <img src="{{ asset('assets/img/team/4.jpg') }}" alt="Rajani M">
+                                    </div>
+                                    <span class="dm-team-role">Talent Acquisition Lead</span>
+                                    <h4 class="dm-team-name">Rajani M</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                                <div class="dm-team-member">
+                                    <div class="dm-team-photo">
+                                        <img src="{{ asset('assets/img/team/5.jpg') }}" alt="Namrata Parakh Marothi">
+                                    </div>
+                                    <span class="dm-team-role">Associate - Intl Relations</span>
+                                    <h4 class="dm-team-name">Namrata Parakh</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- team section end -->
+
+                <!-- approach + lifecycle combined section start -->
+                <section class="dm-apl-section">
+                    <div class="dm-apl-pin">
+                        <div class="container">
+                            <!-- Section Header -->
+                            <div class="dm-apl-header text-center">
+                                <span class="dm-apl-label">How We Work</span>
+                                <h2 class="dm-apl-title">Our Approach &amp; Business Lifecycle</h2>
+                                <p class="dm-apl-subtitle">Building long-term relationships based on transparency,
+                                    technical excellence, and measurable value creation.</p>
+                            </div>
+
+                            <div class="dm-apl-grid">
+                                <!-- Left: Our Approach -->
+                                <div class="dm-apl-left">
+                                    <h3 class="dm-apl-col-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                                            <path d="m9 12 2 2 4-4" />
+                                        </svg>
+                                        Our Approach
+                                    </h3>
+                                    <div class="dm-apl-checklist">
+                                        <div class="dm-apl-item"><span class="dm-apl-check"><svg width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                </svg></span><span class="dm-apl-text">Partner-led supervision and
+                                                review</span></div>
+                                        <div class="dm-apl-item"><span class="dm-apl-check"><svg width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                </svg></span><span class="dm-apl-text">Dedicated engagement teams</span>
+                                        </div>
+                                        <div class="dm-apl-item"><span class="dm-apl-check"><svg width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                </svg></span><span class="dm-apl-text">Structured SLAs and turnaround
+                                                commitments</span></div>
+                                        <div class="dm-apl-item"><span class="dm-apl-check"><svg width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                </svg></span><span class="dm-apl-text">Robust data security and
+                                                confidentiality</span></div>
+                                        <div class="dm-apl-item"><span class="dm-apl-check"><svg width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                </svg></span><span class="dm-apl-text">Continuous training aligned with
+                                                global standards</span></div>
+                                        <div class="dm-apl-item"><span class="dm-apl-check"><svg width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                </svg></span><span class="dm-apl-text">CPA-focused delivery model</span>
+                                        </div>
+                                        <div class="dm-apl-item"><span class="dm-apl-check"><svg width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                </svg></span><span class="dm-apl-text">Automation-first approach</span>
+                                        </div>
+                                        <div class="dm-apl-item"><span class="dm-apl-check"><svg width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                </svg></span><span class="dm-apl-text">Governance-embedded
+                                                framework</span></div>
+                                        <div class="dm-apl-item"><span class="dm-apl-check"><svg width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                </svg></span><span class="dm-apl-text">Leadership with US accounting
+                                                exposure</span></div>
+                                        <div class="dm-apl-item"><span class="dm-apl-check"><svg width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                </svg></span><span class="dm-apl-text">Structured QA and review
+                                                hierarchy</span></div>
+                                        <div class="dm-apl-item"><span class="dm-apl-check"><svg width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12" />
+                                                </svg></span><span class="dm-apl-text">Secure infrastructure</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Right: Business Lifecycle (vertical tabs) -->
+                                <div class="dm-apl-right">
+                                    <h3 class="dm-apl-col-title">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                        Business Lifecycle
+                                    </h3>
+
+                                    <div class="dm-lc-vtabs">
+                                        <!-- Vertical tab buttons -->
+                                        <div class="dm-lc-vtabs-nav">
+                                            <button class="dm-lc-vtab is-active" data-tab="0">
+                                                <span class="dm-lc-vtab-indicator"></span>
+                                                <span class="dm-lc-vtab-label">Launch</span>
+                                            </button>
+                                            <button class="dm-lc-vtab" data-tab="1">
+                                                <span class="dm-lc-vtab-indicator"></span>
+                                                <span class="dm-lc-vtab-label">Seed Stage</span>
+                                            </button>
+                                            <button class="dm-lc-vtab" data-tab="2">
+                                                <span class="dm-lc-vtab-indicator"></span>
+                                                <span class="dm-lc-vtab-label">Growth</span>
+                                            </button>
+                                            <button class="dm-lc-vtab" data-tab="3">
+                                                <span class="dm-lc-vtab-indicator"></span>
+                                                <span class="dm-lc-vtab-label">Maturity</span>
+                                            </button>
+                                            <button class="dm-lc-vtab" data-tab="4">
+                                                <span class="dm-lc-vtab-indicator"></span>
+                                                <span class="dm-lc-vtab-label">Decline</span>
+                                            </button>
+                                        </div>
+
+                                        <!-- Tab content panels -->
+                                        <div class="dm-lc-vtabs-content">
+                                            <div class="dm-lc-vpanel is-active" data-panel="0">
+                                                <h4 class="dm-lc-vpanel-title">Launch</h4>
+                                                <ul class="dm-lc-vpanel-list">
+                                                    <li>Business Setup &amp; Structuring</li>
+                                                    <li>Initial Registrations</li>
+                                                    <li>RBI Approvals &amp; FEMA Compliance</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dm-lc-vpanel" data-panel="1">
+                                                <h4 class="dm-lc-vpanel-title">Seed Stage</h4>
+                                                <ul class="dm-lc-vpanel-list">
+                                                    <li>Virtual CFO Services</li>
+                                                    <li>Regulatory Framework Setup</li>
+                                                    <li>Accounting &amp; Compliance Process Setup</li>
+                                                    <li>Asset Protection</li>
+                                                    <li>Identifying Right People in the Actual Setup</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dm-lc-vpanel" data-panel="2">
+                                                <h4 class="dm-lc-vpanel-title">Growth</h4>
+                                                <ul class="dm-lc-vpanel-list">
+                                                    <li>Funding &amp; Due Diligence</li>
+                                                    <li>Expansion Strategies</li>
+                                                    <li>Process Documentation</li>
+                                                    <li>Risk Mitigation</li>
+                                                    <li>Investor &amp; Transaction Management</li>
+                                                    <li>Corporate Governance</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dm-lc-vpanel" data-panel="3">
+                                                <h4 class="dm-lc-vpanel-title">Maturity</h4>
+                                                <ul class="dm-lc-vpanel-list">
+                                                    <li>Business Expansion Planning</li>
+                                                    <li>Continuity Planning</li>
+                                                    <li>Regular Audits &amp; Compliance</li>
+                                                    <li>International Transactions &amp; FEMA Compliance</li>
+                                                </ul>
+                                            </div>
+                                            <div class="dm-lc-vpanel" data-panel="4">
+                                                <h4 class="dm-lc-vpanel-title">Decline</h4>
+                                                <ul class="dm-lc-vpanel-list">
+                                                    <li>Possible Acquisition Strategies</li>
+                                                    <li>Voluntary Winding Up</li>
+                                                    <li>OCFC Verification</li>
+                                                    <li>Liquidation Support Services</li>
+                                                    <li>Closure Compliance Support</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- approach + lifecycle combined section end -->
+
+                <!-- cr feature 3 area start -->
+                <!-- <div class="cr-feature-3-area fix cr-feature-3-border">
+                    <div class="container container-1230">
+                        <div class="cr-feature-3-border-box">
+                            <div class="cr-feature-3-box">
+                                <div class="row gx-0">
+                                    <div class="col-lg-6">
+                                        <div class="cr-feature-3-heading">
+                                            <div class="tp-section-subtitle-gradient ct mb-20 tp_fade_anim"
+                                                data-delay=".3">Features</div>
+                                            <h4 style="color: black;" class="tp-section-title-onest tp-text-revel-anim">
+                                                Robust & secure <br>
+                                                exchange platform</h4>
+                                            <div class="tp_text_anim">
+                                                <p style="color: black;">Whether you’re looking to trade major coins
+                                                    like <br> Bitcoin and
+                                                    Ethereum or interested in emerging altcoins, <br> our platform
+                                                    provides all the tools you need.</p>
+                                            </div>
+                                            <div class="cr-feature-3-btn tp_fade_anim" data-delay=".7"
+                                                data-fade-from="top" data-ease="bounce">
+                                                <a href="service-3-light.html"
+                                                    class="tp-btn-white-border tp-btn-light-bg">Find out more <span><svg
+                                                            xmlns="http://www.w3.org/2000/svg" width="15" height="12"
+                                                            viewBox="0 0 15 12" fill="none">
+                                                            <path
+                                                                d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z"
+                                                                fill="currentColor"></path>
+                                                        </svg></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="cr-feature-3-thumb">
+                                            <img src="{{ asset('assets/img/home-13/feature/feature-3/feature-3-img.png') }}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- cr feature 3 area end -->
+
+                <!-- testimonial area start -->
+                <div class="cr-testimonial-area cr-testimonial-ptb">
+                    <div class="container container-1230">
+                        <div class="cr-testimonial-box">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="cr-testimonial-wrap pt-40 pl-50">
+                                        <div class="cr-testimonial-content">
+                                            <span>4.8
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                                    viewBox="0 0 18 18" fill="none">
+                                                    <path
+                                                        d="M9 0L11.0206 6.21885H17.5595L12.2694 10.0623L14.2901 16.2812L9 12.4377L3.70993 16.2812L5.73056 10.0623L0.440492 6.21885H6.97937L9 0Z"
+                                                        fill="#F9A811" />
+                                                </svg>
+                                            </span>
+                                            <p>Client Success Stories</p>
+                                        </div>
+                                        <h3 class="cr-testimonial-title">
+                                            Join the ranks of our satisfied clients and experience the Dev Mantra
+                                            difference.
+                                        </h3>
+                                        <div class="cr-testimonial-nav">
+                                            <button class="cr-testimonial-prev">
+                                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M13 7H1M1 7L7 1M1 7L7 13" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </svg>
+                                            </button>
+                                            <button class="cr-testimonial-next">
+                                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-8">
+                                    <div class="cr-testimonial-wrapper z-index-1">
+                                        <div class="cr-testimonial-item-shape">
+                                            <img src="{{ asset('assets/img/home-13/testimonial/testimonial-line.png') }}" alt="">
+                                        </div>
+                                        <div class="swiper-container cr-testimonial-active fix">
+                                            <div class="swiper-wrapper">
+
+                                                <!-- 1 -->
+                                                <div class="swiper-slide">
+                                                    <div class="cr-testimonial-item z-index-1 text-center">
+                                                        <div class="cr-testimonial-item-top pb-40">
+                                                            <p class="cr-testimonial-item-subtitle">Reviewed on</p>
+                                                            <img width="70"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                alt="Google">
+                                                        </div>
+                                                        <h3 class="cr-testimonial-item-title">
+                                                            “We have been working with them since the inception of our
+                                                            company and we never had to look back at this relationship.
+                                                            Not only on regular matters, they have also given us very
+                                                            sound guidance, counsel and options when we have had any new
+                                                            developments. We truly value this relationship with Dev
+                                                            Mantra and look forward to working with them for a very long
+                                                            time to come.”
+                                                        </h3>
+                                                        <div class="cr-testimonial-item-user">
+                                                            <span>Vaibhav Singh</span>
+                                                            <p>Director, Leap Group</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 2 -->
+                                                <div class="swiper-slide">
+                                                    <div class="cr-testimonial-item z-index-1 text-center">
+                                                        <div class="cr-testimonial-item-top pb-40">
+                                                            <p class="cr-testimonial-item-subtitle">Reviewed on</p>
+                                                            <img width="70"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                alt="Google">
+                                                        </div>
+                                                        <h3 class="cr-testimonial-item-title">
+                                                            “SecureSearch started working with Dev Mantra when starting
+                                                            up as a new business. Their focus and understanding of the
+                                                            needs of a new business were very good and were able to
+                                                            guide us through the maze of starting up a new business,
+                                                            dealing with new and large contracts and being compliant
+                                                            always. The team at Dev Mantra has added real value to
+                                                            SecureSearch by helping the Company through the various
+                                                            stages of growth from start-up to scaling up.”
+                                                        </h3>
+                                                        <div class="cr-testimonial-item-user">
+                                                            <span>Chetan Desai</span>
+                                                            <p>Founder & CEO, SecureSearch Screening Services</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 3 -->
+                                                <div class="swiper-slide">
+                                                    <div class="cr-testimonial-item z-index-1 text-center">
+                                                        <div class="cr-testimonial-item-top pb-40">
+                                                            <p class="cr-testimonial-item-subtitle">Reviewed on</p>
+                                                            <img width="70"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                alt="Google">
+                                                        </div>
+                                                        <h3 class="cr-testimonial-item-title">
+                                                            “We had an urgent need to raise finance. Dev Mantra Team was
+                                                            able to guide us through troubled waters with skill and
+                                                            intelligence. Their expertise in restructuring and corporate
+                                                            finance, along with the wider firm's knowledge of
+                                                            intellectual property, gave us the advice we needed in a
+                                                            quick and efficient manner.”
+                                                        </h3>
+                                                        <div class="cr-testimonial-item-user">
+                                                            <span>MBR Homes</span>
+                                                            <p>Real Estate Developers</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 4 -->
+                                                <div class="swiper-slide">
+                                                    <div class="cr-testimonial-item z-index-1 text-center">
+                                                        <div class="cr-testimonial-item-top pb-40">
+                                                            <p class="cr-testimonial-item-subtitle">Reviewed on</p>
+                                                            <img width="70"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                alt="Google">
+                                                        </div>
+                                                        <h3 class="cr-testimonial-item-title">
+                                                            “We were really pleased with all of the support from the
+                                                            entire team throughout the whole deal process. Great advice
+                                                            in the areas we didn't understand and at the same time full
+                                                            recognition of our requirements. Our interests were always
+                                                            represented very professionally which was a major
+                                                            contribution to a successful outcome. The investment
+                                                            transaction was completed successfully thanks to the
+                                                            diligence and remarkable contribution by the Dev Mantra
+                                                            team.”
+                                                        </h3>
+                                                        <div class="cr-testimonial-item-user">
+                                                            <span>Gouthami T S</span>
+                                                            <p>Founder & CEO, AquaairX Autonomous Systems</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 5 -->
+                                                <div class="swiper-slide">
+                                                    <div class="cr-testimonial-item z-index-1 text-center">
+                                                        <div class="cr-testimonial-item-top pb-40">
+                                                            <p class="cr-testimonial-item-subtitle">Reviewed on</p>
+                                                            <img width="70"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                alt="Google">
+                                                        </div>
+                                                        <h3 class="cr-testimonial-item-title">
+                                                            “N. Tatia & Associates, Chartered Accountants have been
+                                                            appointed as tax advisors and representatives for litigation
+                                                            support. This office acknowledged the satisfactory services
+                                                            extended by them from time to time.”
+                                                        </h3>
+                                                        <div class="cr-testimonial-item-user">
+                                                            <span>C. V. Sajeevan</span>
+                                                            <p>Official Liquidator, High Court of Karnataka</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 6 -->
+                                                <div class="swiper-slide">
+                                                    <div class="cr-testimonial-item z-index-1 text-center">
+                                                        <div class="cr-testimonial-item-top pb-40">
+                                                            <p class="cr-testimonial-item-subtitle">Reviewed on</p>
+                                                            <img width="70"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                alt="Google">
+                                                        </div>
+                                                        <h3 class="cr-testimonial-item-title">
+                                                            “Dev Mantra has been a huge help to our business since
+                                                            incorporation. They are a really friendly and professional
+                                                            team and always quick to respond. They really take the
+                                                            stress out of our finance function.”
+                                                        </h3>
+                                                        <div class="cr-testimonial-item-user">
+                                                            <span>MVS Prasad</span>
+                                                            <p>Founder & CEO, Prashaste Group</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 7 -->
+                                                <div class="swiper-slide">
+                                                    <div class="cr-testimonial-item z-index-1 text-center">
+                                                        <div class="cr-testimonial-item-top pb-40">
+                                                            <p class="cr-testimonial-item-subtitle">Reviewed on</p>
+                                                            <img width="70"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                alt="Google">
+                                                        </div>
+                                                        <h3 class="cr-testimonial-item-title">
+                                                            “Impact Group of Institutions has greatly benefitted with
+                                                            tax and consulting with Dev Mantra for all our financial
+                                                            compliances and other tax related issues — it has been
+                                                            immensely beneficial. Their quality of work is highly
+                                                            professional with a proactive approach. We can always count
+                                                            on them for all our audit and taxation needs without
+                                                            worrying about the deadlines.”
+                                                        </h3>
+                                                        <div class="cr-testimonial-item-user">
+                                                            <span>Dr Alice Abrahaim</span>
+                                                            <p>President, Impact Group of Institutions</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 8 -->
+                                                <div class="swiper-slide">
+                                                    <div class="cr-testimonial-item z-index-1 text-center">
+                                                        <div class="cr-testimonial-item-top pb-40">
+                                                            <p class="cr-testimonial-item-subtitle">Reviewed on</p>
+                                                            <img width="70"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                alt="Google">
+                                                        </div>
+                                                        <h3 class="cr-testimonial-item-title">
+                                                            “Dev Mantra team under the leadership of director Vikash
+                                                            Tatia has special capabilities to contribute across business
+                                                            functions. The team contributes immensely to the growth of
+                                                            the organisation and we are able to see turnaround results.”
+                                                        </h3>
+                                                        <div class="cr-testimonial-item-user">
+                                                            <span>Shri Sudhir Jain</span>
+                                                            <p>Founder & CEO, Bionova</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 9 -->
+                                                <div class="swiper-slide">
+                                                    <div class="cr-testimonial-item z-index-1 text-center">
+                                                        <div class="cr-testimonial-item-top pb-40">
+                                                            <p class="cr-testimonial-item-subtitle">Reviewed on</p>
+                                                            <img width="70"
+                                                                src="https://png.pngtree.com/png-vector/20230817/ourmid/pngtree-google-logo-vector-png-image_9183290.png') }}"
+                                                                alt="Google">
+                                                        </div>
+                                                        <h3 class="cr-testimonial-item-title">
+                                                            “We appreciate the association of Dev Mantra in all tax
+                                                            related matters and are always confident of meeting various
+                                                            deadlines.”
+                                                        </h3>
+                                                        <div class="cr-testimonial-item-user">
+                                                            <span>Director (Admin)</span>
+                                                            <p>Ministry of Communications</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- testimonial area end -->
+
+                <!-- cr blog area start -->
+                <style>
+                    .cr-blog-area-dark {
+                        background: #000;
+                    }
+                    .cr-blog-area-dark .tp-section-subtitle-gradient.ct { color: #fff; }
+                    .cr-blog-area-dark .tp-section-title-onest { color: #fff !important; }
+                    .cr-blog-area-dark .cr-blog-item-category { color: #fff; }
+                    .cr-blog-area-dark .cr-blog-item-title { color: #fff; }
+                    .cr-blog-area-dark .cr-blog-item-title a { color: #fff; }
+                    .cr-blog-area-dark .cr-blog-item-meta { color: rgba(255,255,255,0.5); }
+                    .cr-blog-area-dark .cr-blog-bottom-text { color: #fff; }
+                    .cr-blog-area-dark .cr-blog-bottom-border { border-bottom-color: rgba(255,255,255,0.07); }
+                    .cr-blog-area-dark .cr-multi-border { border-color: rgba(255,255,255,0.07); }
+                    .cr-blog-area-dark .cr-multi-border::after,
+                    .cr-blog-area-dark .cr-multi-border::before { background-color: rgba(255,255,255,0.07); }
+                    .cr-blog-area-dark .cr-cta-text { color: rgba(255,255,255,0.5); }
+                    .cr-blog-area-dark .cr-cta-btn .tp-btn-white-border {
+                        color: #000;
+                        background-color: #fff;
+                        border-color: #fff;
+                    }
+                    .cr-blog-area-dark .cr-cta-btn .tp-btn-white-border:hover {
+                        background-color: transparent;
+                        color: #fff;
+                        border-color: #fff;
+                    }
+                </style>
+                <div class="cr-blog-area cr-blog-area-dark">
+                    <div class="container container-1230">
+                        <div class="cr-multi-border pt-120">
+                            <div class="cr-blog-bottom-border">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="cr-blog-heading text-center pb-60">
+                                            <div class="tp-section-subtitle-gradient ct mb-20 tp_fade_anim"
+                                                data-delay=".3">Insights</div>
+                                            <h4 class="tp-section-title-onest fs-72 tp-text-revel-anim">Explore our <br>
+                                                latest insights & updates</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                <div class="row">
+                                    @foreach($blogs as $blog)
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="cr-blog-item mb-30">
+                                            <div class="cr-blog-item-thumb">
+                                                <a href="{{ route('blog.show', $blog->slug) }}">
+                                                    @if($blog->featured_image)
+                                                        <img src="{{ asset('storage/' . $blog->featured_image) }}" alt="{{ $blog->title }}">
+                                                    @else
+                                                        <img src="{{ asset('assets/img/home-13/blog/blog-thumb-' . (($loop->index % 3) + 1) . '.jpg') }}" alt="{{ $blog->title }}">
+                                                    @endif
+                                                </a>
+                                            </div>
+                                            <div class="cr-blog-item-content">
+                                                <span class="cr-blog-item-category">{{ $blog->category }}</span>
+                                                <h4 class="cr-blog-item-title">
+                                                    <a class="tp-line-white" href="{{ route('blog.show', $blog->slug) }}">
+                                                        {{ $blog->title }}
+                                                    </a>
+                                                </h4>
+                                                <p class="cr-blog-item-meta">{{ $blog->published_at ? $blog->published_at->format('M d, Y') : $blog->created_at->format('M d, Y') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-8">
+                                        <div class="cr-blog-bottom text-center tp_fade_anim" data-delay=".7" data-fade-from="top" data-ease="bounce">
+                                            <a href="{{ route('blog.index') }}" class="cr-blog-bottom-text">Explore more insights from Dev Mantra</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CTA -->
+                            <div class="cr-cta-ptb p-relative pt-120 pb-100">
+                                <div class="cr-cta-bg">
+                                    <img src="{{ asset('assets/img/home-13/cta/cta-thumb-bg.png') }}" alt="">
+                                </div>
+                                <div class="cr-cta-shape">
+                                    <span class="shape-1"></span>
+                                    <span class="shape-2"></span>
+                                    <span class="shape-3"></span>
+                                    <span class="shape-4"></span>
+                                    <span class="shape-5"></span>
+                                    <span class="shape-6"></span>
+                                    <span class="shape-7"></span>
+                                    <span class="shape-8"></span>
+                                    <span class="shape-9"></span>
+                                    <span class="shape-10"></span>
+                                    <span class="shape-11"></span>
+                                    <span class="shape-12"></span>
+                                    <span class="shape-13"></span>
+                                    <span class="shape-14"></span>
+                                    <span class="shape-15"></span>
+                                </div>
+                                <div class="container container-1230">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="cr-cta-content text-center">
+                                                <div class="cr-cta-img p-relative mb-20">
+                                                    <img src="{{ asset('assets/img/home-13/cta/cta-thumb.gif') }}" alt="">
+                                                </div>
+                                                <h4 class="tp-section-title-onest fs-50 tp-text-revel-anim">
+                                                    Ready to Elevate Your <br> Business with Dev Mantra?
+                                                </h4>
+                                                <div class="tp_text_anim">
+                                                    <p class="cr-cta-text">
+                                                        Dev Mantra is here to help you scale with confidence through
+                                                        future-ready financial, governance, and advisory solutions.
+                                                    </p>
+                                                </div>
+                                                <div class="cr-cta-btn tp_fade_anim" data-delay=".7"
+                                                    data-fade-from="top" data-ease="bounce">
+                                                    <a href="" class="tp-btn-white-border">
+                                                        Book a Consultation
+                                                        <span>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15"
+                                                                height="12" viewBox="0 0 15 12" fill="none">
+                                                                <path
+                                                                    d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z"
+                                                                    fill="currentColor"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- CTA end -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- cr blog area end -->
 
 @endsection
 
 @push('scripts')
-<script>
-    new Swiper(".dm-services-swiper", {
-        slidesPerView: 1.2,
-        spaceBetween: 20,
-        pagination: { el: ".dm-services-pagination" }
-    });
-</script>
+    <script>
+
+        /* ---------------- CPA FIRM PRESSURE ---------------- */
+
+        new Chart(document.getElementById('cpaPressureChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Talent Shortage', 'Audit Complexity', 'Partner Burnout', 'Reporting Delays', 'Regulatory Scrutiny'],
+                datasets: [{
+                    data: [85, 78, 82, 70, 88],
+                    backgroundColor: [
+                        '#0f2b5c',
+                        '#1b3c6b',
+                        '#2a4f8f',
+                        '#3b61a8',
+                        '#4a73c4'
+                    ],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { beginAtZero: true, max: 100, grid: { color: '#eeeeee' } }
+                }
+            }
+        });
+
+
+        /* ---------------- WORKFLOW IMPROVEMENT ---------------- */
+
+        new Chart(document.getElementById('workflowChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Automation Processing', 'QA Review', 'CPA Oversight'],
+                datasets: [{
+                    data: [50, 25, 25],
+                    backgroundColor: [
+                        '#1b3c6b',
+                        '#2ca24c',
+                        '#9aa7bd'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: { position: 'bottom' }
+                },
+                cutout: '70%'
+            }
+        });
+
+
+        /* ---------------- BUSINESS IMPACT ---------------- */
+
+        new Chart(document.getElementById('impactChart'), {
+            type: 'line',
+            data: {
+                labels: ['Cost Savings', 'Audit Speed', 'Capacity', 'Accuracy'],
+                datasets: [{
+                    data: [60, 40, 50, 99],
+                    borderColor: '#2ca24c',
+                    backgroundColor: 'rgba(44,162,76,0.15)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#2ca24c'
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { beginAtZero: true, max: 100, grid: { color: '#eeeeee' } }
+                }
+            }
+        });
+
+    </script>
+    <!-- JS here -->
+
+    <script>
+        (function () {
+            const pins = document.querySelectorAll(".pin");
+            const box = document.querySelector(".world-map-box");
+            if (!pins.length || !box) return;
+
+            // Remove the single shared tooltip
+            const oldTooltip = document.getElementById("mapTooltip");
+            if (oldTooltip) oldTooltip.remove();
+
+            // Create a permanent tooltip for each pin
+            pins.forEach(function (pin) {
+                const name = pin.getAttribute("data-country");
+                const tip = document.createElement("div");
+                tip.className = "map-tooltip map-tooltip-always";
+                tip.textContent = name;
+                box.appendChild(tip);
+
+                function positionTip() {
+                    const rect = box.getBoundingClientRect();
+                    const pt = pin.getBoundingClientRect();
+                    tip.style.left = (pt.left - rect.left + pt.width / 2) + "px";
+                    tip.style.top = (pt.top - rect.top) + "px";
+                }
+
+                // Position on load and resize
+                window.addEventListener("load", positionTip);
+                window.addEventListener("resize", positionTip);
+                // Also position immediately in case already loaded
+                setTimeout(positionTip, 200);
+                setTimeout(positionTip, 800);
+            });
+        })();
+    </script>
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="assets/js/vendor/jquery.js"></script>
+    <script src="assets/js/bootstrap-bundle.js"></script>
+    <script src="assets/js/swiper-bundle.js"></script>
+    <script src="assets/js/plugin.js"></script>
+    <script src="assets/js/three.js"></script>
+    <script src="assets/js/slick.js"></script>
+    <script src="assets/js/scroll-magic.js"></script>
+    <script src="assets/js/hover-effect.umd.js"></script>
+    <script src="assets/js/magnific-popup.js"></script>
+    <script src="assets/js/parallax-slider.js"></script>
+    <script src="assets/js/nice-select.js"></script>
+    <script src="assets/js/purecounter.js"></script>
+    <script src="assets/js/isotope-pkgd.js"></script>
+    <script src="assets/js/imagesloaded-pkgd.js"></script>
+    <script src="assets/js/ajax-form.js"></script>
+    <script src="assets/js/Observer.min.js"></script>
+    <script src="assets/js/splitting.min.js"></script>
+    <script src="assets/js/webgl.js"></script>
+    <script src="assets/js/parallax-scroll.js"></script>
+    <script src="assets/js/atropos.js"></script>
+    <script src="assets/js/slider-active.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/tp-cursor.js"></script>
+    <script src="assets/js/portfolio-slider-1.js"></script>
+    <script type="module" src="assets/js/distortion-img.js"></script>
+    <script type="module" src="assets/js/skew-slider/index.js"></script>
+    <script type="module" src="assets/js/img-revel/index.js"></script>
+
+
+    <!-- JS here -->
+
+    <!-- JS here -->
+
+    <!-- GSAP animations for USP + 6A Sections -->
+    <script>
+        (function () {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // ── Section 04: USP cards stagger-in ──
+            var uspCards = document.querySelectorAll('.dm-usp-card');
+            if (uspCards.length) {
+                gsap.set(uspCards, { y: 60, opacity: 0 });
+                ScrollTrigger.create({
+                    trigger: '.dm-usp-section',
+                    start: 'top 80%',
+                    once: true,
+                    onEnter: function () {
+                        gsap.to(uspCards, {
+                            y: 0,
+                            opacity: 1,
+                            duration: 0.7,
+                            stagger: 0.15,
+                            ease: 'power3.out'
+                        });
+                    }
+                });
+            }
+
+            // USP title reveal
+            var uspTitle = document.querySelector('.dm-usp-title');
+            if (uspTitle) {
+                gsap.set(uspTitle, { y: 30, opacity: 0 });
+                ScrollTrigger.create({
+                    trigger: '.dm-usp-section',
+                    start: 'top 85%',
+                    once: true,
+                    onEnter: function () {
+                        gsap.to(uspTitle, {
+                            y: 0,
+                            opacity: 1,
+                            duration: 0.6,
+                            ease: 'power2.out'
+                        });
+                    }
+                });
+            }
+
+            // ── Section 05: 6A hexagons sequential reveal ──
+            var sixANodes = document.querySelectorAll('.dm-6a-node');
+            var sixAConnectors = document.querySelectorAll('.dm-6a-connector');
+
+            if (sixANodes.length) {
+                gsap.set(sixANodes, { y: 40, opacity: 0, scale: 0.85 });
+                gsap.set(sixAConnectors, { scaleX: 0, transformOrigin: 'left center' });
+
+                ScrollTrigger.create({
+                    trigger: '.dm-6a-section',
+                    start: 'top 75%',
+                    once: true,
+                    onEnter: function () {
+                        // Build a timeline for sequential reveal
+                        var tl = gsap.timeline();
+
+                        sixANodes.forEach(function (node, i) {
+                            tl.to(node, {
+                                y: 0,
+                                opacity: 1,
+                                scale: 1,
+                                duration: 0.5,
+                                ease: 'back.out(1.4)'
+                            }, i * 0.2);
+
+                            // Animate the connector after each node (except last)
+                            if (sixAConnectors[i]) {
+                                tl.to(sixAConnectors[i], {
+                                    scaleX: 1,
+                                    duration: 0.3,
+                                    ease: 'power2.inOut'
+                                }, i * 0.2 + 0.25);
+                            }
+                        });
+
+                        // After all nodes revealed, auto-activate them sequentially
+                        tl.call(function () {
+                            var activeIndex = 0;
+                            function activateNext() {
+                                sixANodes.forEach(function (n) { n.classList.remove('is-active'); });
+                                if (sixANodes[activeIndex]) {
+                                    sixANodes[activeIndex].classList.add('is-active');
+                                }
+                                activeIndex = (activeIndex + 1) % sixANodes.length;
+                            }
+                            activateNext();
+                            setInterval(activateNext, 3000);
+                        });
+                    }
+                });
+            }
+
+            // 6A header elements
+            var sixAHeader = document.querySelector('.dm-6a-header');
+            if (sixAHeader) {
+                gsap.set(sixAHeader, { y: 30, opacity: 0 });
+                ScrollTrigger.create({
+                    trigger: '.dm-6a-section',
+                    start: 'top 85%',
+                    once: true,
+                    onEnter: function () {
+                        gsap.to(sixAHeader, {
+                            y: 0,
+                            opacity: 1,
+                            duration: 0.6,
+                            ease: 'power2.out'
+                        });
+                    }
+                });
+            }
+
+            // Click to toggle active node
+            document.querySelectorAll('.dm-6a-node').forEach(function (node) {
+                node.addEventListener('click', function () {
+                    var wasActive = this.classList.contains('is-active');
+                    document.querySelectorAll('.dm-6a-node').forEach(function (n) {
+                        n.classList.remove('is-active');
+                    });
+                    if (!wasActive) {
+                        this.classList.add('is-active');
+                    }
+                });
+            });
+
+            // ── Section 06: AI-Enabled Platform (Light + WebGL) ──
+
+            // --- Light-mode particle canvas ---
+            (function () {
+                var canvas = document.getElementById('dmAiParticles');
+                if (!canvas) return;
+                var ctx = canvas.getContext('2d');
+                var particles = [];
+                var PARTICLE_COUNT = 55;
+                var mouse = { x: -1000, y: -1000 };
+
+                function resize() {
+                    var rect = canvas.parentElement.getBoundingClientRect();
+                    canvas.width = rect.width;
+                    canvas.height = rect.height;
+                }
+                resize();
+                window.addEventListener('resize', resize);
+
+                canvas.parentElement.addEventListener('mousemove', function (e) {
+                    var rect = canvas.getBoundingClientRect();
+                    mouse.x = e.clientX - rect.left;
+                    mouse.y = e.clientY - rect.top;
+                });
+
+                for (var i = 0; i < PARTICLE_COUNT; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        vx: (Math.random() - 0.5) * 0.35,
+                        vy: (Math.random() - 0.5) * 0.35,
+                        r: Math.random() * 2 + 0.5,
+                        alpha: Math.random() * 0.35 + 0.1
+                    });
+                }
+
+                function drawParticles() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    for (var i = 0; i < particles.length; i++) {
+                        var p = particles[i];
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        if (p.x < 0) p.x = canvas.width;
+                        if (p.x > canvas.width) p.x = 0;
+                        if (p.y < 0) p.y = canvas.height;
+                        if (p.y > canvas.height) p.y = 0;
+
+                        var dx = mouse.x - p.x;
+                        var dy = mouse.y - p.y;
+                        var dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 180) {
+                            p.vx += dx * 0.00012;
+                            p.vy += dy * 0.00012;
+                        }
+
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(99, 102, 241, ' + p.alpha + ')';
+                        ctx.fill();
+
+                        for (var j = i + 1; j < particles.length; j++) {
+                            var p2 = particles[j];
+                            var d = Math.sqrt(Math.pow(p.x - p2.x, 2) + Math.pow(p.y - p2.y, 2));
+                            if (d < 110) {
+                                ctx.beginPath();
+                                ctx.moveTo(p.x, p.y);
+                                ctx.lineTo(p2.x, p2.y);
+                                ctx.strokeStyle = 'rgba(99, 102, 241, ' + (0.055 * (1 - d / 110)) + ')';
+                                ctx.lineWidth = 0.5;
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                    requestAnimationFrame(drawParticles);
+                }
+                drawParticles();
+            })();
+
+            // --- Three.js WebGL Neural Sphere (r118-compatible) ---
+            (function () {
+                try {
+                    var webglCanvas = document.getElementById('dmAiWebGL');
+                    if (!webglCanvas || typeof THREE === 'undefined') return;
+
+                    var wrap = webglCanvas.parentElement;
+                    var W = wrap.clientWidth || 420;
+                    var H = wrap.clientHeight || 420;
+                    var mouseNorm = { x: 0, y: 0 };
+
+                    // Renderer
+                    var renderer = new THREE.WebGLRenderer({
+                        canvas: webglCanvas,
+                        alpha: true,
+                        antialias: true
+                    });
+                    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                    renderer.setSize(W, H);
+                    renderer.setClearColor(0x000000, 0);
+
+                    // Scene & Camera
+                    var scene = new THREE.Scene();
+                    var camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 100);
+                    camera.position.z = 5;
+
+                    // --- Core sphere (icosahedron wireframe) ---
+                    var CoreGeo = THREE.IcosahedronBufferGeometry || THREE.IcosahedronGeometry;
+                    var coreGeo = new CoreGeo(1.0, 2);
+                    var coreMat = new THREE.MeshBasicMaterial({
+                        color: 0x4338ca,
+                        wireframe: true,
+                        transparent: true,
+                        opacity: 0.5
+                    });
+                    var coreMesh = new THREE.Mesh(coreGeo, coreMat);
+                    scene.add(coreMesh);
+
+                    // --- Inner solid sphere (glowing core) ---
+                    var SphGeo = THREE.SphereBufferGeometry || THREE.SphereGeometry;
+                    var innerGeo = new SphGeo(0.45, 32, 32);
+                    var innerMat = new THREE.MeshBasicMaterial({
+                        color: 0x6366f1,
+                        transparent: true,
+                        opacity: 0.35
+                    });
+                    var innerMesh = new THREE.Mesh(innerGeo, innerMat);
+                    scene.add(innerMesh);
+
+                    // --- Orbiting point cloud (neural nodes) ---
+                    var NODE_COUNT = 200;
+                    var nodePositions = new Float32Array(NODE_COUNT * 3);
+                    var nodeOrbits = [];
+
+                    for (var i = 0; i < NODE_COUNT; i++) {
+                        var phi = Math.acos(2 * Math.random() - 1);
+                        var theta = Math.random() * Math.PI * 2;
+                        var r = 1.0 + Math.random() * 0.8;
+                        nodePositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+                        nodePositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+                        nodePositions[i * 3 + 2] = r * Math.cos(phi);
+                        nodeOrbits.push({
+                            radius: r, phi: phi, theta: theta,
+                            phiSpeed: (Math.random() - 0.5) * 0.004,
+                            thetaSpeed: (Math.random() - 0.5) * 0.008
+                        });
+                    }
+
+                    var nodeGeo = new THREE.BufferGeometry();
+                    nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePositions, 3));
+
+                    // Use plain color (no vertexColors) for r118 safety
+                    var nodeMat = new THREE.PointsMaterial({
+                        size: 0.055,
+                        color: 0x6366f1,
+                        transparent: true,
+                        opacity: 0.8,
+                        sizeAttenuation: true
+                    });
+                    var nodePoints = new THREE.Points(nodeGeo, nodeMat);
+                    scene.add(nodePoints);
+
+                    // --- Neural connections (lines between nearby nodes) ---
+                    var CONN_MAX = 300;
+                    var connPositions = new Float32Array(CONN_MAX * 6);
+                    var connGeo = new THREE.BufferGeometry();
+                    connGeo.setAttribute('position', new THREE.BufferAttribute(connPositions, 3));
+                    var connMat = new THREE.LineBasicMaterial({
+                        color: 0x6366f1,
+                        transparent: true,
+                        opacity: 0.15
+                    });
+                    var connLines = new THREE.LineSegments(connGeo, connMat);
+                    scene.add(connLines);
+
+                    // --- Outer ring orbits (3 torus rings) ---
+                    var TorGeo = THREE.TorusBufferGeometry || THREE.TorusGeometry;
+                    var ringColors = [0x4338ca, 0x7c3aed, 0x3b82f6];
+                    var ringScales = [1.8, 2.1, 2.4];
+                    var ringRotations = [
+                        { x: Math.PI / 2.5, y: 0, z: 0 },
+                        { x: Math.PI / 3.5, y: Math.PI / 4, z: 0 },
+                        { x: Math.PI / 5, y: -Math.PI / 3, z: Math.PI / 6 }
+                    ];
+                    var rings = [];
+                    for (var ri = 0; ri < 3; ri++) {
+                        var rGeo = new TorGeo(ringScales[ri], 0.018, 8, 100);
+                        var rMat = new THREE.MeshBasicMaterial({
+                            color: ringColors[ri],
+                            transparent: true,
+                            opacity: 0.3 + ri * 0.05
+                        });
+                        var rMesh = new THREE.Mesh(rGeo, rMat);
+                        rMesh.rotation.set(ringRotations[ri].x, ringRotations[ri].y, ringRotations[ri].z);
+                        scene.add(rMesh);
+                        rings.push(rMesh);
+                    }
+
+                    // Mark WebGL as active — hide CSS fallback
+                    wrap.classList.add('dm-ai-webgl-active');
+
+                    // --- Animate ---
+                    var clock = new THREE.Clock();
+
+                    function updateConnections() {
+                        var posArr = nodeGeo.attributes.position.array;
+                        var connIdx = 0;
+                        var threshold = 0.9;
+                        for (var ci = 0; ci < NODE_COUNT && connIdx < CONN_MAX; ci++) {
+                            var ax = posArr[ci * 3], ay = posArr[ci * 3 + 1], az = posArr[ci * 3 + 2];
+                            for (var cj = ci + 1; cj < NODE_COUNT && connIdx < CONN_MAX; cj++) {
+                                var bx = posArr[cj * 3], by = posArr[cj * 3 + 1], bz = posArr[cj * 3 + 2];
+                                var dx = ax - bx, dy = ay - by, dz = az - bz;
+                                if (dx * dx + dy * dy + dz * dz < threshold) {
+                                    connPositions[connIdx * 6] = ax;
+                                    connPositions[connIdx * 6 + 1] = ay;
+                                    connPositions[connIdx * 6 + 2] = az;
+                                    connPositions[connIdx * 6 + 3] = bx;
+                                    connPositions[connIdx * 6 + 4] = by;
+                                    connPositions[connIdx * 6 + 5] = bz;
+                                    connIdx++;
+                                }
+                            }
+                        }
+                        for (var ck = connIdx * 6; ck < CONN_MAX * 6; ck++) {
+                            connPositions[ck] = 0;
+                        }
+                        connGeo.attributes.position.needsUpdate = true;
+                        connGeo.setDrawRange(0, connIdx * 2);
+                    }
+
+                    function animate() {
+                        requestAnimationFrame(animate);
+                        var t = clock.getElapsedTime();
+                        var posArr = nodeGeo.attributes.position.array;
+
+                        for (var ai = 0; ai < NODE_COUNT; ai++) {
+                            var orb = nodeOrbits[ai];
+                            orb.phi += orb.phiSpeed;
+                            orb.theta += orb.thetaSpeed;
+                            posArr[ai * 3] = orb.radius * Math.sin(orb.phi) * Math.cos(orb.theta);
+                            posArr[ai * 3 + 1] = orb.radius * Math.sin(orb.phi) * Math.sin(orb.theta);
+                            posArr[ai * 3 + 2] = orb.radius * Math.cos(orb.phi);
+                        }
+                        nodeGeo.attributes.position.needsUpdate = true;
+
+                        if (Math.round(t * 60) % 3 === 0) updateConnections();
+
+                        coreMesh.rotation.x = t * 0.15 + mouseNorm.y * 0.3;
+                        coreMesh.rotation.y = t * 0.2 + mouseNorm.x * 0.3;
+
+                        var pulse = 0.45 + Math.sin(t * 2) * 0.05;
+                        innerMesh.scale.setScalar(pulse / 0.45);
+                        innerMat.opacity = 0.3 + Math.sin(t * 1.5) * 0.1;
+
+                        rings[0].rotation.z += 0.003;
+                        rings[1].rotation.z -= 0.0025;
+                        rings[2].rotation.z += 0.002;
+
+                        scene.rotation.x = mouseNorm.y * 0.15;
+                        scene.rotation.y = mouseNorm.x * 0.15;
+
+                        renderer.render(scene, camera);
+                    }
+                    animate();
+
+                    wrap.addEventListener('mousemove', function (e) {
+                        var rect = wrap.getBoundingClientRect();
+                        mouseNorm.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+                        mouseNorm.y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+                    });
+                    wrap.addEventListener('mouseleave', function () {
+                        mouseNorm.x = 0;
+                        mouseNorm.y = 0;
+                    });
+
+                    window.addEventListener('resize', function () {
+                        W = wrap.clientWidth;
+                        H = wrap.clientHeight;
+                        camera.aspect = W / H;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(W, H);
+                    });
+                } catch (e) { /* WebGL not available — CSS fallback shows instead */ }
+            })();
+
+            // --- Mouse-reactive card glow ---
+            document.querySelectorAll('.dm-ai-card').forEach(function (card) {
+                card.addEventListener('mousemove', function (e) {
+                    var rect = card.getBoundingClientRect();
+                    var glow = card.querySelector('.dm-ai-card-glow');
+                    if (glow) {
+                        glow.style.left = (e.clientX - rect.left) + 'px';
+                        glow.style.top = (e.clientY - rect.top) + 'px';
+                    }
+                });
+            });
+
+            // --- GSAP scroll-triggered reveal (safe — no pre-hiding) ---
+            // Content is visible by default; animation enhances on scroll
+            try {
+                var aiElems = document.querySelectorAll('.dm-ai-header, .dm-ai-platform, .dm-ai-card, .dm-ai-footer');
+                if (aiElems.length && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                    aiElems.forEach(function (el) {
+                        gsap.from(el, {
+                            y: 40,
+                            opacity: 0,
+                            duration: 0.7,
+                            ease: 'power3.out',
+                            scrollTrigger: {
+                                trigger: el,
+                                start: 'top 92%',
+                                once: true
+                            }
+                        });
+                    });
+                }
+            } catch (e) { /* animations are progressive enhancement */ }
+
+        })();
+    </script>
+
+    <!-- Approach + Lifecycle section animations -->
+    <script>
+        (function () {
+            if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+            var aplSection = document.querySelector('.dm-apl-section');
+            var aplPin = document.querySelector('.dm-apl-pin');
+            if (!aplSection || !aplPin) return;
+
+            // ── Header fade-in ──
+            var aplHeader = aplSection.querySelector('.dm-apl-header');
+            if (aplHeader) {
+                gsap.set(aplHeader, { y: 30, opacity: 0 });
+                ScrollTrigger.create({
+                    trigger: aplSection,
+                    start: 'top 85%',
+                    once: true,
+                    onEnter: function () {
+                        gsap.to(aplHeader, { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' });
+                    }
+                });
+            }
+
+            // ── Checklist items stagger-in ──
+            var aplItems = aplSection.querySelectorAll('.dm-apl-item');
+            if (aplItems.length) {
+                gsap.set(aplItems, { x: -15, opacity: 0 });
+                ScrollTrigger.create({
+                    trigger: '.dm-apl-left',
+                    start: 'top 80%',
+                    once: true,
+                    onEnter: function () {
+                        gsap.to(aplItems, { x: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: 'power2.out' });
+                    }
+                });
+            }
+
+            // ── Hover microanimations on checklist items ──
+            aplItems.forEach(function (item) {
+                var check = item.querySelector('.dm-apl-check');
+                item.addEventListener('mouseenter', function () {
+                    gsap.to(item, { x: 4, duration: 0.25, ease: 'power2.out' });
+                    if (check) gsap.to(check, { scale: 1.15, rotation: 10, duration: 0.3, ease: 'back.out(2)' });
+                });
+                item.addEventListener('mouseleave', function () {
+                    gsap.to(item, { x: 0, duration: 0.25, ease: 'power2.out' });
+                    if (check) gsap.to(check, { scale: 1, rotation: 0, duration: 0.25, ease: 'power2.out' });
+                });
+            });
+
+            // ═══════════════════════════════════════════════
+            // LIFECYCLE — Vertical tab switching (click-based)
+            // ═══════════════════════════════════════════════
+
+            var lcTabs = aplSection.querySelectorAll('.dm-lc-vtab');
+            var lcPanels = aplSection.querySelectorAll('.dm-lc-vpanel');
+
+            if (!lcTabs.length || !lcPanels.length) return;
+
+            var activeTab = 0;
+
+            function switchTab(index) {
+                if (index === activeTab) return;
+                var prevIndex = activeTab;
+                activeTab = index;
+                var direction = index > prevIndex ? 1 : -1;
+
+                // Update tab buttons
+                lcTabs.forEach(function (tab, i) {
+                    tab.classList.toggle('is-active', i === index);
+                });
+
+                // Kill any running panel/list animations
+                lcPanels.forEach(function (panel) {
+                    gsap.killTweensOf(panel);
+                    var items = panel.querySelectorAll('li');
+                    if (items.length) gsap.killTweensOf(items);
+                });
+
+                // Hide all panels except the new one
+                lcPanels.forEach(function (panel, i) {
+                    if (i !== index) {
+                        panel.classList.remove('is-active');
+                        gsap.set(panel, { opacity: 0, y: 0 });
+                    }
+                });
+
+                // Animate in the new panel
+                var inPanel = lcPanels[index];
+                inPanel.classList.add('is-active');
+                gsap.fromTo(inPanel,
+                    { opacity: 0, y: 14 * direction },
+                    { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }
+                );
+
+                // Stagger-in list items
+                var newItems = inPanel.querySelectorAll('li');
+                if (newItems.length) {
+                    gsap.fromTo(newItems,
+                        { x: 8, opacity: 0 },
+                        { x: 0, opacity: 1, duration: 0.3, stagger: 0.04, delay: 0.1, ease: 'power2.out' }
+                    );
+                }
+            }
+
+            // ── Auto-rotate every 5 seconds ──
+            var AUTO_INTERVAL = 5000;
+            var autoTimer = null;
+
+            function startAutoRotate() {
+                stopAutoRotate();
+                autoTimer = setInterval(function () {
+                    var nextTab = (activeTab + 1) % lcTabs.length;
+                    switchTab(nextTab);
+                }, AUTO_INTERVAL);
+            }
+
+            function stopAutoRotate() {
+                if (autoTimer) {
+                    clearInterval(autoTimer);
+                    autoTimer = null;
+                }
+            }
+
+            // Tab click handlers — reset timer on manual click
+            lcTabs.forEach(function (tab, i) {
+                tab.addEventListener('click', function () {
+                    switchTab(i);
+                    startAutoRotate(); // restart timer from this tab
+                });
+            });
+
+            // Pause auto-rotate on hover, resume on leave
+            var vtabsContainer = aplSection.querySelector('.dm-lc-vtabs');
+            if (vtabsContainer) {
+                vtabsContainer.addEventListener('mouseenter', stopAutoRotate);
+                vtabsContainer.addEventListener('mouseleave', startAutoRotate);
+            }
+
+            // Start auto-rotate
+            startAutoRotate();
+
+            // Entrance animation for the vertical tabs container
+            if (vtabsContainer) {
+                gsap.set(vtabsContainer, { y: 20, opacity: 0 });
+                ScrollTrigger.create({
+                    trigger: '.dm-apl-right',
+                    start: 'top 80%',
+                    once: true,
+                    onEnter: function () {
+                        gsap.to(vtabsContainer, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' });
+                    }
+                });
+            }
+
+        })();
+    </script>
+
+    <!-- Horizontal scroll services (desktop GSAP + mobile Swiper) -->
+    <script>
+        (function () {
+            var MOBILE_BP = 991;
+
+            // ── Desktop: GSAP horizontal scroll ──
+            gsap.registerPlugin(ScrollTrigger);
+
+            var section = document.querySelector(".dm-hscroll-section");
+            var cards = document.querySelector(".dm-hscroll-cards");
+
+            function killHScroll() {
+                ScrollTrigger.getAll().forEach(function (t) {
+                    if (t.vars && t.vars.id === "dm-hscroll") t.kill();
+                });
+                if (cards) gsap.set(cards, { x: 0 });
+            }
+
+            function initHScroll() {
+                killHScroll();
+                if (!section || !cards) return;
+                if (window.innerWidth <= MOBILE_BP) return;
+
+                var scrollDistance = cards.scrollWidth - window.innerWidth + 120;
+                if (scrollDistance <= 0) return;
+
+                gsap.to(cards, {
+                    x: -scrollDistance,
+                    ease: "none",
+                    scrollTrigger: {
+                        id: "dm-hscroll",
+                        trigger: section,
+                        pin: true,
+                        scrub: 1,
+                        start: "top top",
+                        end: "+=" + scrollDistance,
+                        invalidateOnRefresh: true
+                    }
+                });
+            }
+
+            // ── Mobile: Swiper slider ──
+            var swiperInstance = null;
+
+            function initSwiper() {
+                if (window.innerWidth > MOBILE_BP) {
+                    if (swiperInstance) { swiperInstance.destroy(true, true); swiperInstance = null; }
+                    return;
+                }
+                if (swiperInstance) return; // already running
+
+                swiperInstance = new Swiper(".dm-services-swiper", {
+                    slidesPerView: 1.15,
+                    spaceBetween: 16,
+                    centeredSlides: true,
+                    grabCursor: true,
+                    pagination: {
+                        el: ".dm-services-pagination",
+                        clickable: true
+                    },
+                    breakpoints: {
+                        480: { slidesPerView: 1.3, spaceBetween: 20 },
+                        768: { slidesPerView: 2.2, spaceBetween: 24 }
+                    }
+                });
+            }
+
+            // ── Init on load ──
+            window.addEventListener("load", function () {
+                setTimeout(function () {
+                    initHScroll();
+                    initSwiper();
+                }, 300);
+            });
+
+            // ── Re-init on resize ──
+            var resizeTimer;
+            window.addEventListener("resize", function () {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function () {
+                    initHScroll();
+                    initSwiper();
+                }, 250);
+            });
+        })();
+    </script>
 @endpush

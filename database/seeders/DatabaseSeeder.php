@@ -13,12 +13,12 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin user
+        // Superadmin user
         User::updateOrCreate(
             ['email' => 'admin@devmantra.com'],
             [
-                'name' => 'Admin',
-                'password' => Hash::make('password'),
+                'name' => 'Super Admin',
+                'password' => Hash::make('DevMantra@2025'),
                 'is_admin' => true,
             ]
         );

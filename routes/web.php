@@ -44,6 +44,14 @@ Route::get('/dashboard', function () {
     return redirect()->route('admin.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+// Admin login shortcut — redirects to /login if not authenticated, /admin if already logged in
+Route::get('/admin/login', function () {
+    if (auth()->check() && auth()->user()->is_admin) {
+        return redirect()->route('admin.dashboard');
+    }
+    return redirect()->route('login');
+})->name('admin.login');
+
 // Profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
