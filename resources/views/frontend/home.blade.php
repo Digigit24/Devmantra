@@ -42,63 +42,7 @@
     .cr-blog-area-dark .cr-multi-border { border-color: rgba(255,255,255,0.07); }
     .cr-blog-area-dark .cr-multi-border::after,
     .cr-blog-area-dark .cr-multi-border::before { background-color: rgba(255,255,255,0.07); }
-    /* ── Light-section text overrides (theme defaults to white) ── */
-
-    /* Brand / Services / Company info area */
-    .cr-brand-area .tp-section-title-onest,
-    .cr-brand-area .cr-feature-item-icon-title,
-    .cr-brand-area .cr-feature-heading .tp-section-title-onest {
-        color: #111 !important;
-    }
-    .cr-brand-area p,
-    .cr-brand-area .cr-feature-item-content p {
-        color: #333;
-    }
-
-    /* Map / World area */
-    .cr-world-area .tp-section-title-onest {
-        color: #111 !important;
-    }
-    .cr-world-area p {
-        color: #555;
-    }
-
-    /* Feature 2 (icon grid + center heading) */
-    .cr-feature-2-heading .tp-section-title-onest {
-        color: #fff !important;
-    }
-    .cr-feature-2-heading p {
-        color: rgba(255,255,255,0.7);
-    }
-
-    /* Testimonial area */
-    .cr-testimonial-area .cr-testimonial-title,
-    .cr-testimonial-wrap h3 {
-        color: #111 !important;
-    }
-    .cr-testimonial-area .cr-testimonial-item-title {
-        color: #222;
-    }
-    .cr-testimonial-area .cr-testimonial-content p,
-    .cr-testimonial-area .cr-testimonial-content span {
-        color: #333;
-    }
-    .cr-testimonial-area .cr-testimonial-item-subtitle {
-        color: #777;
-    }
-    .cr-testimonial-area .cr-testimonial-item-user span {
-        color: #111;
-    }
-    .cr-testimonial-area .cr-testimonial-item-user p {
-        color: #666;
-    }
-
-    /* Values cards text */
-    .dm-values-grid .dm-value-card h5 {
-        color: #111;
-    }
-
-    /* Light CTA section */
+    /* Light CTA section (outside dark blog wrapper) */
     .cr-cta-area-light { background: #f8f9fa; }
     .cr-cta-area-light .tp-section-title-onest { color: #111 !important; }
     .cr-cta-area-light .cr-cta-text { color: #555; }

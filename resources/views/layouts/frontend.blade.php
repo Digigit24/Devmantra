@@ -36,7 +36,7 @@
     @stack('styles')
 </head>
 
-<body class="tp-magic-cursor">
+<body class="tp-magic-cursor agntix-light">
 
     <!-- magic cursor -->
     <div id="magic-cursor" class="cursor-white-bg">
