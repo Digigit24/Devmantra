@@ -52,25 +52,33 @@
     @media (max-width: 991px) { .dm-article-hero-title { font-size: 36px; } }
     @media (max-width: 767px) { .dm-article-hero-title { font-size: 28px; } }
 
-    /* Article content */
-    .dm-article-body { padding: 80px 0 100px; }
-    @media (max-width: 767px) { .dm-article-body { padding: 50px 0 60px; } }
-
+    /* Featured image - full width below hero */
+    .dm-article-featured-section {
+        margin-top: -40px;
+        position: relative;
+        z-index: 2;
+        padding-bottom: 60px;
+    }
     .dm-article-featured-img {
         border-radius: 16px;
         overflow: hidden;
-        margin-bottom: 60px;
     }
     .dm-article-featured-img img {
         width: 100%;
-        height: auto;
+        height: 480px;
+        object-fit: cover;
         display: block;
     }
-
-    .dm-article-content {
-        max-width: 740px;
-        margin: 0 auto;
+    @media (max-width: 767px) {
+        .dm-article-featured-img img { height: 260px; }
+        .dm-article-featured-section { margin-top: -20px; padding-bottom: 40px; }
     }
+
+    /* Article body - 2 column layout */
+    .dm-article-body { padding: 0 0 100px; }
+    @media (max-width: 767px) { .dm-article-body { padding: 0 0 60px; } }
+
+    /* Content column */
     .dm-article-content p {
         font-size: 17px;
         line-height: 1.8;
@@ -120,12 +128,14 @@
         border-radius: 50%;
     }
 
-    .dm-article-content blockquote {
+    .dm-article-content blockquote,
+    .dm-article-quote {
         border-left: 3px solid var(--tp-common-black);
         padding: 24px 0 24px 32px;
         margin: 40px 0;
     }
-    .dm-article-content blockquote p {
+    .dm-article-content blockquote p,
+    .dm-article-quote p {
         font-size: 20px;
         font-weight: 500;
         color: var(--tp-common-black);
@@ -133,11 +143,26 @@
         margin-bottom: 8px;
         font-style: italic;
     }
+    .dm-article-content blockquote cite,
+    .dm-article-quote cite {
+        font-size: 14px;
+        color: rgba(0,0,0,0.5);
+        font-style: normal;
+        font-weight: 600;
+    }
 
-    /* Footer tags & share */
+    .dm-article-inline-img {
+        margin: 40px 0;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .dm-article-inline-img img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Tags & share */
     .dm-article-footer {
-        max-width: 740px;
-        margin: 0 auto;
         padding-top: 40px;
         border-top: 1px solid var(--tp-border-1);
         display: flex;
@@ -193,11 +218,153 @@
         color: #fff;
         border-color: var(--tp-common-black);
     }
+
+    /* ── Sticky sidebar ── */
+    .dm-sidebar {
+        position: sticky;
+        top: 120px;
+        padding-left: 40px;
+    }
+    @media (max-width: 991px) { .dm-sidebar { padding-left: 0; margin-top: 60px; position: static; } }
+
+    .dm-sidebar-label {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: rgba(0,0,0,0.35);
+        margin-bottom: 28px;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-sidebar-post {
+        display: flex;
+        gap: 16px;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--tp-border-1);
+        transition: all 0.3s ease;
+    }
+    .dm-sidebar-post:first-of-type {
+        border-top: 1px solid var(--tp-border-1);
+    }
+    .dm-sidebar-post:hover {
+        padding-left: 6px;
+    }
+    .dm-sidebar-post-thumb {
+        width: 72px;
+        height: 72px;
+        border-radius: 10px;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+    .dm-sidebar-post-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+    .dm-sidebar-post:hover .dm-sidebar-post-thumb img {
+        transform: scale(1.06);
+    }
+    .dm-sidebar-post-info {
+        flex: 1;
+        min-width: 0;
+    }
+    .dm-sidebar-post-category {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(0,0,0,0.35);
+        margin-bottom: 6px;
+        display: block;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-sidebar-post-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--tp-common-black);
+        line-height: 1.45;
+        font-family: var(--tp-ff-onest);
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .dm-sidebar-post-title a {
+        color: inherit;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+    }
+    .dm-sidebar-post-title a:hover { opacity: 0.6; }
+
+    .dm-sidebar-post-date {
+        font-size: 12px;
+        color: rgba(0,0,0,0.35);
+        margin-top: 4px;
+        font-family: var(--tp-ff-onest);
+    }
+
+    /* Related posts (bottom section) */
+    .dm-related-posts {
+        padding: 80px 0;
+        border-top: 1px solid var(--tp-border-1);
+    }
+    .dm-related-posts-title {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(0,0,0,0.4);
+        margin-bottom: 40px;
+        font-family: var(--tp-ff-onest);
+    }
+
+    .dm-related-card {
+        margin-bottom: 30px;
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    .dm-related-card:hover { transform: translateY(-4px); }
+    .dm-related-card-thumb {
+        overflow: hidden;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    .dm-related-card-thumb img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    .dm-related-card:hover .dm-related-card-thumb img { transform: scale(1.04); }
+    .dm-related-card-category {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(0,0,0,0.4);
+        margin-bottom: 8px;
+        display: block;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-related-card-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--tp-common-black);
+        line-height: 1.4;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-related-card-title a {
+        color: inherit;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+    }
+    .dm-related-card-title a:hover { opacity: 0.6; }
 </style>
 @endpush
 
 @section('content')
-<!-- Hero -->
+<!-- Article Hero -->
 <div class="dm-article-hero">
     <div class="container container-1230">
         <div class="row justify-content-center">
@@ -215,10 +382,10 @@
     </div>
 </div>
 
-<!-- Body -->
-<div class="dm-article-body">
+<!-- Featured Image - Full Width -->
+@if($newsletter->featured_image)
+<div class="dm-article-featured-section">
     <div class="container container-1230">
-        @if($newsletter->featured_image)
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="dm-article-featured-img tp_fade_anim" data-delay=".3">
@@ -226,27 +393,98 @@
                 </div>
             </div>
         </div>
-        @endif
+    </div>
+</div>
+@endif
 
-        <div class="dm-article-content tp_fade_anim" data-delay=".5">
-            {!! $newsletter->content !!}
-        </div>
+<!-- Article Body + Sidebar -->
+<div class="dm-article-body">
+    <div class="container container-1230">
+        <div class="row">
+            <!-- Content Column -->
+            <div class="col-lg-8">
+                <div class="dm-article-content tp_fade_anim" data-delay=".5">
+                    {!! $newsletter->content !!}
+                </div>
 
-        <!-- Footer -->
-        <div class="dm-article-footer">
-            <div class="dm-article-tags">
-                <a href="{{ route('newsletter.index') }}">Newsletter</a>
-                @if($newsletter->edition_label)
-                <a href="{{ route('newsletter.index') }}">{{ $newsletter->edition_label }}</a>
-                @endif
+                <!-- Article Footer -->
+                <div class="dm-article-footer">
+                    <div class="dm-article-tags">
+                        <a href="{{ route('newsletter.index') }}">Newsletter</a>
+                        @if($newsletter->edition_label)
+                        <a href="{{ route('newsletter.index') }}">{{ $newsletter->edition_label }}</a>
+                        @endif
+                    </div>
+                    <div class="dm-article-share">
+                        <span>Share</span>
+                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($newsletter->title) }}" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->url()) }}" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
             </div>
-            <div class="dm-article-share">
-                <span>Share</span>
-                <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($newsletter->title) }}" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(request()->url()) }}" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+
+            <!-- Sticky Sidebar -->
+            <div class="col-lg-4">
+                <div class="dm-sidebar">
+                    <div class="dm-sidebar-label">Recent Newsletters</div>
+                    @foreach($sidebarNewsletters as $sidePost)
+                    <div class="dm-sidebar-post">
+                        <div class="dm-sidebar-post-thumb">
+                            @if($sidePost->featured_image)
+                                <a href="{{ route('newsletter.show', $sidePost->slug) }}">
+                                    <img src="{{ asset('storage/' . $sidePost->featured_image) }}" alt="{{ $sidePost->title }}">
+                                </a>
+                            @else
+                                <a href="{{ route('newsletter.show', $sidePost->slug) }}">
+                                    <img src="{{ asset('assets/img/home-13/blog/blog-thumb-' . (($loop->index % 3) + 1) . '.jpg') }}" alt="{{ $sidePost->title }}">
+                                </a>
+                            @endif
+                        </div>
+                        <div class="dm-sidebar-post-info">
+                            <span class="dm-sidebar-post-category">
+                                {{ $sidePost->edition_label ?? 'Newsletter' }}
+                            </span>
+                            <h5 class="dm-sidebar-post-title">
+                                <a href="{{ route('newsletter.show', $sidePost->slug) }}">{{ $sidePost->title }}</a>
+                            </h5>
+                            <div class="dm-sidebar-post-date">{{ $sidePost->published_at?->format('M d, Y') ?? $sidePost->created_at->format('M d, Y') }}</div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Related Newsletters -->
+@if($related->count())
+<div class="dm-related-posts">
+    <div class="container container-1230">
+        <div class="dm-related-posts-title tp_fade_anim" data-delay=".3">More Newsletters</div>
+        <div class="row">
+            @foreach($related as $post)
+            <div class="col-lg-4 col-md-6">
+                <div class="dm-related-card tp_fade_anim" data-delay=".{{ 3 + ($loop->index * 2) }}">
+                    <div class="dm-related-card-thumb">
+                        <a href="{{ route('newsletter.show', $post->slug) }}">
+                            @if($post->featured_image)
+                                <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}">
+                            @else
+                                <img src="{{ asset('assets/img/home-13/blog/blog-thumb-' . (($loop->index % 3) + 1) . '.jpg') }}" alt="{{ $post->title }}">
+                            @endif
+                        </a>
+                    </div>
+                    <span class="dm-related-card-category">{{ $post->edition_label ?? 'Newsletter' }}</span>
+                    <h4 class="dm-related-card-title">
+                        <a href="{{ route('newsletter.show', $post->slug) }}">{{ $post->title }}</a>
+                    </h4>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+@endif
 @endsection

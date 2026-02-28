@@ -47,8 +47,18 @@ class FrontendController extends Controller
     public function serviceShow(string $slug)
     {
         $service = Service::published()->where('slug', $slug)->firstOrFail();
+        $related = Service::published()
+            ->where('id', '!=', $service->id)
+            ->orderBy('sort_order')
+            ->take(3)
+            ->get();
+        $sidebarServices = Service::published()
+            ->where('id', '!=', $service->id)
+            ->orderBy('sort_order')
+            ->take(5)
+            ->get();
 
-        return view('frontend.service-detail', compact('service'));
+        return view('frontend.service-detail', compact('service', 'related', 'sidebarServices'));
     }
 
     public function newsletterIndex()
@@ -61,7 +71,17 @@ class FrontendController extends Controller
     public function newsletterShow(string $slug)
     {
         $newsletter = Newsletter::published()->where('slug', $slug)->firstOrFail();
+        $related = Newsletter::published()
+            ->where('id', '!=', $newsletter->id)
+            ->latest('published_at')
+            ->take(3)
+            ->get();
+        $sidebarNewsletters = Newsletter::published()
+            ->where('id', '!=', $newsletter->id)
+            ->latest('published_at')
+            ->take(5)
+            ->get();
 
-        return view('frontend.newsletter-detail', compact('newsletter'));
+        return view('frontend.newsletter-detail', compact('newsletter', 'related', 'sidebarNewsletters'));
     }
 }
