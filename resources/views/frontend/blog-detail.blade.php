@@ -1,6 +1,10 @@
 @extends('layouts.frontend')
 @section('title', $blog->title . ' - DevMantra')
 @section('meta_description', $blog->meta_description ?? $blog->excerpt ?? Str::limit(strip_tags($blog->content), 160))
+@section('og_type', 'article')
+@if($blog->featured_image)
+@section('og_image', asset('storage/' . $blog->featured_image))
+@endif
 
 @push('styles')
 <style>

@@ -1,6 +1,10 @@
 @extends('layouts.frontend')
 @section('title', $newsletter->title . ' - DevMantra')
 @section('meta_description', $newsletter->meta_description ?? $newsletter->excerpt ?? Str::limit(strip_tags($newsletter->content), 160))
+@section('og_type', 'article')
+@if($newsletter->featured_image)
+@section('og_image', asset('storage/' . $newsletter->featured_image))
+@endif
 
 @push('styles')
 <style>

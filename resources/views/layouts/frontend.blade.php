@@ -7,6 +7,17 @@
     <meta name="description" content="@yield('meta_description', 'Dev Mantra - Strategic partner in progress for businesses operating in a global and digital economy.')">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- OG Tags -->
+    <meta property="og:title" content="@yield('title', 'DevMantra')">
+    <meta property="og:description" content="@yield('meta_description', 'Dev Mantra - Strategic partner in progress for businesses operating in a global and digital economy.')">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    @hasSection('og_image')
+    <meta property="og:image" content="@yield('og_image')">
+    @endif
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url()->current() }}">
+
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.png') }}">
 
     <!-- CSS -->
