@@ -19,6 +19,7 @@ class Service extends Model
         'icon',
         'image',
         'hero_image',
+        'featured_image',
         'meta_description',
         'show_on_homepage',
         'sort_order',

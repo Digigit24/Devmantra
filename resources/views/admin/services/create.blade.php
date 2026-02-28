@@ -58,6 +58,11 @@
                     <div class="dm-form-hint">Shown on service detail page hero</div>
                 </div>
                 <div class="dm-form-group">
+                    <label class="dm-form-label">Featured Image</label>
+                    <input type="file" name="featured_image" class="dm-form-input" accept="image/*">
+                    <div class="dm-form-hint">Full-width image shown below hero on detail page</div>
+                </div>
+                <div class="dm-form-group">
                     <label class="dm-form-label">Sort Order</label>
                     <input type="number" name="sort_order" value="{{ old('sort_order', 0) }}" class="dm-form-input">
                 </div>

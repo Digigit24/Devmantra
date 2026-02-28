@@ -1,7 +1,9 @@
 @extends('layouts.frontend')
 @section('title', $service->title . ' - DevMantra')
 @section('meta_description', $service->meta_description ?? $service->short_description ?? Str::limit(strip_tags($service->content), 160))
-@if($service->hero_image)
+@if($service->featured_image)
+@section('og_image', asset('storage/' . $service->featured_image))
+@elseif($service->hero_image)
 @section('og_image', asset('storage/' . $service->hero_image))
 @elseif($service->image)
 @section('og_image', asset('storage/' . $service->image))
@@ -383,13 +385,13 @@
 </div>
 
 <!-- Featured Image - Full Width -->
-@if($service->hero_image || $service->image)
+@if($service->featured_image || $service->hero_image || $service->image)
 <div class="dm-article-featured-section">
     <div class="container container-1230">
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="dm-article-featured-img tp_fade_anim" data-delay=".3">
-                    <img src="{{ asset('storage/' . ($service->hero_image ?? $service->image)) }}" alt="{{ $service->title }}">
+                    <img src="{{ asset('storage/' . ($service->featured_image ?? $service->hero_image ?? $service->image)) }}" alt="{{ $service->title }}">
                 </div>
             </div>
         </div>
