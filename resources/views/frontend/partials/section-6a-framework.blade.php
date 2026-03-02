@@ -73,3 +73,93 @@
     </div>
 </section>
 <!-- 6A section end -->
+
+@pushonce('scripts')
+<script>
+(function () {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    // -- 6A hexagons sequential reveal --
+    var sixANodes = document.querySelectorAll('.dm-6a-node');
+    var sixAConnectors = document.querySelectorAll('.dm-6a-connector');
+
+    if (sixANodes.length) {
+        gsap.set(sixANodes, { y: 40, opacity: 0, scale: 0.85 });
+        gsap.set(sixAConnectors, { scaleX: 0, transformOrigin: 'left center' });
+
+        ScrollTrigger.create({
+            trigger: '.dm-6a-section',
+            start: 'top 75%',
+            once: true,
+            onEnter: function () {
+                var tl = gsap.timeline();
+
+                sixANodes.forEach(function (node, i) {
+                    tl.to(node, {
+                        y: 0,
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.5,
+                        ease: 'back.out(1.4)'
+                    }, i * 0.2);
+
+                    if (sixAConnectors[i]) {
+                        tl.to(sixAConnectors[i], {
+                            scaleX: 1,
+                            duration: 0.3,
+                            ease: 'power2.inOut'
+                        }, i * 0.2 + 0.25);
+                    }
+                });
+
+                // After all nodes revealed, auto-activate them sequentially
+                tl.call(function () {
+                    var activeIndex = 0;
+                    function activateNext() {
+                        sixANodes.forEach(function (n) { n.classList.remove('is-active'); });
+                        if (sixANodes[activeIndex]) {
+                            sixANodes[activeIndex].classList.add('is-active');
+                        }
+                        activeIndex = (activeIndex + 1) % sixANodes.length;
+                    }
+                    activateNext();
+                    setInterval(activateNext, 3000);
+                });
+            }
+        });
+    }
+
+    // 6A header elements
+    var sixAHeader = document.querySelector('.dm-6a-header');
+    if (sixAHeader) {
+        gsap.set(sixAHeader, { y: 30, opacity: 0 });
+        ScrollTrigger.create({
+            trigger: '.dm-6a-section',
+            start: 'top 85%',
+            once: true,
+            onEnter: function () {
+                gsap.to(sixAHeader, {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.6,
+                    ease: 'power2.out'
+                });
+            }
+        });
+    }
+
+    // Click to toggle active node
+    document.querySelectorAll('.dm-6a-node').forEach(function (node) {
+        node.addEventListener('click', function () {
+            var wasActive = this.classList.contains('is-active');
+            document.querySelectorAll('.dm-6a-node').forEach(function (n) {
+                n.classList.remove('is-active');
+            });
+            if (!wasActive) {
+                this.classList.add('is-active');
+            }
+        });
+    });
+})();
+</script>
+@endpushonce
