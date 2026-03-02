@@ -29,8 +29,7 @@
                 </div>
                 <div class="dm-form-group">
                     <label class="dm-form-label">Content *</label>
-                    <textarea name="content" class="dm-form-textarea" style="min-height:400px;" required>{{ old('content') }}</textarea>
-                    <div class="dm-form-hint">Full service detail page content (HTML supported)</div>
+                    <textarea name="content" class="summernote" required>{{ old('content') }}</textarea>
                 </div>
             </div>
         </div>

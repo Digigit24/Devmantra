@@ -29,7 +29,7 @@
                 </div>
                 <div class="dm-form-group">
                     <label class="dm-form-label">Content *</label>
-                    <textarea name="content" class="dm-form-textarea" style="min-height:400px;" required>{{ old('content', $service->content) }}</textarea>
+                    <textarea name="content" class="summernote" required>{{ old('content', $service->content) }}</textarea>
                 </div>
             </div>
         </div>

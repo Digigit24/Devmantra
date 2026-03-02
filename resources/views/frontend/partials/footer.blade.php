@@ -17,10 +17,10 @@
                                 </div>
                                 <div class="cr-footer-widget-social mb-35">
                                     <div class="tp-footer-widget-social">
-                                        <a href="javascript:void(0)" aria-label="Facebook"><span><i class="fa-brands fa-facebook-f"></i></span></a>
-                                        <a href="javascript:void(0)" aria-label="X"><span><i class="fa-brands fa-x-twitter"></i></span></a>
-                                        <a href="javascript:void(0)" aria-label="LinkedIn"><span><i class="fa-brands fa-linkedin-in"></i></span></a>
-                                        <a href="javascript:void(0)" aria-label="Instagram"><span><i class="fa-brands fa-instagram"></i></span></a>
+                                        <a href="{{ $footerContact->facebook_url ?? 'javascript:void(0)' }}" {{ $footerContact->facebook_url ? 'target="_blank" rel="noopener"' : '' }} aria-label="Facebook"><span><i class="fa-brands fa-facebook-f"></i></span></a>
+                                        <a href="{{ $footerContact->twitter_url ?? 'javascript:void(0)' }}" {{ $footerContact->twitter_url ? 'target="_blank" rel="noopener"' : '' }} aria-label="X"><span><i class="fa-brands fa-x-twitter"></i></span></a>
+                                        <a href="{{ $footerContact->linkedin_url ?? 'javascript:void(0)' }}" {{ $footerContact->linkedin_url ? 'target="_blank" rel="noopener"' : '' }} aria-label="LinkedIn"><span><i class="fa-brands fa-linkedin-in"></i></span></a>
+                                        <a href="{{ $footerContact->instagram_url ?? 'javascript:void(0)' }}" {{ $footerContact->instagram_url ? 'target="_blank" rel="noopener"' : '' }} aria-label="Instagram"><span><i class="fa-brands fa-instagram"></i></span></a>
                                     </div>
                                 </div>
                             </div>
@@ -31,10 +31,10 @@
                                 <div class="dgm-footer-widget-menu">
                                     <ul>
                                         <li><a href="{{ route('home') }}">Home</a></li>
-                                        <li><a href="{{ url('/about') }}">About Us</a></li>
+                                        <li><a href="{{ route('about') }}">About Us</a></li>
                                         <li><a href="{{ route('blog.index') }}">Blog</a></li>
                                         <li><a href="{{ route('newsletter.index') }}">Newsletter</a></li>
-                                        <li><a href="{{ url('/contact') }}">Contact Us</a></li>
+                                        <li><a href="{{ route('contact') }}">Contact Us</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -52,21 +52,28 @@
                                 </div>
                             </div>
                         </div>
+                        @php $footerContact = \App\Models\ContactSetting::instance(); @endphp
                         <div class="col-xl-2 col-lg-3 col-md-3 mb-40 tp_fade_anim" data-delay=".9">
                             <div class="dgm-footer-widget app-footer-widget cr-footer-col-4">
                                 <h4 class="dgm-footer-widget-title">Contact</h4>
+                                @if($footerContact->phone)
                                 <div class="app-footer-widget-info mb-20">
                                     <div class="app-footer-widget-info-title">Call us</div>
-                                    <a class="tp-line-white" href="tel:+918042061247">+91-8042061247</a>
+                                    <a class="tp-line-white" href="tel:{{ preg_replace('/[^0-9+]/', '', $footerContact->phone) }}">{{ $footerContact->phone }}</a>
                                 </div>
+                                @endif
+                                @if($footerContact->email)
                                 <div class="app-footer-widget-info mb-20">
                                     <div class="app-footer-widget-info-title">Email</div>
-                                    <a class="tp-line-white" href="mailto:support@devmantra.com">support@devmantra.com</a>
+                                    <a class="tp-line-white" href="mailto:{{ $footerContact->email }}">{{ $footerContact->email }}</a>
                                 </div>
+                                @endif
+                                @if($footerContact->address)
                                 <div class="app-footer-widget-info">
                                     <div class="app-footer-widget-info-title">Address</div>
-                                    <a>NO.85/1, 2ND FLOOR, 10TH CROSS CBI ROAD, GANGANAGAR BENGALURU 560024</a>
+                                    <a>{{ $footerContact->address }}</a>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>

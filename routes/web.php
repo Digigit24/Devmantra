@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -16,6 +17,8 @@ Route::get('/blog/{slug}', [FrontendController::class, 'blogShow'])->name('blog.
 Route::get('/services/{slug}', [FrontendController::class, 'serviceShow'])->name('service.show');
 Route::get('/newsletter', [FrontendController::class, 'newsletterIndex'])->name('newsletter.index');
 Route::get('/newsletter/{slug}', [FrontendController::class, 'newsletterShow'])->name('newsletter.show');
+Route::get('/about', [FrontendController::class, 'about'])->name('about');
+Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -38,6 +41,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('newsletters/{id}/restore', [NewsletterController::class, 'restore'])->name('newsletters.restore');
     Route::delete('newsletters/{id}/force-delete', [NewsletterController::class, 'forceDelete'])->name('newsletters.force-delete');
     Route::resource('newsletters', NewsletterController::class)->except(['show']);
+
+    // Contact Settings
+    Route::get('contact-settings', [ContactSettingController::class, 'edit'])->name('contact-settings.edit');
+    Route::put('contact-settings', [ContactSettingController::class, 'update'])->name('contact-settings.update');
+
+    // Image upload for Summernote editor
+    Route::post('upload-image', function (\Illuminate\Http\Request $request) {
+        $request->validate(['image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048']);
+        $path = $request->file('image')->store('content-images', 'public');
+        return response()->json(['url' => asset('storage/' . $path)]);
+    })->name('upload-image');
 
     // Account
     Route::get('profile', [AccountController::class, 'profile'])->name('profile');

@@ -415,6 +415,7 @@
             .dm-sidebar-overlay.open { display: block; }
         }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
     @stack('styles')
 </head>
 <body>
@@ -442,6 +443,11 @@
             </a>
             <a href="{{ route('admin.newsletters.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.newsletters.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-newspaper"></i> Newsletters
+            </a>
+
+            <div class="dm-sidebar-label">Pages</div>
+            <a href="{{ route('admin.contact-settings.edit') }}" class="dm-sidebar-link {{ request()->routeIs('admin.contact-settings.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-address-book"></i> Contact Settings
             </a>
 
             <div class="dm-sidebar-label">Account</div>
@@ -518,11 +524,49 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
     <script>
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
             document.getElementById('sidebarOverlay').classList.toggle('open');
         }
+        $(document).ready(function() {
+            $('.summernote').summernote({
+                height: 350,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'hr']],
+                    ['view', ['fullscreen', 'codeview']]
+                ],
+                callbacks: {
+                    onImageUpload: function(files) {
+                        var editor = $(this);
+                        var data = new FormData();
+                        data.append('image', files[0]);
+                        data.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                        $.ajax({
+                            url: '{{ route("admin.upload-image") }}',
+                            method: 'POST',
+                            data: data,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                editor.summernote('insertImage', response.url);
+                            },
+                            error: function() {
+                                alert('Image upload failed. Please try again.');
+                            }
+                        });
+                    }
+                }
+            });
+        });
     </script>
     @stack('scripts')
 </body>

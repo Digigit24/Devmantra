@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\ContactSetting;
 use App\Models\Newsletter;
 use App\Models\Service;
 
@@ -66,6 +67,20 @@ class FrontendController extends Controller
         $newsletters = Newsletter::published()->latest('published_at')->paginate(9);
 
         return view('frontend.newsletter-index', compact('newsletters'));
+    }
+
+    public function about()
+    {
+        $services = Service::published()->orderBy('sort_order')->get();
+
+        return view('frontend.about', compact('services'));
+    }
+
+    public function contact()
+    {
+        $contact = ContactSetting::instance();
+
+        return view('frontend.contact', compact('contact'));
     }
 
     public function newsletterShow(string $slug)
