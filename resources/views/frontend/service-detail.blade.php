@@ -492,4 +492,8 @@
     </div>
 </div>
 @endif
+
+<!-- 6A Framework & AI Platform sections -->
+@include('frontend.partials.section-6a-framework')
+@include('frontend.partials.section-ai-platform')
 @endsection
