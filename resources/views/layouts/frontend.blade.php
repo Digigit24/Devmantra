@@ -103,5 +103,8 @@
     <script type="module" src="{{ asset('assets/js/img-revel/index.js') }}"></script>
 
     @stack('scripts')
+
+    <!-- OmniDimension Chatbot -->
+    <script id="omnidimension-web-widget" async src="https://omnidim.io/web_widget.js?secret_key=0aa1ca1064aabd91ea50c5544319e2bd"></script>
 </body>
 </html>
