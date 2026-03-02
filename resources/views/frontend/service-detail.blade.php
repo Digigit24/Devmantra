@@ -538,6 +538,16 @@
     </div>
 </div>
 
+@php
+    $isGcc = str_contains(strtolower($service->slug ?? ''), 'gcc')
+           || str_contains(strtolower($service->title ?? ''), 'gcc');
+@endphp
+
+@if($isGcc)
+{{-- GCC Service: custom rich sections replace the generic article body --}}
+@include('frontend.partials.gcc-service-content')
+@else
+
 <!-- Featured Image - Full Width -->
 @if($service->featured_image || $service->hero_image || $service->image)
 <div class="dm-article-featured-section">
@@ -646,6 +656,8 @@
     </div>
 </div>
 @endif
+
+@endif{{-- end @if($isGcc) --}}
 
 <!-- CTA Section -->
 <div class="dm-service-cta">
