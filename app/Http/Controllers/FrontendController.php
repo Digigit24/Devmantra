@@ -6,6 +6,7 @@ use App\Models\Blog;
 use App\Models\ContactSetting;
 use App\Models\Newsletter;
 use App\Models\Service;
+use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
@@ -81,6 +82,32 @@ class FrontendController extends Controller
         $contact = ContactSetting::instance();
 
         return view('frontend.contact', compact('contact'));
+    }
+
+    public function contactSubmit(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:50',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|max:5000',
+        ]);
+
+        $contact = ContactSetting::instance();
+        $adminEmail = $contact->email ?: 'support@devmantra.com';
+
+        // Send email to admin
+        \Illuminate\Support\Facades\Mail::raw(
+            "Name: {$request->name}\nEmail: {$request->email}\nPhone: {$request->phone}\nSubject: {$request->subject}\n\nMessage:\n{$request->message}",
+            function ($mail) use ($request, $adminEmail) {
+                $mail->to($adminEmail)
+                    ->subject('Contact Form: ' . $request->subject)
+                    ->replyTo($request->email, $request->name);
+            }
+        );
+
+        return redirect()->route('contact')->with('success', 'Thank you for your message! We will get back to you shortly.');
     }
 
     public function newsletterShow(string $slug)
