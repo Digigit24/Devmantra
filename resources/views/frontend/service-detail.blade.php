@@ -223,12 +223,16 @@
     }
 
     /* ── Sticky sidebar ── */
+    .dm-article-body .row { align-items: flex-start; }
     .dm-sidebar {
         position: sticky;
         top: 120px;
         padding-left: 40px;
+        max-height: calc(100vh - 140px);
+        overflow-y: auto;
     }
-    @media (max-width: 991px) { .dm-sidebar { padding-left: 0; margin-top: 60px; position: static; } }
+    .dm-sidebar::-webkit-scrollbar { width: 0; background: transparent; }
+    @media (max-width: 991px) { .dm-sidebar { padding-left: 0; margin-top: 60px; position: static; max-height: none; } }
 
     .dm-sidebar-label {
         font-size: 13px;
@@ -363,6 +367,156 @@
         transition: opacity 0.3s ease;
     }
     .dm-related-card-title a:hover { opacity: 0.6; }
+
+    /* ── CTA Section ── */
+    .dm-service-cta { padding: 100px 0; background: #fafafa; }
+    @media (max-width: 767px) { .dm-service-cta { padding: 60px 0; } }
+
+    /* ── Consultation Modal ── */
+    .dm-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(4px);
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .dm-modal-overlay.active {
+        display: flex;
+        opacity: 1;
+    }
+    .dm-modal {
+        background: #fff;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 580px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 48px;
+        position: relative;
+        transform: translateY(20px);
+        transition: transform 0.3s ease;
+    }
+    .dm-modal-overlay.active .dm-modal { transform: translateY(0); }
+    @media (max-width: 767px) { .dm-modal { padding: 28px; } }
+    .dm-modal::-webkit-scrollbar { width: 4px; }
+    .dm-modal::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 4px; }
+    .dm-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid rgba(0,0,0,0.1);
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 18px;
+        color: #111;
+        transition: all 0.3s ease;
+        z-index: 1;
+    }
+    .dm-modal-close:hover {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+    }
+    .dm-modal-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #111;
+        margin-bottom: 8px;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-modal-desc {
+        font-size: 15px;
+        color: rgba(0,0,0,0.5);
+        margin-bottom: 32px;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-modal .dm-cf-group { margin-bottom: 20px; }
+    .dm-modal .dm-cf-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #111;
+        margin-bottom: 8px;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-modal .dm-cf-input,
+    .dm-modal .dm-cf-select,
+    .dm-modal .dm-cf-textarea {
+        width: 100%;
+        padding: 14px 18px;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 10px;
+        font-size: 15px;
+        color: #111;
+        background: #fafafa;
+        font-family: var(--tp-ff-onest);
+        transition: border-color 0.3s ease;
+        outline: none;
+    }
+    .dm-modal .dm-cf-input:focus,
+    .dm-modal .dm-cf-select:focus,
+    .dm-modal .dm-cf-textarea:focus {
+        border-color: #111;
+        background: #fff;
+    }
+    .dm-modal .dm-cf-input::placeholder,
+    .dm-modal .dm-cf-textarea::placeholder {
+        color: rgba(0,0,0,0.3);
+    }
+    .dm-modal .dm-cf-textarea { min-height: 120px; resize: vertical; }
+    .dm-modal .dm-cf-submit {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 40px;
+        background: #000;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: var(--tp-ff-onest);
+        width: 100%;
+        justify-content: center;
+    }
+    .dm-modal .dm-cf-submit:hover {
+        background: #222;
+        transform: translateY(-2px);
+    }
+    .dm-modal .dm-cf-error {
+        font-size: 13px;
+        color: #dc2626;
+        margin-top: 6px;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-modal .dm-cf-success {
+        background: rgba(34,197,94,0.1);
+        border: 1px solid rgba(34,197,94,0.2);
+        color: #16a34a;
+        padding: 16px 24px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 24px;
+        font-family: var(--tp-ff-onest);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 </style>
 @endpush
 
@@ -493,7 +647,214 @@
 </div>
 @endif
 
+<!-- CTA Section -->
+<div class="dm-service-cta">
+    <div class="cr-cta-ptb p-relative pt-120 pb-100">
+        <div class="cr-cta-bg">
+            <img src="{{ asset('assets/img/home-13/cta/cta-thumb-bg.png') }}" alt="">
+        </div>
+        <div class="cr-cta-shape">
+            <span class="shape-1"></span>
+            <span class="shape-2"></span>
+            <span class="shape-3"></span>
+            <span class="shape-4"></span>
+            <span class="shape-5"></span>
+            <span class="shape-6"></span>
+            <span class="shape-7"></span>
+            <span class="shape-8"></span>
+            <span class="shape-9"></span>
+            <span class="shape-10"></span>
+            <span class="shape-11"></span>
+            <span class="shape-12"></span>
+            <span class="shape-13"></span>
+            <span class="shape-14"></span>
+            <span class="shape-15"></span>
+        </div>
+        <div class="container container-1230">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="cr-cta-content text-center">
+                        <div class="cr-cta-img p-relative mb-20">
+                            <img src="{{ asset('assets/img/home-13/cta/cta-thumb.gif') }}" alt="">
+                        </div>
+                        <h4 class="tp-section-title-onest fs-50 tp-text-revel-anim" style="color: #111;">
+                            Ready to Elevate Your <br> Business with Dev Mantra?
+                        </h4>
+                        <div class="tp_text_anim">
+                            <p class="cr-cta-text" style="color: #555;">
+                                Dev Mantra is here to help you scale with confidence through
+                                future-ready financial, governance, and advisory solutions.
+                            </p>
+                        </div>
+                        <div class="cr-cta-btn tp_fade_anim" data-delay=".7"
+                            data-fade-from="top" data-ease="bounce">
+                            <a href="javascript:void(0);" class="tp-btn-white-border tp-btn-light-bg" id="openConsultationModal">
+                                Book a Consultation
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15"
+                                        height="12" viewBox="0 0 15 12" fill="none">
+                                        <path
+                                            d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z"
+                                            fill="currentColor"></path>
+                                    </svg>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Consultation Popup Modal -->
+<div class="dm-modal-overlay" id="consultationModal">
+    <div class="dm-modal">
+        <button class="dm-modal-close" id="closeConsultationModal" aria-label="Close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h3 class="dm-modal-title">Book a Consultation</h3>
+        <p class="dm-modal-desc">Fill in the details below and our team will get back to you within 24 hours.</p>
+
+        <div class="dm-cf-success" id="consultationSuccess" style="display:none;">
+            <i class="fa-solid fa-check-circle"></i> <span>Thank you! We'll get back to you soon.</span>
+        </div>
+
+        <form id="consultationForm" method="POST" action="{{ route('contact.submit') }}">
+            @csrf
+            <input type="hidden" name="subject" value="Consultation Request - {{ $service->title }}">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="dm-cf-group">
+                        <label class="dm-cf-label">Full Name *</label>
+                        <input type="text" name="name" class="dm-cf-input" placeholder="Your full name" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="dm-cf-group">
+                        <label class="dm-cf-label">Email Address *</label>
+                        <input type="email" name="email" class="dm-cf-input" placeholder="your@email.com" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="dm-cf-group">
+                        <label class="dm-cf-label">Phone Number</label>
+                        <input type="text" name="phone" class="dm-cf-input" placeholder="+91 XXXXX XXXXX">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="dm-cf-group">
+                        <label class="dm-cf-label">Company Name</label>
+                        <input type="text" name="company" class="dm-cf-input" placeholder="Your company">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="dm-cf-group">
+                        <label class="dm-cf-label">Requirements *</label>
+                        <textarea name="message" class="dm-cf-textarea" placeholder="Tell us about your requirements, goals, and how we can help..." required></textarea>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="dm-cf-submit" id="consultationSubmitBtn">
+                        Submit Request
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" viewBox="0 0 15 12" fill="none">
+                            <path d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- 6A Framework & AI Platform sections -->
 @include('frontend.partials.section-6a-framework')
 @include('frontend.partials.section-ai-platform')
 @endsection
+
+@push('scripts')
+<script>
+(function() {
+    var overlay = document.getElementById('consultationModal');
+    var form = document.getElementById('consultationForm');
+    var successMsg = document.getElementById('consultationSuccess');
+    var submitBtn = document.getElementById('consultationSubmitBtn');
+
+    // Open modal
+    document.getElementById('openConsultationModal').addEventListener('click', function(e) {
+        e.preventDefault();
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Close modal
+    function closeModal() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.getElementById('closeConsultationModal').addEventListener('click', closeModal);
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
+    });
+
+    // AJAX form submit
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Submitting...';
+
+        // Remove previous errors
+        form.querySelectorAll('.dm-cf-error').forEach(function(el) { el.remove(); });
+
+        var formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': formData.get('_token'),
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(function(response) { return response.json().then(function(data) { return { status: response.status, data: data }; }); })
+        .then(function(result) {
+            if (result.status === 422 && result.data.errors) {
+                Object.keys(result.data.errors).forEach(function(field) {
+                    var input = form.querySelector('[name="' + field + '"]');
+                    if (input) {
+                        var errDiv = document.createElement('div');
+                        errDiv.className = 'dm-cf-error';
+                        errDiv.textContent = result.data.errors[field][0];
+                        input.parentNode.appendChild(errDiv);
+                    }
+                });
+            } else {
+                form.reset();
+                successMsg.style.display = 'flex';
+                setTimeout(function() {
+                    successMsg.style.display = 'none';
+                    closeModal();
+                }, 3000);
+            }
+        })
+        .catch(function() {
+            form.reset();
+            successMsg.style.display = 'flex';
+            setTimeout(function() {
+                successMsg.style.display = 'none';
+                closeModal();
+            }, 3000);
+        })
+        .finally(function() {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit Request <svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" viewBox="0 0 15 12" fill="none"><path d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z" fill="currentColor"/></svg>';
+        });
+    });
+})();
+</script>
+@endpush

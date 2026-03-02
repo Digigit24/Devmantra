@@ -220,12 +220,16 @@
     }
 
     /* ── Sticky sidebar ── */
+    .dm-article-body .row { align-items: flex-start; }
     .dm-sidebar {
         position: sticky;
         top: 120px;
         padding-left: 40px;
+        max-height: calc(100vh - 140px);
+        overflow-y: auto;
     }
-    @media (max-width: 991px) { .dm-sidebar { padding-left: 0; margin-top: 60px; position: static; } }
+    .dm-sidebar::-webkit-scrollbar { width: 0; background: transparent; }
+    @media (max-width: 991px) { .dm-sidebar { padding-left: 0; margin-top: 60px; position: static; max-height: none; } }
 
     .dm-sidebar-label {
         font-size: 13px;
