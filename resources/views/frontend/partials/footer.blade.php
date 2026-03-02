@@ -1,3 +1,4 @@
+@php $footerContact = \App\Models\ContactSetting::instance(); @endphp
 <footer class="z-index-1 include-bg">
     <div class="cr-footer-bg">
         <img src="{{ asset('assets/img/home-13/footer/cr-footer-bg.png') }}" alt="">
@@ -52,7 +53,6 @@
                                 </div>
                             </div>
                         </div>
-                        @php $footerContact = \App\Models\ContactSetting::instance(); @endphp
                         <div class="col-xl-2 col-lg-3 col-md-3 mb-40 tp_fade_anim" data-delay=".9">
                             <div class="dgm-footer-widget app-footer-widget cr-footer-col-4">
                                 <h4 class="dgm-footer-widget-title">Contact</h4>
