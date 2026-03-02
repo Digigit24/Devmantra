@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 
 class ContactSetting extends Model
 {
@@ -20,6 +21,13 @@ class ContactSetting extends Model
 
     public static function instance(): self
     {
-        return static::firstOrCreate([]);
+        try {
+            if (!Schema::hasTable('contact_settings')) {
+                return new static;
+            }
+            return static::firstOrCreate([]);
+        } catch (\Exception $e) {
+            return new static;
+        }
     }
 }

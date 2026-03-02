@@ -40,7 +40,7 @@
         font-family: var(--tp-ff-onest);
     }
 
-    /* Contact Info Section */
+    /* Contact Info Cards */
     .dm-contact-info { padding: 100px 0 80px; }
     @media (max-width: 767px) { .dm-contact-info { padding: 60px 0 40px; } }
     .dm-contact-card {
@@ -89,6 +89,104 @@
     }
     .dm-contact-card a:hover { color: #555; }
 
+    /* Contact Form */
+    .dm-contact-form-section { padding: 0 0 100px; }
+    @media (max-width: 767px) { .dm-contact-form-section { padding: 0 0 60px; } }
+    .dm-contact-form-wrap {
+        background: #fff;
+        border: 1px solid rgba(0,0,0,0.06);
+        border-radius: 16px;
+        padding: 48px;
+    }
+    @media (max-width: 767px) { .dm-contact-form-wrap { padding: 28px; } }
+    .dm-contact-form-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #111;
+        margin-bottom: 8px;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-contact-form-desc {
+        font-size: 16px;
+        color: rgba(0,0,0,0.5);
+        margin-bottom: 36px;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-cf-group { margin-bottom: 24px; }
+    .dm-cf-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #111;
+        margin-bottom: 8px;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-cf-input,
+    .dm-cf-textarea {
+        width: 100%;
+        padding: 14px 18px;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 10px;
+        font-size: 15px;
+        color: #111;
+        background: #fafafa;
+        font-family: var(--tp-ff-onest);
+        transition: border-color 0.3s ease;
+        outline: none;
+    }
+    .dm-cf-input:focus,
+    .dm-cf-textarea:focus {
+        border-color: #111;
+        background: #fff;
+    }
+    .dm-cf-input::placeholder,
+    .dm-cf-textarea::placeholder {
+        color: rgba(0,0,0,0.3);
+    }
+    .dm-cf-textarea {
+        min-height: 160px;
+        resize: vertical;
+    }
+    .dm-cf-error {
+        font-size: 13px;
+        color: #dc2626;
+        margin-top: 6px;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-cf-submit {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 40px;
+        background: #000;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: var(--tp-ff-onest);
+    }
+    .dm-cf-submit:hover {
+        background: #222;
+        transform: translateY(-2px);
+    }
+    .dm-cf-success {
+        background: rgba(34,197,94,0.1);
+        border: 1px solid rgba(34,197,94,0.2);
+        color: #16a34a;
+        padding: 16px 24px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 24px;
+        font-family: var(--tp-ff-onest);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
     /* Social Links */
     .dm-contact-social { padding: 0 0 80px; }
     .dm-contact-social-label {
@@ -135,25 +233,6 @@
         display: block;
     }
     @media (max-width: 767px) { .dm-contact-map-wrap iframe { height: 300px; } }
-
-    /* CTA */
-    .dm-contact-cta {
-        padding: 80px 0;
-        background: #f8f9fa;
-        text-align: center;
-    }
-    .dm-contact-cta h3 {
-        font-size: 32px;
-        font-weight: 600;
-        color: #111;
-        margin-bottom: 12px;
-        font-family: var(--tp-ff-onest);
-    }
-    .dm-contact-cta p {
-        font-size: 17px;
-        color: rgba(0,0,0,0.55);
-        font-family: var(--tp-ff-onest);
-    }
 </style>
 @endpush
 
@@ -173,56 +252,120 @@
 </div>
 
 <!-- Contact Info Cards -->
+@php
+    $phone = $contact->phone ?: '+91-8042061247';
+    $contactEmail = $contact->email ?: 'support@devmantra.com';
+    $address = $contact->address ?: 'NO.85/1, 2ND FLOOR, 10TH CROSS CBI ROAD, GANGANAGAR BENGALURU 560024';
+    $officeHours = $contact->office_hours ?: 'Mon - Fri: 9:00 AM - 6:00 PM';
+@endphp
 <div class="dm-contact-info">
     <div class="container container-1230">
         <div class="row g-4">
-            @if($contact->phone)
-            <div class="col-lg-4 col-md-6 tp_fade_anim" data-delay=".3">
+            <div class="col-lg-3 col-md-6 tp_fade_anim" data-delay=".3">
                 <div class="dm-contact-card">
                     <div class="dm-contact-card-icon">
                         <i class="fa-solid fa-phone"></i>
                     </div>
                     <h5>Call Us</h5>
-                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $contact->phone) }}">{{ $contact->phone }}</a>
+                    <a href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}">{{ $phone }}</a>
                 </div>
             </div>
-            @endif
-
-            @if($contact->email)
-            <div class="col-lg-4 col-md-6 tp_fade_anim" data-delay=".4">
+            <div class="col-lg-3 col-md-6 tp_fade_anim" data-delay=".4">
                 <div class="dm-contact-card">
                     <div class="dm-contact-card-icon">
                         <i class="fa-solid fa-envelope"></i>
                     </div>
                     <h5>Email Us</h5>
-                    <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a>
+                    <a href="mailto:{{ $contactEmail }}">{{ $contactEmail }}</a>
                 </div>
             </div>
-            @endif
-
-            @if($contact->address)
-            <div class="col-lg-4 col-md-6 tp_fade_anim" data-delay=".5">
+            <div class="col-lg-3 col-md-6 tp_fade_anim" data-delay=".5">
                 <div class="dm-contact-card">
                     <div class="dm-contact-card-icon">
                         <i class="fa-solid fa-location-dot"></i>
                     </div>
                     <h5>Visit Us</h5>
-                    <p>{{ $contact->address }}</p>
+                    <p>{{ $address }}</p>
                 </div>
             </div>
-            @endif
-
-            @if($contact->office_hours)
-            <div class="col-lg-4 col-md-6 tp_fade_anim" data-delay=".6">
+            <div class="col-lg-3 col-md-6 tp_fade_anim" data-delay=".6">
                 <div class="dm-contact-card">
                     <div class="dm-contact-card-icon">
                         <i class="fa-solid fa-clock"></i>
                     </div>
                     <h5>Office Hours</h5>
-                    <p>{{ $contact->office_hours }}</p>
+                    <p>{{ $officeHours }}</p>
                 </div>
             </div>
-            @endif
+        </div>
+    </div>
+</div>
+
+<!-- Contact Form -->
+<div class="dm-contact-form-section">
+    <div class="container container-1230">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="dm-contact-form-wrap tp_fade_anim" data-delay=".3">
+                    <h3 class="dm-contact-form-title">Send Us a Message</h3>
+                    <p class="dm-contact-form-desc">Fill out the form below and our team will get back to you within 24 hours.</p>
+
+                    @if(session('success'))
+                    <div class="dm-cf-success">
+                        <i class="fa-solid fa-check-circle"></i> {{ session('success') }}
+                    </div>
+                    @endif
+
+                    <form method="POST" action="{{ route('contact.submit') }}">
+                        @csrf
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="dm-cf-group">
+                                    <label class="dm-cf-label">Full Name *</label>
+                                    <input type="text" name="name" class="dm-cf-input" placeholder="Your full name" value="{{ old('name') }}" required>
+                                    @error('name') <div class="dm-cf-error">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="dm-cf-group">
+                                    <label class="dm-cf-label">Email Address *</label>
+                                    <input type="email" name="email" class="dm-cf-input" placeholder="your@email.com" value="{{ old('email') }}" required>
+                                    @error('email') <div class="dm-cf-error">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="dm-cf-group">
+                                    <label class="dm-cf-label">Phone Number</label>
+                                    <input type="text" name="phone" class="dm-cf-input" placeholder="+91 XXXXX XXXXX" value="{{ old('phone') }}">
+                                    @error('phone') <div class="dm-cf-error">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="dm-cf-group">
+                                    <label class="dm-cf-label">Subject *</label>
+                                    <input type="text" name="subject" class="dm-cf-input" placeholder="How can we help?" value="{{ old('subject') }}" required>
+                                    @error('subject') <div class="dm-cf-error">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="dm-cf-group">
+                                    <label class="dm-cf-label">Message *</label>
+                                    <textarea name="message" class="dm-cf-textarea" placeholder="Tell us about your project or inquiry..." required>{{ old('message') }}</textarea>
+                                    @error('message') <div class="dm-cf-error">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="dm-cf-submit">
+                                    Send Message
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" viewBox="0 0 15 12" fill="none">
+                                        <path d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z" fill="currentColor"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -260,13 +403,5 @@
     </div>
 </div>
 @endif
-
-<!-- CTA -->
-<div class="dm-contact-cta">
-    <div class="container container-1230">
-        <h3 class="tp_fade_anim" data-delay=".3">We're Here to Help</h3>
-        <p class="tp_fade_anim" data-delay=".5">Our team of experts is ready to assist you with your financial and advisory needs. Don't hesitate to reach out.</p>
-    </div>
-</div>
 
 @endsection

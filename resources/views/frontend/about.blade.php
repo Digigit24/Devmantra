@@ -196,19 +196,20 @@
     .dm-about-cta {
         padding: 100px 0;
         text-align: center;
+        background: #fff;
     }
     @media (max-width: 767px) { .dm-about-cta { padding: 60px 0; } }
     .dm-about-cta h3 {
         font-size: 36px;
         font-weight: 600;
-        color: #111;
+        color: #111 !important;
         margin-bottom: 16px;
         font-family: var(--tp-ff-onest);
     }
     @media (max-width: 767px) { .dm-about-cta h3 { font-size: 26px; } }
     .dm-about-cta p {
         font-size: 17px;
-        color: rgba(0,0,0,0.55);
+        color: rgba(0,0,0,0.55) !important;
         margin-bottom: 32px;
         font-family: var(--tp-ff-onest);
     }
