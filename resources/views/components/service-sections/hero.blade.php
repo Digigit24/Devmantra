@@ -12,7 +12,7 @@
 @push('styles')
 <style>
 .ss-hero {
-    background: #000;
+    background: #071016;
     padding: 200px 0 110px;
     position: relative;
     overflow: hidden;

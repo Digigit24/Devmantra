@@ -42,7 +42,7 @@
 @endpush
 @endonce
 
-<div style="background-color: black;" class="cr-hero-area fix cr-hero-ptb p-relative pt-170">
+<div style="background-color: #071016;" class="cr-hero-area fix cr-hero-ptb p-relative pt-170">
     <div class="cr-hero-bg cr-hero-spline">
         <spline-viewer url="https://prod.spline.design/xHLGA5-DjAiR6SRV/scene.splinecode"></spline-viewer>
     </div>

@@ -5,8 +5,8 @@
     $services = \App\Models\Service::where('status', 'published')->orderBy('sort_order')->get();
 @endphp
 
-<section class="dm-hscroll-section">
-    <div class="dm-hscroll-pin">
+<section class="dm-hscroll-section" >
+    <div class="dm-hscroll-pin" style= "zoom: 85%;">
         <div class="dm-hscroll-header">
             <h2 class="dm-hscroll-title">{{ $title }}</h2>
             <p class="dm-hscroll-subtitle">{{ $subtitle }}</p>
