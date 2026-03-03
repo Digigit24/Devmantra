@@ -5,7 +5,9 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsletterController;
+use App\Http\Controllers\Admin\PageSectionController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\ServiceSectionController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +38,35 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('services/{id}/restore', [ServiceController::class, 'restore'])->name('services.restore');
     Route::delete('services/{id}/force-delete', [ServiceController::class, 'forceDelete'])->name('services.force-delete');
     Route::resource('services', ServiceController::class)->except(['show']);
+
+    // Section preview (used by builder iframe in create/edit/sidebar)
+    Route::match(['get', 'post'], 'section-preview', [ServiceSectionController::class, 'preview'])->name('section-preview');
+
+    // Sections library — standalone reference page
+    Route::get('sections', [ServiceSectionController::class, 'library'])->name('sections.library');
+
+    // Service Sections
+    Route::prefix('services/{service}/sections')->name('services.sections.')->group(function () {
+        Route::get('/', [ServiceSectionController::class, 'index'])->name('index');
+        Route::get('/create', [ServiceSectionController::class, 'create'])->name('create');
+        Route::post('/', [ServiceSectionController::class, 'store'])->name('store');
+        Route::get('/{section}/edit', [ServiceSectionController::class, 'edit'])->name('edit');
+        Route::put('/{section}', [ServiceSectionController::class, 'update'])->name('update');
+        Route::delete('/{section}', [ServiceSectionController::class, 'destroy'])->name('destroy');
+        Route::post('/reorder', [ServiceSectionController::class, 'reorder'])->name('reorder');
+        Route::post('/{section}/toggle', [ServiceSectionController::class, 'toggle'])->name('toggle');
+    });
+
+    // Pages index + Page Sections CRUD
+    Route::get('pages', [PageSectionController::class, 'pages'])->name('pages.index');
+    Route::prefix('pages/{page}/sections')->name('pages.sections.')->group(function () {
+        Route::get('/', [PageSectionController::class, 'index'])->name('index');
+        Route::post('/', [PageSectionController::class, 'store'])->name('store');
+        Route::put('/{section}', [PageSectionController::class, 'update'])->name('update');
+        Route::delete('/{section}', [PageSectionController::class, 'destroy'])->name('destroy');
+        Route::post('/reorder', [PageSectionController::class, 'reorder'])->name('reorder');
+        Route::post('/{section}/toggle', [PageSectionController::class, 'toggle'])->name('toggle');
+    });
 
     // Newsletters CRUD + Trash
     Route::get('newsletters/trash', [NewsletterController::class, 'trash'])->name('newsletters.trash');

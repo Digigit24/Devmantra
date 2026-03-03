@@ -211,5 +211,7 @@ class DatabaseSeeder extends Seeder
         foreach ($newsletters as $n) {
             Newsletter::updateOrCreate(['title' => $n['title']], $n);
         }
+
+        $this->call(PageSeeder::class);
     }
 }

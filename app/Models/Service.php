@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -78,5 +79,15 @@ class Service extends Model
     public function getUrlAttribute(): string
     {
         return url('/services/' . $this->slug);
+    }
+
+    public function sections(): HasMany
+    {
+        return $this->hasMany(ServiceSection::class)->orderBy('sort_order');
+    }
+
+    public function activeSections(): HasMany
+    {
+        return $this->sections()->where('is_active', true);
     }
 }

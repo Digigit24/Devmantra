@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\ContactSetting;
 use App\Models\Newsletter;
+use App\Models\Page;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,11 @@ class FrontendController extends Controller
 {
     public function home()
     {
-        $services = Service::published()->homepage()->get();
+        $homePage = Page::where('name', 'home')->first();
+        $pageSections = $homePage ? $homePage->activeSections()->get() : collect();
         $blogs = Blog::published()->latest('published_at')->take(3)->get();
 
-        return view('frontend.home', compact('services', 'blogs'));
+        return view('frontend.home', compact('pageSections', 'blogs'));
     }
 
     public function blogIndex()
@@ -48,7 +50,10 @@ class FrontendController extends Controller
 
     public function serviceShow(string $slug)
     {
-        $service = Service::published()->where('slug', $slug)->firstOrFail();
+        $service = Service::published()
+            ->with(['activeSections'])
+            ->where('slug', $slug)
+            ->firstOrFail();
         $related = Service::published()
             ->where('id', '!=', $service->id)
             ->orderBy('sort_order')
@@ -72,9 +77,10 @@ class FrontendController extends Controller
 
     public function about()
     {
-        $services = Service::published()->orderBy('sort_order')->get();
+        $aboutPage = Page::where('name', 'about')->first();
+        $pageSections = $aboutPage ? $aboutPage->activeSections()->get() : collect();
 
-        return view('frontend.about', compact('services'));
+        return view('frontend.about', compact('pageSections'));
     }
 
     public function contact()
