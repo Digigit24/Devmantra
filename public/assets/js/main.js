@@ -224,9 +224,7 @@
 
         $(btn).on('click', function(e) {
             e.preventDefault();
-            $('html, body').animate({
-                scrollTop: 0
-            }, '300');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
     back_to_top();
@@ -238,9 +236,7 @@
             let target = $(this.getAttribute('href'));
             if (target.length) {
                 event.preventDefault();
-                $('html, body').stop().animate({
-                    scrollTop: target.offset().top - 60
-                }, 1500);
+                window.scrollTo({ top: target.offset().top - 60, behavior: 'smooth' });
             }
         });
     }
@@ -734,26 +730,17 @@
         $(this).addClass('active').parent().siblings().find('.design-award-item').addClass('active')
     })
 
-    // 34. ScrollMagic Controller //s
-    let controller = new ScrollMagic.Controller();
-    let $elheight = window.innerHeight;
-    $('.des-text-item, .des-brand-item-inner, .creative-text-wrap').each(function() {
-        let $this = $(this);
-        let $thisHeight = $(this).height();
-        let scene = new ScrollMagic.Scene({
-            triggerElement: $this[0],
-            duration: $thisHeight
-        }).addTo(controller);
-        scene.triggerHook(0.9)
-        scene.on('enter', function() {
-            $this.addClass('active');
+    // 34. Scroll reveal — IntersectionObserver replaces ScrollMagic //
+    const revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
         });
-        if ($("body").hasClass("smooth-scroll")) {
-            scrollbar.addListener(() => {
-                scene.refresh()
-            });
-        }
-    })
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.des-text-item, .des-brand-item-inner, .creative-text-wrap').forEach(function(el) {
+        revealObserver.observe(el);
+    });
 
     // 35. scroll with moving text //
     function moving_text() {
@@ -832,9 +819,8 @@
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: box,
-                    start: "top 100%",
-                    end: "bottom top",
-                    scrub: true,
+                    start: "top 85%",
+                    toggleActions: 'play none none none',
                     markers: false,
                 }
             });
@@ -842,8 +828,9 @@
                 tl.fromTo(rightElements, {
                     xPercent: 50
                 }, {
-                    xPercent: -20,
-                    ease: "power1.out"
+                    xPercent: 0,
+                    ease: "power1.out",
+                    duration: 0.8
                 }, 0);
             }
         });
@@ -858,12 +845,12 @@
         split.lines.forEach((target) => {
             gsap.to(target, {
                 backgroundPositionX: 0,
-                ease: "none",
+                ease: "power1.out",
+                duration: 0.8,
                 scrollTrigger: {
                     trigger: target,
-                    scrub: 1,
                     start: 'top 85%',
-                    end: "bottom center"
+                    toggleActions: 'play none none none'
                 }
             });
         });
@@ -879,12 +866,12 @@
         split_2.lines.forEach((target) => {
             gsap.to(target, {
                 backgroundPositionX: 0,
-                ease: "none",
+                ease: "power1.out",
+                duration: 0.8,
                 scrollTrigger: {
                     trigger: target,
-                    scrub: 1,
                     start: 'top 85%',
-                    end: "bottom center"
+                    toggleActions: 'play none none none'
                 }
             });
         });
@@ -900,12 +887,12 @@
         split_3.lines.forEach((target) => {
             gsap.to(target, {
                 backgroundPositionX: 0,
-                ease: "none",
+                ease: "power1.out",
+                duration: 0.8,
                 scrollTrigger: {
                     trigger: target,
-                    scrub: 1,
                     start: 'top 85%',
-                    end: "bottom center"
+                    toggleActions: 'play none none none'
                 }
             });
         });

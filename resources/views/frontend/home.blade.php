@@ -60,9 +60,9 @@
                             <div class="cr-blog-item-thumb">
                                 <a href="{{ route('blog.show', $blog->slug) }}">
                                     @if($blog->featured_image)
-                                        <img src="{{ asset('storage/' . $blog->featured_image) }}" alt="{{ $blog->title }}">
+                                        <img src="{{ asset('storage/' . $blog->featured_image) }}" alt="{{ $blog->title }}" loading="lazy">
                                     @else
-                                        <img src="{{ asset('assets/img/home-13/blog/blog-thumb-'.(($loop->index % 3)+1).'.jpg') }}" alt="{{ $blog->title }}">
+                                        <img src="{{ asset('assets/img/home-13/blog/blog-thumb-'.(($loop->index % 3)+1).'.jpg') }}" alt="{{ $blog->title }}" loading="lazy">
                                     @endif
                                 </a>
                             </div>

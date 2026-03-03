@@ -135,6 +135,8 @@
 
 @once
 @push('scripts')
+{{-- three.js only loaded on pages that include this component --}}
+<script src="{{ asset('assets/js/three.js') }}"></script>
 <script>
 (function () {
     var canvas = document.getElementById('dmAiParticles');

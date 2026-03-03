@@ -22,13 +22,11 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/font-awesome-pro.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/spacing.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     @php
         $brandFrom = \App\Models\SiteSetting::get('brand_color_from', '#1b3c6b');
@@ -73,9 +71,6 @@
         }
     </style>
 
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.53/build/spline-viewer.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     @stack('styles')
 </head>
 
@@ -115,32 +110,30 @@
         </div>
     </div>
 
-    <!-- JS -->
-    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
-    <script src="{{ asset('assets/js/vendor/jquery.js') }}"></script>
-    <script src="{{ asset('assets/js/bootstrap-bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/swiper-bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/plugin.js') }}"></script>
-    <script src="{{ asset('assets/js/three.js') }}"></script>
-    <script src="{{ asset('assets/js/slick.js') }}"></script>
-    <script src="{{ asset('assets/js/scroll-magic.js') }}"></script>
-    <script src="{{ asset('assets/js/hover-effect.umd.js') }}"></script>
-    <script src="{{ asset('assets/js/magnific-popup.js') }}"></script>
-    <script src="{{ asset('assets/js/parallax-slider.js') }}"></script>
-    <script src="{{ asset('assets/js/nice-select.js') }}"></script>
-    <script src="{{ asset('assets/js/purecounter.js') }}"></script>
-    <script src="{{ asset('assets/js/isotope-pkgd.js') }}"></script>
-    <script src="{{ asset('assets/js/imagesloaded-pkgd.js') }}"></script>
-    <script src="{{ asset('assets/js/ajax-form.js') }}"></script>
-    <script src="{{ asset('assets/js/Observer.min.js') }}"></script>
-    <script src="{{ asset('assets/js/splitting.min.js') }}"></script>
-    <script src="{{ asset('assets/js/webgl.js') }}"></script>
-    <script src="{{ asset('assets/js/parallax-scroll.js') }}"></script>
-    <script src="{{ asset('assets/js/atropos.js') }}"></script>
-    <script src="{{ asset('assets/js/slider-active.js') }}"></script>
-    <script src="{{ asset('assets/js/main.js') }}"></script>
-    <script src="{{ asset('assets/js/tp-cursor.js') }}"></script>
-    <script src="{{ asset('assets/js/portfolio-slider-1.js') }}"></script>
+    <!-- JS — all deferred so they never block HTML rendering -->
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js" defer></script>
+    <script src="{{ asset('assets/js/vendor/jquery.js') }}" defer></script>
+    <script src="{{ asset('assets/js/bootstrap-bundle.js') }}" defer></script>
+    <script src="{{ asset('assets/js/swiper-bundle.js') }}" defer></script>
+    <script src="{{ asset('assets/js/plugin.js') }}" defer></script>
+    <script src="{{ asset('assets/js/hover-effect.umd.js') }}" defer></script>
+    <script src="{{ asset('assets/js/magnific-popup.js') }}" defer></script>
+    <script src="{{ asset('assets/js/parallax-slider.js') }}" defer></script>
+    <script src="{{ asset('assets/js/nice-select.js') }}" defer></script>
+    <script src="{{ asset('assets/js/purecounter.js') }}" defer></script>
+    <script src="{{ asset('assets/js/isotope-pkgd.js') }}" defer></script>
+    <script src="{{ asset('assets/js/imagesloaded-pkgd.js') }}" defer></script>
+    <script src="{{ asset('assets/js/ajax-form.js') }}" defer></script>
+    <script src="{{ asset('assets/js/Observer.min.js') }}" defer></script>
+    <script src="{{ asset('assets/js/splitting.min.js') }}" defer></script>
+    <script src="{{ asset('assets/js/webgl.js') }}" defer></script>
+    <script src="{{ asset('assets/js/atropos.js') }}" defer></script>
+    <script src="{{ asset('assets/js/slider-active.js') }}" defer></script>
+    <script src="{{ asset('assets/js/main.js') }}" defer></script>
+    <script src="{{ asset('assets/js/tp-cursor.js') }}" defer></script>
+    <script src="{{ asset('assets/js/portfolio-slider-1.js') }}" defer></script>
+    {{-- Spline viewer moved from <head> — module scripts defer automatically --}}
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.53/build/spline-viewer.js"></script>
     <script type="module" src="{{ asset('assets/js/distortion-img.js') }}"></script>
     <script type="module" src="{{ asset('assets/js/skew-slider/index.js') }}"></script>
     <script type="module" src="{{ asset('assets/js/img-revel/index.js') }}"></script>
