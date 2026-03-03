@@ -337,6 +337,18 @@ class ServiceSection extends Model
                     'cta_url'  => 'Button URL',
                 ],
             ],
+            'cfo-services' => [
+                'label'  => 'CFO Services — Two-Column Checklist + Type Cards',
+                'icon'   => 'fa-solid fa-briefcase',
+                'schema' => [
+                    'title'       => 'Section heading',
+                    'description' => 'Intro paragraph',
+                    'scope_title' => 'Checklist column heading',
+                    'scope_items' => '[string] — CFO scope bullet list',
+                    'types_title' => 'Types column heading',
+                    'types'       => '[string] — CFO engagement type names',
+                ],
+            ],
         ];
     }
 }

@@ -1,6 +1,7 @@
 @props(['data' => []])
 @php
-    $title = $data['title'] ?? '';
+    $title       = $data['title']       ?? '';
+    $description = $data['description'] ?? '';
     $items = $data['items'] ?? [];  // [string, ...]
     // Split into two columns
     $half  = (int) ceil(count($items) / 2);
@@ -45,6 +46,9 @@
     <div class="container container-1230">
         @if($title)
         <h2 class="ss-benefits-title tp_fade_anim" data-delay=".2">{{ $title }}</h2>
+        @endif
+        @if($description)
+        <p class="ss-benefits-desc tp_fade_anim" data-delay=".25" style="color:#555;font-size:16px;line-height:1.7;max-width:780px;margin-bottom:36px;">{{ $description }}</p>
         @endif
         <div class="row g-4">
             <div class="col-md-6 tp_fade_anim" data-delay=".3">
