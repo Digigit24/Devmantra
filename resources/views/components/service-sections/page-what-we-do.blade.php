@@ -59,7 +59,8 @@
 (function () {
     var MOBILE_BP = 991;
 
-    gsap.registerPlugin(ScrollTrigger);
+    // gsap.registerPlugin(ScrollTrigger) removed — plugin.js already registers it
+    // before window.load fires, so it's available when initHScroll() is called.
 
     var section = document.querySelector(".dm-hscroll-section");
     var cards = document.querySelector(".dm-hscroll-cards");
