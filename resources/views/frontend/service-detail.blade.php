@@ -521,6 +521,30 @@
 @endpush
 
 @section('content')
+@php $hasSections = $service->activeSections->isNotEmpty(); @endphp
+
+{{-- ═══════════════════════════════════════════════
+     DYNAMIC SECTION-DRIVEN LAYOUT
+     When a service has sections configured in the DB,
+     each section is rendered via its own Blade component.
+     The first section is typically of type 'hero' which
+     renders its own full-width dark banner.
+     ═══════════════════════════════════════════════ --}}
+@if($hasSections)
+
+    @foreach($service->activeSections as $section)
+        <x-dynamic-component
+            :component="'service-sections.' . $section->section_type"
+            :data="$section->section_data ?? []"
+        />
+    @endforeach
+
+@else
+
+{{-- ═══════════════════════════════════════════════
+     CLASSIC ARTICLE LAYOUT (fallback when no sections)
+     ═══════════════════════════════════════════════ --}}
+
 <!-- Article Hero -->
 <div class="dm-article-hero">
     <div class="container container-1230">
@@ -537,16 +561,6 @@
         </div>
     </div>
 </div>
-
-@php
-    $isGcc = str_contains(strtolower($service->slug ?? ''), 'gcc')
-           || str_contains(strtolower($service->title ?? ''), 'gcc');
-@endphp
-
-@if($isGcc)
-{{-- GCC Service: custom rich sections replace the generic article body --}}
-@include('frontend.partials.gcc-service-content')
-@else
 
 <!-- Featured Image - Full Width -->
 @if($service->featured_image || $service->hero_image || $service->image)
@@ -657,7 +671,7 @@
 </div>
 @endif
 
-@endif{{-- end @if($isGcc) --}}
+@endif{{-- end @if($hasSections) --}}
 
 <!-- CTA Section -->
 <div class="dm-service-cta">

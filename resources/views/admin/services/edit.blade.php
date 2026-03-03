@@ -2,6 +2,11 @@
 @section('title', 'Edit Service')
 
 @section('actions')
+<a href="{{ route('admin.services.sections.index', $service) }}" class="dm-btn dm-btn-sm" style="background:linear-gradient(135deg,#1b3c6b,#4a73c4);color:#fff;margin-right:8px;">
+    <i class="fa-solid fa-layer-group"></i> Manage Sections
+    @php $cnt = $service->sections()->count(); @endphp
+    @if($cnt) <span style="background:rgba(255,255,255,0.25);border-radius:10px;padding:1px 7px;font-size:12px;">{{ $cnt }}</span> @endif
+</a>
 <a href="{{ route('admin.services.index') }}" class="dm-btn dm-btn-outline dm-btn-sm">
     <i class="fa-solid fa-arrow-left"></i> Back
 </a>

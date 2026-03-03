@@ -48,7 +48,10 @@ class FrontendController extends Controller
 
     public function serviceShow(string $slug)
     {
-        $service = Service::published()->where('slug', $slug)->firstOrFail();
+        $service = Service::published()
+            ->with(['activeSections'])
+            ->where('slug', $slug)
+            ->firstOrFail();
         $related = Service::published()
             ->where('id', '!=', $service->id)
             ->orderBy('sort_order')
