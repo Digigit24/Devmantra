@@ -2,10 +2,8 @@
 @section('title', 'Edit Service')
 
 @section('actions')
-<button type="button" onclick="openSectionsSidebar()" class="dm-btn dm-btn-sm" style="background:linear-gradient(135deg,#1b3c6b,#4a73c4);color:#fff;margin-right:8px;">
-    <i class="fa-solid fa-layer-group"></i> Sections
-    @php $sectionCount = $service->sections()->count(); @endphp
-    @if($sectionCount)<span id="sections-badge" style="background:rgba(255,255,255,0.25);border-radius:10px;padding:1px 7px;font-size:12px;margin-left:4px;">{{ $sectionCount }}</span>@endif
+<button type="button" onclick="openSectionAdd()" class="dm-btn dm-btn-sm" style="background:linear-gradient(135deg,#1b3c6b,#4a73c4);color:#fff;margin-right:8px;">
+    <i class="fa-solid fa-plus"></i> Add Section
 </button>
 <a href="{{ route('admin.services.index') }}" class="dm-btn dm-btn-outline dm-btn-sm">
     <i class="fa-solid fa-arrow-left"></i> Back
@@ -57,6 +55,15 @@
 .ssi-btn:hover { background: #f0f4ff; }
 .ssi-btn.danger { color: #ef4444; }
 .ssi-btn.danger:hover { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.25); }
+
+/* ─── Inline Sections Panel ───────────────────── */
+#page-sections-panel .ssi-item {
+    transition: box-shadow .15s, border-color .15s;
+}
+#page-sections-panel .ssi-item:hover {
+    border-color: rgba(74,115,196,0.3);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
 
 /* Drag handle + states */
 .ssi-drag-handle {
@@ -188,13 +195,39 @@
     </div>
 </form>
 
+{{-- ══════════════ INLINE SECTIONS LIST ══════════════ --}}
+<div id="page-sections-panel" class="dm-table-wrap" style="padding:20px 24px;margin-top:24px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div>
+            <h6 style="font-size:15px;font-weight:700;color:#1e293b;margin:0;">
+                <i class="fa-solid fa-layer-group" style="color:#4a73c4;margin-right:6px;"></i>Page Sections
+            </h6>
+            <p style="font-size:12px;color:#94a3b8;margin:4px 0 0;" id="page-sections-subtitle"></p>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+            <a href="{{ route('admin.services.sections.index', $service) }}" target="_blank"
+               class="dm-btn dm-btn-outline dm-btn-sm" title="Full sections manager">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+            <button onclick="openSectionAdd()" class="dm-btn dm-btn-primary dm-btn-sm">
+                <i class="fa-solid fa-plus"></i> Add Section
+            </button>
+        </div>
+    </div>
+    <div id="page-sections-list">
+        <p style="text-align:center;color:#94a3b8;padding:30px 0;">
+            <i class="fa-solid fa-spinner fa-spin"></i> Loading…
+        </p>
+    </div>
+</div>
+
 {{-- ══════════════ SECTIONS SIDEBAR DRAWER ══════════════ --}}
 <div id="sections-overlay" onclick="closeSectionsSidebar()"></div>
 
 <div id="sections-drawer">
     {{-- Drawer Header --}}
     <div class="drawer-hdr">
-        <button id="drawer-back-btn" onclick="showSidebarList()"
+        <button id="drawer-back-btn" onclick="closeSectionsSidebar()"
             style="display:none;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px;color:#4a73c4;font-size:13px;font-weight:600;">
             <i class="fa-solid fa-arrow-left"></i> Back
         </button>
@@ -212,23 +245,8 @@
     {{-- Drawer Body --}}
     <div class="drawer-body">
 
-        {{-- ─── LIST VIEW ─── --}}
-        <div id="sidebar-list-view">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-                <p style="font-size:12px;color:#94a3b8;margin:0;" id="sidebar-list-subtitle"></p>
-                <button onclick="showSidebarAdd()" class="dm-btn dm-btn-primary dm-btn-sm">
-                    <i class="fa-solid fa-plus"></i> Add Section
-                </button>
-            </div>
-            <div id="sidebar-sections-list">
-                <p style="text-align:center;color:#94a3b8;padding:30px 0;">
-                    <i class="fa-solid fa-spinner fa-spin"></i> Loading…
-                </p>
-            </div>
-        </div>
-
         {{-- ─── FORM VIEW (Add / Edit) ─── --}}
-        <div id="sidebar-form-view" style="display:none;">
+        <div id="sidebar-form-view">
 
             {{-- Type Picker — shown only in Add mode --}}
             <div id="sidebar-type-picker" style="display:none;">
@@ -296,23 +314,28 @@
 @push('scripts')
 <script>
 /* ═══════════════════════════════════════════════
-   Sections Sidebar
+   Sections — inline list + sidebar drawer (add/edit)
    ═══════════════════════════════════════════════ */
-const previewUrl  = '{{ route("admin.section-preview") }}';
-const csrf        = '{{ csrf_token() }}';
+const previewUrl   = '{{ route("admin.section-preview") }}';
+const csrf         = '{{ csrf_token() }}';
 const sectionsBase = '{{ rtrim(route("admin.services.sections.index", $service), "/") }}';
 
-let sidebarMode       = 'list'; // 'list' | 'add' | 'edit'
+let sidebarMode       = 'add'; // 'add' | 'edit'
 let editingSectionId  = null;
 let drawerCurrentType = null;
 let sectionsList      = @json($service->sections()->orderBy('sort_order')->get());
 
 const drawerBuilder = new SectionBuilder(document.getElementById('sidebar-builder-container'));
 
-/* ── Open / Close ────────────────────────────── */
-function openSectionsSidebar() {
-    renderSectionsList();
-    showSidebarList();
+/* ── Open / Close drawer ─────────────────────── */
+function openSectionAdd() {
+    showSidebarAdd();
+    document.getElementById('sections-overlay').style.display = 'block';
+    document.getElementById('sections-drawer').classList.add('open');
+}
+
+function openSectionEdit(sectionId) {
+    showSidebarEdit(sectionId);
     document.getElementById('sections-overlay').style.display = 'block';
     document.getElementById('sections-drawer').classList.add('open');
 }
@@ -322,23 +345,13 @@ function closeSectionsSidebar() {
     document.getElementById('sections-drawer').classList.remove('open');
 }
 
-/* ── State: List ─────────────────────────────── */
-function showSidebarList() {
-    sidebarMode = 'list';
-    document.getElementById('sidebar-list-view').style.display = '';
-    document.getElementById('sidebar-form-view').style.display = 'none';
-    document.getElementById('drawer-back-btn').style.display = 'none';
-    document.getElementById('drawer-title').innerHTML = '<i class="fa-solid fa-layer-group"></i> Page Sections';
-}
-
-/* ── State: Add ──────────────────────────────── */
+/* ── Drawer: Add mode ────────────────────────── */
 function showSidebarAdd() {
-    sidebarMode = 'add';
+    sidebarMode       = 'add';
     editingSectionId  = null;
     drawerCurrentType = null;
-    document.getElementById('sidebar-list-view').style.display = 'none';
-    document.getElementById('sidebar-form-view').style.display = '';
-    document.getElementById('drawer-back-btn').style.display  = '';
+    document.getElementById('sidebar-form-view').style.display  = '';
+    document.getElementById('drawer-back-btn').style.display    = '';
     document.getElementById('drawer-title').textContent = 'Add New Section';
     document.getElementById('sidebar-type-picker').style.display  = '';
     document.getElementById('sidebar-builder-wrap').style.display = 'none';
@@ -348,7 +361,7 @@ function showSidebarAdd() {
     document.querySelectorAll('.sdr-type-card').forEach(c => c.classList.remove('selected'));
 }
 
-/* ── State: Edit ─────────────────────────────── */
+/* ── Drawer: Edit mode ───────────────────────── */
 function showSidebarEdit(sectionId) {
     const section = sectionsList.find(s => s.id == sectionId);
     if (!section) return;
@@ -356,15 +369,12 @@ function showSidebarEdit(sectionId) {
     editingSectionId  = sectionId;
     drawerCurrentType = section.section_type;
 
-    document.getElementById('sidebar-list-view').style.display  = 'none';
     document.getElementById('sidebar-form-view').style.display  = '';
     document.getElementById('drawer-back-btn').style.display    = '';
     document.getElementById('drawer-title').textContent = 'Edit Section';
     document.getElementById('sidebar-type-picker').style.display  = 'none';
     document.getElementById('sidebar-builder-wrap').style.display = '';
-
-    // Show type badge
-    document.getElementById('sidebar-type-badge').style.display = '';
+    document.getElementById('sidebar-type-badge').style.display   = '';
     document.getElementById('sidebar-type-badge-val').textContent = section.section_type;
 
     document.getElementById('sidebar-save-btn').innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Changes';
@@ -399,17 +409,17 @@ function sidebarUpdatePreview() {
     document.body.appendChild(form); form.submit(); document.body.removeChild(form);
 }
 
-/* ── Render sections list ────────────────────── */
+/* ── Render inline sections list ─────────────── */
 function renderSectionsList() {
-    const container = document.getElementById('sidebar-sections-list');
-    const subtitle  = document.getElementById('sidebar-list-subtitle');
+    const container = document.getElementById('page-sections-list');
+    const subtitle  = document.getElementById('page-sections-subtitle');
 
     if (!sectionsList.length) {
         subtitle.textContent = '';
         container.innerHTML = `
             <div style="text-align:center;padding:40px 0;color:#94a3b8;">
-                <i class="fa-solid fa-layer-group" style="font-size:28px;display:block;margin-bottom:10px;opacity:.3;"></i>
-                <p>No sections yet. Add the first one!</p>
+                <i class="fa-solid fa-layer-group" style="font-size:32px;display:block;margin-bottom:12px;opacity:.25;"></i>
+                <p style="margin:0;">No sections yet — click <strong>Add Section</strong> to create one.</p>
             </div>`;
         return;
     }
@@ -418,7 +428,7 @@ function renderSectionsList() {
     container.innerHTML = sectionsList.map(s => {
         const d = s.section_data || {};
         const preview = d.title || d.label || (Array.isArray(d.items) && d.items[0] && d.items[0].title) || '';
-        const trunc   = preview ? preview.substring(0, 50) : '—';
+        const trunc   = preview ? preview.substring(0, 60) : '—';
         const onIcon  = s.is_active ? 'fa-toggle-on' : 'fa-toggle-off';
         const onColor = s.is_active ? '#22c55e' : '#d1d5db';
         return `
@@ -430,7 +440,7 @@ function renderSectionsList() {
                 <button class="ssi-btn" onclick="sidebarToggle(${s.id})" title="${s.is_active ? 'Deactivate' : 'Activate'}" style="color:${onColor};" draggable="false">
                     <i class="fa-solid ${onIcon}"></i>
                 </button>
-                <button class="ssi-btn" onclick="showSidebarEdit(${s.id})" title="Edit" draggable="false">
+                <button class="ssi-btn" onclick="openSectionEdit(${s.id})" title="Edit" draggable="false">
                     <i class="fa-solid fa-pen"></i>
                 </button>
                 <button class="ssi-btn danger" onclick="sidebarDelete(${s.id})" title="Delete" draggable="false">
@@ -440,15 +450,15 @@ function renderSectionsList() {
         </div>`;
     }).join('');
 
-    initSidebarDragDrop();
+    initSectionsDragDrop();
 }
 
 /* ── Drag and Drop reorder ───────────────────── */
-let _dndReady = false;
+let _dndReady  = false;
 let _dragSrcId = null;
 
-function initSidebarDragDrop() {
-    const list = document.getElementById('sidebar-sections-list');
+function initSectionsDragDrop() {
+    const list = document.getElementById('page-sections-list');
     if (!list || _dndReady) return;
     _dndReady = true;
 
@@ -458,7 +468,7 @@ function initSidebarDragDrop() {
         _dragSrcId = parseInt(item.dataset.id);
         item.classList.add('dragging');
         e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/plain', String(_dragSrcId)); // required for Firefox
+        e.dataTransfer.setData('text/plain', String(_dragSrcId));
     });
 
     list.addEventListener('dragend', () => {
@@ -476,26 +486,22 @@ function initSidebarDragDrop() {
     });
 
     list.addEventListener('dragleave', e => {
-        if (!list.contains(e.relatedTarget)) {
+        if (!list.contains(e.relatedTarget))
             list.querySelectorAll('.ssi-item').forEach(i => i.classList.remove('drag-over'));
-        }
     });
 
     list.addEventListener('drop', e => {
         e.preventDefault();
         const targetItem = e.target.closest('.ssi-item');
-        if (!targetItem) return;
+        if (!targetItem || !_dragSrcId) return;
         const targetId = parseInt(targetItem.dataset.id);
-        if (targetId === _dragSrcId || !_dragSrcId) return;
-
+        if (targetId === _dragSrcId) return;
         const srcIdx = sectionsList.findIndex(s => s.id === _dragSrcId);
         const tgtIdx = sectionsList.findIndex(s => s.id === targetId);
         if (srcIdx === -1 || tgtIdx === -1) return;
-
         const [moved] = sectionsList.splice(srcIdx, 1);
         sectionsList.splice(tgtIdx, 0, moved);
-
-        _dndReady = false; // allow re-init after re-render
+        _dndReady = false;
         renderSectionsList();
         sidebarReorder();
     });
@@ -511,16 +517,16 @@ async function sidebarReorder() {
             headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrf }
         });
         sectionsList.forEach((s, i) => { s.sort_order = i; });
-    } catch (e) { /* fail silently — order is correct locally */ }
+    } catch (e) { /* fail silently */ }
 }
 
 /* ── Save (add / edit) ───────────────────────── */
 async function sidebarSave() {
     if (!drawerCurrentType) { alert('Please select a section type.'); return; }
-    const btn     = document.getElementById('sidebar-save-btn');
+    const btn      = document.getElementById('sidebar-save-btn');
     const origHtml = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving…';
+    btn.disabled   = true;
+    btn.innerHTML  = '<i class="fa-solid fa-spinner fa-spin"></i> Saving…';
 
     const payload = new FormData();
     payload.append('section_type', drawerCurrentType);
@@ -542,14 +548,14 @@ async function sidebarSave() {
         const json = await res.json();
         if (json.success) {
             await reloadSections();
-            showSidebarList();
+            closeSectionsSidebar();
         } else {
             alert(json.error || 'Save failed. Please try again.');
         }
     } catch (e) {
         alert('Network error. Please try again.');
     } finally {
-        btn.disabled = false;
+        btn.disabled  = false;
         btn.innerHTML = origHtml;
     }
 }
@@ -590,20 +596,15 @@ async function reloadSections() {
         });
         sectionsList = await res.json();
         renderSectionsList();
-
-        // Update header badge
-        const badge = document.getElementById('sections-badge');
-        if (badge) {
-            badge.textContent = sectionsList.length;
-            badge.style.display = sectionsList.length ? '' : 'none';
-        }
-    } catch (e) { /* silently fail — list stays stale */ }
+    } catch (e) { /* silently fail */ }
 }
 
-/* ── Set icons on type cards ─────────────────── */
+/* ── Boot ────────────────────────────────────── */
 document.querySelectorAll('.sdr-type-card').forEach(card => {
     const s = FIELD_SCHEMAS[card.dataset.type];
     if (s) card.querySelector('.sdr-type-card-icon i').className = s.icon || 'fa-solid fa-layer-group';
 });
+
+renderSectionsList(); // show list immediately on page load
 </script>
 @endpush
