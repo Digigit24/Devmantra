@@ -16,11 +16,12 @@ class PageSeeder extends Seeder
 
         $homeSections = [
             ['section_type' => 'page-hero', 'sort_order' => 0, 'section_data' => [
-                'subtitle'    => 'Commitment to Your Financial Success',
-                'title'       => "Unleash the Power of\neXcellence Beyond Numbers",
-                'description' => 'At Dev Mantra, the pinnacle of global financial services, we are driven by a commitment to excellence, integrity, and innovation.',
-                'cta_text'    => 'Book a Free Consultation',
-                'cta_url'     => '#',
+                'subtitle'              => 'Commitment to Your Financial Success',
+                'title'                 => "Unleash the Power of\neXcellence Beyond Numbers",
+                'description'           => 'At Dev Mantra, the pinnacle of global financial services, we are driven by a commitment to excellence, integrity, and innovation.',
+                'cta_text'              => 'Book a Free Consultation',
+                'cta_url'               => '#',
+                'secondary_button_link' => '',
             ]],
             ['section_type' => 'page-what-we-do', 'sort_order' => 1, 'section_data' => [
                 'title'    => 'What We Do',

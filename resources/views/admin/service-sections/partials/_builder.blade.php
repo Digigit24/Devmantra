@@ -114,6 +114,18 @@
    FIELD SCHEMAS — one entry per section type
    ═══════════════════════════════════════════════════════════ */
 const FIELD_SCHEMAS = {
+  'page-hero': {
+    label: 'Page Hero — Homepage Banner',
+    icon: 'fa-solid fa-house',
+    fields: [
+      { key:'subtitle', type:'text', label:'Eyebrow / Sub-headline', hint:'e.g. Commitment to Your Financial Success' },
+      { key:'title', type:'textarea', label:'Main Headline *', hint:'Use a newline for line breaks' },
+      { key:'description', type:'textarea', label:'Description Paragraph (optional)' },
+      { key:'cta_text', type:'text', label:'Primary Button Text', hint:'e.g. Book a Free Consultation' },
+      { key:'cta_url', type:'text', label:'Primary Button Link', hint:'Use # to open the consultation modal' },
+      { key:'secondary_button_link', type:'text', label:'Secondary Button Link — "Get a Free Financial Review"', hint:'Enter a full URL e.g. /contact or https://... (leave blank to hide the button)' },
+    ]
+  },
   'hero': {
     label: 'Hero — Page Banner',
     icon: 'fa-solid fa-flag',
