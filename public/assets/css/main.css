@@ -59021,9 +59021,18 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 /* But buttons should remain clickable */
-.cr-hero-btn,
-.cr-hero-btn a {
+.cr-hero-btn-wrap,
+.cr-hero-btn-wrap a,
+.cr-hero-btn-wrap button {
     pointer-events: auto;
+}
+
+/* On mobile: disable spline so touch scrolling works */
+@media (max-width: 767px) {
+    .cr-hero-spline,
+    .cr-hero-spline spline-viewer {
+        pointer-events: none;
+    }
 }
 
 /* ===== Disperse Services Section ===== */
