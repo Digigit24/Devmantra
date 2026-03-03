@@ -1,55 +1,23 @@
 @props(['data' => []])
 @php
-    $subtitle            = $data['subtitle']              ?? 'Commitment to Your Financial Success';
-    $title               = $data['title']                 ?? "Unleash the Power of\neXcellence Beyond Numbers";
-    $description         = $data['description']           ?? '';
-    $ctaText             = $data['cta_text']              ?? 'Book a Free Consultation';
-    $ctaUrl              = $data['cta_url']               ?? '#';
-    $secondaryButtonLink = $data['secondary_button_link'] ?? '';
+    $subtitle = $data['subtitle'] ?? 'Commitment to Your Financial Success';
+    $title    = $data['title']    ?? "Unleash the Power of\neXcellence Beyond Numbers";
+    $description = $data['description'] ?? '';
+    $ctaText  = $data['cta_text'] ?? null;   // null → x-btn-primary uses global setting
+    $ctaUrl   = $data['cta_url']  ?? null;   // null → x-btn-primary uses global setting
 @endphp
 
 @once
 @push('styles')
 <style>
 .cr-hero-btn-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    flex-wrap: wrap;
-}
-.cr-hero-btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 28px;
-    background: linear-gradient(135deg, #1b3c6b, #4a73c4);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 30px;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: opacity 0.25s, transform 0.25s, box-shadow 0.25s;
-    box-shadow: 0 6px 24px rgba(27, 60, 107, 0.45);
-    font-family: var(--tp-ff-onest);
-}
-.cr-hero-btn-secondary:hover {
-    opacity: 0.88;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 32px rgba(27, 60, 107, 0.55);
-    color: #fff;
-}
-.cr-hero-btn-secondary span {
-    display: inline-flex;
-    align-items: center;
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; flex-wrap: wrap;
 }
 @media (max-width: 575px) {
     .cr-hero-btn-wrap { flex-direction: column; gap: 10px; }
-    .cr-hero-btn-secondary { font-size: 13px; padding: 12px 22px; }
 }
 </style>
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.53/build/spline-viewer.js"></script>
 <script>
     function removeSplineLogo() {
         const viewers = document.querySelectorAll('spline-viewer');
@@ -61,14 +29,9 @@
                 } else {
                     const observer = new MutationObserver(() => {
                         const logo = viewer.shadowRoot?.querySelector('#logo');
-                        if (logo) {
-                            logo.remove();
-                            observer.disconnect();
-                        }
+                        if (logo) { logo.remove(); observer.disconnect(); }
                     });
-                    if (viewer.shadowRoot) {
-                        observer.observe(viewer.shadowRoot, { childList: true, subtree: true });
-                    }
+                    if (viewer.shadowRoot) observer.observe(viewer.shadowRoot, { childList: true, subtree: true });
                 }
             };
             tryRemove();
@@ -103,20 +66,10 @@
                         @endif
                     </div>
                     <div class="cr-hero-btn-wrap">
-                        @if($ctaText)
-                        <a href="{{ $ctaUrl }}" class="tp-btn-white-border">{{ $ctaText }}
-                            <span><svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" viewBox="0 0 15 12" fill="none">
-                                <path d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z" fill="currentColor"/>
-                            </svg></span>
-                        </a>
-                        @endif
-                        @if($secondaryButtonLink)
-                        <a href="{{ $secondaryButtonLink }}" class="cr-hero-btn-secondary">Get a Free Financial Review
-                            <span><svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" viewBox="0 0 15 12" fill="none">
-                                <path d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z" fill="currentColor"/>
-                            </svg></span>
-                        </a>
-                        @endif
+                        {{-- Primary: text/URL from section_data; falls back to global SiteSetting --}}
+                        <x-btn-primary :url="$ctaUrl" :text="$ctaText" />
+                        {{-- Secondary: link + text entirely from global SiteSetting --}}
+                        <x-btn-secondary />
                     </div>
                 </div>
             </div>

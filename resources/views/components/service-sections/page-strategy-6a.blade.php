@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div class="dm-6a-cta">
-                <a href="#" class="tp-btn-white-border">View Complete Structure</a>
+                <x-btn-primary />
             </div>
         </div>
     </div>
