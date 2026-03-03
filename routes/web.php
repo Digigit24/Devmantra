@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsletterController;
+use App\Http\Controllers\Admin\PageSectionController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\ServiceSectionController;
 use App\Http\Controllers\FrontendController;
@@ -54,6 +55,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::delete('/{section}', [ServiceSectionController::class, 'destroy'])->name('destroy');
         Route::post('/reorder', [ServiceSectionController::class, 'reorder'])->name('reorder');
         Route::post('/{section}/toggle', [ServiceSectionController::class, 'toggle'])->name('toggle');
+    });
+
+    // Pages index + Page Sections CRUD
+    Route::get('pages', [PageSectionController::class, 'pages'])->name('pages.index');
+    Route::prefix('pages/{page}/sections')->name('pages.sections.')->group(function () {
+        Route::get('/', [PageSectionController::class, 'index'])->name('index');
+        Route::post('/', [PageSectionController::class, 'store'])->name('store');
+        Route::put('/{section}', [PageSectionController::class, 'update'])->name('update');
+        Route::delete('/{section}', [PageSectionController::class, 'destroy'])->name('destroy');
+        Route::post('/reorder', [PageSectionController::class, 'reorder'])->name('reorder');
+        Route::post('/{section}/toggle', [PageSectionController::class, 'toggle'])->name('toggle');
     });
 
     // Newsletters CRUD + Trash

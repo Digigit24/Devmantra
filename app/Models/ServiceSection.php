@@ -189,6 +189,154 @@ class ServiceSection extends Model
                     'disclaimer' => 'Bottom disclaimer text',
                 ],
             ],
+
+            // ── Homepage section types ─────────────────────────────────────
+            'page-hero' => [
+                'label'  => 'Home Hero — Full-Width Banner',
+                'icon'   => 'fa-solid fa-house',
+                'schema' => [
+                    'subtitle'    => 'Eyebrow label',
+                    'title'       => 'Main headline',
+                    'description' => 'Supporting paragraph',
+                    'cta_text'    => 'CTA button text',
+                    'cta_url'     => 'CTA button URL',
+                ],
+            ],
+            'page-what-we-do' => [
+                'label'  => 'Home What We Do — Services Overview',
+                'icon'   => 'fa-solid fa-briefcase',
+                'schema' => [
+                    'title'    => 'Section title',
+                    'subtitle' => 'Section sub-title / intro line',
+                ],
+            ],
+            'page-clientele' => [
+                'label'  => 'Home Clientele — Logo Strip + Features',
+                'icon'   => 'fa-solid fa-users',
+                'schema' => [
+                    'clientele_title'      => 'Clientele strip heading',
+                    'features_label'       => 'Features eyebrow',
+                    'features_title'       => 'Features heading',
+                    'features_description' => 'Features body paragraph',
+                ],
+            ],
+            'page-strategy-6a' => [
+                'label'  => 'Home 6A Strategy — Framework Section',
+                'icon'   => 'fa-solid fa-hexagon-nodes',
+                'schema' => [
+                    'label'    => 'Eyebrow label',
+                    'title'    => 'Section heading',
+                    'subtitle' => 'Intro paragraph',
+                ],
+            ],
+            'page-ai-platform' => [
+                'label'  => 'Home AI Platform — Technology Block',
+                'icon'   => 'fa-solid fa-microchip',
+                'schema' => [
+                    'subtitle' => 'Eyebrow label',
+                    'title'    => 'Section heading',
+                ],
+            ],
+            'page-world-map' => [
+                'label'  => 'Home World Map — Global Reach',
+                'icon'   => 'fa-solid fa-earth-asia',
+                'schema' => [
+                    'title'    => 'Section heading',
+                    'subtitle' => 'Sub-heading / caption',
+                ],
+            ],
+            'page-commitment-grid' => [
+                'label'  => 'Home Commitment Grid — Values Block',
+                'icon'   => 'fa-solid fa-hand-holding-heart',
+                'schema' => [
+                    'label'       => 'Eyebrow label',
+                    'title'       => 'Section heading',
+                    'description' => 'Body paragraph',
+                ],
+            ],
+            'page-team' => [
+                'label'  => 'Home Team — Team Members Grid',
+                'icon'   => 'fa-solid fa-people-group',
+                'schema' => [
+                    'title'    => 'Section heading',
+                    'subtitle' => 'Sub-heading',
+                ],
+            ],
+            'page-approach-lifecycle' => [
+                'label'  => 'Home Approach & Lifecycle — How We Work',
+                'icon'   => 'fa-solid fa-rotate',
+                'schema' => [
+                    'label'    => 'Eyebrow label',
+                    'title'    => 'Section heading',
+                    'subtitle' => 'Intro paragraph',
+                ],
+            ],
+            'page-testimonials' => [
+                'label'  => 'Home Testimonials — Client Reviews',
+                'icon'   => 'fa-solid fa-quote-left',
+                'schema' => [
+                    'rating' => 'Star rating (e.g. 4.8)',
+                    'label'  => 'Eyebrow label',
+                    'title'  => 'Section heading',
+                ],
+            ],
+
+            // ── About Us section types ─────────────────────────────────────
+            'about-hero' => [
+                'label'  => 'About Hero — Page Banner',
+                'icon'   => 'fa-solid fa-address-card',
+                'schema' => [
+                    'subtitle'    => 'Eyebrow label',
+                    'title'       => 'Main headline',
+                    'description' => 'Supporting paragraph',
+                ],
+            ],
+            'about-intro' => [
+                'label'  => 'About Intro — Who We Are',
+                'icon'   => 'fa-solid fa-circle-info',
+                'schema' => [
+                    'label'      => 'Eyebrow label',
+                    'title'      => 'Section heading',
+                    'paragraphs' => '[string] — array of body paragraphs',
+                ],
+            ],
+            'about-mission-vision' => [
+                'label'  => 'About Mission & Vision — Two-Column',
+                'icon'   => 'fa-solid fa-bullseye',
+                'schema' => [
+                    'mission_title' => 'Mission card heading',
+                    'mission_text'  => 'Mission card body',
+                    'vision_title'  => 'Vision card heading',
+                    'vision_text'   => 'Vision card body',
+                ],
+            ],
+            'about-values' => [
+                'label'  => 'About Values — Icon Card Grid',
+                'icon'   => 'fa-solid fa-gem',
+                'schema' => [
+                    'label' => 'Eyebrow label',
+                    'title' => 'Section heading',
+                    'items' => '[{icon, title, description}]',
+                ],
+            ],
+            'about-services-overview' => [
+                'label'  => 'About Services Overview — Expertise Grid',
+                'icon'   => 'fa-solid fa-list-check',
+                'schema' => [
+                    'label' => 'Eyebrow label',
+                    'title' => 'Section heading',
+                ],
+            ],
+            'about-cta' => [
+                'label'  => 'About CTA — Call to Action Banner',
+                'icon'   => 'fa-solid fa-bullhorn',
+                'schema' => [
+                    'title'    => 'CTA heading',
+                    'subtitle' => 'CTA sub-line',
+                    'cta_text' => 'Button text',
+                    'cta_url'  => 'Button URL',
+                ],
+            ],
         ];
     }
 }

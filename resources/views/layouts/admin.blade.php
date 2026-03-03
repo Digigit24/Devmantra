@@ -449,6 +449,9 @@
             </a>
 
             <div class="dm-sidebar-label">Pages</div>
+            <a href="{{ route('admin.pages.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-file-lines"></i> Pages
+            </a>
             <a href="{{ route('admin.contact-settings.edit') }}" class="dm-sidebar-link {{ request()->routeIs('admin.contact-settings.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-address-book"></i> Contact Settings
             </a>
