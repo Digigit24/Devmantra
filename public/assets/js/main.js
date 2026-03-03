@@ -297,10 +297,11 @@
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
     if ($('#smooth-wrapper').length && $('#smooth-content').length) {
         ScrollSmoother.create({
-            smooth: 0.8,
+            smooth: 1.2,          // was 0.8 — more lag = more butter
             effects: false,
-            smoothTouch: .1,
-            ignoreMobileResize: true
+            smoothTouch: .3,      // was 0.1 — perceptible glide on touch devices
+            ignoreMobileResize: true,
+            normalizeScroll: true // unify wheel/touch delta across browsers
         })
     }
 

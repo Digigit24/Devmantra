@@ -59501,11 +59501,16 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .dm-hscroll-section {
     position: relative;
     overflow: hidden;
+    /* Promote to its own GPU compositor layer so the pin + translate
+       never trigger a full-page repaint */
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .dm-hscroll-pin {
     width: 100%;
     min-height: 100vh;
+    backface-visibility: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -59545,17 +59550,23 @@ only screen and (min-width: 768px) and (max-width: 991px),
     gap: 32px;
     padding: 0 60px;
     will-change: transform;
+    backface-visibility: hidden;
+    /* Contain layout so the browser never recalculates outside elements
+       during the GSAP translateX animation */
+    contain: layout style;
 }
 
 .dm-hscroll-card {
     flex: 0 0 380px;
     min-width: 380px;
-    
     background: #fff;
     border: 1px solid #e8e8ef;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    /* GPU-composite the card so hover transforms don't repaint siblings */
+    transform: translateZ(0);
+    backface-visibility: hidden;
     transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 

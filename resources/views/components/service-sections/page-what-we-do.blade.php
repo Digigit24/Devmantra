@@ -6,7 +6,7 @@
 @endphp
 
 <section class="dm-hscroll-section" >
-    <div class="dm-hscroll-pin" style= "zoom: 85%;">
+    <div class="dm-hscroll-pin">
         <div class="dm-hscroll-header">
             <h2 class="dm-hscroll-title">{{ $title }}</h2>
             <p class="dm-hscroll-subtitle">{{ $subtitle }}</p>
@@ -77,7 +77,8 @@
         if (!section || !cards) return;
         if (window.innerWidth <= MOBILE_BP) return;
 
-        var scrollDistance = cards.scrollWidth - window.innerWidth + 120;
+        // Extra gap so the last card fully clears the right edge
+        var scrollDistance = cards.scrollWidth - window.innerWidth + 60;
         if (scrollDistance <= 0) return;
 
         gsap.to(cards, {
@@ -87,9 +88,11 @@
                 id: "dm-hscroll",
                 trigger: section,
                 pin: true,
-                scrub: 1,
+                scrub: 1.5,           // higher = more lag → silkier feel
                 start: "top top",
                 end: "+=" + scrollDistance,
+                anticipatePin: 1,     // pre-renders pin position, kills jump
+                fastScrollEnd: true,  // smooth deceleration after fast fling
                 invalidateOnRefresh: true
             }
         });
@@ -121,10 +124,23 @@
     }
 
     window.addEventListener("load", function () {
-        setTimeout(function () {
-            initHScroll();
-            initSwiper();
-        }, 300);
+        initHScroll();
+        initSwiper();
+        // Refresh once all card images have decoded so dimensions are exact
+        if (cards) {
+            var imgs = Array.from(cards.querySelectorAll("img"));
+            var pending = imgs.filter(function (img) { return !img.complete; });
+            if (pending.length) {
+                Promise.all(
+                    pending.map(function (img) {
+                        return new Promise(function (res) {
+                            img.addEventListener("load", res, { once: true });
+                            img.addEventListener("error", res, { once: true });
+                        });
+                    })
+                ).then(function () { ScrollTrigger.refresh(); });
+            }
+        }
     });
 
     var resizeTimer;
