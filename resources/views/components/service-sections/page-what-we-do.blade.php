@@ -88,7 +88,7 @@
                 id: "dm-hscroll",
                 trigger: section,
                 pin: true,
-                scrub: 1.5,           // higher = more lag → silkier feel
+                scrub: 0.6,           // low lag = snappy yet smooth
                 start: "top top",
                 end: "+=" + scrollDistance,
                 anticipatePin: 1,     // pre-renders pin position, kills jump
