@@ -13,6 +13,10 @@ class ServiceSectionController extends Controller
     {
         $sections = $service->sections()->get();
 
+        if (request()->wantsJson()) {
+            return response()->json($sections);
+        }
+
         return view('admin.service-sections.index', compact('service', 'sections'));
     }
 
@@ -29,22 +33,29 @@ class ServiceSectionController extends Controller
             'section_type' => ['required', 'string', 'max:100'],
             'section_data' => ['required', 'string'],
             'sort_order'   => ['nullable', 'integer', 'min:0'],
-            'is_active'    => ['nullable', 'boolean'],
+            'is_active'    => ['nullable'],
         ]);
 
         $jsonData = json_decode($request->section_data, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Invalid JSON: ' . json_last_error_msg()], 422);
+            }
             return back()->withInput()->withErrors(['section_data' => 'Invalid JSON: ' . json_last_error_msg()]);
         }
 
         $maxOrder = $service->sections()->max('sort_order') ?? -1;
 
-        $service->sections()->create([
+        $section = $service->sections()->create([
             'section_type' => $request->section_type,
             'section_data' => $jsonData,
-            'sort_order'   => $request->filled('sort_order') ? $request->sort_order : $maxOrder + 1,
+            'sort_order'   => $request->filled('sort_order') ? (int) $request->sort_order : $maxOrder + 1,
             'is_active'    => $request->boolean('is_active', true),
         ]);
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'section' => $section->refresh()]);
+        }
 
         return redirect()
             ->route('admin.services.sections.index', $service)
@@ -67,20 +78,27 @@ class ServiceSectionController extends Controller
             'section_type' => ['required', 'string', 'max:100'],
             'section_data' => ['required', 'string'],
             'sort_order'   => ['nullable', 'integer', 'min:0'],
-            'is_active'    => ['nullable', 'boolean'],
+            'is_active'    => ['nullable'],
         ]);
 
         $jsonData = json_decode($request->section_data, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
+            if ($request->wantsJson()) {
+                return response()->json(['error' => 'Invalid JSON: ' . json_last_error_msg()], 422);
+            }
             return back()->withInput()->withErrors(['section_data' => 'Invalid JSON: ' . json_last_error_msg()]);
         }
 
         $section->update([
             'section_type' => $request->section_type,
             'section_data' => $jsonData,
-            'sort_order'   => $request->filled('sort_order') ? $request->sort_order : $section->sort_order,
+            'sort_order'   => $request->filled('sort_order') ? (int) $request->sort_order : $section->sort_order,
             'is_active'    => $request->boolean('is_active', true),
         ]);
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'section' => $section->refresh()]);
+        }
 
         return redirect()
             ->route('admin.services.sections.index', $service)
@@ -91,6 +109,10 @@ class ServiceSectionController extends Controller
     {
         abort_if($section->service_id !== $service->id, 404);
         $section->delete();
+
+        if (request()->wantsJson()) {
+            return response()->json(['success' => true]);
+        }
 
         return back()->with('success', 'Section deleted.');
     }
@@ -111,6 +133,18 @@ class ServiceSectionController extends Controller
         abort_if($section->service_id !== $service->id, 404);
         $section->update(['is_active' => ! $section->is_active]);
 
+        if (request()->wantsJson()) {
+            return response()->json(['success' => true, 'is_active' => $section->is_active]);
+        }
+
         return back()->with('success', 'Section visibility updated.');
+    }
+
+    public function preview(Request $request)
+    {
+        $type = $request->input('type', '');
+        $data = json_decode($request->input('data', '{}'), true) ?? [];
+
+        return view('admin.service-sections.preview', compact('type', 'data'));
     }
 }

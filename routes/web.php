@@ -38,6 +38,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('services/{id}/force-delete', [ServiceController::class, 'forceDelete'])->name('services.force-delete');
     Route::resource('services', ServiceController::class)->except(['show']);
 
+    // Section preview (used by builder iframe in create/edit/sidebar)
+    Route::match(['get', 'post'], 'section-preview', [ServiceSectionController::class, 'preview'])->name('section-preview');
+
     // Service Sections
     Route::prefix('services/{service}/sections')->name('services.sections.')->group(function () {
         Route::get('/', [ServiceSectionController::class, 'index'])->name('index');
