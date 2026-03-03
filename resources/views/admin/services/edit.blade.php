@@ -58,6 +58,21 @@
 .ssi-btn.danger { color: #ef4444; }
 .ssi-btn.danger:hover { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.25); }
 
+/* Drag handle + states */
+.ssi-drag-handle {
+    color: #cbd5e1; cursor: grab; font-size: 13px;
+    padding: 0 3px; flex-shrink: 0; user-select: none;
+    display: flex; align-items: center;
+}
+.ssi-drag-handle:active { cursor: grabbing; }
+.ssi-item[draggable="true"] { cursor: default; }
+.ssi-item.dragging { opacity: .35; background: #f0f5ff; }
+.ssi-item.drag-over {
+    border-color: #4a73c4;
+    box-shadow: 0 0 0 2px rgba(74,115,196,0.25);
+    background: #eef3ff;
+}
+
 /* Type grid inside sidebar */
 .sdr-type-grid {
     display: grid; grid-template-columns: repeat(3, 1fr);
@@ -399,30 +414,104 @@ function renderSectionsList() {
         return;
     }
 
-    subtitle.textContent = sectionsList.length + ' section(s)';
+    subtitle.textContent = sectionsList.length + ' section(s) — drag to reorder';
     container.innerHTML = sectionsList.map(s => {
         const d = s.section_data || {};
         const preview = d.title || d.label || (Array.isArray(d.items) && d.items[0] && d.items[0].title) || '';
-        const trunc   = preview ? preview.substring(0, 55) : '—';
+        const trunc   = preview ? preview.substring(0, 50) : '—';
         const onIcon  = s.is_active ? 'fa-toggle-on' : 'fa-toggle-off';
         const onColor = s.is_active ? '#22c55e' : '#d1d5db';
         return `
-        <div class="ssi-item" data-id="${s.id}" style="${s.is_active ? '' : 'opacity:.55;'}">
+        <div class="ssi-item" data-id="${s.id}" draggable="true" style="${s.is_active ? '' : 'opacity:.55;'}">
+            <span class="ssi-drag-handle" title="Drag to reorder"><i class="fa-solid fa-grip-vertical"></i></span>
             <span class="ssi-type">${s.section_type}</span>
             <span class="ssi-preview" title="${preview}">${trunc}</span>
             <div class="ssi-actions">
-                <button class="ssi-btn" onclick="sidebarToggle(${s.id})" title="${s.is_active ? 'Deactivate' : 'Activate'}" style="color:${onColor};">
+                <button class="ssi-btn" onclick="sidebarToggle(${s.id})" title="${s.is_active ? 'Deactivate' : 'Activate'}" style="color:${onColor};" draggable="false">
                     <i class="fa-solid ${onIcon}"></i>
                 </button>
-                <button class="ssi-btn" onclick="showSidebarEdit(${s.id})" title="Edit">
+                <button class="ssi-btn" onclick="showSidebarEdit(${s.id})" title="Edit" draggable="false">
                     <i class="fa-solid fa-pen"></i>
                 </button>
-                <button class="ssi-btn danger" onclick="sidebarDelete(${s.id})" title="Delete">
+                <button class="ssi-btn danger" onclick="sidebarDelete(${s.id})" title="Delete" draggable="false">
                     <i class="fa-solid fa-trash"></i>
                 </button>
             </div>
         </div>`;
     }).join('');
+
+    initSidebarDragDrop();
+}
+
+/* ── Drag and Drop reorder ───────────────────── */
+let _dndReady = false;
+let _dragSrcId = null;
+
+function initSidebarDragDrop() {
+    const list = document.getElementById('sidebar-sections-list');
+    if (!list || _dndReady) return;
+    _dndReady = true;
+
+    list.addEventListener('dragstart', e => {
+        const item = e.target.closest('.ssi-item');
+        if (!item) return;
+        _dragSrcId = parseInt(item.dataset.id);
+        item.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', String(_dragSrcId)); // required for Firefox
+    });
+
+    list.addEventListener('dragend', () => {
+        list.querySelectorAll('.ssi-item').forEach(i => i.classList.remove('dragging', 'drag-over'));
+        _dragSrcId = null;
+    });
+
+    list.addEventListener('dragover', e => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        const item = e.target.closest('.ssi-item');
+        if (!item) return;
+        list.querySelectorAll('.ssi-item').forEach(i => i.classList.remove('drag-over'));
+        if (parseInt(item.dataset.id) !== _dragSrcId) item.classList.add('drag-over');
+    });
+
+    list.addEventListener('dragleave', e => {
+        if (!list.contains(e.relatedTarget)) {
+            list.querySelectorAll('.ssi-item').forEach(i => i.classList.remove('drag-over'));
+        }
+    });
+
+    list.addEventListener('drop', e => {
+        e.preventDefault();
+        const targetItem = e.target.closest('.ssi-item');
+        if (!targetItem) return;
+        const targetId = parseInt(targetItem.dataset.id);
+        if (targetId === _dragSrcId || !_dragSrcId) return;
+
+        const srcIdx = sectionsList.findIndex(s => s.id === _dragSrcId);
+        const tgtIdx = sectionsList.findIndex(s => s.id === targetId);
+        if (srcIdx === -1 || tgtIdx === -1) return;
+
+        const [moved] = sectionsList.splice(srcIdx, 1);
+        sectionsList.splice(tgtIdx, 0, moved);
+
+        _dndReady = false; // allow re-init after re-render
+        renderSectionsList();
+        sidebarReorder();
+    });
+}
+
+async function sidebarReorder() {
+    const payload = new FormData();
+    payload.append('_token', csrf);
+    sectionsList.forEach(s => payload.append('order[]', s.id));
+    try {
+        await fetch(sectionsBase + '/reorder', {
+            method: 'POST', body: payload,
+            headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrf }
+        });
+        sectionsList.forEach((s, i) => { s.sort_order = i; });
+    } catch (e) { /* fail silently — order is correct locally */ }
 }
 
 /* ── Save (add / edit) ───────────────────────── */
