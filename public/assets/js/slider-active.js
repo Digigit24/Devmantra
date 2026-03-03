@@ -1,8 +1,15 @@
 (function($) {
     "use strict";
 
+    // Only initialise a Swiper if its container element actually exists on this page.
+    // Avoids setting up event listeners + RAF loops for 30+ sliders that aren't present.
+    function safeSwiper(selector, options) {
+        if (!document.querySelector(selector)) return null;
+        return new Swiper(selector, options);
+    }
+
     ////text-slider
-    var tp_brand_slide = new Swiper(".tp-text-slide-active", {
+    var tp_brand_slide = safeSwiper(".tp-text-slide-active", {
         loop: true,
         freemode: true,
         slidesPerView: 'auto',
@@ -18,7 +25,7 @@
 
 
     ////brand-slider
-    var tp_brand_slide = new Swiper(".tp-brand-active", {
+    var tp_brand_slide = safeSwiper(".tp-brand-active", {
         loop: true,
         freemode: true,
         slidesPerView: 'auto',
@@ -33,7 +40,7 @@
     });
 
     ////brand-slider
-    var tp_brand_slide = new Swiper(".ai-brand-slider-active", {
+    var tp_brand_slide = safeSwiper(".ai-brand-slider-active", {
         loop: true,
         freemode: true,
         slidesPerView: 'auto',
@@ -49,7 +56,7 @@
 
 
     ////brand-slider
-    var tp_brand_slide = new Swiper(".ar-brand-active", {
+    var tp_brand_slide = safeSwiper(".ar-brand-active", {
         loop: true,
         freemode: true,
         slidesPerView: 'auto',
@@ -64,7 +71,7 @@
     });
 
     ////text-slider
-    var tp_text_slide = new Swiper(".ai-text-slider-active", {
+    var tp_text_slide = safeSwiper(".ai-text-slider-active", {
         loop: true,
         freemode: true,
         slidesPerView: 'auto',
@@ -79,7 +86,7 @@
     });
 
     ////text-slider
-    var tp_text_slide = new Swiper(".crp-text-slider-active", {
+    var tp_text_slide = safeSwiper(".crp-text-slider-active", {
         loop: true,
         freemode: true,
         slidesPerView: 'auto',
@@ -163,7 +170,7 @@
 
 
     ///testimonial-slider
-    var projectImg = new Swiper('.parallax-slider-active', {
+    var projectImg  = safeSwiper('.parallax-slider-active', {
         spaceBetween: 40,
         centeredSlides: true,
         loop: true,
@@ -203,7 +210,7 @@
 
 
     ////project-slider
-    var project_slider = new Swiper('.it-project-active', {
+    var project_slider  = safeSwiper('.it-project-active', {
         slidesPerView: 4,
         loop: true,
         autoplay: false,
@@ -246,7 +253,7 @@
 
 
     ////testimonial-slider
-    var testimonial_2 = new Swiper('.tp-testimonial-slider-active', {
+    var testimonial_2  = safeSwiper('.tp-testimonial-slider-active', {
         slidesPerView: 6,
         loop: true,
         autoplay: false,
@@ -280,7 +287,7 @@
     });
 
     ////team-slider
-    var team = new Swiper('.tp-team-slider-active', {
+    var team  = safeSwiper('.tp-team-slider-active', {
         slidesPerView: 5,
         loop: true,
         autoplay: false,
@@ -317,7 +324,7 @@
     });
 
     ////career-slider
-    var career = new Swiper('.tp-career-slider-active', {
+    var career  = safeSwiper('.tp-career-slider-active', {
         slidesPerView: 5,
         loop: true,
         autoplay: false,
@@ -351,7 +358,7 @@
     });
 
     ////service-4-slider
-    var service = new Swiper('.tp-service-4-solution-active', {
+    var service  = safeSwiper('.tp-service-4-solution-active', {
         slidesPerView: 3,
         loop: true,
         autoplay: false,
@@ -389,7 +396,7 @@
 
     //----testimonial-slider-------//
     const progressBar = $(".shop-slider-progress-bar");
-    var gallery = new Swiper('.ar-testimonial-active', {
+    var gallery  = safeSwiper('.ar-testimonial-active', {
         slidesPerView: 1,
         loop: true,
         autoplay: true,
@@ -420,7 +427,7 @@
 
 
     //--------brand-slider-------//
-    var dgm_brand_active = new Swiper('.dgm-brand-active', {
+    var dgm_brand_active  = safeSwiper('.dgm-brand-active', {
         slidesPerView: 6,
         loop: true,
         autoplay: true,
@@ -455,7 +462,7 @@
     });
 
     //-----instagram-slider------//
-    var dgm_brand_active = new Swiper('.ai-instagram-active', {
+    var dgm_brand_active  = safeSwiper('.ai-instagram-active', {
         slidesPerView: 6,
         loop: true,
         autoplay: true,
@@ -490,7 +497,7 @@
     });
 
     //------brand-slider-------//
-    var tp_text_slide = new Swiper(".creative-brand-active", {
+    var tp_text_slide = safeSwiper(".creative-brand-active", {
         loop: true,
         freemode: true,
         slidesPerView: 6,
@@ -528,7 +535,7 @@
     });
 
     //------brand-slider---------//
-    var tp_text_slide = new Swiper(".design-hero-slide-active", {
+    var tp_text_slide = safeSwiper(".design-hero-slide-active", {
         loop: true,
         freemode: true,
         spaceBetween: 40,
@@ -543,7 +550,7 @@
     });
 
     //-----brand-slider---------//
-    var tp_text_slide = new Swiper(".app-brand-active", {
+    var tp_text_slide = safeSwiper(".app-brand-active", {
         loop: true,
         freemode: true,
         slidesPerView: 4,
@@ -582,7 +589,7 @@
 
 
     //------brand-slider-------//
-    var tp_text_slide = new Swiper(".st-brand-active", {
+    var tp_text_slide = safeSwiper(".st-brand-active", {
         loop: true,
         freemode: true,
         slidesPerView: 4,
@@ -620,7 +627,7 @@
     });
 
     //------testimonial-slider-------//
-    var testi_active = new Swiper('.design-testimonial-active', {
+    var testi_active  = safeSwiper('.design-testimonial-active', {
         slidesPerView: 4,
         speed: 1000,
         loop: true,
@@ -654,7 +661,7 @@
     });
 
     //------testimonial-slider------//
-    var creative_active = new Swiper('.studio-step-slider-active', {
+    var creative_active  = safeSwiper('.studio-step-slider-active', {
         slidesPerView: 3,
         speed: 1000,
         loop: true,
@@ -689,7 +696,7 @@
     });
 
     //----testimonial-slider----------//
-    var creative_testimonial = new Swiper('.creative-testimonial-active', {
+    var creative_testimonial  = safeSwiper('.creative-testimonial-active', {
         slidesPerView: 3,
         loop: true,
         autoplay: false,
@@ -733,7 +740,7 @@
     });
 
     //testimonial-slider
-    var showcase = new Swiper('.dgm-testimonial-active', {
+    var showcase  = safeSwiper('.dgm-testimonial-active', {
         slidesPerView: 1,
         loop: true,
         autoplay: false,
@@ -748,7 +755,7 @@
     });
 
     //portfolio-slider
-    var showcase = new Swiper('.tp-pd-2-active', {
+    var showcase  = safeSwiper('.tp-pd-2-active', {
         slidesPerView: 3,
         loop: true,
         autoplay: false,
@@ -786,7 +793,7 @@
 
 
     //portfolio-slider
-    var showcase = new Swiper('.tp-pd-4-slider-active', {
+    var showcase  = safeSwiper('.tp-pd-4-slider-active', {
         slidesPerView: 3,
         loop: true,
         autoplay: false,
@@ -820,7 +827,7 @@
 
 
     //portfolio-slider
-    var showcase = new Swiper('.tp-pd-5-light-active', {
+    var showcase  = safeSwiper('.tp-pd-5-light-active', {
         slidesPerView: 5,
         loop: true,
         autoplay: true,
@@ -927,7 +934,7 @@
 
 
     //testimonial-slider
-    var testi_active = new Swiper('.it-testimonial-active', {
+    var testi_active  = safeSwiper('.it-testimonial-active', {
         slidesPerView: 1,
         loop: true,
         arrow: false,
@@ -942,7 +949,7 @@
 
 
     //----testimonial-slider------//
-    var testi_active = new Swiper('.cr-testimonial-active', {
+    var testi_active  = safeSwiper('.cr-testimonial-active', {
         slidesPerView: 1,
         loop: true,
         arrow: false,
@@ -956,7 +963,7 @@
     });
 
     //-----testimonial-slider-------//
-    var testi_active = new Swiper('.st-testimonial-active', {
+    var testi_active  = safeSwiper('.st-testimonial-active', {
         slidesPerView: 1.7,
         arrow: false,
         loop: true,
@@ -981,7 +988,7 @@
     });
 
     //-----testimonial-slider-------//
-    var testi_active = new Swiper('.cst-testimonial-slider', {
+    var testi_active  = safeSwiper('.cst-testimonial-slider', {
         slidesPerView: 4,
         arrow: false,
         loop: true,
@@ -1089,7 +1096,7 @@
     })
 
     //------postbox-slider-----//
-    var postbox_active = new Swiper('.postbox-slider-active', {
+    var postbox_active  = safeSwiper('.postbox-slider-active', {
         slidesPerView: 1,
         loop: true,
         autoplay: false,
@@ -1112,7 +1119,7 @@
     });
 
     //------parallax-slider-----//
-    var parallax_slider = new Swiper(".tp-showcase-slider-active", {
+    var parallax_slider = safeSwiper(".tp-showcase-slider-active", {
         speed: 1500,
         autoplay: {
             delay: 5000,
@@ -1157,7 +1164,7 @@
     //------coverflow-slider-----//
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.coverflow-slider-main').forEach((el) => {
-            var coverflow_thumb_slider = new Swiper('.coverflow-slider-active', {
+            var coverflow_thumb_slider  = safeSwiper('.coverflow-slider-active', {
                 loop: true,
                 effect: "coverflow",
                 autoHeight: true,
@@ -1241,7 +1248,7 @@
             data_itemshow = text_slider_option.getAttribute("data-itemShow")
         }
         if (text_slider_autoplay == 'true') {
-            var text_slider = new Swiper(".tp-text-slider-4-active", {
+            var text_slider = safeSwiper(".tp-text-slider-4-active", {
                 loop: loop_value,
                 speed: text_slider_speed,
                 allowTouchMove: false,
@@ -1254,7 +1261,7 @@
                 }
             });
         } else {
-            var text_slider = new Swiper(".tp-text-slider-4-active", {
+            var text_slider = safeSwiper(".tp-text-slider-4-active", {
                 loop: loop_value,
                 speed: text_slider_speed,
                 allowTouchMove: false,
@@ -1292,7 +1299,7 @@
     });
 
     // text_slide_shop
-    var text_slide_shop = new Swiper(".shop-text-slider-active", {
+    var text_slide_shop = safeSwiper(".shop-text-slider-active", {
         loop: true,
         speed: 3000,
         freemode: true,
@@ -1328,7 +1335,7 @@
 
     /////////////////////////////
     // shop slider
-    var slider = new Swiper('.tp-hero-shop-2-active', {
+    var slider  = safeSwiper('.tp-hero-shop-2-active', {
         slidesPerView: 1,
         effect: 'fade',
         loop: true,

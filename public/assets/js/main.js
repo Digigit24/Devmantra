@@ -297,8 +297,8 @@
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
     if ($('#smooth-wrapper').length && $('#smooth-content').length) {
         ScrollSmoother.create({
-            smooth: 1.35,
-            effects: true,
+            smooth: 0.8,
+            effects: false,
             smoothTouch: .1,
             ignoreMobileResize: true
         })
@@ -501,24 +501,6 @@
                 })
         }
     });
-
-    // 25. hover reveal for image //
-    const hoverItem = document.querySelectorAll(".hover-reveal-item");
-
-    function moveImage(e, hoverItem) {
-        const item = hoverItem.getBoundingClientRect();
-        const x = e.clientX - item.x;
-        const y = e.clientY - item.y;
-        if (hoverItem.children[1]) {
-            hoverItem.children[1].style.transform = `translate(${x}px, ${y}px)`;
-        }
-    }
-    hoverItem.forEach((item, i) => {
-        item.addEventListener("mousemove", (e) => {
-            setInterval(moveImage(e, item), 100);
-        });
-    });
-
 
     // 26. button bounce animation //
     if ($('.tp-bounce-trigger').length > 0) {
@@ -1307,21 +1289,7 @@
     });
 
 
-    // 55. eye animation width mouse move //
-    document.querySelector('body').addEventListener('mousemove', eyeball);
-
-    function eyeball() {
-        const eye = document.querySelectorAll('.eye');
-        eye.forEach(function(eye) {
-            let x = (eye.getBoundingClientRect().left) + (eye.clientWidth / 3);
-
-            let y = (eye.getBoundingClientRect().top) + (eye.clientHeight / 3);
-
-            let radian = Math.atan2(event.pageX - x, event.pageY - y);
-            let rotation = (radian * (180 / Math.PI) * -1) + 270;
-            eye.style.transform = "rotate(" + rotation + "deg)"
-        })
-    }
+    // 55. eye animation — removed (body-level mousemove was firing on every mouse pixel)
 
 
     // 56. st-award-wrapper //

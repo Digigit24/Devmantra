@@ -20,6 +20,16 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.png') }}">
 
+    <!-- Preconnect: establish TCP to external origins before any request is made -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="dns-prefetch" href="https://omnidim.io">
+
+    {{-- Google Fonts: Inter (body/headings) + Onest (brand) only — was 8 families / 155+ variants --}}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,400..600&family=Onest:wght@300..700&display=swap">
+
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.css') }}">
@@ -142,7 +152,24 @@
 
     @stack('scripts')
 
-    <!-- OmniDimension Chatbot -->
-    <script id="omnidimension-web-widget" async src="https://omnidim.io/web_widget.js?secret_key=0aa1ca1064aabd91ea50c5544319e2bd"></script>
+    <!-- OmniDimension Chatbot — loaded after first user interaction, never blocks page -->
+    <script>
+    (function () {
+        var loaded = false;
+        function loadChatbot() {
+            if (loaded) return;
+            loaded = true;
+            var s = document.createElement('script');
+            s.id  = 'omnidimension-web-widget';
+            s.src = 'https://omnidim.io/web_widget.js?secret_key=0aa1ca1064aabd91ea50c5544319e2bd';
+            document.body.appendChild(s);
+        }
+        ['scroll', 'click', 'keydown', 'touchstart', 'mousemove'].forEach(function (ev) {
+            window.addEventListener(ev, loadChatbot, { once: true, passive: true });
+        });
+        // Hard fallback: load after 8 s even if user never interacts
+        setTimeout(loadChatbot, 8000);
+    })();
+    </script>
 </body>
 </html>
