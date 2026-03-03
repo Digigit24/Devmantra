@@ -105,6 +105,33 @@
                 </div>
             </div>
 
+            {{-- Button Behaviour --}}
+            <div class="dm-table-wrap" style="padding:28px;margin-bottom:24px;">
+                <p class="st-title"><i class="fa-solid fa-arrow-up-right-from-square"></i> Button Behaviour</p>
+                <p style="font-size:13px;color:#64748b;margin-bottom:20px;">
+                    Choose whether CTA buttons open their URL in the same tab or a new tab.
+                </p>
+                <label style="display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;">
+                    <input type="hidden" name="button_new_tab" value="0">
+                    <div style="position:relative;width:44px;height:24px;flex-shrink:0;">
+                        <input type="checkbox" id="btn_new_tab_toggle" name="button_new_tab" value="1"
+                               {{ ($settings['button_new_tab'] ?? '1') == '1' ? 'checked' : '' }}
+                               style="opacity:0;width:0;height:0;position:absolute;">
+                        <span id="btn_new_tab_track"
+                              style="position:absolute;inset:0;border-radius:12px;transition:background 0.2s;cursor:pointer;
+                                     background:{{ ($settings['button_new_tab'] ?? '1') == '1' ? '#1b3c6b' : '#cbd5e1' }};"></span>
+                        <span id="btn_new_tab_thumb"
+                              style="position:absolute;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;
+                                     box-shadow:0 1px 4px rgba(0,0,0,0.25);transition:left 0.2s;
+                                     left:{{ ($settings['button_new_tab'] ?? '1') == '1' ? '23px' : '3px' }};"></span>
+                    </div>
+                    <span style="font-size:14px;color:#334155;font-weight:500;">Open buttons in a new tab</span>
+                </label>
+                <p style="font-size:12px;color:#94a3b8;margin-top:10px;margin-bottom:0;">
+                    When enabled, all primary and secondary buttons open their URL with <code>target="_blank"</code>.
+                </p>
+            </div>
+
             <button type="submit" class="dm-btn dm-btn-primary">
                 <i class="fa-solid fa-check"></i> Save All Settings
             </button>
@@ -169,14 +196,29 @@
 @push('scripts')
 <script>
 (function () {
+    // Brand colour pickers
     var fp = document.getElementById('brandFromPicker'), fh = document.getElementById('brandFromHex');
     var tp = document.getElementById('brandToPicker'),   th = document.getElementById('brandToHex');
     var pv = document.getElementById('gradientPreview');
     function upd() { if (pv) pv.style.background = 'linear-gradient(135deg,' + fp.value + ',' + tp.value + ')'; }
-    fp.addEventListener('input', function () { fh.value = fp.value; upd(); });
-    tp.addEventListener('input', function () { th.value = tp.value; upd(); });
-    fh.addEventListener('input', function () { if (/^#[0-9a-fA-F]{6}$/.test(fh.value)) { fp.value = fh.value; upd(); } });
-    th.addEventListener('input', function () { if (/^#[0-9a-fA-F]{6}$/.test(th.value)) { tp.value = th.value; upd(); } });
+    if (fp && tp) {
+        fp.addEventListener('input', function () { fh.value = fp.value; upd(); });
+        tp.addEventListener('input', function () { th.value = tp.value; upd(); });
+        fh.addEventListener('input', function () { if (/^#[0-9a-fA-F]{6}$/.test(fh.value)) { fp.value = fh.value; upd(); } });
+        th.addEventListener('input', function () { if (/^#[0-9a-fA-F]{6}$/.test(th.value)) { tp.value = th.value; upd(); } });
+    }
+
+    // New-tab toggle
+    var chk   = document.getElementById('btn_new_tab_toggle');
+    var track = document.getElementById('btn_new_tab_track');
+    var thumb = document.getElementById('btn_new_tab_thumb');
+    if (chk && track && thumb) {
+        function syncToggle() {
+            track.style.background = chk.checked ? '#1b3c6b' : '#cbd5e1';
+            thumb.style.left       = chk.checked ? '23px'   : '3px';
+        }
+        track.addEventListener('click', function () { chk.checked = !chk.checked; syncToggle(); });
+    }
 })();
 </script>
 @endpush

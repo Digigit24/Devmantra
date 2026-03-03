@@ -81,6 +81,9 @@ class AccountController extends Controller
             SiteSetting::set($key, $request->input($key, ''));
         }
 
+        // Checkbox: unchecked fields are not sent, so default to '0'
+        SiteSetting::set('button_new_tab', $request->input('button_new_tab', '0') === '1' ? '1' : '0');
+
         return back()->with('success', 'Settings saved successfully.');
     }
 }

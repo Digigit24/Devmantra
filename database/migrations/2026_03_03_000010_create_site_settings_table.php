@@ -23,6 +23,7 @@ return new class extends Migration
             'primary_button_url'     => '/contact',
             'secondary_button_text'  => 'Get a Free Financial Review',
             'secondary_button_link'  => '',
+            'button_new_tab'         => '1',
         ];
 
         foreach ($defaults as $key => $value) {
