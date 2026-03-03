@@ -147,4 +147,11 @@ class ServiceSectionController extends Controller
 
         return view('admin.service-sections.preview', compact('type', 'data'));
     }
+
+    public function library()
+    {
+        return view('admin.sections.library', [
+            'sectionTypes' => ServiceSection::sectionTypes(),
+        ]);
+    }
 }

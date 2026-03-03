@@ -441,6 +441,9 @@
             <a href="{{ route('admin.services.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-briefcase"></i> Services
             </a>
+            <a href="{{ route('admin.sections.library') }}" class="dm-sidebar-link {{ request()->routeIs('admin.sections.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-swatchbook"></i> Sections
+            </a>
             <a href="{{ route('admin.newsletters.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.newsletters.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-newspaper"></i> Newsletters
             </a>

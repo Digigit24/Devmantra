@@ -35,6 +35,7 @@ class ServiceSection extends Model
         return [
             'hero' => [
                 'label'  => 'Hero — Page Banner',
+                'icon'   => 'fa-solid fa-flag',
                 'schema' => [
                     'label'       => 'Page label (e.g. GCC Services)',
                     'title'       => 'Main headline',
@@ -46,6 +47,7 @@ class ServiceSection extends Model
             ],
             'overview' => [
                 'label'  => 'Overview — Editorial Two-Column',
+                'icon'   => 'fa-solid fa-columns',
                 'schema' => [
                     'title'        => 'Section title',
                     'description'  => 'Primary body paragraph',
@@ -57,6 +59,7 @@ class ServiceSection extends Model
             ],
             'services-grid' => [
                 'label'  => 'Services Grid — Card Grid',
+                'icon'   => 'fa-solid fa-grip',
                 'schema' => [
                     'title' => 'Section title',
                     'items' => '[{title, description, icon?, points:[]}]',
@@ -64,6 +67,7 @@ class ServiceSection extends Model
             ],
             'process-steps' => [
                 'label'  => 'Process Steps — Numbered Timeline',
+                'icon'   => 'fa-solid fa-list-ol',
                 'schema' => [
                     'title'       => 'Section title',
                     'description' => 'Intro paragraph',
@@ -73,6 +77,7 @@ class ServiceSection extends Model
             ],
             'why-stand-out' => [
                 'label'  => 'Why Stand Out — USP Card Grid',
+                'icon'   => 'fa-solid fa-star',
                 'schema' => [
                     'title' => 'Section title',
                     'items' => '[{title, description, icon?}]',
@@ -80,6 +85,7 @@ class ServiceSection extends Model
             ],
             'faq' => [
                 'label'  => 'FAQ — Accordion',
+                'icon'   => 'fa-solid fa-circle-question',
                 'schema' => [
                     'title'    => 'Section title',
                     'subtitle' => 'Intro paragraph',
@@ -88,6 +94,7 @@ class ServiceSection extends Model
             ],
             'other-services' => [
                 'label'  => 'Other Services — Link Strip',
+                'icon'   => 'fa-solid fa-link',
                 'schema' => [
                     'title' => 'Section title',
                     'items' => '[{label, url}]',
@@ -95,6 +102,7 @@ class ServiceSection extends Model
             ],
             'benefits-list' => [
                 'label'  => 'Benefits List — Two-Column Checklist',
+                'icon'   => 'fa-solid fa-check-double',
                 'schema' => [
                     'title' => 'Section title',
                     'items' => '[string] — list of benefit statements',
@@ -102,6 +110,7 @@ class ServiceSection extends Model
             ],
             'markets-served' => [
                 'label'  => 'Markets Served — Badge Grid',
+                'icon'   => 'fa-solid fa-earth-asia',
                 'schema' => [
                     'title'   => 'Section title',
                     'markets' => '[string] — e.g. USA, UK, Europe',
@@ -109,6 +118,7 @@ class ServiceSection extends Model
             ],
             'trust-signals' => [
                 'label'  => 'Trust Signals — Icon Strip',
+                'icon'   => 'fa-solid fa-shield-halved',
                 'schema' => [
                     'title' => 'Section title',
                     'items' => '[{icon, label}]',
@@ -116,6 +126,7 @@ class ServiceSection extends Model
             ],
             'cpa-reality' => [
                 'label'  => 'CPA Reality — Dark Problem Statement',
+                'icon'   => 'fa-solid fa-triangle-exclamation',
                 'schema' => [
                     'eyebrow'          => 'Small eyebrow label',
                     'title'            => 'Section headline',
@@ -130,6 +141,7 @@ class ServiceSection extends Model
             ],
             'three-layer' => [
                 'label'  => 'Three-Layer Structure — GCC Model',
+                'icon'   => 'fa-solid fa-layer-group',
                 'schema' => [
                     'title'        => 'Section title',
                     'description'  => 'Body paragraph 1',
@@ -141,6 +153,7 @@ class ServiceSection extends Model
             ],
             'comparison-table' => [
                 'label'  => 'Comparison Table — Two-Column Split',
+                'icon'   => 'fa-solid fa-table-columns',
                 'schema' => [
                     'title'          => 'Section title',
                     'column1_title'  => 'Left column header',
@@ -150,6 +163,7 @@ class ServiceSection extends Model
             ],
             'engagement-models' => [
                 'label'  => 'Engagement Models — Card Groups',
+                'icon'   => 'fa-solid fa-handshake',
                 'schema' => [
                     'title'           => 'Section title',
                     'standard_label'  => 'Standard tab label',
@@ -160,6 +174,7 @@ class ServiceSection extends Model
             ],
             'pillars' => [
                 'label'  => 'Key Pillars — Feature Pillar Cards',
+                'icon'   => 'fa-solid fa-columns',
                 'schema' => [
                     'title'   => 'Section title',
                     'pillars' => '[{title, points:[]}]',
@@ -167,6 +182,7 @@ class ServiceSection extends Model
             ],
             'governance' => [
                 'label'  => 'Governance & Security — Two-Column Block',
+                'icon'   => 'fa-solid fa-lock',
                 'schema' => [
                     'title'      => 'Section title',
                     'columns'    => '[{title, items:[]}]',

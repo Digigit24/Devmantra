@@ -41,6 +41,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Section preview (used by builder iframe in create/edit/sidebar)
     Route::match(['get', 'post'], 'section-preview', [ServiceSectionController::class, 'preview'])->name('section-preview');
 
+    // Sections library — standalone reference page
+    Route::get('sections', [ServiceSectionController::class, 'library'])->name('sections.library');
+
     // Service Sections
     Route::prefix('services/{service}/sections')->name('services.sections.')->group(function () {
         Route::get('/', [ServiceSectionController::class, 'index'])->name('index');
