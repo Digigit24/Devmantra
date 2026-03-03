@@ -30,6 +30,49 @@
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    @php
+        $brandFrom = \App\Models\SiteSetting::get('brand_color_from', '#1b3c6b');
+        $brandTo   = \App\Models\SiteSetting::get('brand_color_to',   '#4a73c4');
+    @endphp
+    <style>
+        /* ── Brand colour variables (editable from Admin → Settings) ── */
+        :root {
+            --dm-brand-from: {{ $brandFrom }};
+            --dm-brand-to:   {{ $brandTo }};
+            --dm-brand-gradient: linear-gradient(135deg, var(--dm-brand-from), var(--dm-brand-to));
+        }
+        /* ── Unified global CTA buttons ─────────────────────────────── */
+        .dm-btn-primary,
+        .dm-btn-secondary {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 13px 28px;
+            background: var(--dm-brand-gradient);
+            color: #fff !important;
+            font-size: 15px; font-weight: 600;
+            border-radius: 30px;
+            text-decoration: none !important;
+            white-space: nowrap;
+            transition: opacity 0.25s, transform 0.25s, box-shadow 0.25s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+            font-family: var(--tp-ff-onest, inherit);
+            cursor: pointer; border: none;
+        }
+        .dm-btn-primary:hover,
+        .dm-btn-secondary:hover {
+            opacity: 0.88;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+            color: #fff !important;
+        }
+        .dm-btn-primary span,
+        .dm-btn-secondary span { display: inline-flex; align-items: center; }
+        .dm-btn-primary.dm-btn-sm,
+        .dm-btn-secondary.dm-btn-sm { font-size: 13px; padding: 10px 18px; }
+        @media (max-width: 575px) {
+            .dm-btn-primary, .dm-btn-secondary { font-size: 13px; padding: 12px 22px; }
+        }
+    </style>
+
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.53/build/spline-viewer.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

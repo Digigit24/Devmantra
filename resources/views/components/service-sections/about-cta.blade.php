@@ -34,19 +34,21 @@
     align-items: center;
     gap: 10px;
     padding: 14px 32px;
-    background: #000;
+    background: var(--dm-brand-gradient, linear-gradient(135deg, #1b3c6b, #4a73c4));
     color: #fff;
-    border-radius: 8px;
+    border-radius: 30px;
     font-size: 15px;
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: opacity 0.25s, transform 0.25s, box-shadow 0.25s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.18);
     font-family: var(--tp-ff-onest);
 }
 .dm-about-cta-btn:hover {
-    background: #222;
+    opacity: 0.88;
     color: #fff;
     transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.25);
 }
 </style>
 @endpush

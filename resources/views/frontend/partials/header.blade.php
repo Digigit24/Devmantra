@@ -21,34 +21,7 @@
         .tp-header-right .tp-header-btn-box:first-of-type { display: block !important; }
         .tp-header-right .tp-header-btn-box .tp-btn-white-border { font-size: 13px; padding: 10px 16px; }
     }
-    /* Secondary header button */
-    .tp-btn-financial-review {
-        display: inline-flex; align-items: center; gap: 8px;
-        padding: 11px 20px;
-        background: linear-gradient(135deg, #1b3c6b, #4a73c4);
-        color: #fff; font-size: 14px; font-weight: 600;
-        border-radius: 30px; text-decoration: none; white-space: nowrap;
-        transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
-        box-shadow: 0 4px 16px rgba(27, 60, 107, 0.35);
-        font-family: var(--tp-ff-onest, inherit);
-    }
-    .tp-btn-financial-review:hover {
-        opacity: 0.88; transform: translateY(-1px);
-        box-shadow: 0 8px 24px rgba(27, 60, 107, 0.45);
-        color: #fff;
-    }
-    .tp-btn-financial-review span { display: inline-flex; align-items: center; }
-    @media (min-width: 1200px) and (max-width: 1399px) {
-        .tp-btn-financial-review { font-size: 13px; padding: 10px 16px; }
-    }
 </style>
-@php
-    $heroSec = \App\Models\PageSection::whereHas('page', fn($q) => $q->where('name', 'home'))
-        ->where('section_type', 'page-hero')
-        ->where('is_active', true)
-        ->first();
-    $headerSecondaryLink = $heroSec?->section_data['secondary_button_link'] ?? '';
-@endphp
 
 <!-- Offcanvas -->
 <div class="tp-offcanvas-area">
@@ -128,21 +101,13 @@
                             </nav>
                         </div>
                         <div class="tp-header-right d-flex align-items-center justify-content-end">
-                            @if($headerSecondaryLink)
+                            {{-- Secondary: "Get a Free Financial Review" (global setting, hidden when blank) --}}
                             <div class="tp-header-btn-box d-none d-xl-block ml-15">
-                                <a href="{{ $headerSecondaryLink }}" class="tp-btn-financial-review">Get a Free Financial Review
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" viewBox="0 0 15 12" fill="none">
-                                        <path d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z" fill="currentColor"></path>
-                                    </svg></span>
-                                </a>
+                                <x-btn-secondary class="dm-btn-sm" />
                             </div>
-                            @endif
+                            {{-- Primary: global primary button (text + URL from Settings) --}}
                             <div class="tp-header-btn-box d-none d-md-block ml-15">
-                                <a href="{{ route('contact') }}" class="tp-btn-white-border">Free Consultation
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" viewBox="0 0 15 12" fill="none">
-                                        <path d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z" fill="currentColor"></path>
-                                    </svg></span>
-                                </a>
+                                <x-btn-primary class="dm-btn-sm" />
                             </div>
                             <div class="tp-header-bar ml-20 d-xl-none">
                                 <button class="tp-offcanvas-open-btn">
