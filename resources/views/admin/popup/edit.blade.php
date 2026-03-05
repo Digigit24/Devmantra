@@ -58,7 +58,7 @@
 }
 /* Preview card */
 .dm-popup-preview-card {
-    background: #071016;
+    background: #001d30;
     border-radius: 20px;
     overflow: hidden;
     border: 1px solid rgba(255,255,255,0.08);

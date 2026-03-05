@@ -3,7 +3,7 @@
 
 @push('styles')
 <style>
-    .cr-blog-area-dark { background: #000; }
+    .cr-blog-area-dark { background: #001d30; }
     .cr-blog-area-dark .tp-section-subtitle-gradient.ct { color: #fff; }
     .cr-blog-area-dark .tp-section-title-onest { color: #fff !important; }
     .cr-blog-area-dark .cr-blog-item-category { color: #fff; }

@@ -50,7 +50,7 @@
     max-width: 560px;
     max-height: 92vh;
     overflow-y: auto;
-    background: #071016;
+    background: #001d30;
     border-radius: 24px;
     border: 1px solid rgba(255,255,255,0.07);
     box-shadow:

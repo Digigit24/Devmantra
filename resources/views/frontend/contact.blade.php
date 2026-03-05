@@ -6,7 +6,7 @@
 <style>
     /* Hero */
     .dm-contact-hero {
-        background-color: #000;
+        background-color: #001d30;
         padding: 200px 0 100px;
         position: relative;
         overflow: hidden;
@@ -60,7 +60,7 @@
         width: 52px;
         height: 52px;
         border-radius: 12px;
-        background: #000;
+        background: #001d30;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -158,7 +158,7 @@
         align-items: center;
         gap: 10px;
         padding: 16px 40px;
-        background: #000;
+        background: #001d30;
         color: #fff;
         border: none;
         border-radius: 10px;
@@ -213,7 +213,7 @@
         transition: all 0.3s ease;
     }
     .dm-contact-social-link:hover {
-        background: #000;
+        background: #001d30;
         color: #fff;
         border-color: #000;
     }

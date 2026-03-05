@@ -17,7 +17,7 @@
 /* ── CPA Reality ── */
 .ss-cpa-reality {
     padding: 100px 0;
-    background: #000;
+    background: #001d30;
     font-family: var(--tp-ff-onest);
     color: #fff;
     position: relative;

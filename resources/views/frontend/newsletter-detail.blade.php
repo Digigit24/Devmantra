@@ -9,7 +9,7 @@
 @push('styles')
 <style>
     .dm-article-hero {
-        background-color: #000;
+        background-color: #001d30;
         padding: 200px 0 100px;
         position: relative;
         overflow: hidden;

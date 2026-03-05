@@ -10,7 +10,7 @@
 /* ── Trust Signals ── */
 .ss-trust {
     padding: 100px 0;
-    background: #071016;
+    background: #001d30;
     font-family: var(--tp-ff-onest);
     position: relative;
     overflow: hidden;

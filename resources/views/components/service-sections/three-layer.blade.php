@@ -19,7 +19,7 @@
 /* ── Three Layer ── */
 .ss-three-layer {
     padding: 110px 0;
-    background: #071016;
+    background: #001d30;
     font-family: var(--tp-ff-onest);
     position: relative;
     overflow: hidden;
