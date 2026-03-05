@@ -9,8 +9,8 @@
 @push('styles')
 <style>
 .dm-about-values { padding: 100px 0; }
-@media (max-width: 767px) { .dm-about-values { padding: 50px 0; } }
-@media (max-width: 575px) { .dm-about-values { padding: 40px 0; } }
+@media (max-width: 767px) { .dm-about-values { padding: 80px 0 50px; } }
+@media (max-width: 575px) { .dm-about-values { padding: 64px 0 40px; } }
 .dm-about-section-label {
     font-size: 12px;
     font-weight: 600;
