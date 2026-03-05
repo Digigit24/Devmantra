@@ -20,6 +20,8 @@ class PopupSeeder extends Seeder
             'popup_enabled'            => '1',
             'popup_show_exit_intent'   => '1',
             'popup_show_scroll'        => '1',
+            'popup_timer_enabled'      => '0',
+            'popup_timer_delay'        => '8',
             'popup_trigger_scroll'     => '55',
             'popup_headline'           => 'Expanding to or in India? Avoid costly compliance mistakes.',
             'popup_subtext'            => '',

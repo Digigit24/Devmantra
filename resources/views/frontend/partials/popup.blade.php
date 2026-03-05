@@ -4,6 +4,8 @@
     $showExitIntent    = \App\Models\SiteSetting::get('popup_show_exit_intent', '1') === '1';
     $showScroll        = \App\Models\SiteSetting::get('popup_show_scroll', '1') === '1';
     $scrollDepth       = (int) \App\Models\SiteSetting::get('popup_trigger_scroll', '55');
+    $timerEnabled      = \App\Models\SiteSetting::get('popup_timer_enabled', '0') === '1';
+    $timerDelay        = (int) \App\Models\SiteSetting::get('popup_timer_delay', '8');
     $headline          = \App\Models\SiteSetting::get('popup_headline', '');
     $subtext           = \App\Models\SiteSetting::get('popup_subtext', '');
     $pointsRaw         = \App\Models\SiteSetting::get('popup_points', '');
@@ -16,13 +18,8 @@
 @endphp
 
 @if($popupEnabled && ($headline || $primaryCtaText))
-@push('styles')
+{{-- ══ POPUP STYLES — inline so they render regardless of @stack position ══ --}}
 <style>
-/* ═══════════════════════════════════════════════
-   DM POPUP BANNER — Brand-grade exit/scroll popup
-   ═══════════════════════════════════════════════ */
-
-/* Backdrop */
 .dm-popup-overlay {
     position: fixed;
     inset: 0;
@@ -42,8 +39,6 @@
     opacity: 1;
     visibility: visible;
 }
-
-/* Card */
 .dm-popup-card {
     position: relative;
     width: 100%;
@@ -58,14 +53,12 @@
         0 32px 80px rgba(0,0,0,0.65),
         0 0 60px rgba(27,60,107,0.18);
     transform: translateY(28px) scale(0.96);
-    transition: transform .45s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: transform .45s cubic-bezier(0.165,0.84,0.44,1);
 }
 .dm-popup-card::-webkit-scrollbar { width: 0; background: transparent; }
 .dm-popup-overlay.dm-popup-open .dm-popup-card {
     transform: translateY(0) scale(1);
 }
-
-/* Top gradient accent bar */
 .dm-popup-card::before {
     content: '';
     position: absolute;
@@ -73,9 +66,8 @@
     height: 3px;
     background: linear-gradient(90deg, #1b3c6b 0%, #4a73c4 50%, #7da3e0 100%);
     border-radius: 24px 24px 0 0;
+    pointer-events: none;
 }
-
-/* Decorative background glows */
 .dm-popup-glow-1 {
     position: absolute;
     top: -60px; right: -60px;
@@ -92,8 +84,6 @@
     background: radial-gradient(circle, rgba(27,60,107,0.18) 0%, transparent 65%);
     pointer-events: none;
 }
-
-/* Inner padding */
 .dm-popup-inner {
     padding: 44px 44px 40px;
     position: relative;
@@ -102,30 +92,29 @@
 @media (max-width: 575px) {
     .dm-popup-inner { padding: 36px 24px 32px; }
 }
-
-/* Close button */
+/* ── Close button ── */
 .dm-popup-close {
     position: absolute;
-    top: 18px; right: 18px;
-    width: 34px; height: 34px;
+    top: 16px; right: 16px;
+    width: 36px; height: 36px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
-    color: rgba(255,255,255,0.6);
-    font-size: 14px;
+    color: rgba(255,255,255,0.7);
     line-height: 1;
-    transition: background .2s ease, color .2s ease, transform .2s ease;
-    z-index: 10;
+    transition: background .2s ease, color .2s ease, transform .25s ease;
+    z-index: 20;
+    flex-shrink: 0;
 }
 .dm-popup-close:hover {
-    background: rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.16);
     color: #fff;
-    transform: scale(1.08) rotate(90deg);
+    transform: scale(1.1) rotate(90deg);
 }
-
-/* Eyebrow */
+.dm-popup-close svg { pointer-events: none; }
+/* ── Eyebrow ── */
 .dm-popup-eyebrow {
     display: inline-flex;
     align-items: center;
@@ -150,8 +139,7 @@
     0%, 100% { opacity: 1; transform: scale(1); }
     50%       { opacity: 0.5; transform: scale(0.8); }
 }
-
-/* Headline */
+/* ── Headline ── */
 .dm-popup-headline {
     font-size: 26px;
     font-weight: 800;
@@ -162,31 +150,20 @@
     letter-spacing: -0.3px;
 }
 @media (max-width: 575px) { .dm-popup-headline { font-size: 22px; } }
-
-/* Gradient on the key phrase in headline */
-.dm-popup-headline-accent {
-    background: linear-gradient(135deg, #7da3e0, #4a73c4);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-/* Subtext */
+/* ── Subtext ── */
 .dm-popup-subtext {
     font-size: 15px;
     color: rgba(255,255,255,0.55);
     line-height: 1.7;
     margin-bottom: 24px;
 }
-
-/* Divider */
+/* ── Divider ── */
 .dm-popup-divider {
     height: 1px;
     background: rgba(255,255,255,0.07);
     margin: 0 0 24px;
 }
-
-/* Numbered points */
+/* ── Numbered points ── */
 .dm-popup-points { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
 .dm-popup-point {
     display: flex;
@@ -211,10 +188,8 @@
     line-height: 1.55;
     font-weight: 500;
 }
-
-/* Buttons */
+/* ── Buttons ── */
 .dm-popup-actions { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-
 .dm-popup-btn-primary {
     display: flex;
     align-items: center;
@@ -227,9 +202,7 @@
     font-size: 15px; font-weight: 700;
     text-decoration: none !important;
     font-family: var(--tp-ff-onest, 'Onest', sans-serif);
-    transition: transform .3s cubic-bezier(.165,.84,.44,1),
-                box-shadow .3s ease,
-                opacity .3s ease;
+    transition: transform .3s cubic-bezier(.165,.84,.44,1), box-shadow .3s ease;
     box-shadow: 0 8px 28px rgba(27,60,107,0.4);
     border: none; cursor: pointer;
     white-space: nowrap;
@@ -237,11 +210,9 @@
 .dm-popup-btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 14px 40px rgba(27,60,107,0.55);
-    opacity: 0.93;
     color: #fff !important;
 }
 .dm-popup-btn-primary svg { flex-shrink: 0; }
-
 .dm-popup-btn-secondary {
     display: flex;
     align-items: center;
@@ -263,8 +234,7 @@
     border-color: rgba(255,255,255,0.32);
     color: #fff !important;
 }
-
-/* Supporting text */
+/* ── Supporting text ── */
 .dm-popup-support {
     font-size: 12px;
     color: rgba(255,255,255,0.28);
@@ -273,33 +243,25 @@
     padding-top: 4px;
     display: flex; align-items: center; justify-content: center; gap: 6px;
 }
-.dm-popup-support::before {
-    content: '';
-    display: inline-block;
-    width: 16px; height: 1px;
-    background: rgba(255,255,255,0.15);
-}
+.dm-popup-support::before,
 .dm-popup-support::after {
     content: '';
     display: inline-block;
-    width: 16px; height: 1px;
+    width: 20px; height: 1px;
     background: rgba(255,255,255,0.15);
 }
 </style>
-@endpush
 
 {{-- ══ POPUP MARKUP ══ --}}
 <div class="dm-popup-overlay" id="dmPopupOverlay" role="dialog" aria-modal="true" aria-label="Advisory popup">
     <div class="dm-popup-card">
-
-        {{-- Decorative glows --}}
         <div class="dm-popup-glow-1"></div>
         <div class="dm-popup-glow-2"></div>
 
         {{-- Close button --}}
-        <button class="dm-popup-close" id="dmPopupClose" aria-label="Close">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <button class="dm-popup-close" id="dmPopupClose" aria-label="Close popup">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.5 1.5L11.5 11.5M11.5 1.5L1.5 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
         </button>
 
@@ -360,105 +322,118 @@
     </div>{{-- /.dm-popup-card --}}
 </div>{{-- /.dm-popup-overlay --}}
 
-@push('scripts')
+{{-- ══ POPUP SCRIPT — inline so it always runs regardless of @stack position ══ --}}
 <script>
 (function () {
     'use strict';
 
     var STORAGE_KEY   = 'dm_popup_seen';
     var SESSION_KEY   = 'dm_popup_dismissed';
-    var COOLDOWN_DAYS = 3;   // don't re-show for 3 days after dismissal
-    var DELAY_MS      = 800; // brief delay before triggering
+    var COOLDOWN_DAYS = 3;
 
     var exitIntentEnabled = {{ $showExitIntent ? 'true' : 'false' }};
     var scrollEnabled     = {{ $showScroll ? 'true' : 'false' }};
     var scrollDepth       = {{ $scrollDepth }};
+    var timerEnabled      = {{ $timerEnabled ? 'true' : 'false' }};
+    var timerDelay        = {{ $timerDelay * 1000 }}; // convert seconds → ms
 
     var overlay  = document.getElementById('dmPopupOverlay');
     var closeBtn = document.getElementById('dmPopupClose');
-    if (!overlay) return;
 
-    /* ── Cooldown check ── */
+    if (!overlay || !closeBtn) return;
+
+    /* ── Cooldown helpers ── */
     function isCooledDown() {
-        // Session dismissal: don't show again in same tab session
         if (sessionStorage.getItem(SESSION_KEY)) return true;
-        // Persistent cooldown: store last-shown timestamp in localStorage
         var ts = localStorage.getItem(STORAGE_KEY);
         if (!ts) return false;
-        var elapsed = Date.now() - parseInt(ts, 10);
-        return elapsed < COOLDOWN_DAYS * 24 * 60 * 60 * 1000;
+        return (Date.now() - parseInt(ts, 10)) < (COOLDOWN_DAYS * 86400000);
     }
 
     function markShown() {
-        localStorage.setItem(STORAGE_KEY, String(Date.now()));
+        try { localStorage.setItem(STORAGE_KEY, String(Date.now())); } catch(e) {}
     }
 
     /* ── Show / hide ── */
     var triggered = false;
+
     function showPopup() {
         if (triggered || isCooledDown()) return;
         triggered = true;
         markShown();
-        setTimeout(function () {
-            overlay.classList.add('dm-popup-open');
-            document.body.style.overflow = 'hidden';
-        }, DELAY_MS);
+        overlay.classList.add('dm-popup-open');
+        document.body.style.overflow = 'hidden';
     }
 
     function hidePopup() {
         overlay.classList.remove('dm-popup-open');
         document.body.style.overflow = '';
-        sessionStorage.setItem(SESSION_KEY, '1');
+        try { sessionStorage.setItem(SESSION_KEY, '1'); } catch(e) {}
     }
 
     /* ── Close handlers ── */
     closeBtn.addEventListener('click', hidePopup);
+
     overlay.addEventListener('click', function (e) {
         if (e.target === overlay) hidePopup();
     });
+
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && overlay.classList.contains('dm-popup-open')) hidePopup();
     });
 
-    /* ── CTA click — dismiss popup ── */
+    /* ── CTA click — close popup then navigate ── */
     ['dmPopupPrimary', 'dmPopupSecondary'].forEach(function (id) {
         var el = document.getElementById(id);
-        if (el) el.addEventListener('click', function () {
-            setTimeout(hidePopup, 80); // small delay so navigation isn't blocked
-        });
+        if (el) el.addEventListener('click', function () { setTimeout(hidePopup, 80); });
     });
 
-    /* ── Wait for full page load before wiring triggers ── */
-    window.addEventListener('load', function () {
+    /* ── Wire triggers after DOM is ready ── */
+    function wireTriggers() {
         if (isCooledDown()) return;
 
-        /* Exit-intent trigger — mouse leaves document from the top */
+        /* Exit-intent: mouse leaves viewport from the top */
         if (exitIntentEnabled) {
-            document.addEventListener('mouseleave', function (e) {
-                if (e.clientY <= 0) showPopup();
+            document.addEventListener('mouseleave', function onLeave(e) {
+                if (e.clientY <= 0) {
+                    document.removeEventListener('mouseleave', onLeave);
+                    showPopup();
+                }
             });
         }
 
-        /* Scroll depth trigger */
+        /* Scroll depth */
         if (scrollEnabled) {
             var scrollFired = false;
             function onScroll() {
                 if (scrollFired) return;
-                var scrolled  = window.scrollY || document.documentElement.scrollTop;
-                var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                if (docHeight <= 0) return;
-                var pct = (scrolled / docHeight) * 100;
-                if (pct >= scrollDepth) {
+                var scrolled  = window.scrollY || document.documentElement.scrollTop || 0;
+                var docHeight = Math.max(
+                    document.documentElement.scrollHeight - window.innerHeight, 1
+                );
+                if ((scrolled / docHeight) * 100 >= scrollDepth) {
                     scrollFired = true;
-                    showPopup();
                     window.removeEventListener('scroll', onScroll, { passive: true });
+                    showPopup();
                 }
             }
             window.addEventListener('scroll', onScroll, { passive: true });
         }
-    });
+
+        /* Timer trigger */
+        if (timerEnabled && timerDelay > 0) {
+            setTimeout(showPopup, timerDelay);
+        }
+    }
+
+    /* Run after page finishes loading */
+    if (document.readyState === 'complete') {
+        wireTriggers();
+    } else {
+        window.addEventListener('load', wireTriggers);
+    }
+
 })();
 </script>
-@endpush
 
 @endif {{-- $popupEnabled --}}

@@ -202,15 +202,42 @@
                     </label>
                 </div>
 
-                <div class="dm-form-group mb-0" style="max-width:200px;">
-                    <label class="dm-form-label">Scroll Trigger Depth</label>
-                    <div class="dm-input-suffix-wrap">
-                        <input type="number" name="popup_trigger_scroll" min="10" max="95"
-                            value="{{ \App\Models\SiteSetting::get('popup_trigger_scroll','55') }}"
-                            class="dm-form-input">
-                        <span class="dm-input-suffix">%</span>
+                <div class="dm-toggle-group">
+                    <div style="flex:1;">
+                        <div class="dm-toggle-label">Timer Trigger</div>
+                        <span class="dm-toggle-sub">Show popup automatically after page loads</span>
                     </div>
-                    <div class="dm-form-hint">Trigger when user reaches this scroll %</div>
+                    <label class="dm-switch">
+                        <input type="checkbox" name="popup_timer_enabled" value="1" {{ \App\Models\SiteSetting::get('popup_timer_enabled','0') === '1' ? 'checked' : '' }}>
+                        <span class="dm-switch-slider"></span>
+                    </label>
+                </div>
+
+                <div class="row g-3" style="margin-top:4px;">
+                    <div class="col-6">
+                        <div class="dm-form-group mb-0">
+                            <label class="dm-form-label">Scroll Trigger Depth</label>
+                            <div class="dm-input-suffix-wrap">
+                                <input type="number" name="popup_trigger_scroll" min="10" max="95"
+                                    value="{{ \App\Models\SiteSetting::get('popup_trigger_scroll','55') }}"
+                                    class="dm-form-input">
+                                <span class="dm-input-suffix">%</span>
+                            </div>
+                            <div class="dm-form-hint">Trigger at this scroll depth</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="dm-form-group mb-0">
+                            <label class="dm-form-label">Timer Delay</label>
+                            <div class="dm-input-suffix-wrap">
+                                <input type="number" name="popup_timer_delay" min="1" max="120"
+                                    value="{{ \App\Models\SiteSetting::get('popup_timer_delay','8') }}"
+                                    class="dm-form-input">
+                                <span class="dm-input-suffix">s</span>
+                            </div>
+                            <div class="dm-form-hint">Seconds after page load</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -365,6 +392,9 @@
                     @endif
                     @if(\App\Models\SiteSetting::get('popup_show_scroll','1') === '1')
                     <span style="font-size:11px;font-weight:600;color:var(--dm-purple);background:var(--dm-purple-light);padding:4px 10px;border-radius:20px;">Scroll {{ \App\Models\SiteSetting::get('popup_trigger_scroll','55') }}% ✓</span>
+                    @endif
+                    @if(\App\Models\SiteSetting::get('popup_timer_enabled','0') === '1')
+                    <span style="font-size:11px;font-weight:600;color:var(--dm-purple);background:var(--dm-purple-light);padding:4px 10px;border-radius:20px;">Timer {{ \App\Models\SiteSetting::get('popup_timer_delay','8') }}s ✓</span>
                     @endif
                 </div>
             </div>
