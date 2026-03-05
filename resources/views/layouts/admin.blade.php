@@ -455,6 +455,9 @@
             <a href="{{ route('admin.contact-settings.edit') }}" class="dm-sidebar-link {{ request()->routeIs('admin.contact-settings.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-address-book"></i> Contact Settings
             </a>
+            <a href="{{ route('admin.popup.edit') }}" class="dm-sidebar-link {{ request()->routeIs('admin.popup.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-rectangle-ad"></i> Popup Banner
+            </a>
 
             <div class="dm-sidebar-label">Account</div>
             <a href="{{ route('admin.profile') }}" class="dm-sidebar-link {{ request()->routeIs('admin.profile') ? 'active' : '' }}">

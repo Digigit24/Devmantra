@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ContactSettingController;
+use App\Http\Controllers\Admin\PopupController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsletterController;
 use App\Http\Controllers\Admin\PageSectionController;
@@ -77,6 +78,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Contact Settings
     Route::get('contact-settings', [ContactSettingController::class, 'edit'])->name('contact-settings.edit');
     Route::put('contact-settings', [ContactSettingController::class, 'update'])->name('contact-settings.update');
+
+    // Popup Banner
+    Route::get('popup', [PopupController::class, 'edit'])->name('popup.edit');
+    Route::put('popup', [PopupController::class, 'update'])->name('popup.update');
 
     // Image upload for Summernote editor
     Route::post('upload-image', function (\Illuminate\Http\Request $request) {
