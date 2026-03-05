@@ -220,10 +220,10 @@ class ServiceSectionsSeeder extends Seeder
                 ],
             ],
             [
-                'type' => 'markets-served',
+                'type' => 'page-world-map',
                 'data' => [
-                    'title'   => 'Markets Served',
-                    'markets' => ['USA', 'Europe', 'Korea', 'Japan', 'Singapore', 'Dubai', 'Abu Dhabi', 'Australia', 'New Zealand'],
+                    'title'    => 'Countries that we serve',
+                    'subtitle' => 'We work with clients across the globe, delivering solutions without borders.',
                 ],
             ],
             [

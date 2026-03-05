@@ -312,13 +312,13 @@ class GccServiceSectionSeeder extends Seeder
                 ],
             ],
 
-            // ── 11. MARKETS SERVED ────────────────────────────────────────────
+            // ── 11. WORLD MAP ─────────────────────────────────────────────────
             [
-                'section_type' => 'markets-served',
+                'section_type' => 'page-world-map',
                 'sort_order'   => 11,
                 'section_data' => [
-                    'title'   => 'Markets Served',
-                    'markets' => ['USA', 'UK', 'Europe', 'Korea', 'Japan', 'Singapore', 'Dubai', 'Abu Dhabi', 'Australia', 'New Zealand'],
+                    'title'    => 'Countries that we serve',
+                    'subtitle' => 'We work with clients across the globe, delivering solutions without borders.',
                 ],
             ],
 
