@@ -29,16 +29,17 @@
     font-size: 18px; font-weight: 800; color: #fff;
     font-family: var(--tp-ff-onest);
 }
-.ss-process-body { padding-top: 8px; }
+.ss-process-body { padding-top: 6px; }
 .ss-process-stage {
     font-size: 12px; font-weight: 700; letter-spacing: 1.2px;
-    text-transform: uppercase; color: #4a73c4; margin-bottom: 6px;
+    text-transform: uppercase; color: #4a73c4; margin-bottom: 4px;
 }
 .ss-process-step-title {
     font-size: 19px; font-weight: 700; color: #0d1b2a;
-    margin-bottom: 8px; font-family: var(--tp-ff-onest);
+    margin-bottom: 12px; font-family: var(--tp-ff-onest);
+    line-height: 1.35;
 }
-.ss-process-step-desc { font-size: 15px; color: #555; line-height: 1.7; }
+.ss-process-step-desc { font-size: 15px; color: #555; line-height: 1.7; margin-bottom: 0; }
 .ss-process-step-value {
     display: inline-block;
     margin-top: 8px;

@@ -793,8 +793,7 @@
     </div>
 </div>
 
-<!-- 6A Framework & AI Platform sections -->
-@include('frontend.partials.section-6a-framework')
+<!-- AI Platform section -->
 @include('frontend.partials.section-ai-platform')
 @endsection
 
