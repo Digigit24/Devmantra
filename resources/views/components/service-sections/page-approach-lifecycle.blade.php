@@ -234,15 +234,7 @@
     transition: background 0.3s, transform 0.2s;
     position: relative;
 }
-.dm-lc-stab + .dm-lc-stab::before {
-    content: '';
-    position: absolute; left: 0; top: 50%;
-    transform: translateY(-50%);
-    width: 1px; height: 60%;
-    background: rgba(0,0,0,0.08);
-}
 .dm-lc-stab.is-active { background: linear-gradient(135deg, #1b3c6b, #4a73c4); }
-.dm-lc-stab.is-active + .dm-lc-stab::before { display: none; }
 
 .dm-lc-stab-num {
     font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
@@ -461,7 +453,7 @@
                 <div class="dm-lc-card">
                     <div class="dm-lc-card-inner">
                         <div class="dm-lc-card-left">
-                            <div class="dm-lc-card-icon-wrap" style="background: linear-gradient(135deg, {{ $stage['color'] }}, {{ $stage['color'] }}bb);">
+                            <div class="dm-lc-card-icon-wrap">
                                 <i class="{{ $stage['icon'] }}"></i>
                             </div>
                             <div class="dm-lc-card-num">{{ $stage['number'] }} / 05</div>
