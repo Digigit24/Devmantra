@@ -185,7 +185,7 @@
    SECTION 2 — CPA FIRM REALITY
    ============================================== */
 .gcc-pressure-section {
-    background: #000;
+    background: #001d30;
     padding: 100px 0;
 }
 @media (max-width: 767px) { .gcc-pressure-section { padding: 70px 0; } }

@@ -11,6 +11,7 @@
 <style>
 .dm-about-mv { padding: 80px 0; background: #f8f9fa; }
 @media (max-width: 767px) { .dm-about-mv { padding: 50px 0; } }
+@media (max-width: 575px) { .dm-about-mv { padding: 40px 0; } }
 .dm-mv-card {
     background: #fff;
     border: 1px solid rgba(0,0,0,0.08);
@@ -32,6 +33,15 @@
     line-height: 1.75;
     color: rgba(0,0,0,0.6);
     font-family: var(--tp-ff-onest);
+}
+@media (max-width: 767px) {
+    .dm-mv-card { padding: 28px 24px; border-radius: 12px; }
+    .dm-mv-card h4 { font-size: 20px; margin-bottom: 12px; }
+    .dm-mv-card p { font-size: 15px; }
+}
+@media (max-width: 575px) {
+    .dm-mv-card { padding: 22px 18px; }
+    .dm-mv-card h4 { font-size: 18px; }
 }
 </style>
 @endpush

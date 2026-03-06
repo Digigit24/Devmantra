@@ -12,7 +12,7 @@
 @push('styles')
 <style>
     .dm-article-hero {
-        background-color: #000;
+        background-color: #001d30;
         padding: 200px 0 100px;
         position: relative;
         overflow: hidden;
@@ -481,7 +481,7 @@
         align-items: center;
         gap: 10px;
         padding: 16px 40px;
-        background: #000;
+        background: #001d30;
         color: #fff;
         border: none;
         border-radius: 10px;
@@ -494,7 +494,7 @@
         justify-content: center;
     }
     .dm-modal .dm-cf-submit:hover {
-        background: #222;
+        background: #003050;
         transform: translateY(-2px);
     }
     .dm-modal .dm-cf-error {
@@ -793,8 +793,7 @@
     </div>
 </div>
 
-<!-- 6A Framework & AI Platform sections -->
-@include('frontend.partials.section-6a-framework')
+<!-- AI Platform section -->
 @include('frontend.partials.section-ai-platform')
 @endsection
 

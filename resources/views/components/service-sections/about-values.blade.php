@@ -9,7 +9,8 @@
 @push('styles')
 <style>
 .dm-about-values { padding: 100px 0; }
-@media (max-width: 767px) { .dm-about-values { padding: 60px 0; } }
+@media (max-width: 767px) { .dm-about-values { padding: 80px 0 50px; } }
+@media (max-width: 575px) { .dm-about-values { padding: 64px 0 40px; } }
 .dm-about-section-label {
     font-size: 12px;
     font-weight: 600;
@@ -26,13 +27,17 @@
     margin-bottom: 50px;
     font-family: var(--tp-ff-onest);
 }
-@media (max-width: 767px) { .dm-about-section-title { font-size: 26px; } }
+@media (max-width: 767px) {
+    .dm-about-section-title { font-size: 24px; margin-bottom: 32px; }
+}
+@media (max-width: 575px) {
+    .dm-about-section-title { font-size: 22px; margin-bottom: 24px; }
+}
 .dm-value-item {
     background: #fff;
     border: 1px solid rgba(0,0,0,0.06);
     border-radius: 14px;
     padding: 32px;
-    margin-bottom: 24px;
     transition: all 0.3s ease;
     height: 100%;
 }
@@ -60,6 +65,15 @@
     color: rgba(0,0,0,0.6);
     margin: 0;
     font-family: var(--tp-ff-onest);
+}
+@media (max-width: 767px) {
+    .dm-value-item { padding: 24px 20px; }
+    .dm-value-item-icon { width: 40px; height: 40px; margin-bottom: 14px; }
+    .dm-value-item h5 { font-size: 16px; }
+    .dm-value-item p { font-size: 14px; }
+}
+@media (max-width: 575px) {
+    .dm-value-item { padding: 20px 16px; border-radius: 10px; }
 }
 </style>
 @endpush

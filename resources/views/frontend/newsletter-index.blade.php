@@ -4,7 +4,7 @@
 
 @push('styles')
 <style>
-    .dm-newsletter-hero { background-color: #000; padding: 200px 0 120px; }
+    .dm-newsletter-hero { background-color: #001d30; padding: 200px 0 120px; }
     .dm-newsletter-hero-desc { font-size: 18px; color: rgba(255,255,255,0.6); max-width: 540px; line-height: 1.7; }
     .dm-past-editions { padding: 100px 0; }
     .dm-edition-card { margin-bottom: 40px; transition: transform 0.3s; }

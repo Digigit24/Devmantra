@@ -152,6 +152,8 @@
 
     @stack('scripts')
 
+    @include('frontend.partials.popup')
+
     <!-- OmniDimension Chatbot — loaded after first user interaction, never blocks page -->
     <script>
     (function () {

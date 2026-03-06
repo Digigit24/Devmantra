@@ -4,7 +4,7 @@
 
 @push('styles')
 <style>
-    .dm-blog-hero { background-color: #000; padding: 200px 0 120px; }
+    .dm-blog-hero { background-color: #001d30; padding: 200px 0 120px; }
     .dm-blog-hero-desc { font-size: 18px; color: rgba(255,255,255,0.6); max-width: 540px; line-height: 1.7; }
     .dm-blog-grid { padding: 100px 0 80px; }
     .dm-blog-featured { border-bottom: 1px solid var(--tp-border-1,#eee); padding-bottom: 60px; margin-bottom: 60px; }

@@ -8,7 +8,7 @@
 @once
 @push('styles')
 <style>
-.dm-about-services { padding: 80px 0; background: #000; }
+.dm-about-services { padding: 80px 0; background: #001d30; }
 @media (max-width: 767px) { .dm-about-services { padding: 50px 0; } }
 .dm-about-service-card {
     background: rgba(255,255,255,0.04);

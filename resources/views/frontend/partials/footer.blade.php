@@ -1,4 +1,8 @@
 @php $footerContact = \App\Models\ContactSetting::instance(); @endphp
+<style>
+footer.z-index-1 { background-color: #001d30; }
+.cr-footer-bg { display: none; }
+</style>
 <footer class="z-index-1 include-bg">
     <div class="cr-footer-bg">
         <img src="{{ asset('assets/img/home-13/footer/cr-footer-bg.png') }}" alt="">
