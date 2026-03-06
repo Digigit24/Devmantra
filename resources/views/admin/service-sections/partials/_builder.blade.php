@@ -356,6 +356,15 @@ const FIELD_SCHEMAS = {
       { key:'disclaimer', type:'textarea', label:'Disclaimer Text (optional)' },
     ]
   },
+  'page-approach-lifecycle': {
+    label: 'Approach & Lifecycle — How We Work',
+    icon: 'fa-solid fa-rotate',
+    fields: [
+      { key:'label', type:'text', label:'Eyebrow Label', hint:'e.g. How We Work' },
+      { key:'title', type:'text', label:'Section Heading', hint:'e.g. Our Approach & Business Lifecycle' },
+      { key:'subtitle', type:'textarea', label:'Intro Paragraph' },
+    ]
+  },
 };
 
 /* ═══════════════════════════════════════════════════════════
