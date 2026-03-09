@@ -22,6 +22,42 @@
     .dm-blog-card-meta { font-size: 14px; color: rgba(0,0,0,0.35); }
     .dm-blog-card-link { font-size: 14px; font-weight: 600; color: var(--tp-common-black,#111); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
     .dm-blog-card-link:hover { opacity: 0.6; }
+
+    /* ── Pagination ── */
+    .dm-pagination { display: flex; justify-content: center; padding-top: 40px; }
+    .dm-pagination ul {
+        list-style: none; padding: 0; margin: 0;
+        display: flex; align-items: center; gap: 6px;
+    }
+    .dm-pagination li a,
+    .dm-pagination li span {
+        display: inline-flex; align-items: center; justify-content: center;
+        min-width: 42px; height: 42px; padding: 0 14px;
+        border: 1px solid rgba(0,0,0,0.1); border-radius: 10px;
+        font-size: 14px; font-weight: 600; font-family: var(--tp-ff-onest);
+        color: var(--tp-common-black,#111); background: #fff;
+        text-decoration: none; transition: all 0.25s ease;
+    }
+    .dm-pagination li a:hover {
+        background: var(--tp-common-black,#111); color: #fff;
+        border-color: var(--tp-common-black,#111);
+    }
+    .dm-pagination li.active span {
+        background: var(--tp-common-black,#111); color: #fff;
+        border-color: var(--tp-common-black,#111);
+    }
+    .dm-pagination li.disabled span { opacity: 0.3; cursor: default; pointer-events: none; }
+    .dm-pagination li.dots span {
+        border: none; background: transparent; min-width: 28px; padding: 0;
+        font-size: 16px; letter-spacing: 2px; color: rgba(0,0,0,0.3);
+    }
+    .dm-pagination li a i,
+    .dm-pagination li span i { font-size: 12px; }
+    @media (max-width: 575px) {
+        .dm-pagination li a,
+        .dm-pagination li span { min-width: 36px; height: 36px; padding: 0 10px; font-size: 13px; }
+        .dm-pagination ul { gap: 4px; }
+    }
 </style>
 @endpush
 
@@ -110,9 +146,7 @@
         </div>
 
         @if($blogs->hasPages())
-        <div class="d-flex justify-content-center pt-40">
-            {{ $blogs->links() }}
-        </div>
+            {{ $blogs->links('vendor.pagination.devmantra') }}
         @endif
     </div>
 </div>

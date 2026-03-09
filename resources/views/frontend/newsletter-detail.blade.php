@@ -211,7 +211,16 @@
         color: var(--tp-common-black);
         text-decoration: none;
         font-size: 14px;
+        line-height: 1;
         transition: all 0.3s ease;
+    }
+    .dm-article-share a i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 14px;
+        height: 14px;
+        line-height: 1;
     }
     .dm-article-share a:hover {
         background: var(--tp-common-black);
