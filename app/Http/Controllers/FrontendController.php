@@ -124,7 +124,7 @@ class FrontendController extends Controller
 
     public function careers()
     {
-        $careers = Career::published()->latest('published_at')->paginate(10);
+        $careers = Career::published()->latest('published_at')->get()->groupBy('type');
 
         return view('frontend.careers-index', compact('careers'));
     }
