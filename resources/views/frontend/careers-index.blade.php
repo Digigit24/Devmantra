@@ -13,8 +13,8 @@
     }
 
     .dm-career-card {
-        background: #fff;
-        border: 1px solid rgba(0,0,0,0.06);
+        background: #fff !important;
+        border: 1px solid rgba(0,0,0,0.06) !important;
         border-radius: 16px;
         padding: 36px;
         margin-bottom: 24px;
@@ -24,9 +24,10 @@
         justify-content: space-between;
         gap: 24px;
         text-decoration: none;
+        cursor: pointer;
     }
     .dm-career-card:hover {
-        border-color: rgba(0,0,0,0.15);
+        border-color: rgba(0,0,0,0.15) !important;
         transform: translateY(-3px);
         box-shadow: 0 8px 30px rgba(0,0,0,0.06);
     }
@@ -56,7 +57,7 @@
         width: 48px;
         height: 48px;
         border-radius: 50%;
-        border: 1px solid rgba(0,0,0,0.1);
+        border: 1px solid rgba(0,0,0,0.1) !important;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -65,9 +66,9 @@
         color: #111;
     }
     .dm-career-card:hover .dm-career-card-arrow {
-        background: #001d30;
+        background: #001d30 !important;
         color: #fff;
-        border-color: #001d30;
+        border-color: #001d30 !important;
     }
     .dm-careers-empty {
         text-align: center;
