@@ -448,6 +448,14 @@
                 <i class="fa-solid fa-newspaper"></i> Newsletters
             </a>
 
+            <div class="dm-sidebar-label">Recruitment</div>
+            <a href="{{ route('admin.careers.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.careers.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-user-tie"></i> Careers
+            </a>
+            <a href="{{ route('admin.career-applications.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.career-applications.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-file-lines"></i> Applications
+            </a>
+
             <div class="dm-sidebar-label">Pages</div>
             <a href="{{ route('admin.pages.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-file-lines"></i> Pages

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\Career;
+use App\Models\CareerApplication;
 use App\Models\ContactSetting;
 use App\Models\Newsletter;
 use App\Models\Page;
@@ -114,6 +116,44 @@ class FrontendController extends Controller
         );
 
         return redirect()->route('contact')->with('success', 'Thank you for your message! We will get back to you shortly.');
+    }
+
+    public function careers()
+    {
+        $careers = Career::published()->latest('published_at')->paginate(10);
+
+        return view('frontend.careers-index', compact('careers'));
+    }
+
+    public function careerShow(string $slug)
+    {
+        $career = Career::published()->where('slug', $slug)->firstOrFail();
+
+        return view('frontend.career-detail', compact('career'));
+    }
+
+    public function careerApply(Request $request, string $slug)
+    {
+        $career = Career::published()->where('slug', $slug)->firstOrFail();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:50',
+            'resume' => 'required|file|mimes:pdf,doc,docx|max:5120',
+        ]);
+
+        $resumePath = $request->file('resume')->store('resumes', 'public');
+
+        CareerApplication::create([
+            'career_id' => $career->id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'resume' => $resumePath,
+        ]);
+
+        return redirect()->route('career.show', $slug)->with('success', 'Your application has been submitted successfully! We will get back to you soon.');
     }
 
     public function newsletterShow(string $slug)

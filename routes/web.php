@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\CareerApplicationController;
+use App\Http\Controllers\Admin\CareerController;
 use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\PopupController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -23,6 +25,9 @@ Route::get('/newsletter/{slug}', [FrontendController::class, 'newsletterShow'])-
 Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 Route::post('/contact', [FrontendController::class, 'contactSubmit'])->name('contact.submit');
+Route::get('/careers', [FrontendController::class, 'careers'])->name('careers');
+Route::get('/careers/{slug}', [FrontendController::class, 'careerShow'])->name('career.show');
+Route::post('/careers/{slug}/apply', [FrontendController::class, 'careerApply'])->name('career.apply');
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -68,6 +73,18 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::post('/reorder', [PageSectionController::class, 'reorder'])->name('reorder');
         Route::post('/{section}/toggle', [PageSectionController::class, 'toggle'])->name('toggle');
     });
+
+    // Careers CRUD + Trash
+    Route::get('careers/trash', [CareerController::class, 'trash'])->name('careers.trash');
+    Route::post('careers/{id}/restore', [CareerController::class, 'restore'])->name('careers.restore');
+    Route::delete('careers/{id}/force-delete', [CareerController::class, 'forceDelete'])->name('careers.force-delete');
+    Route::resource('careers', CareerController::class)->except(['show']);
+
+    // Career Applications
+    Route::get('career-applications', [CareerApplicationController::class, 'index'])->name('career-applications.index');
+    Route::get('career-applications/{application}', [CareerApplicationController::class, 'show'])->name('career-applications.show');
+    Route::put('career-applications/{application}/status', [CareerApplicationController::class, 'updateStatus'])->name('career-applications.update-status');
+    Route::delete('career-applications/{application}', [CareerApplicationController::class, 'destroy'])->name('career-applications.destroy');
 
     // Newsletters CRUD + Trash
     Route::get('newsletters/trash', [NewsletterController::class, 'trash'])->name('newsletters.trash');
