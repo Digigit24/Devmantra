@@ -54,6 +54,7 @@ class NewsletterController extends Controller
             'excerpt' => 'nullable|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'edition_label' => 'nullable|string|max:100',
+            'is_featured' => 'nullable|boolean',
             'meta_description' => 'nullable|string|max:255',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
@@ -62,6 +63,8 @@ class NewsletterController extends Controller
         if ($request->hasFile('featured_image')) {
             $validated['featured_image'] = $request->file('featured_image')->store('newsletters', 'public');
         }
+
+        $validated['is_featured'] = $request->boolean('is_featured');
 
         if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = now();
@@ -86,6 +89,7 @@ class NewsletterController extends Controller
             'excerpt' => 'nullable|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'edition_label' => 'nullable|string|max:100',
+            'is_featured' => 'nullable|boolean',
             'meta_description' => 'nullable|string|max:255',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
@@ -97,6 +101,8 @@ class NewsletterController extends Controller
             }
             $validated['featured_image'] = $request->file('featured_image')->store('newsletters', 'public');
         }
+
+        $validated['is_featured'] = $request->boolean('is_featured');
 
         if ($validated['status'] === 'published' && !$newsletter->published_at && empty($validated['published_at'])) {
             $validated['published_at'] = now();

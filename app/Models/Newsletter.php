@@ -18,12 +18,14 @@ class Newsletter extends Model
         'excerpt',
         'featured_image',
         'edition_label',
+        'is_featured',
         'meta_description',
         'status',
         'published_at',
     ];
 
     protected $casts = [
+        'is_featured' => 'boolean',
         'published_at' => 'datetime',
     ];
 
@@ -65,6 +67,11 @@ class Newsletter extends Model
     public function scopePublished($query)
     {
         return $query->where('status', 'published');
+    }
+
+    public function scopeFeatured($query)
+    {
+        return $query->where('is_featured', true);
     }
 
     public function getUrlAttribute(): string

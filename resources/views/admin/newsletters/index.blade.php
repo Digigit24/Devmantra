@@ -28,9 +28,11 @@
     <table class="dm-table">
         <thead>
             <tr>
+                <th>Image</th>
                 <th>Title</th>
                 <th>Edition</th>
                 <th>Status</th>
+                <th>Featured</th>
                 <th>Published</th>
                 <th>Actions</th>
             </tr>
@@ -38,6 +40,13 @@
         <tbody>
             @forelse($newsletters as $newsletter)
             <tr>
+                <td>
+                    @if($newsletter->featured_image)
+                        <img src="{{ asset('storage/' . $newsletter->featured_image) }}" class="dm-table-thumb" alt="">
+                    @else
+                        <div class="dm-table-thumb d-flex align-items-center justify-content-center" style="background:var(--dm-purple-light);"><i class="fa-solid fa-image" style="color:var(--dm-purple);"></i></div>
+                    @endif
+                </td>
                 <td>
                     <div style="font-weight:600;color:var(--dm-text);">{{ Str::limit($newsletter->title, 50) }}</div>
                     <div style="font-size:12px;color:var(--dm-text-muted);">/newsletter/{{ $newsletter->slug }}</div>
@@ -47,6 +56,11 @@
                     <span class="dm-badge {{ $newsletter->status === 'published' ? 'dm-badge-published' : 'dm-badge-draft' }}">
                         {{ ucfirst($newsletter->status) }}
                     </span>
+                </td>
+                <td>
+                    @if($newsletter->is_featured)
+                        <i class="fa-solid fa-star" style="color:var(--dm-warning);"></i>
+                    @endif
                 </td>
                 <td style="font-size:13px;color:var(--dm-text-muted);">
                     {{ $newsletter->published_at ? $newsletter->published_at->format('M d, Y') : '-' }}
@@ -67,7 +81,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="5" style="text-align:center;padding:40px;color:var(--dm-text-muted);">
+                <td colspan="7" style="text-align:center;padding:40px;color:var(--dm-text-muted);">
                     <i class="fa-solid fa-newspaper" style="font-size:32px;display:block;margin-bottom:12px;"></i>
                     No newsletters yet. <a href="{{ route('admin.newsletters.create') }}">Create your first newsletter</a>
                 </td>

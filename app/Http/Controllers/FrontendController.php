@@ -72,9 +72,13 @@ class FrontendController extends Controller
 
     public function newsletterIndex()
     {
-        $newsletters = Newsletter::published()->latest('published_at')->paginate(9);
+        $featured = Newsletter::published()->featured()->latest('published_at')->first();
+        $newsletters = Newsletter::published()
+            ->when($featured, fn($q) => $q->where('id', '!=', $featured->id))
+            ->latest('published_at')
+            ->paginate(9);
 
-        return view('frontend.newsletter-index', compact('newsletters'));
+        return view('frontend.newsletter-index', compact('featured', 'newsletters'));
     }
 
     public function about()

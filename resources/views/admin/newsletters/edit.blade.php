@@ -63,6 +63,12 @@
                     <label class="dm-form-label">Meta Description</label>
                     <textarea name="meta_description" class="dm-form-textarea" style="min-height:60px;">{{ old('meta_description', $newsletter->meta_description) }}</textarea>
                 </div>
+                <div class="dm-form-group">
+                    <div class="dm-form-check">
+                        <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $newsletter->is_featured) ? 'checked' : '' }}>
+                        <label class="dm-form-label" style="margin-bottom:0;">Mark as Featured</label>
+                    </div>
+                </div>
                 <button type="submit" class="dm-btn dm-btn-primary w-100">
                     <i class="fa-solid fa-check"></i> Update Newsletter
                 </button>

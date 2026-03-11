@@ -9,12 +9,22 @@
     .dm-newsletter-hero-desc { font-size: 18px; color: rgba(255,255,255,0.6); max-width: 540px; line-height: 1.7; font-family: var(--tp-ff-onest); }
     .dm-past-editions { padding: 100px 0; }
     @media (max-width: 767px) { .dm-past-editions { padding: 60px 0; } }
+
+    /* Featured Newsletter */
+    .dm-newsletter-featured { border-bottom: 1px solid var(--tp-border-1,#eee); padding-bottom: 60px; margin-bottom: 60px; }
+    .dm-newsletter-featured-thumb img { width: 100%; height: 380px; object-fit: cover; border-radius: 12px; }
+    .dm-newsletter-featured-title { font-size: 32px; font-weight: 600; color: var(--tp-common-black,#111); margin-bottom: 16px; line-height: 1.3; font-family: var(--tp-ff-onest); }
+    .dm-newsletter-featured-title a { color: inherit; text-decoration: none; }
+    .dm-newsletter-featured-title a:hover { opacity: 0.7; }
+
+    /* Edition Cards */
     .dm-edition-card { margin-bottom: 40px; transition: transform 0.3s; }
     .dm-edition-card:hover { transform: translateY(-4px); }
+    .dm-edition-card-thumb img { width: 100%; height: 220px; object-fit: cover; border-radius: 12px; }
     .dm-edition-card-date {
         font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
         color: rgba(0,0,0,0.4); display: inline-flex; align-items: center; gap: 8px;
-        margin-bottom: 12px; font-family: var(--tp-ff-onest);
+        margin: 16px 0 8px; font-family: var(--tp-ff-onest);
     }
     .dm-edition-card-date i { font-size: 12px; color: rgba(0,0,0,0.25); }
     .dm-edition-card-title { font-size: 20px; font-weight: 600; color: var(--tp-common-black,#111); margin-bottom: 12px; line-height: 1.4; font-family: var(--tp-ff-onest); }
@@ -91,11 +101,62 @@
 <!-- Editions -->
 <div class="dm-past-editions">
     <div class="container container-1230">
+
+        @if($featured)
+        <!-- Featured Newsletter -->
+        <div class="dm-newsletter-featured">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="dm-newsletter-featured-thumb tp_fade_anim" data-delay=".3">
+                        <a href="{{ route('newsletter.show', $featured->slug) }}">
+                            @if($featured->featured_image)
+                                <img src="{{ asset('storage/' . $featured->featured_image) }}" alt="{{ $featured->title }}">
+                            @else
+                                <img src="{{ asset('assets/img/home-13/blog/blog-thumb-1.jpg') }}" alt="{{ $featured->title }}">
+                            @endif
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="dm-newsletter-featured-content tp_fade_anim" data-delay=".5">
+                        <span class="dm-edition-card-date">
+                            <i class="fa-regular fa-calendar"></i> Featured
+                        </span>
+                        <h3 class="dm-newsletter-featured-title">
+                            <a href="{{ route('newsletter.show', $featured->slug) }}">{{ $featured->title }}</a>
+                        </h3>
+                        <p class="dm-edition-card-excerpt">{{ $featured->excerpt ?? Str::limit(strip_tags($featured->content), 160) }}</p>
+                        <span class="dm-edition-card-date" style="display:block;margin-bottom:20px;">{{ $featured->published_at?->format('M d, Y') }}</span>
+                        <div>
+                            <a href="{{ route('newsletter.show', $featured->slug) }}" class="dm-edition-card-link">
+                                Read Edition
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" viewBox="0 0 15 12" fill="none">
+                                    <path d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z" fill="currentColor"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+
         <div class="section-label mb-40 tp_fade_anim" data-delay=".3" style="font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:1px;font-family:var(--tp-ff-onest);color:rgba(0,0,0,0.4);">All Editions</div>
+
+        <!-- Newsletter Cards -->
         <div class="row">
             @forelse($newsletters as $newsletter)
             <div class="col-lg-4 col-md-6">
                 <div class="dm-edition-card tp_fade_anim" data-delay=".{{ 3 + ($loop->index % 3) }}">
+                    <div class="dm-edition-card-thumb">
+                        <a href="{{ route('newsletter.show', $newsletter->slug) }}">
+                            @if($newsletter->featured_image)
+                                <img src="{{ asset('storage/' . $newsletter->featured_image) }}" alt="{{ $newsletter->title }}">
+                            @else
+                                <img src="{{ asset('assets/img/home-13/blog/blog-thumb-' . (($loop->index % 3) + 1) . '.jpg') }}" alt="{{ $newsletter->title }}">
+                            @endif
+                        </a>
+                    </div>
                     <span class="dm-edition-card-date">
                         <i class="fa-regular fa-calendar"></i>
                         {{ $newsletter->edition_label ?? $newsletter->published_at?->format('F Y') ?? $newsletter->created_at->format('F Y') }}
