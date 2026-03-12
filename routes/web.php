@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\PopupController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsletterController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\PageSectionController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\ServiceSectionController;
@@ -22,6 +23,8 @@ Route::get('/blog/{slug}', [FrontendController::class, 'blogShow'])->name('blog.
 Route::get('/services/{slug}', [FrontendController::class, 'serviceShow'])->name('service.show');
 Route::get('/newsletter', [FrontendController::class, 'newsletterIndex'])->name('newsletter.index');
 Route::get('/newsletter/{slug}', [FrontendController::class, 'newsletterShow'])->name('newsletter.show');
+Route::get('/reports', [FrontendController::class, 'reportIndex'])->name('report.index');
+Route::get('/reports/{slug}', [FrontendController::class, 'reportShow'])->name('report.show');
 Route::get('/about', [FrontendController::class, 'about'])->name('about');
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 Route::post('/contact', [FrontendController::class, 'contactSubmit'])->name('contact.submit');
@@ -91,6 +94,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('newsletters/{id}/restore', [NewsletterController::class, 'restore'])->name('newsletters.restore');
     Route::delete('newsletters/{id}/force-delete', [NewsletterController::class, 'forceDelete'])->name('newsletters.force-delete');
     Route::resource('newsletters', NewsletterController::class)->except(['show']);
+
+    // Reports CRUD + Trash
+    Route::get('reports/trash', [ReportController::class, 'trash'])->name('reports.trash');
+    Route::post('reports/{id}/restore', [ReportController::class, 'restore'])->name('reports.restore');
+    Route::delete('reports/{id}/force-delete', [ReportController::class, 'forceDelete'])->name('reports.force-delete');
+    Route::resource('reports', ReportController::class)->except(['show']);
 
     // Contact Settings
     Route::get('contact-settings', [ContactSettingController::class, 'edit'])->name('contact-settings.edit');

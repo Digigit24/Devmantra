@@ -8,6 +8,7 @@ use App\Models\CareerApplication;
 use App\Models\ContactSetting;
 use App\Models\Newsletter;
 use App\Models\Page;
+use App\Models\Report;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
@@ -158,6 +159,34 @@ class FrontendController extends Controller
         ]);
 
         return redirect()->route('career.show', $slug)->with('success', 'Your application has been submitted successfully! We will get back to you soon.');
+    }
+
+    public function reportIndex()
+    {
+        $featured = Report::published()->featured()->latest('published_at')->first();
+        $reports = Report::published()
+            ->when($featured, fn($q) => $q->where('id', '!=', $featured->id))
+            ->latest('published_at')
+            ->paginate(9);
+
+        return view('frontend.report-index', compact('featured', 'reports'));
+    }
+
+    public function reportShow(string $slug)
+    {
+        $report = Report::published()->where('slug', $slug)->firstOrFail();
+        $related = Report::published()
+            ->where('id', '!=', $report->id)
+            ->latest('published_at')
+            ->take(3)
+            ->get();
+        $sidebarReports = Report::published()
+            ->where('id', '!=', $report->id)
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+
+        return view('frontend.report-detail', compact('report', 'related', 'sidebarReports'));
     }
 
     public function newsletterShow(string $slug)

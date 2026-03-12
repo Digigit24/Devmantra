@@ -447,6 +447,9 @@
             <a href="{{ route('admin.newsletters.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.newsletters.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-newspaper"></i> Newsletters
             </a>
+            <a href="{{ route('admin.reports.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-file-lines"></i> Reports
+            </a>
 
             <div class="dm-sidebar-label">Recruitment</div>
             <a href="{{ route('admin.careers.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.careers.*') ? 'active' : '' }}">

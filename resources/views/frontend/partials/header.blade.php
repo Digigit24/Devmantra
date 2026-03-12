@@ -93,6 +93,7 @@
                                         <a href="javascript:void(0)">Insights</a>
                                         <ul class="tp-submenu submenu">
                                             <li><a href="{{ route('newsletter.index') }}">Newsletters</a></li>
+                                            <li><a href="{{ route('report.index') }}">Reports</a></li>
                                             <li><a href="{{ route('blog.index') }}">Blogs</a></li>
                                         </ul>
                                     </li>
