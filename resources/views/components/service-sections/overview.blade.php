@@ -123,7 +123,7 @@
                 <div style="margin-top:32px;">
                 @if(str_starts_with($ctaUrl, '#'))
                 <button class="ss-overview-cta"
-                    onclick="document.getElementById('consultationModal')?.classList.add('active')">
+                    onclick="window.openConsultationModal && window.openConsultationModal()">
                     {{ $ctaText }} <i class="fa-solid fa-arrow-right"></i>
                 </button>
                 @else

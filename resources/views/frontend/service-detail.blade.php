@@ -814,12 +814,21 @@
     var successMsg = document.getElementById('consultationSuccess');
     var submitBtn = document.getElementById('consultationSubmitBtn');
 
-    // Open modal
-    document.getElementById('openConsultationModal').addEventListener('click', function(e) {
-        e.preventDefault();
+    // Open modal function (globally accessible for inline onclick callers)
+    function openModal() {
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
-    });
+    }
+    window.openConsultationModal = openModal;
+
+    // Open via the bottom CTA button
+    var openBtn = document.getElementById('openConsultationModal');
+    if (openBtn) {
+        openBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal();
+        });
+    }
 
     // Close modal
     function closeModal() {

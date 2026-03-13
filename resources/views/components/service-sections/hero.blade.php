@@ -98,7 +98,7 @@
             @endif
             @if($ctaText)
             @if(str_starts_with($ctaUrl, '#'))
-            <button onclick="document.getElementById('consultationModal')?.classList.add('active')"
+            <button onclick="window.openConsultationModal && window.openConsultationModal()"
                 class="ss-hero-cta">{{ $ctaText }} <i class="fa-solid fa-arrow-right"></i></button>
             @else
             <a href="{{ $ctaUrl }}" class="ss-hero-cta">{{ $ctaText }} <i class="fa-solid fa-arrow-right"></i></a>
