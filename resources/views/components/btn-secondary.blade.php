@@ -1,5 +1,5 @@
 {{--
-  Secondary CTA Button — "Get a Free Financial Review"
+  Secondary CTA Button — "Get a Financial Review"
   Renders nothing if secondary_button_link is blank.
   Usage:  <x-btn-secondary />
           <x-btn-secondary class="my-class" />
@@ -7,7 +7,7 @@
 @props(['class' => ''])
 @php
     $link      = \App\Models\SiteSetting::get('secondary_button_link', '');
-    $text      = \App\Models\SiteSetting::get('secondary_button_text', 'Get a Free Financial Review');
+    $text      = \App\Models\SiteSetting::get('secondary_button_text', 'Get a Financial Review');
     $btnTarget = \App\Models\SiteSetting::get('button_new_tab', '1') ? '_blank' : '_self';
     $btnRel    = $btnTarget === '_blank' ? 'noopener noreferrer' : '';
 @endphp

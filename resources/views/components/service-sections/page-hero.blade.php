@@ -65,12 +65,14 @@
                         <p style="margin-bottom: 150px;">&nbsp;</p>
                         @endif
                     </div>
+                    @if(!request()->routeIs('home'))
                     <div class="cr-hero-btn-wrap">
                         {{-- Primary: text/URL from section_data; falls back to global SiteSetting --}}
                         <x-btn-primary :url="$ctaUrl" :text="$ctaText" />
                         {{-- Secondary: link + text entirely from global SiteSetting --}}
                         <x-btn-secondary />
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
