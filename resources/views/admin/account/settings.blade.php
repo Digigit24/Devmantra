@@ -93,8 +93,8 @@
                 <div class="dm-form-group">
                     <label class="dm-form-label">Button Text</label>
                     <input type="text" name="secondary_button_text" class="dm-form-input"
-                           value="{{ $settings['secondary_button_text'] ?? 'Get a Free Financial Review' }}"
-                           placeholder="Get a Free Financial Review">
+                           value="{{ $settings['secondary_button_text'] ?? 'Get a Financial Review' }}"
+                           placeholder="Get a Financial Review">
                 </div>
                 <div class="dm-form-group" style="margin-bottom:0;">
                     <label class="dm-form-label">Button Link</label>
@@ -153,7 +153,7 @@
                 @if(!empty($settings['secondary_button_link']))
                 <a href="#" onclick="return false;"
                    style="display:inline-flex;align-items:center;gap:8px;padding:11px 20px;background:linear-gradient(135deg,{{ $settings['brand_color_from'] ?? '#1b3c6b' }},{{ $settings['brand_color_to'] ?? '#4a73c4' }});color:#fff;font-size:13px;font-weight:600;border-radius:30px;text-decoration:none;">
-                    {{ $settings['secondary_button_text'] ?? 'Get a Free Financial Review' }}
+                    {{ $settings['secondary_button_text'] ?? 'Get a Financial Review' }}
                 </a>
                 @else
                 <span style="font-size:12px;color:#94a3b8;font-style:italic;">Secondary button hidden (no link set)</span>
