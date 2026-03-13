@@ -59,7 +59,15 @@
                 </div>
                 <div class="cr-hero-content text-center z-index-2">
                     <div class="tp_text_anim">
-                        @if($description)
+                        @if(request()->routeIs('home'))
+                        <p style="margin-bottom: 150px; max-width: 820px; margin-left: auto; margin-right: auto;">
+                            At Dev Mantra, the pinnacle of global financial services, we are driven by a commitment<br>
+                            to excellence, integrity, and innovation. Our mission is to deliver top-notch global financial<br>
+                            and management consulting services that are tailored to meet the unique needs of our clients<br>
+                            world wide. Our growth strategy includes not just strengthening business processes and reporting,<br>
+                            it expands building new business synergies, verticals, geographies, and complementary partnerships globally.
+                        </p>
+                        @elseif($description)
                         <p style="margin-bottom: 150px;">{{ $description }}</p>
                         @else
                         <p style="margin-bottom: 150px;">&nbsp;</p>
