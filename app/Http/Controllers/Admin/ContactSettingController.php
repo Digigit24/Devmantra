@@ -26,6 +26,7 @@ class ContactSettingController extends Controller
             'twitter_url' => 'nullable|url|max:500',
             'linkedin_url' => 'nullable|url|max:500',
             'instagram_url' => 'nullable|url|max:500',
+            'whatsapp_url' => 'nullable|url|max:500',
             'office_hours' => 'nullable|string|max:500',
         ]);
 

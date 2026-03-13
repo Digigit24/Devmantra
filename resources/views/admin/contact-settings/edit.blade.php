@@ -50,6 +50,11 @@
                     <label class="dm-form-label"><i class="fa-brands fa-instagram" style="margin-right:6px;"></i> Instagram URL</label>
                     <input type="url" name="instagram_url" value="{{ old('instagram_url', $contact->instagram_url) }}" class="dm-form-input" placeholder="https://instagram.com/...">
                 </div>
+                <div class="dm-form-group">
+                    <label class="dm-form-label"><i class="fa-brands fa-whatsapp" style="margin-right:6px;"></i> WhatsApp URL</label>
+                    <input type="url" name="whatsapp_url" value="{{ old('whatsapp_url', $contact->whatsapp_url) }}" class="dm-form-input" placeholder="https://wa.me/919876543210">
+                    <div class="dm-form-hint">Use format: https://wa.me/&lt;phone number with country code&gt;</div>
+                </div>
                 <button type="submit" class="dm-btn dm-btn-primary w-100 mt-3">
                     <i class="fa-solid fa-check"></i> Save Settings
                 </button>

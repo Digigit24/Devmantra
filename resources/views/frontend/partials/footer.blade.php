@@ -20,14 +20,27 @@ footer.z-index-1 { background-color: #001d30; }
                                 <div class="dgm-footer-widget-paragraph mb-30">
                                     <p>Dev Mantra is a strategic partner in progress for businesses operating in a global and digital economy.</p>
                                 </div>
+                                @if($footerContact->facebook_url || $footerContact->twitter_url || $footerContact->linkedin_url || $footerContact->instagram_url || $footerContact->whatsapp_url)
                                 <div class="cr-footer-widget-social mb-35">
                                     <div class="tp-footer-widget-social">
-                                        <a href="{{ $footerContact->facebook_url ?? 'javascript:void(0)' }}" {{ $footerContact->facebook_url ? 'target="_blank" rel="noopener"' : '' }} aria-label="Facebook"><span><i class="fa-brands fa-facebook-f"></i></span></a>
-                                        <a href="{{ $footerContact->twitter_url ?? 'javascript:void(0)' }}" {{ $footerContact->twitter_url ? 'target="_blank" rel="noopener"' : '' }} aria-label="X"><span><i class="fa-brands fa-x-twitter"></i></span></a>
-                                        <a href="{{ $footerContact->linkedin_url ?? 'javascript:void(0)' }}" {{ $footerContact->linkedin_url ? 'target="_blank" rel="noopener"' : '' }} aria-label="LinkedIn"><span><i class="fa-brands fa-linkedin-in"></i></span></a>
-                                        <a href="{{ $footerContact->instagram_url ?? 'javascript:void(0)' }}" {{ $footerContact->instagram_url ? 'target="_blank" rel="noopener"' : '' }} aria-label="Instagram"><span><i class="fa-brands fa-instagram"></i></span></a>
+                                        @if($footerContact->facebook_url)
+                                        <a href="{{ $footerContact->facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook"><span><i class="fa-brands fa-facebook-f"></i></span></a>
+                                        @endif
+                                        @if($footerContact->twitter_url)
+                                        <a href="{{ $footerContact->twitter_url }}" target="_blank" rel="noopener" aria-label="X"><span><i class="fa-brands fa-x-twitter"></i></span></a>
+                                        @endif
+                                        @if($footerContact->linkedin_url)
+                                        <a href="{{ $footerContact->linkedin_url }}" target="_blank" rel="noopener" aria-label="LinkedIn"><span><i class="fa-brands fa-linkedin-in"></i></span></a>
+                                        @endif
+                                        @if($footerContact->instagram_url)
+                                        <a href="{{ $footerContact->instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram"><span><i class="fa-brands fa-instagram"></i></span></a>
+                                        @endif
+                                        @if($footerContact->whatsapp_url)
+                                        <a href="{{ $footerContact->whatsapp_url }}" target="_blank" rel="noopener" aria-label="WhatsApp"><span><i class="fa-brands fa-whatsapp"></i></span></a>
+                                        @endif
                                     </div>
                                 </div>
+                                @endif
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-3 mb-40 tp_fade_anim" data-delay=".5">

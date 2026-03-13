@@ -371,7 +371,7 @@
 </div>
 
 <!-- Social Media -->
-@if($contact->facebook_url || $contact->twitter_url || $contact->linkedin_url || $contact->instagram_url)
+@if($contact->facebook_url || $contact->twitter_url || $contact->linkedin_url || $contact->instagram_url || $contact->whatsapp_url)
 <div class="dm-contact-social">
     <div class="container container-1230">
         <div class="dm-contact-social-label tp_fade_anim" data-delay=".3">Follow Us</div>
@@ -387,6 +387,9 @@
             @endif
             @if($contact->instagram_url)
             <a href="{{ $contact->instagram_url }}" target="_blank" rel="noopener" class="dm-contact-social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            @endif
+            @if($contact->whatsapp_url)
+            <a href="{{ $contact->whatsapp_url }}" target="_blank" rel="noopener" class="dm-contact-social-link" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
             @endif
         </div>
     </div>
