@@ -459,6 +459,11 @@
                 <i class="fa-solid fa-file-lines"></i> Applications
             </a>
 
+            <div class="dm-sidebar-label">Enquiries</div>
+            <a href="{{ route('admin.contact-submissions.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.contact-submissions.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-envelope-open-text"></i> Contact Submissions
+            </a>
+
             <div class="dm-sidebar-label">Pages</div>
             <a href="{{ route('admin.pages.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-file-lines"></i> Pages

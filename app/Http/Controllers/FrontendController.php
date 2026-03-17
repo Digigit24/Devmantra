@@ -6,6 +6,7 @@ use App\Models\Blog;
 use App\Models\Career;
 use App\Models\CareerApplication;
 use App\Models\ContactSetting;
+use App\Models\ContactSubmission;
 use App\Models\Newsletter;
 use App\Models\Page;
 use App\Models\Report;
@@ -106,6 +107,9 @@ class FrontendController extends Controller
             'subject' => 'required|string|max:255',
             'message' => 'required|string|max:5000',
         ]);
+
+        // Save to database
+        ContactSubmission::create($request->only('name', 'email', 'phone', 'subject', 'message'));
 
         $contact = ContactSetting::instance();
         $adminEmail = $contact->email ?: 'support@devmantra.com';

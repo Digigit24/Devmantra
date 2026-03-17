@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CareerApplicationController;
 use App\Http\Controllers\Admin\CareerController;
 use App\Http\Controllers\Admin\ContactSettingController;
+use App\Http\Controllers\Admin\ContactSubmissionController;
 use App\Http\Controllers\Admin\PopupController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsletterController;
@@ -88,6 +89,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('career-applications/{application}', [CareerApplicationController::class, 'show'])->name('career-applications.show');
     Route::put('career-applications/{application}/status', [CareerApplicationController::class, 'updateStatus'])->name('career-applications.update-status');
     Route::delete('career-applications/{application}', [CareerApplicationController::class, 'destroy'])->name('career-applications.destroy');
+
+    // Contact Submissions
+    Route::get('contact-submissions', [ContactSubmissionController::class, 'index'])->name('contact-submissions.index');
+    Route::get('contact-submissions/{submission}', [ContactSubmissionController::class, 'show'])->name('contact-submissions.show');
+    Route::put('contact-submissions/{submission}/status', [ContactSubmissionController::class, 'updateStatus'])->name('contact-submissions.update-status');
+    Route::delete('contact-submissions/{submission}', [ContactSubmissionController::class, 'destroy'])->name('contact-submissions.destroy');
 
     // Newsletters CRUD + Trash
     Route::get('newsletters/trash', [NewsletterController::class, 'trash'])->name('newsletters.trash');
