@@ -19,33 +19,32 @@
 }
 
 /* ── Card animation hero ─────────────────────────────── */
+.cr-hero-area { position: relative; overflow: hidden; min-height: 100vh; }
+.cr-hero-area > .container-fluid { position: relative; z-index: 5; }
 .dm-hero-scene {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: 1;
     perspective: 1200px;
     pointer-events: none;
+    overflow: hidden;
 }
 .dm-hero-scene .card {
     position: absolute;
     width: 100%;
+    height: 100%;
     left: 0;
     top: 0;
+    object-fit: cover;
     will-change: transform;
     transform-style: preserve-3d;
     pointer-events: none;
 }
-.dm-hero-scene .card-top {
-    z-index: 2;
-}
-.dm-hero-scene .card-topbg {
-    z-index: 1;
-}
-.dm-hero-scene .card-text {
-    z-index: 3;
-}
+.dm-hero-scene .card-top { z-index: 2; }
+.dm-hero-scene .card-topbg { z-index: 1; }
+.dm-hero-scene .card-text { z-index: 3; }
 .dm-hero-scene .card-bottom {
     z-index: 14;
     filter: brightness(0.95);
@@ -60,6 +59,14 @@
     z-index: 50;
     pointer-events: auto;
 }
+/* Content layers above the scene */
+.cr-hero-area .cr-hero-heading,
+.cr-hero-area .cr-hero-content { pointer-events: none; position: relative; z-index: 5; }
+.cr-hero-area .cr-hero-btn-wrap,
+.cr-hero-area .cr-hero-btn-wrap a,
+.cr-hero-area .cr-hero-btn-wrap button { pointer-events: auto; }
+.cr-hero-area .cr-hero-left,
+.cr-hero-area .cr-hero-right { z-index: 2; }
 </style>
 @endpush
 @endonce
