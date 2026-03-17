@@ -98,6 +98,8 @@ class CareerController extends Controller
                 Storage::disk('public')->delete($career->featured_image);
             }
             $validated['featured_image'] = $request->file('featured_image')->store('careers', 'public');
+        } else {
+            unset($validated['featured_image']);
         }
 
         if ($validated['status'] === 'published' && !$career->published_at && empty($validated['published_at'])) {

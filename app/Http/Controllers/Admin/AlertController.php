@@ -105,6 +105,8 @@ class AlertController extends Controller
                 Storage::disk('public')->delete($alert->featured_image);
             }
             $validated['featured_image'] = $request->file('featured_image')->store('alerts', 'public');
+        } else {
+            unset($validated['featured_image']);
         }
 
         $validated['is_featured'] = $request->boolean('is_featured');

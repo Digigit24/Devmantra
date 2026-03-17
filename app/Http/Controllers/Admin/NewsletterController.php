@@ -100,6 +100,8 @@ class NewsletterController extends Controller
                 Storage::disk('public')->delete($newsletter->featured_image);
             }
             $validated['featured_image'] = $request->file('featured_image')->store('newsletters', 'public');
+        } else {
+            unset($validated['featured_image']);
         }
 
         $validated['is_featured'] = $request->boolean('is_featured');

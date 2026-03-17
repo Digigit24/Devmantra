@@ -102,6 +102,8 @@ class BlogController extends Controller
                 Storage::disk('public')->delete($blog->featured_image);
             }
             $validated['featured_image'] = $request->file('featured_image')->store('blogs', 'public');
+        } else {
+            unset($validated['featured_image']);
         }
 
         $validated['is_featured'] = $request->boolean('is_featured');

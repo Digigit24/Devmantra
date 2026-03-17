@@ -107,18 +107,24 @@ class ServiceController extends Controller
                 Storage::disk('public')->delete($service->image);
             }
             $validated['image'] = $request->file('image')->store('services', 'public');
+        } else {
+            unset($validated['image']);
         }
         if ($request->hasFile('hero_image')) {
             if ($service->hero_image) {
                 Storage::disk('public')->delete($service->hero_image);
             }
             $validated['hero_image'] = $request->file('hero_image')->store('services', 'public');
+        } else {
+            unset($validated['hero_image']);
         }
         if ($request->hasFile('featured_image')) {
             if ($service->featured_image) {
                 Storage::disk('public')->delete($service->featured_image);
             }
             $validated['featured_image'] = $request->file('featured_image')->store('services', 'public');
+        } else {
+            unset($validated['featured_image']);
         }
 
         $validated['show_on_homepage'] = $request->boolean('show_on_homepage');
