@@ -58993,25 +58993,6 @@ only screen and (min-width: 768px) and (max-width: 991px),
     background-color: var(--tp-common-white);
 }
 
-/* Make Spline interactive */
-.cr-hero-spline {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: auto;
-    /* allow interaction */
-}
-
-.cr-hero-spline spline-viewer {
-    width: 100%;
-    height: 100%;
-    display: block;
-    pointer-events: auto;
-    /* allow interaction */
-}
-
 /* All decorative / text layers should NOT block mouse */
 .cr-hero-heading,
 .cr-hero-content,
@@ -59025,14 +59006,6 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .cr-hero-btn-wrap a,
 .cr-hero-btn-wrap button {
     pointer-events: auto;
-}
-
-/* On mobile: disable spline so touch scrolling works */
-@media (max-width: 767px) {
-    .cr-hero-spline,
-    .cr-hero-spline spline-viewer {
-        pointer-events: none;
-    }
 }
 
 /* ===== Disperse Services Section ===== */

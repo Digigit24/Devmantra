@@ -144,8 +144,7 @@
     <script src="{{ asset('assets/js/main.js') }}" defer></script>
     <script src="{{ asset('assets/js/tp-cursor.js') }}" defer></script>
     <script src="{{ asset('assets/js/portfolio-slider-1.js') }}" defer></script>
-    {{-- Spline viewer moved from <head> — module scripts defer automatically --}}
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.53/build/spline-viewer.js"></script>
+    {{-- Spline viewer removed — replaced with card animation --}}
     <script type="module" src="{{ asset('assets/js/distortion-img.js') }}"></script>
     <script type="module" src="{{ asset('assets/js/skew-slider/index.js') }}"></script>
     <script type="module" src="{{ asset('assets/js/img-revel/index.js') }}"></script>
