@@ -17,35 +17,67 @@
 @media (max-width: 575px) {
     .cr-hero-btn-wrap { flex-direction: column; gap: 10px; }
 }
+
+/* ── Card-scene hero (scoped) ─────────────────────────── */
+.cr-hero-area .dm-hero-scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    perspective: 1200px;
+    z-index: 0;
+    pointer-events: none;
+}
+.dm-hero-scene .dm-card {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    will-change: transform;
+    transform-style: preserve-3d;
+    pointer-events: none;
+}
+.dm-hero-scene .dm-card-top    { z-index: 2; }
+.dm-hero-scene .dm-card-topbg  { z-index: 1; }
+.dm-hero-scene .dm-card-text   { z-index: 3; }
+.dm-hero-scene .dm-card-bottom {
+    z-index: 14;
+    filter: brightness(0.95);
+}
+.dm-hero-scene .dm-hover-zone {
+    position: absolute;
+    width: 400px;
+    height: 200px;
+    top: 50%;
+    right: 30%;
+    transform: translateY(-50%);
+    z-index: 50;
+    pointer-events: auto;
+}
+
+/* Content sits above the card scene */
+.cr-hero-area > .container-fluid {
+    position: relative;
+    z-index: 2;
+}
+.cr-hero-area .cr-hero-left,
+.cr-hero-area .cr-hero-right {
+    z-index: 1;
+}
 </style>
-<script>
-    function removeSplineLogo() {
-        const viewers = document.querySelectorAll('spline-viewer');
-        viewers.forEach(viewer => {
-            const tryRemove = () => {
-                const logo = viewer.shadowRoot?.querySelector('#logo');
-                if (logo) {
-                    logo.remove();
-                } else {
-                    const observer = new MutationObserver(() => {
-                        const logo = viewer.shadowRoot?.querySelector('#logo');
-                        if (logo) { logo.remove(); observer.disconnect(); }
-                    });
-                    if (viewer.shadowRoot) observer.observe(viewer.shadowRoot, { childList: true, subtree: true });
-                }
-            };
-            tryRemove();
-        });
-    }
-    document.addEventListener('DOMContentLoaded', removeSplineLogo);
-</script>
 @endpush
 @endonce
 
-<div style="background-color: #001d30;" class="cr-hero-area fix cr-hero-ptb p-relative pt-170">
-    <div class="cr-hero-bg cr-hero-spline">
-        <spline-viewer url="https://prod.spline.design/xHLGA5-DjAiR6SRV/scene.splinecode"></spline-viewer>
+<div style="background-color: #0b0f14;" class="cr-hero-area fix cr-hero-ptb p-relative pt-170">
+    {{-- Card animation scene (background) --}}
+    <div class="dm-hero-scene">
+        <img src="https://i.ibb.co/cc5cXJyP/card1.webp"                          class="dm-card dm-card-top"    alt="" />
+        <img src="https://i.ibb.co/xqHCcQj0/background.webp"                     class="dm-card dm-card-topbg"  alt="" />
+        <img src="https://i.ibb.co/4ngJL4jK/Connecting-Card-1-1536x695-4.webp"   class="dm-card dm-card-text"   alt="" />
+        <img src="https://i.ibb.co/cXtnRh6H/card2.webp"                          class="dm-card dm-card-bottom" alt="" />
+        <div class="dm-hover-zone"></div>
     </div>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-8">
@@ -94,3 +126,67 @@
         <div class="shape-2 tp_fade_anim" data-fade-from="right" data-delay=".5"><img src="{{ asset('assets/img/home-13/hero/hero-shape-4.png') }}" alt=""></div>
     </div>
 </div>
+
+@once
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* 1. Create timeline */
+    var tl = gsap.timeline({ paused: true });
+    tl.to(".dm-hero-scene .dm-card-bottom", {
+        y: -46, x: 26, z: 10,
+        rotationX: 0, rotationY: 0, scale: 1,
+        ease: "power3.out", duration: 1
+    }, 0)
+    .to(".dm-hero-scene .dm-card-text", {
+        opacity: 1, y: 0,
+        duration: 0.8, ease: "power2.out"
+    }, 0.2);
+
+    /* 2. Initial state */
+    gsap.set(".dm-hero-scene .dm-card-bottom", {
+        y: 40, x: -50, z: -100,
+        rotationX: -12, rotationY: 15, scale: 0.96
+    });
+    gsap.set(".dm-hero-scene .dm-card-text", {
+        opacity: 0, y: 20
+    });
+
+    /* 3. Scroll control */
+    var st = ScrollTrigger.create({
+        trigger: ".cr-hero-area",
+        start: "bottom 95%",
+        end: "bottom 90%",
+        scrub: 1.2,
+        animation: tl
+    });
+
+    /* 4. Hover zone */
+    var hoverZone = document.querySelector(".dm-hero-scene .dm-hover-zone");
+    var hoverTween = null;
+
+    if (hoverZone) {
+        hoverZone.addEventListener("mouseenter", function () {
+            st.disable();
+            if (hoverTween) hoverTween.kill();
+            hoverTween = gsap.to(tl, {
+                progress: 1, duration: 0.35, ease: "power2.out"
+            });
+        });
+
+        hoverZone.addEventListener("mouseleave", function () {
+            if (hoverTween) hoverTween.kill();
+            hoverTween = gsap.to(tl, {
+                progress: 0, duration: 0.35, ease: "power2.out",
+                onComplete: function () { st.enable(); }
+            });
+        });
+    }
+});
+</script>
+@endpush
+@endonce
