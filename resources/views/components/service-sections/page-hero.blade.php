@@ -28,7 +28,30 @@
     z-index: 0;
     pointer-events: none;
 }
-.dm-hero-scene .dm-card {
+
+/* Background image – stays full-width */
+.dm-hero-scene .dm-card-topbg {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Card group – shifted to the right */
+.dm-hero-scene .dm-card-group {
+    position: absolute;
+    width: 55%;
+    height: 100%;
+    right: 0;
+    top: 0;
+    perspective: 1200px;
+    pointer-events: none;
+}
+
+/* Cards inside the group */
+.dm-card-group .dm-card {
     position: absolute;
     width: 100%;
     left: 0;
@@ -37,20 +60,19 @@
     transform-style: preserve-3d;
     pointer-events: none;
 }
-.dm-hero-scene .dm-card-top    { z-index: 2; }
-.dm-hero-scene .dm-card-topbg  { z-index: 1; }
-.dm-hero-scene .dm-card-text   { z-index: 3; }
-.dm-hero-scene .dm-card-bottom {
+.dm-card-group .dm-card-top    { z-index: 2; }
+.dm-card-group .dm-card-text   { z-index: 3; }
+.dm-card-group .dm-card-bottom {
     z-index: 14;
     filter: brightness(0.95);
 }
-.dm-hero-scene .dm-hover-zone {
+.dm-card-group .dm-hover-zone {
     position: absolute;
     width: 400px;
     height: 200px;
     top: 50%;
-    right: 30%;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 50;
     pointer-events: auto;
 }
@@ -69,13 +91,18 @@
 @endonce
 
 <div style="background-color: #0b0f14;" class="cr-hero-area fix cr-hero-ptb p-relative pt-170">
-    {{-- Card animation scene (background) --}}
+    {{-- Card animation scene --}}
     <div class="dm-hero-scene">
-        <img src="https://i.ibb.co/cc5cXJyP/card1.webp"                          class="dm-card dm-card-top"    alt="" />
-        <img src="https://i.ibb.co/xqHCcQj0/background.webp"                     class="dm-card dm-card-topbg"  alt="" />
-        <img src="https://i.ibb.co/4ngJL4jK/Connecting-Card-1-1536x695-4.webp"   class="dm-card dm-card-text"   alt="" />
-        <img src="https://i.ibb.co/cXtnRh6H/card2.webp"                          class="dm-card dm-card-bottom" alt="" />
-        <div class="dm-hover-zone"></div>
+        {{-- Background stays full-width --}}
+        <img src="https://i.ibb.co/xqHCcQj0/background.webp" class="dm-card dm-card-topbg" alt="" />
+
+        {{-- Card group shifts to the right --}}
+        <div class="dm-card-group">
+            <img src="https://i.ibb.co/cc5cXJyP/card1.webp"                          class="dm-card dm-card-top"    alt="" />
+            <img src="https://i.ibb.co/4ngJL4jK/Connecting-Card-1-1536x695-4.webp"   class="dm-card dm-card-text"   alt="" />
+            <img src="https://i.ibb.co/cXtnRh6H/card2.webp"                          class="dm-card dm-card-bottom" alt="" />
+            <div class="dm-hover-zone"></div>
+        </div>
     </div>
 
     <div class="container-fluid">
@@ -137,22 +164,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* 1. Create timeline */
     var tl = gsap.timeline({ paused: true });
-    tl.to(".dm-hero-scene .dm-card-bottom", {
+    tl.to(".dm-card-group .dm-card-bottom", {
         y: -46, x: 26, z: 10,
         rotationX: 0, rotationY: 0, scale: 1,
         ease: "power3.out", duration: 1
     }, 0)
-    .to(".dm-hero-scene .dm-card-text", {
+    .to(".dm-card-group .dm-card-text", {
         opacity: 1, y: 0,
         duration: 0.8, ease: "power2.out"
     }, 0.2);
 
     /* 2. Initial state */
-    gsap.set(".dm-hero-scene .dm-card-bottom", {
+    gsap.set(".dm-card-group .dm-card-bottom", {
         y: 40, x: -50, z: -100,
         rotationX: -12, rotationY: 15, scale: 0.96
     });
-    gsap.set(".dm-hero-scene .dm-card-text", {
+    gsap.set(".dm-card-group .dm-card-text", {
         opacity: 0, y: 20
     });
 
@@ -166,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     /* 4. Hover zone */
-    var hoverZone = document.querySelector(".dm-hero-scene .dm-hover-zone");
+    var hoverZone = document.querySelector(".dm-card-group .dm-hover-zone");
     var hoverTween = null;
 
     if (hoverZone) {
