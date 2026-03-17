@@ -104,13 +104,15 @@
 
     var windowOn = $(window);
 
-    // 01. PreLoader Js//
-    $(window).on('load', function() {
-        $("#preloader").fadeOut(500);
-    });
-    $(window).on('load', function() {
-        $("#loading").fadeOut(500);
-    });
+    // 01. PreLoader Js — dismiss on DOMContentLoaded, hard cap at 2 s //
+    var preloaderDone = false;
+    function dismissPreloader() {
+        if (preloaderDone) return;
+        preloaderDone = true;
+        $("#preloader, #loading").fadeOut(500);
+    }
+    $(document).ready(dismissPreloader);
+    setTimeout(dismissPreloader, 2000);
 
 
     // 02. mobile menu Js//
@@ -296,13 +298,18 @@
     // 17. scroll wrapper //
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
     if ($('#smooth-wrapper').length && $('#smooth-content').length) {
-        ScrollSmoother.create({
-            smooth: 1.2,          // was 0.8 — more lag = more butter
+        var smootherConfig = {
+            smooth: 1.2,
             effects: false,
-            smoothTouch: .3,      // was 0.1 — perceptible glide on touch devices
             ignoreMobileResize: true,
-            normalizeScroll: true // unify wheel/touch delta across browsers
-        })
+        };
+        // On touch/mobile: disable smoothTouch lag and normalizeScroll to prevent jank
+        var mm = gsap.matchMedia();
+        mm.add("(min-width: 769px)", function() {
+            smootherConfig.smoothTouch = 0.3;
+            smootherConfig.normalizeScroll = true;
+        });
+        ScrollSmoother.create(smootherConfig);
     }
 
     // 18. webgl images hover animation //

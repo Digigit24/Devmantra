@@ -94,7 +94,7 @@
 <div class="cr-cta-area-light">
     <div class="cr-cta-ptb p-relative pt-120 pb-100">
         <div class="cr-cta-bg">
-            <img src="{{ asset('assets/img/home-13/cta/cta-thumb-bg.png') }}" alt="">
+            <img src="{{ asset('assets/img/home-13/cta/cta-thumb-bg.png') }}" alt="" loading="lazy">
         </div>
         <div class="cr-cta-shape">
             <span class="shape-1"></span><span class="shape-2"></span><span class="shape-3"></span>
@@ -108,7 +108,7 @@
                 <div class="col-lg-12">
                     <div class="cr-cta-content text-center">
                         <div class="cr-cta-img p-relative mb-20">
-                            <img src="{{ asset('assets/img/home-13/cta/cta-thumb.gif') }}" alt="">
+                            <img src="{{ asset('assets/img/home-13/cta/cta-thumb.gif') }}" alt="" loading="lazy">
                         </div>
                         <h4 class="tp-section-title-onest fs-50 tp-text-revel-anim" style="color: #111;">
                             Ready to Elevate Your <br> Business with Dev Mantra?

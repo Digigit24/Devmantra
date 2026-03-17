@@ -9,6 +9,9 @@
 
 @once
 @push('styles')
+{{-- Preload the two above-fold hero card images for faster LCP --}}
+<link rel="preload" as="image" href="{{ asset('assets/img/hero/card1.webp') }}" fetchpriority="high">
+<link rel="preload" as="image" href="{{ asset('assets/img/hero/background.webp') }}">
 <style>
 .cr-hero-btn-wrap {
     display: flex; align-items: center; justify-content: center;
@@ -32,27 +35,38 @@
 .dm-hero-scene .dm-card {
     position: absolute;
     width: 100%;
-    left: 0;
-    top: 0;
+    left: 20vw;
+    top: 10vh;
+    
     will-change: transform;
     transform-style: preserve-3d;
     pointer-events: none;
 }
-.dm-hero-scene .dm-card-top    { z-index: 2; }
-.dm-hero-scene .dm-card-topbg  { z-index: 1; }
-.dm-hero-scene .dm-card-text   { z-index: 3; }
+.dm-hero-scene .dm-card-top    { z-index: 2; margin-right: -10vw; }
+
+
+.dm-hero-scene .dm-card-topbg {
+    z-index: 1;
+    margin-right: -10vw;
+    height: 85vh;
+    margin-top: 5vh;
+    background-repeat: repeat;
+    background-size: 480px 480px;
+    will-change: background-position;
+}
+.dm-hero-scene .dm-card-text   { z-index: 3;  margin-right: -10vw; }
 .dm-hero-scene .dm-card-bottom {
     z-index: 14;
     filter: brightness(0.95);
 }
-.dm-hero-scene .dm-hover-zone {
+.dm-hover-zone {
     position: absolute;
     width: 400px;
-    height: 200px;
+    height: 400px;
     top: 50%;
-    right: 30%;
+    right: 15%;
     transform: translateY(-50%);
-    z-index: 50;
+    z-index: 20;
     pointer-events: auto;
 }
 
@@ -72,12 +86,12 @@
 <div style="background-color: #0b0f14;" class="cr-hero-area fix cr-hero-ptb p-relative pt-100">
     {{-- Card animation scene (background) --}}
     <div class="dm-hero-scene">
-        <img src="https://i.ibb.co/cc5cXJyP/card1.webp"                          class="dm-card dm-card-top"    alt="" />
-        <img src="https://i.ibb.co/xqHCcQj0/background.webp"                     class="dm-card dm-card-topbg"  alt="" />
-        <img src="https://i.ibb.co/4ngJL4jK/Connecting-Card-1-1536x695-4.webp"   class="dm-card dm-card-text"   alt="" />
-        <img src="https://i.ibb.co/cXtnRh6H/card2.webp"                          class="dm-card dm-card-bottom" alt="" />
-        <div class="dm-hover-zone"></div>
+        <img src="{{ asset('assets/img/hero/card1.webp') }}"      class="dm-card dm-card-top"    alt="" fetchpriority="high" />
+        <img src="{{ asset('assets/img/hero/background.webp') }}" class="dm-card dm-card-topbg"  alt="" />
+        <img src="{{ asset('assets/img/hero/textcard.webp') }}"   class="dm-card dm-card-text"   alt="" loading="lazy" />
+        <img src="{{ asset('assets/img/hero/card2.webp') }}"      class="dm-card dm-card-bottom" alt="" loading="lazy" />
     </div>
+    <div class="dm-hover-zone"></div>
 
     <div class="container-fluid">
         <div class="row">
@@ -92,16 +106,9 @@
                 </div>
                 <div class="cr-hero-content text-center z-index-2">
                     <div class="tp_text_anim">
-                        @if(request()->routeIs('home'))
-                        <p style="margin-bottom: 40px; max-width: 820px; margin-left: auto; margin-right: auto;">
-                            At Dev Mantra, the pinnacle of global financial services, we are driven by a commitment<br>
-                            to excellence, integrity, and innovation. Our mission is to deliver top-notch global financial<br>
-                            and management consulting services that are tailored to meet the unique needs of our clients<br>
-                            world wide. Our growth strategy includes not just strengthening business processes and reporting,<br>
-                            it expands building new business synergies, verticals, geographies, and complementary partnerships globally.
-                        </p>
-                        @elseif($description)
-                        <p style="margin-bottom: 40px;">{{ $description }}</p>
+                        @if($description)
+                       
+                        <p style="margin-bottom: 40px; max-width: 620px; margin-left: auto; margin-right: auto;">{{ $description }}</p>
                         @else
                         <p style="margin-bottom: 40px;">&nbsp;</p>
                         @endif
@@ -119,12 +126,12 @@
         </div>
     </div>
     <div class="cr-hero-left">
-        <div class="shape-1 tp_fade_anim" data-fade-from="left" data-delay=".5"><img src="{{ asset('assets/img/home-13/hero/hero-shape-1.png') }}" alt=""></div>
-        <div class="shape-2 tp_fade_anim" data-fade-from="left" data-delay=".5"><img src="{{ asset('assets/img/home-13/hero/hero-shape-2.png') }}" alt=""></div>
+        <div class="shape-1 tp_fade_anim" data-fade-from="left" data-delay=".5"><img src="{{ asset('assets/img/home-13/hero/hero-shape-1.png') }}" alt="" aria-hidden="true" loading="lazy"></div>
+        <div class="shape-2 tp_fade_anim" data-fade-from="left" data-delay=".5"><img src="{{ asset('assets/img/home-13/hero/hero-shape-2.png') }}" alt="" aria-hidden="true" loading="lazy"></div>
     </div>
     <div class="cr-hero-right">
-        <div class="shape-1 tp_fade_anim" data-fade-from="right" data-delay=".5"><img src="{{ asset('assets/img/home-13/hero/hero-shape-3.png') }}" alt=""></div>
-        <div class="shape-2 tp_fade_anim" data-fade-from="right" data-delay=".5"><img src="{{ asset('assets/img/home-13/hero/hero-shape-4.png') }}" alt=""></div>
+        <div class="shape-1 tp_fade_anim" data-fade-from="right" data-delay=".5"><img src="{{ asset('assets/img/home-13/hero/hero-shape-3.png') }}" alt="" aria-hidden="true" loading="lazy"></div>
+        <div class="shape-2 tp_fade_anim" data-fade-from="right" data-delay=".5"><img src="{{ asset('assets/img/home-13/hero/hero-shape-4.png') }}" alt="" aria-hidden="true" loading="lazy"></div>
     </div>
 </div>
 
@@ -139,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* 1. Create timeline */
     var tl = gsap.timeline({ paused: true });
     tl.to(".dm-hero-scene .dm-card-bottom", {
-        y: -46, x: 26, z: 10,
+        y: -65, x: 30, z: 10,
         rotationX: 0, rotationY: 0, scale: 1,
         ease: "power3.out", duration: 1
     }, 0)
@@ -150,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* 2. Initial state */
     gsap.set(".dm-hero-scene .dm-card-bottom", {
-        y: 40, x: -50, z: -100,
+        y: 50, x: -40, z: -100,
         rotationX: -12, rotationY: 15, scale: 0.96
     });
     gsap.set(".dm-hero-scene .dm-card-text", {
@@ -162,12 +169,12 @@ document.addEventListener('DOMContentLoaded', function () {
         trigger: ".cr-hero-area",
         start: "top top",
         end: "+=300",
-        scrub: 1.2,
+        scrub: 0.6,
         animation: tl
     });
 
     /* 4. Hover zone */
-    var hoverZone = document.querySelector(".dm-hero-scene .dm-hover-zone");
+    var hoverZone = document.querySelector(".dm-hover-zone");
     var hoverTween = null;
 
     if (hoverZone) {
@@ -175,14 +182,14 @@ document.addEventListener('DOMContentLoaded', function () {
             st.disable();
             if (hoverTween) hoverTween.kill();
             hoverTween = gsap.to(tl, {
-                progress: 1, duration: 0.35, ease: "power2.out"
+                progress: 1, duration: 0.45, ease: "power2.out"
             });
         });
 
         hoverZone.addEventListener("mouseleave", function () {
             if (hoverTween) hoverTween.kill();
             hoverTween = gsap.to(tl, {
-                progress: 0, duration: 0.35, ease: "power2.out",
+                progress: 0, duration: 0.45, ease: "power2.inOut",
                 onComplete: function () { st.enable(); }
             });
         });

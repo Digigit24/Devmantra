@@ -24,7 +24,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://unpkg.com">
     <link rel="dns-prefetch" href="https://omnidim.io">
 
     {{-- Google Fonts: Inter (body/headings) + Onest (brand) only — was 8 families / 155+ variants --}}
@@ -33,12 +32,11 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/font-awesome-pro.css') }}">
-    {{-- CDN FA Free provides fa-solid / fa-brands font files missing from local assets --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/spacing.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    {{-- FontAwesome: non-blocking — prints first, swaps to screen once loaded --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
 
     @php
         $brandFrom = \App\Models\SiteSetting::get('brand_color_from', '#1b3c6b');
@@ -84,6 +82,11 @@
     </style>
 
     @stack('styles')
+
+    <!-- Widget / third-party overrides — must stay last in <head> -->
+    <style>
+        .bg-stone-50 { display: none !important; }
+    </style>
 </head>
 
 <body class="tp-magic-cursor agntix-light">
@@ -123,38 +126,24 @@
     </div>
 
     <!-- JS — all deferred so they never block HTML rendering -->
-    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js" defer></script>
     <script src="{{ asset('assets/js/vendor/jquery.js') }}" defer></script>
     <script src="{{ asset('assets/js/bootstrap-bundle.js') }}" defer></script>
     <script src="{{ asset('assets/js/swiper-bundle.js') }}" defer></script>
     <script src="{{ asset('assets/js/plugin.js') }}" defer></script>
-    <script src="{{ asset('assets/js/hover-effect.umd.js') }}" defer></script>
-    <script src="{{ asset('assets/js/magnific-popup.js') }}" defer></script>
-    <script src="{{ asset('assets/js/parallax-slider.js') }}" defer></script>
-    <script src="{{ asset('assets/js/nice-select.js') }}" defer></script>
     <script src="{{ asset('assets/js/purecounter.js') }}" defer></script>
-    <script src="{{ asset('assets/js/isotope-pkgd.js') }}" defer></script>
-    <script src="{{ asset('assets/js/imagesloaded-pkgd.js') }}" defer></script>
-    <script src="{{ asset('assets/js/ajax-form.js') }}" defer></script>
     <script src="{{ asset('assets/js/Observer.min.js') }}" defer></script>
     <script src="{{ asset('assets/js/splitting.min.js') }}" defer></script>
-    <script src="{{ asset('assets/js/webgl.js') }}" defer></script>
-    <script src="{{ asset('assets/js/atropos.js') }}" defer></script>
     <script src="{{ asset('assets/js/slider-active.js') }}" defer></script>
     <script src="{{ asset('assets/js/main.js') }}" defer></script>
     <script src="{{ asset('assets/js/tp-cursor.js') }}" defer></script>
     <script src="{{ asset('assets/js/portfolio-slider-1.js') }}" defer></script>
-    {{-- Spline viewer removed — replaced with card animation --}}
-    <script type="module" src="{{ asset('assets/js/distortion-img.js') }}"></script>
-    <script type="module" src="{{ asset('assets/js/skew-slider/index.js') }}"></script>
-    <script type="module" src="{{ asset('assets/js/img-revel/index.js') }}"></script>
 
     @stack('scripts')
 
     @include('frontend.partials.consultation-modal')
     @include('frontend.partials.popup')
 
-    <!-- OmniDimension Chatbot — loaded after first user interaction, never blocks page -->
+    {{-- OmniDimension Chatbot — commented out, replaced with Rispose
     <script>
     (function () {
         var loaded = false;
@@ -169,9 +158,15 @@
         ['scroll', 'click', 'keydown', 'touchstart', 'mousemove'].forEach(function (ev) {
             window.addEventListener(ev, loadChatbot, { once: true, passive: true });
         });
-        // Hard fallback: load after 8 s even if user never interacts
         setTimeout(loadChatbot, 8000);
     })();
+    </script>
+    --}}
+
+    <!-- Rispose Agent Widget -->
+    <script type="module">
+        import { Agents } from "https://rispose.com/cdn/v1/sdk.es.js"
+        const agent = Agents.getOrCreate('ag_qkd64r7kxxpt')
     </script>
 </body>
 </html>
