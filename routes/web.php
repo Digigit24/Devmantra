@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\AccountController;
+use App\Http\Controllers\Admin\AlertController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CareerApplicationController;
 use App\Http\Controllers\Admin\CareerController;
+use App\Http\Controllers\Admin\CaseStudyController;
 use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\ContactSubmissionController;
 use App\Http\Controllers\Admin\PopupController;
@@ -32,6 +34,10 @@ Route::post('/contact', [FrontendController::class, 'contactSubmit'])->name('con
 Route::get('/careers', [FrontendController::class, 'careers'])->name('careers');
 Route::get('/careers/{slug}', [FrontendController::class, 'careerShow'])->name('career.show');
 Route::post('/careers/{slug}/apply', [FrontendController::class, 'careerApply'])->name('career.apply');
+Route::get('/case-study', [FrontendController::class, 'caseStudyIndex'])->name('case-study.index');
+Route::get('/case-study/{slug}', [FrontendController::class, 'caseStudyShow'])->name('case-study.show');
+Route::get('/alert', [FrontendController::class, 'alertIndex'])->name('alert.index');
+Route::get('/alert/{slug}', [FrontendController::class, 'alertShow'])->name('alert.show');
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -95,6 +101,18 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('contact-submissions/{submission}', [ContactSubmissionController::class, 'show'])->name('contact-submissions.show');
     Route::put('contact-submissions/{submission}/status', [ContactSubmissionController::class, 'updateStatus'])->name('contact-submissions.update-status');
     Route::delete('contact-submissions/{submission}', [ContactSubmissionController::class, 'destroy'])->name('contact-submissions.destroy');
+
+    // Case Studies CRUD + Trash
+    Route::get('case-studies/trash', [CaseStudyController::class, 'trash'])->name('case-studies.trash');
+    Route::post('case-studies/{id}/restore', [CaseStudyController::class, 'restore'])->name('case-studies.restore');
+    Route::delete('case-studies/{id}/force-delete', [CaseStudyController::class, 'forceDelete'])->name('case-studies.force-delete');
+    Route::resource('case-studies', CaseStudyController::class)->except(['show']);
+
+    // Alerts CRUD + Trash
+    Route::get('alerts/trash', [AlertController::class, 'trash'])->name('alerts.trash');
+    Route::post('alerts/{id}/restore', [AlertController::class, 'restore'])->name('alerts.restore');
+    Route::delete('alerts/{id}/force-delete', [AlertController::class, 'forceDelete'])->name('alerts.force-delete');
+    Route::resource('alerts', AlertController::class)->except(['show']);
 
     // Newsletters CRUD + Trash
     Route::get('newsletters/trash', [NewsletterController::class, 'trash'])->name('newsletters.trash');

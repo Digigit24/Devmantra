@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alert;
 use App\Models\Blog;
 use App\Models\Career;
 use App\Models\CareerApplication;
+use App\Models\CaseStudy;
 use App\Models\ContactSetting;
 use App\Models\ContactSubmission;
 use App\Models\Newsletter;
@@ -191,6 +193,65 @@ class FrontendController extends Controller
             ->get();
 
         return view('frontend.report-detail', compact('report', 'related', 'sidebarReports'));
+    }
+
+    public function caseStudyIndex()
+    {
+        $featured = CaseStudy::published()->featured()->latest('published_at')->first();
+        $caseStudies = CaseStudy::published()
+            ->when($featured, fn($q) => $q->where('id', '!=', $featured->id))
+            ->latest('published_at')
+            ->paginate(9);
+
+        return view('frontend.case-study-index', compact('featured', 'caseStudies'));
+    }
+
+    public function caseStudyShow(string $slug)
+    {
+        $caseStudy = CaseStudy::published()->where('slug', $slug)->firstOrFail();
+        $related = CaseStudy::published()
+            ->where('id', '!=', $caseStudy->id)
+            ->latest('published_at')
+            ->take(3)
+            ->get();
+        $sidebarItems = CaseStudy::published()
+            ->where('id', '!=', $caseStudy->id)
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+
+        return view('frontend.case-study-detail', compact('caseStudy', 'related', 'sidebarItems'));
+    }
+
+    public function alertIndex(Request $request)
+    {
+        $query = Alert::published();
+
+        if ($request->filled('tag')) {
+            $query->where('tag', $request->tag);
+        }
+
+        $alerts = $query->latest('published_at')->paginate(9);
+
+        return view('frontend.alert-index', compact('alerts'));
+    }
+
+    public function alertShow(string $slug)
+    {
+        $alert = Alert::published()->where('slug', $slug)->firstOrFail();
+        $related = Alert::published()
+            ->where('id', '!=', $alert->id)
+            ->where('tag', $alert->tag)
+            ->latest('published_at')
+            ->take(3)
+            ->get();
+        $sidebarItems = Alert::published()
+            ->where('id', '!=', $alert->id)
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+
+        return view('frontend.alert-detail', compact('alert', 'related', 'sidebarItems'));
     }
 
     public function newsletterShow(string $slug)
