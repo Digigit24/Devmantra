@@ -94,6 +94,8 @@
                                         <ul class="tp-submenu submenu">
                                             <li><a href="{{ route('newsletter.index') }}">Newsletters</a></li>
                                             <li><a href="{{ route('report.index') }}">Reports</a></li>
+                                            <li><a href="{{ route('case-study.index') }}">Case Studies</a></li>
+                                            <li><a href="{{ route('alert.index') }}">Alerts</a></li>
                                             <li><a href="{{ route('blog.index') }}">Blogs</a></li>
                                         </ul>
                                     </li>
