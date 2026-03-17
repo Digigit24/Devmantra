@@ -156,11 +156,11 @@ document.addEventListener('DOMContentLoaded', function () {
         opacity: 0, y: 20
     });
 
-    /* 3. Scroll control */
+    /* 3. Scroll control – triggers as soon as user starts scrolling */
     var st = ScrollTrigger.create({
         trigger: ".cr-hero-area",
-        start: "bottom 95%",
-        end: "bottom 90%",
+        start: "top top",
+        end: "+=300",
         scrub: 1.2,
         animation: tl
     });
