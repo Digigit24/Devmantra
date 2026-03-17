@@ -64,7 +64,7 @@
 @endpush
 @endonce
 
-<div style="background-color: #001d30;" class="cr-hero-area fix cr-hero-ptb p-relative pt-170">
+<div style="background-color: #0b0f14;" class="cr-hero-area fix cr-hero-ptb p-relative pt-170">
     <div class="dm-hero-scene">
         <img src="https://i.ibb.co/cc5cXJyP/card1.webp" class="card card-top" alt="" />
         <img src="https://i.ibb.co/xqHCcQj0/background.webp" class="card card-topbg" alt="" />
