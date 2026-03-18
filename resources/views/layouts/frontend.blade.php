@@ -26,8 +26,31 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://omnidim.io">
 
-    {{-- Google Fonts: Inter (body/headings) + Onest (brand) only — was 8 families / 155+ variants --}}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,400..600&family=Onest:wght@300..700&display=swap">
+    @php
+        // Collect selected typography fonts from settings
+        $dmFontSettings = [
+            'body' => \App\Models\SiteSetting::get('font_body', ''),
+            'h1'   => \App\Models\SiteSetting::get('font_h1',   ''),
+            'h2'   => \App\Models\SiteSetting::get('font_h2',   ''),
+            'h3'   => \App\Models\SiteSetting::get('font_h3',   ''),
+            'h4'   => \App\Models\SiteSetting::get('font_h4',   ''),
+            'h5'   => \App\Models\SiteSetting::get('font_h5',   ''),
+            'h6'   => \App\Models\SiteSetting::get('font_h6',   ''),
+            'p'    => \App\Models\SiteSetting::get('font_p',    ''),
+        ];
+        // Always include Onest (used on buttons) + any admin-selected fonts
+        $dmGoogleFonts = array_merge(['Onest'], array_values($dmFontSettings));
+        // If no body/heading font selected default to Inter
+        if (!$dmFontSettings['body'] && !array_filter([$dmFontSettings['h1'],$dmFontSettings['h2'],$dmFontSettings['h3']])) {
+            $dmGoogleFonts[] = 'Inter';
+        }
+        $dmFontsUrl = \App\Http\Controllers\Admin\TypographyController::buildGoogleFontsUrl($dmGoogleFonts);
+        $dmFontMap  = collect(\App\Http\Controllers\Admin\TypographyController::FONTS)->keyBy('key')->all();
+    @endphp
+    {{-- Google Fonts: only load fonts actually in use (selected in Admin → Typography) --}}
+    @if($dmFontsUrl)
+    <link rel="stylesheet" href="{{ $dmFontsUrl }}">
+    @endif
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
@@ -48,7 +71,18 @@
             --dm-brand-from: {{ $brandFrom }};
             --dm-brand-to:   {{ $brandTo }};
             --dm-brand-gradient: linear-gradient(135deg, var(--dm-brand-from), var(--dm-brand-to));
+            @if($dmFontSettings['body'])
+            --tp-ff-body: '{{ $dmFontSettings['body'] }}', {{ $dmFontMap[$dmFontSettings['body']]['fallback'] ?? 'sans-serif' }};
+            @endif
+            @if($dmFontSettings['p'])
+            --tp-ff-p: '{{ $dmFontSettings['p'] }}', {{ $dmFontMap[$dmFontSettings['p']]['fallback'] ?? 'sans-serif' }};
+            @endif
         }
+        @foreach(['h1','h2','h3','h4','h5','h6'] as $dmEl)
+        @if(!empty($dmFontSettings[$dmEl]))
+        {{ $dmEl }} { font-family: '{{ $dmFontSettings[$dmEl] }}', {{ $dmFontMap[$dmFontSettings[$dmEl]]['fallback'] ?? 'sans-serif' }} !important; }
+        @endif
+        @endforeach
         /* ── Unified global CTA buttons ─────────────────────────────── */
         .dm-btn-primary,
         .dm-btn-secondary {
