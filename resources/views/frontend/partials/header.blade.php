@@ -29,8 +29,8 @@
         <div class="tp-offcanvas-top d-flex align-items-center justify-content-between">
             <div class="tp-offcanvas-logo">
                 <a href="{{ route('home') }}">
-                    <img class="logo-1" data-width="120" src="{{ asset('assets/img/logo/logo-black.png') }}" alt="Dev Mantra">
-                    <img class="logo-2" data-width="120" src="{{ asset('assets/img/logo/logo-white.png') }}" alt="Dev Mantra">
+                    <img class="logo-1" data-width="120" src="{{ asset('assets/img/logo/logo.jpeg') }}" alt="Dev Mantra" style="border-radius: 50px;">
+                    <img class="logo-2" data-width="120" src="{{ asset('assets/img/logo/logo.jpeg') }}" alt="Dev Mantra" style="border-radius: 50px;">
                 </a>
             </div>
             <div class="tp-offcanvas-close">

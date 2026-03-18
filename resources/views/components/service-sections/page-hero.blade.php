@@ -36,7 +36,7 @@
     position: absolute;
     width: 100%;
     left: 20vw;
-    top: 10vh;
+    top: 20vh;
     
     will-change: transform;
     transform-style: preserve-3d;
@@ -58,6 +58,27 @@
 .dm-hero-scene .dm-card-bottom {
     z-index: 14;
     filter: brightness(0.95);
+}
+
+/* ── Responsive card placement ───────────────────────── */
+/* Tablet (≤ 991px): 20vh top */
+@media (max-width: 991px) {
+    .dm-hero-scene .dm-card {
+        top: 20vh;
+    }
+}
+/* Mobile (≤ 575px): 50vh top, reduced right margin */
+@media (max-width: 575px) {
+    .dm-hero-scene .dm-card {
+        top: 80vh;
+        display: none; /* Hide cards on mobile for better performance and UX */
+    }
+    .dm-hero-scene .dm-card-top,
+    .dm-hero-scene .dm-card-topbg,
+    .dm-hero-scene .dm-card-text {
+        margin-right: 0;
+         display: none;
+    }
 }
 .dm-hover-zone {
     position: absolute;
