@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CareerApplicationController;
 use App\Http\Controllers\Admin\CareerController;
 use App\Http\Controllers\Admin\CaseStudyController;
 use App\Http\Controllers\Admin\ContactSettingController;
+use App\Http\Controllers\Admin\TypographyController;
 use App\Http\Controllers\Admin\ContactSubmissionController;
 use App\Http\Controllers\Admin\PopupController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -129,6 +130,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Contact Settings
     Route::get('contact-settings', [ContactSettingController::class, 'edit'])->name('contact-settings.edit');
     Route::put('contact-settings', [ContactSettingController::class, 'update'])->name('contact-settings.update');
+
+    // Typography Settings
+    Route::get('typography', [TypographyController::class, 'edit'])->name('typography.edit');
+    Route::put('typography', [TypographyController::class, 'update'])->name('typography.update');
 
     // Popup Banner
     Route::get('popup', [PopupController::class, 'edit'])->name('popup.edit');

@@ -491,6 +491,9 @@
             <a href="{{ route('admin.settings') }}" class="dm-sidebar-link {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
                 <i class="fa-solid fa-gear"></i> Settings
             </a>
+            <a href="{{ route('admin.typography.edit') }}" class="dm-sidebar-link {{ request()->routeIs('admin.typography.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-font"></i> Typography
+            </a>
 
             <div class="dm-sidebar-label">System</div>
             <a href="{{ url('/') }}" target="_blank" class="dm-sidebar-link">
