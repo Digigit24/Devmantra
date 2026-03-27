@@ -466,6 +466,9 @@
             </a>
 
             <div class="dm-sidebar-label">Enquiries</div>
+            <a href="{{ route('admin.subscribers.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-users"></i> Subscribers
+            </a>
             <a href="{{ route('admin.contact-submissions.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.contact-submissions.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-envelope-open-text"></i> Contact Submissions
             </a>

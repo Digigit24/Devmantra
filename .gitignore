@@ -20,5 +20,7 @@
 /storage/pail
 /vendor
 Homestead.json
-Homestead.yaml
+Homestead. 
 Thumbs.db
+"*.zip" 
+/.claude/

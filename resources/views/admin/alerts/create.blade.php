@@ -50,7 +50,7 @@
                 </div>
                 <div class="dm-form-group">
                     <label class="dm-form-label">Read Time</label>
-                    <input type="text" name="read_time" value="{{ old('read_time') }}" class="dm-form-input" placeholder="e.g. 5 min read">
+                    <input type="text" name="read_time" value="{{ old('read_time', '5 min read') }}" class="dm-form-input" placeholder="e.g. 5 min read">
                 </div>
                 <div class="dm-form-group">
                     <label class="dm-form-label">Publish Date</label>

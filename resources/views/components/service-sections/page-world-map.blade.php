@@ -6,7 +6,7 @@
 
 <section class="cr-world-area cr-brand-ptb fix">
     <div class="container container-1230">
-        <div class="cr-multi-border pt-100 pb-100">
+        <div class="cr-multi-border pt-100 pb-50">
             <div class="row justify-content-center">
                 <div class="col-lg-12 text-center mb-60">
                     <h3 class="tp-section-title-onest fs-72">{{ $title }}</h3>

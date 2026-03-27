@@ -28,9 +28,9 @@ class PageSeeder extends Seeder
                 'subtitle' => 'Comprehensive financial and advisory services tailored for your business growth.',
             ]],
             ['section_type' => 'page-clientele', 'sort_order' => 2, 'section_data' => [
-                'clientele_title'  => 'Our Clientele',
-                'features_label'   => 'What We Do',
-                'features_title'   => 'Services to Boost Business Growth',
+                'clientele_title'      => 'Our Clientele',
+                'features_label'       => 'What We Do',
+                'features_title'       => 'Services to Boost Business Growth',
                 'features_description' => 'We know navigating financial documentation and regulations can be challenging. Rest easy our expert guidance in financial planning and risk management is designed to enhance your performance and ensure lasting success.',
             ]],
             ['section_type' => 'page-strategy-6a', 'sort_order' => 3, 'section_data' => [
@@ -54,6 +54,24 @@ class PageSeeder extends Seeder
             ['section_type' => 'page-team', 'sort_order' => 7, 'section_data' => [
                 'title'    => 'Meet Our Team',
                 'subtitle' => 'The people behind Devmantra who drive excellence every day.',
+                'founders' => [
+                    ['name' => 'Vikash Tatia', 'role' => 'Founder & MD',       'photo' => 'assets/img/team/6.jpg'],
+                    ['name' => 'Nidhi Tatia',  'role' => 'Founder & Director', 'photo' => 'assets/img/team/7.jpg'],
+                ],
+                'partners' => [
+                    ['name' => 'Sankaranarayanan',    'role' => 'Director & Associate Partner',          'photo' => 'assets/img/team/8.jpg'],
+                    ['name' => 'Kamal Parakh',        'role' => 'Associate Director & Senior Partner',   'photo' => 'assets/img/team/9.jpg'],
+                    ['name' => 'Darshit Bombaywala',  'role' => 'Associate Partner',                     'photo' => 'assets/img/team/10.png'],
+                    ['name' => 'Pawan Bhotika',       'role' => 'Advisor - Agri Business',              'photo' => 'assets/img/team/11.jpg'],
+                    ['name' => 'BC Datta',            'role' => 'Associate Director - Corporate Affairs','photo' => 'assets/img/team/12.jpg'],
+                ],
+                'team_members' => [
+                    ['name' => 'Abhinaya U',       'role' => 'Associate - Investment Banking', 'photo' => 'assets/img/team/1.jpg'],
+                    ['name' => 'Sandeep Dhupar',   'role' => 'Associate Director',             'photo' => 'assets/img/team/2.jpg'],
+                    ['name' => 'Jalandhar Behera', 'role' => 'Associate VP - FAO Services',    'photo' => 'assets/img/team/3.jpg'],
+                    ['name' => 'Rajani M',         'role' => 'Talent Acquisition Lead',        'photo' => 'assets/img/team/4.jpg'],
+                    ['name' => 'Namrata Parakh',   'role' => 'Associate - Intl Relations',     'photo' => 'assets/img/team/5.jpg'],
+                ],
             ]],
             ['section_type' => 'page-approach-lifecycle', 'sort_order' => 8, 'section_data' => [
                 'label'    => 'How We Work',
@@ -64,6 +82,17 @@ class PageSeeder extends Seeder
                 'rating' => '4.8',
                 'label'  => 'Client Success Stories',
                 'title'  => 'Join the ranks of our satisfied clients and experience the Dev Mantra difference.',
+            ]],
+            ['section_type' => 'page-blogs', 'sort_order' => 10, 'section_data' => [
+                'title'             => "Explore our\nlatest insights & updates",
+                'subtitle'          => 'Insights',
+                'explore_link_text' => 'Explore more insights from Dev Mantra',
+                'explore_link_url'  => '/blog',
+                'count'             => 3,
+            ]],
+            ['section_type' => 'page-cta', 'sort_order' => 11, 'section_data' => [
+                'title'    => "Ready to Elevate Your\nBusiness with Dev Mantra?",
+                'subtitle' => 'Dev Mantra is here to help you scale with confidence through future-ready financial, governance, and advisory solutions.',
             ]],
         ];
 
@@ -100,11 +129,11 @@ class PageSeeder extends Seeder
                 'label' => 'What Drives Us',
                 'title' => 'Our Values',
                 'items' => [
-                    ['icon' => '1', 'title' => 'Trust',              'description' => 'We build strong, lasting relationships with our clients based on mutual trust and respect. Our commitment to integrity ensures that we always act in the best interest of our clients.'],
-                    ['icon' => '2', 'title' => 'Transparency',       'description' => 'We maintain open and honest communication, ensuring our clients are fully informed and confident in their financial decisions.'],
-                    ['icon' => '3', 'title' => 'Integrity',          'description' => 'We uphold the highest ethical standards in all our dealings, ensuring fairness and honesty. Integrity is the foundation of our practice, guiding our actions and decisions.'],
-                    ['icon' => '4', 'title' => 'Tech Integration',   'description' => 'We leverage the latest technology to provide innovative solutions that enhance efficiency, accuracy, and convenience for our clients.'],
-                    ['icon' => '5', 'title' => 'Excellence',         'description' => 'We are committed to delivering the highest quality services and continuously improving our processes. Our dedication to excellence drives us to exceed client expectations.'],
+                    ['icon' => '1', 'title' => 'Trust',                   'description' => 'We build strong, lasting relationships with our clients based on mutual trust and respect. Our commitment to integrity ensures that we always act in the best interest of our clients.'],
+                    ['icon' => '2', 'title' => 'Transparency',            'description' => 'We maintain open and honest communication, ensuring our clients are fully informed and confident in their financial decisions.'],
+                    ['icon' => '3', 'title' => 'Integrity',               'description' => 'We uphold the highest ethical standards in all our dealings, ensuring fairness and honesty. Integrity is the foundation of our practice, guiding our actions and decisions.'],
+                    ['icon' => '4', 'title' => 'Tech Integration',        'description' => 'We leverage the latest technology to provide innovative solutions that enhance efficiency, accuracy, and convenience for our clients.'],
+                    ['icon' => '5', 'title' => 'Excellence',              'description' => 'We are committed to delivering the highest quality services and continuously improving our processes. Our dedication to excellence drives us to exceed client expectations.'],
                     ['icon' => '6', 'title' => 'Client-Centric Approach', 'description' => 'We prioritize the needs and goals of our clients, offering tailored solutions that align with their unique requirements.'],
                 ],
             ]],
@@ -112,11 +141,31 @@ class PageSeeder extends Seeder
                 'label' => 'What We Do',
                 'title' => 'Our Expertise',
             ]],
-            ['section_type' => 'about-cta', 'sort_order' => 5, 'section_data' => [
-                'title'    => 'Ready to Transform Your Business?',
+            ['section_type' => 'page-team', 'sort_order' => 5, 'section_data' => [
+                'title'    => 'Meet Our Team',
+                'subtitle' => 'The people behind Devmantra who drive excellence every day.',
+                'founders' => [
+                    ['name' => 'Vikash Tatia', 'role' => 'Founder & MD',       'photo' => 'assets/img/team/6.jpg'],
+                    ['name' => 'Nidhi Tatia',  'role' => 'Founder & Director', 'photo' => 'assets/img/team/7.jpg'],
+                ],
+                'partners' => [
+                    ['name' => 'Sankaranarayanan',    'role' => 'Director & Associate Partner',          'photo' => 'assets/img/team/8.jpg'],
+                    ['name' => 'Kamal Parakh',        'role' => 'Associate Director & Senior Partner',   'photo' => 'assets/img/team/9.jpg'],
+                    ['name' => 'Darshit Bombaywala',  'role' => 'Associate Partner',                     'photo' => 'assets/img/team/10.png'],
+                    ['name' => 'Pawan Bhotika',       'role' => 'Advisor - Agri Business',              'photo' => 'assets/img/team/11.jpg'],
+                    ['name' => 'BC Datta',            'role' => 'Associate Director - Corporate Affairs','photo' => 'assets/img/team/12.jpg'],
+                ],
+                'team_members' => [
+                    ['name' => 'Abhinaya U',       'role' => 'Associate - Investment Banking', 'photo' => 'assets/img/team/1.jpg'],
+                    ['name' => 'Sandeep Dhupar',   'role' => 'Associate Director',             'photo' => 'assets/img/team/2.jpg'],
+                    ['name' => 'Jalandhar Behera', 'role' => 'Associate VP - FAO Services',    'photo' => 'assets/img/team/3.jpg'],
+                    ['name' => 'Rajani M',         'role' => 'Talent Acquisition Lead',        'photo' => 'assets/img/team/4.jpg'],
+                    ['name' => 'Namrata Parakh',   'role' => 'Associate - Intl Relations',     'photo' => 'assets/img/team/5.jpg'],
+                ],
+            ]],
+            ['section_type' => 'page-cta', 'sort_order' => 6, 'section_data' => [
+                'title'    => "Ready to Transform\nYour Business?",
                 'subtitle' => "Let's discuss how Dev Mantra can help you achieve your financial goals.",
-                'cta_text' => 'Book a Free Consultation',
-                'cta_url'  => '/contact',
             ]],
         ];
 

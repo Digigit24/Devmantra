@@ -56,9 +56,19 @@ class NewsletterController extends Controller
             'edition_label' => 'nullable|string|max:100',
             'is_featured' => 'nullable|boolean',
             'meta_description' => 'nullable|string|max:255',
+            'button_url' => 'nullable|url|max:2048',
+            'button_text' => 'nullable|string|max:100',
+            'read_time' => 'nullable|string|max:50',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
         ]);
+
+        if (empty($validated['button_text'])) {
+            $validated['button_text'] = 'Read More';
+        }
+        if (empty($validated['read_time'])) {
+            $validated['read_time'] = '5 min read';
+        }
 
         if ($request->hasFile('featured_image')) {
             $validated['featured_image'] = $request->file('featured_image')->store('newsletters', 'public');
@@ -91,9 +101,19 @@ class NewsletterController extends Controller
             'edition_label' => 'nullable|string|max:100',
             'is_featured' => 'nullable|boolean',
             'meta_description' => 'nullable|string|max:255',
+            'button_url' => 'nullable|url|max:2048',
+            'button_text' => 'nullable|string|max:100',
+            'read_time' => 'nullable|string|max:50',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
         ]);
+
+        if (empty($validated['button_text'])) {
+            $validated['button_text'] = 'Read More';
+        }
+        if (empty($validated['read_time'])) {
+            $validated['read_time'] = '5 min read';
+        }
 
         if ($request->hasFile('featured_image')) {
             if ($newsletter->featured_image) {

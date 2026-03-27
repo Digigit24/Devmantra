@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(find /c/xampp/htdocs/Devmantra -type f -name *newsletter*)",
+      "Bash(xargs grep:*)",
+      "Bash(find /c/xampp/htdocs/Devmantra/app/Http/Controllers -type f -name *.php)",
+      "Bash(php artisan:*)",
+      "Bash(grep -l \"card\\\\|index\" C:xampphtdocsDevmantraresourcesviewsfrontendblog*)"
     ]
   }
 }

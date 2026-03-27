@@ -46,6 +46,11 @@
                     <input type="text" name="edition_label" value="{{ old('edition_label', $report->edition_label) }}" class="dm-form-input" placeholder="e.g. Q1 2026">
                 </div>
                 <div class="dm-form-group">
+                    <label class="dm-form-label">Read Time</label>
+                    <input type="text" name="read_time" value="{{ old('read_time', $report->read_time ?: '5 min read') }}" class="dm-form-input" placeholder="e.g. 5 min read">
+                    <div class="dm-form-hint">Shown as a badge on cards and detail pages. Default: 5 min read</div>
+                </div>
+                <div class="dm-form-group">
                     <label class="dm-form-label">Publish Date</label>
                     <input type="datetime-local" name="published_at" value="{{ old('published_at', $report->published_at?->format('Y-m-d\TH:i')) }}" class="dm-form-input">
                     <div class="dm-form-hint">Leave empty to publish immediately when status is Published</div>

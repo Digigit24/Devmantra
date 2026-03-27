@@ -229,6 +229,9 @@ const SECTION_WF = {
   'about-values':`<div class="wf">${Hc(40)}<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-top:4px;"><div class="wf-card">${IC}${H(60)}${B(80)}</div><div class="wf-card">${IC}${H(60)}${B(80)}</div><div class="wf-card">${IC}${H(60)}${B(80)}</div><div class="wf-card">${IC}${H(60)}${B(80)}</div><div class="wf-card">${IC}${H(60)}${B(80)}</div><div class="wf-card">${IC}${H(60)}${B(80)}</div></div></div>`,
   'about-services-overview':`<div class="wf" style="background:#111;border-radius:5px;padding:8px;">${Hc(50)}<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-top:4px;"><div style="background:rgba(255,255,255,.08);border-radius:3px;padding:4px;">${H(80)}${B(60)}</div><div style="background:rgba(255,255,255,.08);border-radius:3px;padding:4px;">${H(80)}${B(60)}</div><div style="background:rgba(255,255,255,.08);border-radius:3px;padding:4px;">${H(80)}${B(60)}</div></div></div>`,
   'about-cta':`<div class="wf" style="align-items:center;">${Hc(70)}${B(55)}${B(45)}<div style="margin-top:4px;">${BTN}</div></div>`,
+  /* New reusable sections */
+  'page-cta':`<div class="wf cr-cta-area-light" style="align-items:center;background:#f8f9fa;border-radius:5px;padding:8px;">${Hc(70)}${B(55)}${B(45)}<div style="margin-top:4px;">${BTN}</div></div>`,
+  'page-blogs':`<div class="wf" style="background:#001d30;border-radius:5px;padding:8px;">${Hc(60)}<div class="wf-r" style="margin-top:4px;gap:3px;"><div class="wf-card" style="flex:1;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);">${H(80)}${B(100)}${B(70)}</div><div class="wf-card" style="flex:1;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);">${H(80)}${B(100)}${B(70)}</div><div class="wf-card" style="flex:1;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);">${H(80)}${B(100)}${B(70)}</div></div></div>`,
 };
 
 let _libraryRendered = false;

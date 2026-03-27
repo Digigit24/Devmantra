@@ -42,7 +42,7 @@
             <tr>
                 <td>
                     @if($newsletter->featured_image)
-                        <img src="{{ asset('storage/' . $newsletter->featured_image) }}" class="dm-table-thumb" alt="">
+                        <img src="{{  $newsletter->featured_image }}" class="dm-table-thumb" alt="">
                     @else
                         <div class="dm-table-thumb d-flex align-items-center justify-content-center" style="background:var(--dm-purple-light);"><i class="fa-solid fa-image" style="color:var(--dm-purple);"></i></div>
                     @endif

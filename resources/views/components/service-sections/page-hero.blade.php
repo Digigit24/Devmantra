@@ -21,6 +21,8 @@
     .cr-hero-btn-wrap { flex-direction: column; gap: 10px; }
 }
 
+
+
 /* ── Card-scene hero (scoped) ─────────────────────────── */
 .cr-hero-area .dm-hero-scene {
     position: absolute;
@@ -35,26 +37,41 @@
 .dm-hero-scene .dm-card {
     position: absolute;
     width: 100%;
-    left: 20vw;
+    
     top: 20vh;
     
     will-change: transform;
     transform-style: preserve-3d;
     pointer-events: none;
 }
-.dm-hero-scene .dm-card-top    { z-index: 2; margin-right: -10vw; }
+.dm-hero-scene .dm-card-top    { z-index: 2;  }
 
+
+.dm-hover-zone {
+    position: absolute;
+    width: 700px;
+    height: 800px;
+    top: 10;
+    right: -10%;
+
+    
+    transform: translateY(-50%);
+    z-index: 20;
+    pointer-events: auto;
+    
+ 
+}
 
 .dm-hero-scene .dm-card-topbg {
     z-index: 1;
-    margin-right: -10vw;
+    
     height: 85vh;
     margin-top: 5vh;
     background-repeat: repeat;
     background-size: 480px 480px;
     will-change: background-position;
 }
-.dm-hero-scene .dm-card-text   { z-index: 3;  margin-right: -10vw; }
+.dm-hero-scene .dm-card-text   { z-index: 3;  }
 .dm-hero-scene .dm-card-bottom {
     z-index: 14;
     filter: brightness(0.95);
@@ -64,32 +81,59 @@
 /* Tablet (≤ 991px): 20vh top */
 @media (max-width: 991px) {
     .dm-hero-scene .dm-card {
-        top: 20vh;
+        top: 0;
     }
 }
 /* Mobile (≤ 575px): 50vh top, reduced right margin */
 @media (max-width: 575px) {
-    .dm-hero-scene .dm-card {
-        top: 80vh;
-        display: none; /* Hide cards on mobile for better performance and UX */
+    .dm-hero-scene .dm-card  {
+        top: 25vh;
+        /* Hide cards on mobile for better performance and UX */
     }
     .dm-hero-scene .dm-card-top,
     .dm-hero-scene .dm-card-topbg,
     .dm-hero-scene .dm-card-text {
         margin-right: 0;
-         display: none;
+        
     }
 }
 .dm-hover-zone {
     position: absolute;
-    width: 400px;
-    height: 400px;
-    top: 50%;
-    right: 15%;
+    width: 700px;
+    height: 800px;
+    top: 10;
+    right: -10%;
+
+    
     transform: translateY(-50%);
     z-index: 20;
     pointer-events: auto;
+    
+    
 }
+@media (max-width: 575px) {
+   
+.dm-hover-zone {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 700px;
+    right: -10%;
+
+    
+    transform: translateY(-50%);
+    z-index: 20;
+    pointer-events: auto;
+    
+    
+}
+.cr-hero-area{
+    height: 160vh;
+
+}
+}
+
+
 
 /* Content sits above the card scene */
 .cr-hero-area > .container-fluid {
@@ -104,24 +148,39 @@
 @endpush
 @endonce
 
-<div style="background-color: #0b0f14;" class="cr-hero-area fix cr-hero-ptb p-relative pt-100">
+<div style="background-color: #0b0f14; min-height: 120vh;" class="cr-hero-area fix cr-hero-ptb p-relative pt-100">
     {{-- Card animation scene (background) --}}
-    <div class="dm-hero-scene">
-        <img src="{{ asset('assets/img/hero/card1.webp') }}"      class="dm-card dm-card-top"    alt="" fetchpriority="high" />
-        <img src="{{ asset('assets/img/hero/background.webp') }}" class="dm-card dm-card-topbg"  alt="" />
-        <img src="{{ asset('assets/img/hero/textcard.webp') }}"   class="dm-card dm-card-text"   alt="" loading="lazy" />
-        <img src="{{ asset('assets/img/hero/card2.webp') }}"      class="dm-card dm-card-bottom" alt="" loading="lazy" />
-    </div>
+   <div class="dm-hero-scene">
+    <picture>
+        <source media="(max-width: 575px)" srcset="{{ asset('assets/img/hero/mobilecardtop.png') }}">
+        <img src="{{ asset('assets/img/hero/cardtop.png') }}" class="dm-card dm-card-top" alt="" fetchpriority="high">
+    </picture>
+
+    <picture>
+        <source media="(max-width: 575px)" srcset="{{ asset('assets/img/hero/mobile-bg.png') }}">
+        <img src="{{ asset('assets/img/hero/cardbg.png') }}" class="dm-card dm-card-topbg" alt="">
+    </picture>
+
+    <picture>
+        <source media="(max-width: 575px)" srcset="{{ asset('assets/img/hero/mobilecardtoptext.png') }}">
+        <img src="{{ asset('assets/img/hero/cardtoptext.png') }}" class="dm-card dm-card-text" alt="" loading="lazy">
+    </picture>
+
+    <picture>
+        <source media="(max-width: 575px)" srcset="{{ asset('assets/img/hero/mobile-bottom-card.png') }}">
+        <img src="{{ asset('assets/img/hero/bottom-cardd.png') }}" class="dm-card dm-card-bottom" alt="" loading="lazy">
+    </picture>
+</div>
     <div class="dm-hover-zone"></div>
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-8">
                 <div class="cr-hero-heading text-center z-index-1">
-                    <div class="tp-section-subtitle-gradient ct mb-20 tp_fade_anim" data-delay=".3">
+                    <div class="tp-section-subtitle-gradient ct  tp_fade_anim" data-delay=".3">
                         {{ $subtitle }}
                     </div>
-                    <h4 class="tp-section-title-onest fs-68 tp-text-revel-anim" data-delay=".5">
+                    <h4 class="tp-section-title-onest fs-68 tp-text-revel-anim hero-titlee" data-delay=".5">
                         {!! nl2br(e($title)) !!}
                     </h4>
                 </div>
@@ -159,62 +218,143 @@
 @once
 @push('scripts')
 <script>
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
 
-    gsap.registerPlugin(ScrollTrigger);
+  let mm = gsap.matchMedia();
 
-    /* 1. Create timeline */
+  /* ── DESKTOP (≥ 992px) ── keep existing behavior exactly ── */
+  mm.add("(min-width: 992px)", () => {
+
     var tl = gsap.timeline({ paused: true });
+
     tl.to(".dm-hero-scene .dm-card-bottom", {
-        y: -65, x: 30, z: 10,
-        rotationX: 0, rotationY: 0, scale: 1,
-        ease: "power3.out", duration: 1
+      y: 0, x: 0, z: 10,
+      rotationX: 0, rotationY: 0,
+      scale: 1,
+      ease: "power3.out",
+      duration: 1
     }, 0)
     .to(".dm-hero-scene .dm-card-text", {
-        opacity: 1, y: 0,
-        duration: 0.8, ease: "power2.out"
+      opacity: 1, y: 0,
+      duration: 0.8,
+      ease: "power2.out"
     }, 0.2);
 
-    /* 2. Initial state */
     gsap.set(".dm-hero-scene .dm-card-bottom", {
-        y: 50, x: -40, z: -100,
-        rotationX: -12, rotationY: 15, scale: 0.96
+      y: 50, x: -40, z: -100,
+      rotationX: -12, rotationY: 15,
+      scale: 0.96
     });
-    gsap.set(".dm-hero-scene .dm-card-text", {
-        opacity: 0, y: 20
-    });
+    gsap.set(".dm-hero-scene .dm-card-text", { opacity: 0, y: 20 });
 
-    /* 3. Scroll control – triggers as soon as user starts scrolling */
     var st = ScrollTrigger.create({
-        trigger: ".cr-hero-area",
-        start: "top top",
-        end: "+=300",
-        scrub: 0.6,
-        animation: tl
+      trigger: ".cr-hero-area",
+      start: "top top",
+      end: "+=300",
+      scrub: 0.6,
+      animation: tl
     });
 
-    /* 4. Hover zone */
     var hoverZone = document.querySelector(".dm-hover-zone");
     var hoverTween = null;
 
     if (hoverZone) {
-        hoverZone.addEventListener("mouseenter", function () {
-            st.disable();
-            if (hoverTween) hoverTween.kill();
-            hoverTween = gsap.to(tl, {
-                progress: 1, duration: 0.45, ease: "power2.out"
-            });
+      hoverZone.addEventListener("mouseenter", function () {
+        st.disable();
+        if (hoverTween) hoverTween.kill();
+        hoverTween = gsap.to(tl, { progress: 1, duration: 0.45, ease: "power2.out" });
+      });
+      hoverZone.addEventListener("mouseleave", function () {
+        if (hoverTween) hoverTween.kill();
+        hoverTween = gsap.to(tl, {
+          progress: 0, duration: 0.45, ease: "power2.inOut",
+          onComplete: function () { st.enable(); }
         });
-
-        hoverZone.addEventListener("mouseleave", function () {
-            if (hoverTween) hoverTween.kill();
-            hoverTween = gsap.to(tl, {
-                progress: 0, duration: 0.45, ease: "power2.inOut",
-                onComplete: function () { st.enable(); }
-            });
-        });
+      });
     }
+
+    // matchMedia auto-reverts everything when breakpoint no longer matches
+    return () => { st.kill(); };
+  });
+
+  /* ── TABLET (576px – 991px) ── lighter 3D, no hover zone ── */
+  mm.add("(min-width: 576px) and (max-width: 991px)", () => {
+
+    var tl = gsap.timeline({ paused: true });
+
+    gsap.set(".dm-hero-scene .dm-card-bottom", {
+      y: 30, x: -20, z: -60,
+      rotationX: -8, rotationY: 10,
+      scale: 0.97
+    });
+    gsap.set(".dm-hero-scene .dm-card-text", { opacity: 0, y: 15 });
+
+    tl.to(".dm-hero-scene .dm-card-bottom", {
+      y: 10, x: -10, z: 0,
+      rotationX: 0, rotationY: 0,
+      scale: 1,
+      ease: "power2.out",
+      duration: 0.8
+    }, 0)
+    .to(".dm-hero-scene .dm-card-text", {
+      opacity: 1, y: 0,
+      duration: 0.6,
+      ease: "power2.out"
+    }, 0.15);
+
+    var st = ScrollTrigger.create({
+      trigger: ".cr-hero-area",
+      start: "top top",
+      end: "+=200",
+      scrub: 0.6,
+      animation: tl
+    });
+
+    return () => { st.kill(); };
+  });
+
+  /* ── MOBILE (≤ 575px) ── match your actual mobile transform ── */
+  mm.add("(max-width: 575px)", () => {
+
+    var tl = gsap.timeline({ paused: true });
+
+    // Initial: the transform you captured on mobile
+    gsap.set(".dm-hero-scene .dm-card-bottom", {
+      y: 59.55, x: 4.55, z: -9.56,
+      rotationX: -4.53, rotationY: 5.67,
+      scale: 0.985
+    });
+    gsap.set(".dm-hero-scene .dm-card-text", { opacity: 0, y: 10 });
+
+    tl.to(".dm-hero-scene .dm-card-bottom", {
+      y: 0, x: 0, z: 0,
+      rotationX: 0, rotationY: 0,
+      scale: 1,
+      ease: "power2.out",
+      duration: 0.6
+    }, 0)
+    .to(".dm-hero-scene .dm-card-text", {
+      opacity: 1, y: 0,
+      duration: 0.5,
+      ease: "power2.out"
+    }, 0.1);
+
+    var st = ScrollTrigger.create({
+      trigger: ".cr-hero-area",
+      start: "bottom bottom",
+      end: "bottom 90% ",
+      scrub: 0.5,
+      animation: tl
+    });
+
+    return () => { st.kill(); };
+  });
+
 });
 </script>
 @endpush

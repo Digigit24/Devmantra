@@ -31,6 +31,8 @@
     .dm-pagination li a:hover { background: var(--tp-common-black,#111); color: #fff; border-color: var(--tp-common-black,#111); }
     .dm-pagination li.active span { background: var(--tp-common-black,#111); color: #fff; border-color: var(--tp-common-black,#111); }
     .dm-pagination li.disabled span { opacity: 0.3; cursor: default; pointer-events: none; }
+    .dm-card-read-time-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; font-family: var(--tp-ff-onest); color: rgba(0,0,0,0.5); background: rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 20px; }
+    .dm-card-read-time-badge i { font-size: 11px; }
     .dm-filter-tabs { display: flex; gap: 8px; margin-bottom: 40px; }
     .dm-filter-tab { font-size: 14px; font-weight: 600; padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); color: var(--tp-common-black,#111); text-decoration: none; transition: all 0.25s; font-family: var(--tp-ff-onest); }
     .dm-filter-tab:hover, .dm-filter-tab.active { background: var(--tp-common-black,#111); color: #fff; border-color: var(--tp-common-black,#111); }
@@ -75,7 +77,13 @@
                             @endif
                         </a>
                     </div>
-                    <span class="dm-alert-tag dm-alert-tag-{{ $item->tag }}">{{ ucfirst($item->tag) }} Alert</span>
+                    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0 8px;">
+                        <span class="dm-alert-tag dm-alert-tag-{{ $item->tag }}" style="margin:0;">{{ ucfirst($item->tag) }} Alert</span>
+                        <span class="dm-card-read-time-badge">
+                            <i class="fa-regular fa-clock"></i>
+                            {{ $item->read_time ?: '5 min read' }}
+                        </span>
+                    </div>
                     <h4 class="dm-blog-card-title">
                         <a href="{{ route('alert.show', $item->slug) }}">{{ $item->title }}</a>
                     </h4>

@@ -13,6 +13,7 @@
     .dm-article-meta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-bottom: 30px; }
     .dm-article-meta-item { font-size: 14px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 8px; font-family: var(--tp-ff-onest); }
     .dm-article-meta-tag { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #fff; padding: 6px 16px; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; }
+    .dm-read-time-badge { background: rgba(255,255,255,0.12); padding: 4px 12px; border-radius: 20px; font-size: 13px !important; }
     .dm-article-hero-title { font-size: 48px; font-weight: 600; color: #fff; line-height: 1.25; max-width: 800px; font-family: var(--tp-ff-onest); }
     @media (max-width: 991px) { .dm-article-hero-title { font-size: 36px; } }
     @media (max-width: 767px) { .dm-article-hero-title { font-size: 28px; } }
@@ -77,9 +78,10 @@
                 <div class="dm-article-meta tp_fade_anim" data-delay=".3">
                     <span class="dm-article-meta-tag">{{ $caseStudy->category }}</span>
                     <span class="dm-article-meta-item">{{ $caseStudy->published_at?->format('M d, Y') ?? $caseStudy->created_at->format('M d, Y') }}</span>
-                    @if($caseStudy->read_time)
-                    <span class="dm-article-meta-item">{{ $caseStudy->read_time }}</span>
-                    @endif
+                    <span class="dm-article-meta-item dm-read-time-badge">
+                        <i class="fa-regular fa-clock"></i>
+                        {{ $caseStudy->read_time ?: '5 min read' }}
+                    </span>
                 </div>
                 <h1 class="dm-article-hero-title tp-text-revel-anim" data-delay=".5">{{ $caseStudy->title }}</h1>
             </div>
@@ -128,7 +130,7 @@
                         <div class="dm-sidebar-post-thumb">
                             <a href="{{ route('case-study.show', $sidePost->slug) }}">
                                 @if($sidePost->featured_image)
-                                    <img src="{{ asset('storage/' . $sidePost->featured_image) }}" alt="{{ $sidePost->title }}">
+                                    <img src="{{ asset( $sidePost->featured_image) }}" alt="{{ $sidePost->title }}">
                                 @else
                                     <img src="{{ asset('assets/img/home-13/blog/blog-thumb-' . (($loop->index % 3) + 1) . '.jpg') }}" alt="{{ $sidePost->title }}">
                                 @endif

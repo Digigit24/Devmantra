@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\ServiceSectionController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
 use Illuminate\Support\Facades\Route;
 
 // Frontend routes
@@ -39,6 +41,7 @@ Route::get('/case-study', [FrontendController::class, 'caseStudyIndex'])->name('
 Route::get('/case-study/{slug}', [FrontendController::class, 'caseStudyShow'])->name('case-study.show');
 Route::get('/alert', [FrontendController::class, 'alertIndex'])->name('alert.index');
 Route::get('/alert/{slug}', [FrontendController::class, 'alertShow'])->name('alert.show');
+Route::post('/newsletter/subscribe', [SubscriberController::class, 'store'])->name('newsletter.subscribe');
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -126,6 +129,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('reports/{id}/restore', [ReportController::class, 'restore'])->name('reports.restore');
     Route::delete('reports/{id}/force-delete', [ReportController::class, 'forceDelete'])->name('reports.force-delete');
     Route::resource('reports', ReportController::class)->except(['show']);
+
+    // Newsletter Subscribers
+    Route::get('subscribers', [AdminSubscriberController::class, 'index'])->name('subscribers.index');
+    Route::delete('subscribers/{subscriber}', [AdminSubscriberController::class, 'destroy'])->name('subscribers.destroy');
 
     // Contact Settings
     Route::get('contact-settings', [ContactSettingController::class, 'edit'])->name('contact-settings.edit');

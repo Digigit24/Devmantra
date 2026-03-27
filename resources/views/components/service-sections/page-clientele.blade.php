@@ -2,7 +2,7 @@
 @php
     $clienteleTitle      = $data['clientele_title']      ?? 'Our Clientele';
     $featuresLabel       = $data['features_label']       ?? 'What We Do';
-    $featuresTitle       = $data['features_title']       ?? 'Services to Boost Business Growth';
+    $featuresTitle       =  'Financial and Advisory Expertise' ?? $data['features_title'] ;
     $featuresDescription = $data['features_description'] ?? '';
 @endphp
 
@@ -16,8 +16,12 @@
                             <img src="{{ asset('assets/img/home-13/brand/brand-sub.png') }}" alt="">
                         </div>
                         <div class="tp_text_anim">
-                            <p>{{ $clienteleTitle }}</p>
+                           
+
+                            <div class="tp-section-subtitle-gradient ct mb-20">{{ $clienteleTitle }}</div>
                         </div>
+
+                        <h3 class="tp-section-title-onest fs-72">Trusted by Leaders</h3>
                     </div>
                 </div>
                 <div class="col-lg-8">
@@ -42,7 +46,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="cr-feature-heading text-center pt-100 pb-100">
+                    <div class="cr-feature-heading text-center pt-50 pb-100">
                         <div class="tp-section-subtitle-gradient ct mb-20">{{ $featuresLabel }}</div>
                         <h4 class="tp-section-title-onest fs-72">{{ $featuresTitle }}</h4>
                         @if($featuresDescription)
@@ -68,11 +72,11 @@
                             </div>
                             <div class="cr-feature-thumb text-center anim-zoomin-wrap" style="padding:25px;">
                                 <div class="cr-feature-thumb text-start" style="padding:25px 35px;">
-                                    <div class="metric"><span>Accounting &amp; Bookkeeping</span><div class="bar"><div style="width:95%"></div></div></div>
-                                    <div class="metric"><span>Financial Reporting</span><div class="bar"><div style="width:90%"></div></div></div>
-                                    <div class="metric"><span>Virtual CFO Services</span><div class="bar"><div style="width:85%"></div></div></div>
-                                    <div class="metric"><span>Audit Support &amp; Compliance</span><div class="bar"><div style="width:88%"></div></div></div>
-                                    <div class="metric"><span>M&amp;A Services</span><div class="bar"><div style="width:82%"></div></div></div>
+                                    <div class="metric"><span>Accounting &amp; Bookkeeping</span><div class="bar"><div style="width:100%"></div></div></div>
+                                    <div class="metric"><span>Financial Reporting</span><div class="bar"><div style="width:100%"></div></div></div>
+                                    <div class="metric"><span>Virtual CFO Services</span><div class="bar"><div style="width:100%"></div></div></div>
+                                    <div class="metric"><span>Audit Support &amp; Compliance</span><div class="bar"><div style="width:100%"></div></div></div>
+                                    <div class="metric"><span>M&amp;A Services</span><div class="bar"><div style="width:100%"></div></div></div>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +91,7 @@
                                     <h5 class="cr-feature-item-icon-title">N. Tatia &amp; Associates</h5>
                                 </div>
                                 <p>A professionally managed, peer-reviewed firm offering assurance, taxation, and advisory services. Known for its partner-driven approach, compliance expertise, and strong governance framework — ensuring every client engagement adheres to the highest professional standards.</p>
-                                <p style="margin-top:14px; font-style:italic; opacity:0.85;">Guided by core values of trust, transparency, and professionalism, our client-first approach and local insight help us deliver consistent value and long-term impact.</p>
+                                <p style="margin-top:14px; opacity:0.85;">Guided by core values of trust, transparency, and professionalism, our client-first approach and local insight help us deliver consistent value and long-term impact.</p>
                             </div>
                             <div class="cr-feature-thumb anim-zoomin-wrap text-center">
                                 <div class="cr-feature-thumb text-center">
@@ -105,11 +109,11 @@
                                     <div class="mv-grid">
                                         <div class="mv-card">
                                             <h4>Our Mission</h4>
-                                            <p>To empower businesses across the globe by providing comprehensive financial and management consulting services that drive growth, ensure compliance, and enhance operational efficiency. We strive to build lasting relationships with our clients based on trust, transparency, and a deep understanding of their unique needs.</p>
+                                            <p>Our mission is to empower businesses across the globe by providing comprehensive financial and management consulting services that drive growth, ensure compliance, and enhance operational efficiency. We strive to build lasting relationships with our clients based on trust, transparency, and a deep understanding of their unique needs.</p>
                                         </div>
                                         <div class="mv-card">
                                             <h4>Our Vision</h4>
-                                            <p>To be a trusted global financial services partner for CPA firms and businesses seeking reliability, expertise, and scalable support.</p>
+                                            <p>Our vision is to be the premier finance and management consulting firm recognized for our unwavering commitment to excellence, innovation, and integrity. We aim to be the trusted advisor for businesses across markets of all sizes, helping them navigate the complexities of the financial world and achieve their strategic objectives.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +124,7 @@
             </div>
 
             <!-- VALUES 6-CARD GRID -->
-            <div class="row mt-50 pb-100">
+            <div class="row values-card">
                 <div class="col-lg-12">
                     <div class="text-center mb-40">
                         <div class="tp-section-subtitle-gradient ct mb-15">What Drives Us</div>

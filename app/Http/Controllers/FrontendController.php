@@ -21,9 +21,8 @@ class FrontendController extends Controller
     {
         $homePage = Page::where('name', 'home')->first();
         $pageSections = $homePage ? $homePage->activeSections()->get() : collect();
-        $blogs = Blog::published()->latest('published_at')->take(3)->get();
 
-        return view('frontend.home', compact('pageSections', 'blogs'));
+        return view('frontend.home', compact('pageSections'));
     }
 
     public function blogIndex()

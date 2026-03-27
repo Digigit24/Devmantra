@@ -41,6 +41,12 @@
         border: 1px solid rgba(255,255,255,0.2);
         border-radius: 20px;
     }
+    .dm-read-time-badge {
+        background: rgba(255,255,255,0.12);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 13px !important;
+    }
     .dm-article-hero-title {
         font-size: 48px;
         font-weight: 600;
@@ -376,9 +382,10 @@
                 <div class="dm-article-meta tp_fade_anim" data-delay=".3">
                     <span class="dm-article-meta-tag">{{ $blog->category }}</span>
                     <span class="dm-article-meta-item">{{ $blog->published_at?->format('M d, Y') ?? $blog->created_at->format('M d, Y') }}</span>
-                    @if($blog->read_time)
-                    <span class="dm-article-meta-item">{{ $blog->read_time }}</span>
-                    @endif
+                    <span class="dm-article-meta-item dm-read-time-badge">
+                        <i class="fa-regular fa-clock"></i>
+                        {{ $blog->read_time ?: '5 min read' }}
+                    </span>
                 </div>
                 <h1 class="dm-article-hero-title tp-text-revel-anim" data-delay=".5">{{ $blog->title }}</h1>
             </div>
@@ -434,7 +441,7 @@
                         <div class="dm-sidebar-post-thumb">
                             @if($sidePost->featured_image)
                                 <a href="{{ route('blog.show', $sidePost->slug) }}">
-                                    <img src="{{ asset('storage/' . $sidePost->featured_image) }}" alt="{{ $sidePost->title }}">
+                                    <img src="{{ asset( $sidePost->featured_image) }}" alt="{{ $sidePost->title }}">
                                 </a>
                             @else
                                 <a href="{{ route('blog.show', $sidePost->slug) }}">

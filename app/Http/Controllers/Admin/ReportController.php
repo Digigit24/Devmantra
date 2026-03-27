@@ -56,9 +56,14 @@ class ReportController extends Controller
             'edition_label' => 'nullable|string|max:100',
             'is_featured' => 'nullable|boolean',
             'meta_description' => 'nullable|string|max:255',
+            'read_time' => 'nullable|string|max:50',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
         ]);
+
+        if (empty($validated['read_time'])) {
+            $validated['read_time'] = '5 min read';
+        }
 
         if ($request->hasFile('featured_image')) {
             $validated['featured_image'] = $request->file('featured_image')->store('reports', 'public');
@@ -91,9 +96,14 @@ class ReportController extends Controller
             'edition_label' => 'nullable|string|max:100',
             'is_featured' => 'nullable|boolean',
             'meta_description' => 'nullable|string|max:255',
+            'read_time' => 'nullable|string|max:50',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
         ]);
+
+        if (empty($validated['read_time'])) {
+            $validated['read_time'] = '5 min read';
+        }
 
         if ($request->hasFile('featured_image')) {
             if ($report->featured_image) {

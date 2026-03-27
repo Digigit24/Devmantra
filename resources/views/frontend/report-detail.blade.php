@@ -41,6 +41,12 @@
         border: 1px solid rgba(255,255,255,0.2);
         border-radius: 20px;
     }
+    .dm-read-time-badge {
+        background: rgba(255,255,255,0.12);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 13px !important;
+    }
     .dm-article-hero-title {
         font-size: 48px;
         font-weight: 600;
@@ -388,6 +394,10 @@
                     <span class="dm-article-meta-item">{{ $report->edition_label }}</span>
                     @endif
                     <span class="dm-article-meta-item">{{ $report->published_at?->format('M d, Y') ?? $report->created_at->format('M d, Y') }}</span>
+                    <span class="dm-article-meta-item dm-read-time-badge">
+                        <i class="fa-regular fa-clock"></i>
+                        {{ $report->read_time ?: '5 min read' }}
+                    </span>
                 </div>
                 <h1 class="dm-article-hero-title tp-text-revel-anim" data-delay=".5">{{ $report->title }}</h1>
             </div>
@@ -446,7 +456,7 @@
                         <div class="dm-sidebar-post-thumb">
                             @if($sidePost->featured_image)
                                 <a href="{{ route('report.show', $sidePost->slug) }}">
-                                    <img src="{{ asset('storage/' . $sidePost->featured_image) }}" alt="{{ $sidePost->title }}">
+                                    <img src="{{ asset( $sidePost->featured_image) }}" alt="{{ $sidePost->title }}">
                                 </a>
                             @else
                                 <a href="{{ route('report.show', $sidePost->slug) }}">

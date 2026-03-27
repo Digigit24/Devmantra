@@ -113,7 +113,7 @@
                                 <x-btn-primary class="dm-btn-sm" />
                             </div>
                             <div class="tp-header-bar ml-20 d-xl-none">
-                                <button class="tp-offcanvas-open-btn">
+                                <button class="tp-offcanvas-open-btn" type="button">
                                     <i></i><i></i><i></i>
                                 </button>
                             </div>

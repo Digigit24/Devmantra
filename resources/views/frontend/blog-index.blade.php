@@ -23,6 +23,15 @@
     .dm-blog-card-link { font-size: 14px; font-weight: 600; color: var(--tp-common-black,#111); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
     .dm-blog-card-link:hover { opacity: 0.6; }
 
+    /* Read Time Badge */
+    .dm-card-read-time-badge {
+        display: inline-flex; align-items: center; gap: 5px;
+        font-size: 12px; font-weight: 600; font-family: var(--tp-ff-onest);
+        color: rgba(0,0,0,0.5); background: rgba(0,0,0,0.06);
+        padding: 4px 10px; border-radius: 20px;
+    }
+    .dm-card-read-time-badge i { font-size: 11px; }
+
     /* ── Pagination ── */
     .dm-pagination { display: flex; justify-content: center; padding-top: 40px; }
     .dm-pagination ul {
@@ -100,7 +109,13 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="dm-blog-featured-content tp_fade_anim" data-delay=".5">
-                        <span class="dm-blog-card-category">Featured</span>
+                        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+                            <span class="dm-blog-card-category" style="margin:0;">Featured</span>
+                            <span class="dm-card-read-time-badge">
+                                <i class="fa-regular fa-clock"></i>
+                                {{ $featured->read_time ?: '5 min read' }}
+                            </span>
+                        </div>
                         <h3 class="dm-blog-featured-title">
                             <a href="{{ route('blog.show', $featured->slug) }}">{{ $featured->title }}</a>
                         </h3>
@@ -134,7 +149,13 @@
                             @endif
                         </a>
                     </div>
-                    <span class="dm-blog-card-category">{{ $blog->category }}</span>
+                    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0 8px;">
+                        <span class="dm-blog-card-category" style="margin:0;">{{ $blog->category }}</span>
+                        <span class="dm-card-read-time-badge">
+                            <i class="fa-regular fa-clock"></i>
+                            {{ $blog->read_time ?: '5 min read' }}
+                        </span>
+                    </div>
                     <h4 class="dm-blog-card-title">
                         <a href="{{ route('blog.show', $blog->slug) }}">{{ $blog->title }}</a>
                     </h4>

@@ -20,6 +20,9 @@ class Newsletter extends Model
         'edition_label',
         'is_featured',
         'meta_description',
+        'button_url',
+        'button_text',
+        'read_time',
         'status',
         'published_at',
     ];

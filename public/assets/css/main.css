@@ -4892,6 +4892,11 @@ only screen and (min-width: 768px) and (max-width: 991px) {
     letter-spacing: -2.16px;
     color: var(--tp-common-white);
     font-family: var(--tp-ff-onest);
+    
+}
+
+.hero-titlee{
+    margin-top: 3px;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px),
@@ -5438,6 +5443,7 @@ body.tp-magic-cursor #magic-cursor {
     right: 0;
     z-index: 9;
     width: 100%;
+    background-color: #ffffff;
 }
 
 .header-fixed {
@@ -5478,7 +5484,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     font-size: 17px;
     display: inline-block;
     letter-spacing: -0.01em;
-    color: var(--tp-common-white);
+    color: #0b0f14;
 }
 
 .tp-header-lang a {
@@ -6864,7 +6870,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     font-size: 16px;
     margin-left: 6px;
     display: inline-block;
-    color: var(--tp-common-white);
+    color: #111013;
     transition: all 0.3s ease-out;
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
@@ -17310,6 +17316,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 
 .cr-hero-heading {
     padding-bottom: 50px;
+    margin-top:100px;
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1399px),
@@ -17360,10 +17367,11 @@ only screen and (min-width: 768px) and (max-width: 991px),
 
 .cr-hero-content {
     padding-bottom: 200px;
+    margin-top:-40px;
 }
 
 .cr-hero-content p {
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 500;
     line-height: 26px;
     margin-bottom: 25px;
@@ -36626,7 +36634,7 @@ only screen and (min-width: 992px) and (max-width: 1199px) {
 
 @media (max-width: 767px) {
     .cr-feature-item.hight {
-        height: 440px;
+        height: auto;
     }
 }
 
@@ -36645,8 +36653,8 @@ only screen and (min-width: 992px) and (max-width: 1199px) {
 }
 
 .cr-feature-2-ptb {
-    padding-top: 185px;
-    padding-bottom: 185px;
+    padding-top: 4%;
+    padding-bottom: 55px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
@@ -59423,6 +59431,14 @@ only screen and (min-width: 768px) and (max-width: 991px),
     padding: 0 15px;
 }
 
+
+.values-card{
+    margin-top: 50px;
+    padding-bottom: 100px;
+}
+
+
+
 .dm-value-card {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -59468,6 +59484,10 @@ only screen and (min-width: 768px) and (max-width: 991px),
     .dm-values-grid {
         grid-template-columns: 1fr;
     }
+    .values-card{
+    margin-top: 30px;
+    padding-bottom: 100px;
+}
 }
 
 /* ===== Horizontal Scroll Services Section ===== */
@@ -59516,7 +59536,11 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .dm-hscroll-track {
     overflow: visible;
     width: 100%;
+    zoom:80%
 }
+
+
+    
 
 .dm-hscroll-cards {
     display: flex;
@@ -59718,8 +59742,9 @@ only screen and (min-width: 768px) and (max-width: 991px),
 
 /* ===== Team Section ===== */
 .dm-team-section {
-    padding: 100px 0;
+    padding: 50px 0;
     background: #fff;
+    zoom: 60%;
 }
 
 .dm-team-header {
@@ -59752,8 +59777,8 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 .dm-team-col {
-    flex: 0 0 20%;
-    max-width: 20%;
+    flex: 0 0 15%;
+    max-width: 15%;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -59802,10 +59827,11 @@ only screen and (min-width: 768px) and (max-width: 991px),
 
 .dm-team-name {
     font-family: 'Onest', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 800;
     color: #1a1a2e;
     margin: 0;
+    text-wrap: 100px;
 }
 
 @media (max-width: 991px) {
@@ -59859,7 +59885,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 .dm-6a-section {
-    padding: 110px 0;
+    padding: 0;
     background: #fff;
     overflow: hidden;
     position: relative;
@@ -59895,7 +59921,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .dm-6a-track {
     position: relative;
     overflow: visible;
-    padding: 20px 0 40px;
+    padding: 20px 0 20px;
 }
 
 .dm-6a-row {
@@ -60149,11 +60175,12 @@ only screen and (min-width: 768px) and (max-width: 991px),
 
 /* ── Section base (LIGHT) ── */
 .dm-ai-section {
-    padding: 120px 0 110px;
+    padding: 30px 0 30px;
     background: #fff;
     position: relative;
     overflow: hidden;
     z-index: 1;
+  
 }
 
 /* ── Animated background (light) ── */
@@ -60222,9 +60249,9 @@ only screen and (min-width: 768px) and (max-width: 991px),
 }
 
 /* ── Header ── */
-.dm-ai-header {
+/* .dm-ai-header {
     margin-bottom: 56px;
-}
+} */
 
 .dm-ai-section .tp-section-subtitle-gradient {
     background: none;
@@ -60259,7 +60286,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .dm-ai-platform {
     display: flex;
     justify-content: center;
-    margin-bottom: 72px;
+    margin-bottom: 10px;
     position: relative;
 }
 
@@ -60267,6 +60294,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     position: relative;
     width: 420px;
     height: 420px;
+     margin-top: -7vw;
 }
 
 .dm-ai-webgl-canvas {
@@ -60275,6 +60303,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
     display: block;
     position: relative;
     z-index: 2;
+   
 }
 
 /* CSS fallback (visible when WebGL fails) */
@@ -60351,7 +60380,7 @@ only screen and (min-width: 768px) and (max-width: 991px),
 /* Label overlay on top of WebGL canvas */
 .dm-ai-webgl-label {
     position: absolute;
-    bottom: 20px;
+    bottom: 45px;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Onest', sans-serif;
@@ -60363,10 +60392,11 @@ only screen and (min-width: 768px) and (max-width: 991px),
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    padding: 6px 18px;
+    padding: 3px 5px;
     border-radius: 20px;
     border: 1px solid rgba(0, 0, 0, 0.08);
     white-space: nowrap;
+    margin-top: -50px;
 }
 
 /* ── Capability cards (light) ── */
@@ -61005,6 +61035,17 @@ only screen and (min-width: 768px) and (max-width: 991px),
     }
     .dm-lc-vpanel-list li {
         font-size: 13px;
+    }
+}
+
+/* Disable magic cursor on touch/mobile devices */
+@media (max-width: 991px), (hover: none), (pointer: coarse) {
+    #magic-cursor,
+    #ball {
+        display: none !important;
+    }
+    body.tp-magic-cursor {
+        cursor: auto !important;
     }
 }
 

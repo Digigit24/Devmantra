@@ -40,6 +40,15 @@
     .dm-edition-card-link i { font-size: 12px; transition: transform 0.3s; }
     .dm-edition-card:hover .dm-edition-card-link i { transform: translateX(3px); }
 
+    /* Read Time Badge */
+    .dm-card-read-time-badge {
+        display: inline-flex; align-items: center; gap: 5px;
+        font-size: 12px; font-weight: 600; font-family: var(--tp-ff-onest);
+        color: rgba(0,0,0,0.5); background: rgba(0,0,0,0.06);
+        padding: 4px 10px; border-radius: 20px;
+    }
+    .dm-card-read-time-badge i { font-size: 11px; }
+
     /* Pagination */
     .dm-pagination { display: flex; justify-content: center; padding-top: 40px; }
     .dm-pagination ul {
@@ -119,9 +128,15 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="dm-report-featured-content tp_fade_anim" data-delay=".5">
-                        <span class="dm-edition-card-date">
-                            <i class="fa-regular fa-calendar"></i> Featured
-                        </span>
+                        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+                            <span class="dm-edition-card-date" style="margin:0;">
+                                <i class="fa-regular fa-calendar"></i> Featured
+                            </span>
+                            <span class="dm-card-read-time-badge">
+                                <i class="fa-regular fa-clock"></i>
+                                {{ $featured->read_time ?: '5 min read' }}
+                            </span>
+                        </div>
                         <h3 class="dm-report-featured-title">
                             <a href="{{ route('report.show', $featured->slug) }}">{{ $featured->title }}</a>
                         </h3>
@@ -157,10 +172,16 @@
                             @endif
                         </a>
                     </div>
-                    <span class="dm-edition-card-date">
-                        <i class="fa-regular fa-calendar"></i>
-                        {{ $report->edition_label ?? $report->published_at?->format('F Y') ?? $report->created_at->format('F Y') }}
-                    </span>
+                    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:16px 0 8px;">
+                        <span class="dm-edition-card-date" style="margin:0;">
+                            <i class="fa-regular fa-calendar"></i>
+                            {{ $report->edition_label ?? $report->published_at?->format('F Y') ?? $report->created_at->format('F Y') }}
+                        </span>
+                        <span class="dm-card-read-time-badge">
+                            <i class="fa-regular fa-clock"></i>
+                            {{ $report->read_time ?: '5 min read' }}
+                        </span>
+                    </div>
                     <h4 class="dm-edition-card-title">
                         <a href="{{ route('report.show', $report->slug) }}">{{ $report->title }}</a>
                     </h4>

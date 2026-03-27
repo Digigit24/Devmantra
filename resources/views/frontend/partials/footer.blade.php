@@ -20,7 +20,8 @@ footer.z-index-1 { background-color: #001d30; }
                                 <div class="dgm-footer-widget-paragraph mb-30">
                                     <p>Dev Mantra is a strategic partner in progress for businesses operating in a global and digital economy.</p>
                                 </div>
-                                @if($footerContact->facebook_url || $footerContact->twitter_url || $footerContact->linkedin_url || $footerContact->instagram_url || $footerContact->whatsapp_url)
+                                @php $instaUrl = $footerContact->instagram_url ?: 'https://www.instagram.com/devmantra_official/'; @endphp
+                                @if($footerContact->facebook_url || $footerContact->twitter_url || $footerContact->linkedin_url || $instaUrl || $footerContact->whatsapp_url)
                                 <div class="cr-footer-widget-social mb-35">
                                     <div class="tp-footer-widget-social">
                                         @if($footerContact->facebook_url)
@@ -32,9 +33,7 @@ footer.z-index-1 { background-color: #001d30; }
                                         @if($footerContact->linkedin_url)
                                         <a href="{{ $footerContact->linkedin_url }}" target="_blank" rel="noopener" aria-label="LinkedIn"><span><i class="fa-brands fa-linkedin-in"></i></span></a>
                                         @endif
-                                        @if($footerContact->instagram_url)
-                                        <a href="{{ $footerContact->instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram"><span><i class="fa-brands fa-instagram"></i></span></a>
-                                        @endif
+                                        <a href="{{ $instaUrl }}" target="_blank" rel="noopener" aria-label="Instagram"><span><i class="fa-brands fa-instagram"></i></span></a>
                                         @if($footerContact->whatsapp_url)
                                         <a href="{{ $footerContact->whatsapp_url }}" target="_blank" rel="noopener" aria-label="WhatsApp"><span><i class="fa-brands fa-whatsapp"></i></span></a>
                                         @endif

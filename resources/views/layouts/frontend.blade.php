@@ -6,6 +6,7 @@
     <title>@yield('title', 'DevMantra')</title>
     <meta name="description" content="@yield('meta_description', 'Dev Mantra - Strategic partner in progress for businesses operating in a global and digital economy.')">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- OG Tags -->
     <meta property="og:title" content="@yield('title', 'DevMantra')">
@@ -57,6 +58,41 @@
     <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/spacing.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    <style>
+        /* Header always above GSAP ScrollSmoother wrapper */
+        #header-sticky { z-index: 9999 !important; }
+        /* Preloader above everything including header */
+        #preloader { z-index: 99999 !important; }
+        /* Hamburger — dark lines, animates to × when menu is open */
+        .tp-header-bar button {
+            background: transparent !important;
+            border: none !important;
+            padding: 12px 10px !important;
+            width: auto !important;
+            min-width: 44px; min-height: 44px;
+            cursor: pointer !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 5px !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .tp-header-bar button i {
+            background-color: #001d30 !important;
+            display: block !important;
+            height: 2px !important;
+            width: 24px !important;
+            border-radius: 2px !important;
+            transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease !important;
+            transform-origin: center !important;
+        }
+        .tp-header-bar button i:nth-child(2) { width: 18px !important; }
+        /* × state */
+        .dm-menu-open .tp-header-bar button i:nth-child(1) { transform: translateY(7px) rotate(45deg) !important; width: 24px !important; }
+        .dm-menu-open .tp-header-bar button i:nth-child(2) { opacity: 0 !important; width: 24px !important; }
+        .dm-menu-open .tp-header-bar button i:nth-child(3) { transform: translateY(-7px) rotate(-45deg) !important; width: 24px !important; }
+    </style>
     {{-- FontAwesome: non-blocking — prints first, swaps to screen once loaded --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
@@ -201,6 +237,35 @@
     <script type="module">
         import { Agents } from "https://rispose.com/cdn/v1/sdk.es.js"
         const agent = Agents.getOrCreate('ag_qkd64r7kxxpt')
+    </script>
+
+    <!-- Mobile menu toggle — plain JS, no defer, runs immediately -->
+    <script>
+    (function () {
+        var isOpen = false;
+        function dmOpenMenu() {
+            isOpen = true;
+            document.querySelector('.tp-offcanvas-area').classList.add('opened');
+            document.querySelector('.body-overlay').classList.add('opened');
+            document.body.classList.add('dm-menu-open');
+        }
+        function dmCloseMenu() {
+            isOpen = false;
+            document.querySelector('.tp-offcanvas-area').classList.remove('opened');
+            document.querySelector('.body-overlay').classList.remove('opened');
+            document.body.classList.remove('dm-menu-open');
+        }
+        function dmToggleMenu() { isOpen ? dmCloseMenu() : dmOpenMenu(); }
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('.tp-offcanvas-open-btn'))  { dmToggleMenu(); return; }
+            if (e.target.closest('.tp-offcanvas-close-btn')) { dmCloseMenu(); return; }
+            if (e.target.matches('.body-overlay'))            { dmCloseMenu(); return; }
+        });
+        document.addEventListener('touchend', function (e) {
+            if (e.target.closest('.tp-offcanvas-open-btn'))  { e.preventDefault(); dmToggleMenu(); return; }
+            if (e.target.closest('.tp-offcanvas-close-btn')) { e.preventDefault(); dmCloseMenu(); return; }
+        }, { passive: false });
+    })();
     </script>
 </body>
 </html>

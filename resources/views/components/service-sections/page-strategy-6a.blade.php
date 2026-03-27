@@ -53,9 +53,7 @@
                     </div>
                 </div>
             </div>
-            <div class="dm-6a-cta">
-                <x-btn-primary />
-            </div>
+           
         </div>
     </div>
 </section>

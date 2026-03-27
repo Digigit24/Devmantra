@@ -54,7 +54,7 @@
                     <label class="dm-form-label">Featured Image</label>
                     @if($newsletter->featured_image)
                         <div class="mb-2">
-                            <img src="{{ asset('storage/' . $newsletter->featured_image) }}" style="width:100%;border-radius:8px;max-height:160px;object-fit:cover;" alt="">
+                            <img src="{{  $newsletter->featured_image }}" style="width:100%;border-radius:8px;max-height:160px;object-fit:cover;" alt="">
                         </div>
                     @endif
                     <input type="file" name="featured_image" class="dm-form-input" accept="image/*">
@@ -62,6 +62,21 @@
                 <div class="dm-form-group">
                     <label class="dm-form-label">Meta Description</label>
                     <textarea name="meta_description" class="dm-form-textarea" style="min-height:60px;">{{ old('meta_description', $newsletter->meta_description) }}</textarea>
+                </div>
+                <div class="dm-form-group">
+                    <label class="dm-form-label">Read Time</label>
+                    <input type="text" name="read_time" value="{{ old('read_time', $newsletter->read_time ?: '5 min read') }}" class="dm-form-input" placeholder="e.g. 5 min read">
+                    <div class="dm-form-hint">Shown as a badge on cards and detail pages. Default: 5 min read</div>
+                </div>
+                <div class="dm-form-group">
+                    <label class="dm-form-label">Button URL</label>
+                    <input type="url" name="button_url" value="{{ old('button_url', $newsletter->button_url) }}" class="dm-form-input" placeholder="https://example.com/newsletter.pdf">
+                    <div class="dm-form-hint">External link that opens in a new tab. Leave empty to hide the button.</div>
+                </div>
+                <div class="dm-form-group">
+                    <label class="dm-form-label">Button Label</label>
+                    <input type="text" name="button_text" value="{{ old('button_text', $newsletter->button_text ?: 'Read More') }}" class="dm-form-input" placeholder="Read More">
+                    <div class="dm-form-hint">Default: Read More</div>
                 </div>
                 <div class="dm-form-group">
                     <div class="dm-form-check">

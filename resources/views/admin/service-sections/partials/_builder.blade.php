@@ -365,6 +365,182 @@ const FIELD_SCHEMAS = {
       { key:'subtitle', type:'textarea', label:'Intro Paragraph' },
     ]
   },
+
+  /* ── Page Sections ─────────────────────────────────────────── */
+  'page-what-we-do': {
+    label: 'What We Do — Services Overview',
+    icon: 'fa-solid fa-briefcase',
+    fields: [
+      { key:'title',    type:'text',     label:'Section Title', hint:'e.g. What We Do' },
+      { key:'subtitle', type:'textarea', label:'Subtitle / Intro Paragraph' },
+    ]
+  },
+  'page-clientele': {
+    label: 'Clientele — Features Block',
+    icon: 'fa-solid fa-users',
+    fields: [
+      { key:'clientele_title',      type:'text',     label:'Clientele Heading', hint:'e.g. Our Clientele' },
+      { key:'features_label',       type:'text',     label:'Features Eyebrow', hint:'e.g. What We Do' },
+      { key:'features_title',       type:'text',     label:'Features Heading' },
+      { key:'features_description', type:'textarea', label:'Features Description' },
+    ]
+  },
+  'page-strategy-6a': {
+    label: '6A Strategy Framework',
+    icon: 'fa-solid fa-hexagon-nodes',
+    fields: [
+      { key:'label',    type:'text',     label:'Eyebrow Label', hint:'e.g. Our Framework' },
+      { key:'title',    type:'text',     label:'Section Title' },
+      { key:'subtitle', type:'textarea', label:'Intro Paragraph' },
+    ]
+  },
+  'page-ai-platform': {
+    label: 'AI-Enabled Platform',
+    icon: 'fa-solid fa-microchip',
+    fields: [
+      { key:'subtitle', type:'text', label:'Eyebrow Label', hint:'e.g. Technology at the Core' },
+      { key:'title',    type:'text', label:'Section Title' },
+    ]
+  },
+  'page-world-map': {
+    label: 'World Map — Countries We Serve',
+    icon: 'fa-solid fa-earth-americas',
+    fields: [
+      { key:'title',    type:'text',     label:'Section Title' },
+      { key:'subtitle', type:'textarea', label:'Subtitle / Description' },
+    ]
+  },
+  'page-commitment-grid': {
+    label: 'Commitment Grid',
+    icon: 'fa-solid fa-grip',
+    fields: [
+      { key:'label',       type:'text',     label:'Eyebrow Label', hint:'e.g. Our Commitment' },
+      { key:'title',       type:'text',     label:'Section Title' },
+      { key:'description', type:'textarea', label:'Description Paragraph' },
+    ]
+  },
+  'page-team': {
+    label: 'Team — Founders, Partners & Members',
+    icon: 'fa-solid fa-people-group',
+    fields: [
+      { key:'title',    type:'text',     label:'Section Title', hint:'e.g. Meet Our Team' },
+      { key:'subtitle', type:'textarea', label:'Section Subtitle' },
+      { key:'founders', type:'array-of-objects', label:'Founders', itemLabel:'Founder',
+        subFields:[
+          { key:'name',  type:'text', label:'Name' },
+          { key:'role',  type:'text', label:'Role / Title' },
+          { key:'photo', type:'text', label:'Photo Path', hint:'e.g. assets/img/team/6.jpg' },
+        ]
+      },
+      { key:'partners', type:'array-of-objects', label:'Partners & Advisory Board', itemLabel:'Partner',
+        subFields:[
+          { key:'name',  type:'text', label:'Name' },
+          { key:'role',  type:'text', label:'Role / Title' },
+          { key:'photo', type:'text', label:'Photo Path', hint:'e.g. assets/img/team/8.jpg' },
+        ]
+      },
+      { key:'team_members', type:'array-of-objects', label:'Team Members', itemLabel:'Member',
+        subFields:[
+          { key:'name',  type:'text', label:'Name' },
+          { key:'role',  type:'text', label:'Role / Title' },
+          { key:'photo', type:'text', label:'Photo Path', hint:'e.g. assets/img/team/1.jpg' },
+        ]
+      },
+    ]
+  },
+  'page-testimonials': {
+    label: 'Testimonials — Client Stories',
+    icon: 'fa-solid fa-star',
+    fields: [
+      { key:'rating', type:'text',     label:'Rating', hint:'e.g. 4.8' },
+      { key:'label',  type:'text',     label:'Eyebrow Label', hint:'e.g. Client Success Stories' },
+      { key:'title',  type:'textarea', label:'Section Title' },
+    ]
+  },
+  'page-blogs': {
+    label: 'Blog Section — Latest Insights',
+    icon: 'fa-solid fa-newspaper',
+    fields: [
+      { key:'subtitle',          type:'text',     label:'Eyebrow Label', hint:'e.g. Insights' },
+      { key:'title',             type:'textarea', label:'Section Headline', hint:'Use a newline for line breaks' },
+      { key:'count',             type:'text',     label:'Number of posts to show', hint:'e.g. 3' },
+      { key:'explore_link_text', type:'text',     label:'Explore Link Text', hint:'e.g. Explore more insights from Dev Mantra' },
+      { key:'explore_link_url',  type:'text',     label:'Explore Link URL', hint:'e.g. /blog' },
+    ]
+  },
+  'page-cta': {
+    label: 'CTA — Call to Action',
+    icon: 'fa-solid fa-bullhorn',
+    fields: [
+      { key:'title',    type:'textarea', label:'Headline', hint:'Use a newline for line breaks' },
+      { key:'subtitle', type:'textarea', label:'Description Paragraph' },
+      { key:'cta_text', type:'text',     label:'Button Text (leave blank to use global setting)' },
+      { key:'cta_url',  type:'text',     label:'Button URL (leave blank to use global setting)', hint:'e.g. /contact or # for modal' },
+    ]
+  },
+
+  /* ── About Page Sections ───────────────────────────────────── */
+  'about-hero': {
+    label: 'About Hero — Page Banner',
+    icon: 'fa-solid fa-flag',
+    fields: [
+      { key:'subtitle',    type:'text',     label:'Eyebrow Label', hint:'e.g. About Dev Mantra' },
+      { key:'title',       type:'text',     label:'Main Headline' },
+      { key:'description', type:'textarea', label:'Description Paragraph' },
+    ]
+  },
+  'about-intro': {
+    label: 'About Intro — Who We Are',
+    icon: 'fa-solid fa-circle-info',
+    fields: [
+      { key:'label', type:'text',             label:'Eyebrow Label', hint:'e.g. Who We Are' },
+      { key:'title', type:'text',             label:'Section Heading' },
+      { key:'paragraphs', type:'array-of-strings', label:'Body Paragraphs', hint:'One paragraph per line' },
+    ]
+  },
+  'about-mission-vision': {
+    label: 'Mission & Vision',
+    icon: 'fa-solid fa-binoculars',
+    fields: [
+      { key:'mission_title', type:'text',     label:'Mission Heading', hint:'e.g. Our Mission' },
+      { key:'mission_text',  type:'textarea', label:'Mission Body' },
+      { key:'vision_title',  type:'text',     label:'Vision Heading', hint:'e.g. Our Vision' },
+      { key:'vision_text',   type:'textarea', label:'Vision Body' },
+    ]
+  },
+  'about-values': {
+    label: 'Our Values — Cards',
+    icon: 'fa-solid fa-heart',
+    fields: [
+      { key:'label', type:'text', label:'Eyebrow Label', hint:'e.g. What Drives Us' },
+      { key:'title', type:'text', label:'Section Title', hint:'e.g. Our Values' },
+      { key:'items', type:'array-of-objects', label:'Value Cards', itemLabel:'Value',
+        subFields:[
+          { key:'icon',        type:'text',     label:'Icon Number or Class', hint:'e.g. 1 or fa-solid fa-star' },
+          { key:'title',       type:'text',     label:'Value Title' },
+          { key:'description', type:'textarea', label:'Description' },
+        ]
+      },
+    ]
+  },
+  'about-services-overview': {
+    label: 'About — Services Overview',
+    icon: 'fa-solid fa-list-check',
+    fields: [
+      { key:'label', type:'text', label:'Eyebrow Label', hint:'e.g. What We Do' },
+      { key:'title', type:'text', label:'Section Title', hint:'e.g. Our Expertise' },
+    ]
+  },
+  'about-cta': {
+    label: 'About CTA (Legacy)',
+    icon: 'fa-solid fa-rectangle-ad',
+    fields: [
+      { key:'title',    type:'text',     label:'Headline' },
+      { key:'subtitle', type:'textarea', label:'Subtitle' },
+      { key:'cta_text', type:'text',     label:'Button Text' },
+      { key:'cta_url',  type:'text',     label:'Button URL' },
+    ]
+  },
 };
 
 /* ═══════════════════════════════════════════════════════════

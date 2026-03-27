@@ -22,6 +22,8 @@
     .dm-blog-card-meta { font-size: 14px; color: rgba(0,0,0,0.35); }
     .dm-blog-card-link { font-size: 14px; font-weight: 600; color: var(--tp-common-black,#111); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
     .dm-blog-card-link:hover { opacity: 0.6; }
+    .dm-card-read-time-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; font-family: var(--tp-ff-onest); color: rgba(0,0,0,0.5); background: rgba(0,0,0,0.06); padding: 4px 10px; border-radius: 20px; }
+    .dm-card-read-time-badge i { font-size: 11px; }
     .dm-pagination { display: flex; justify-content: center; padding-top: 40px; }
     .dm-pagination ul { list-style: none; padding: 0; margin: 0; display: flex; align-items: center; gap: 6px; }
     .dm-pagination li a, .dm-pagination li span { display: inline-flex; align-items: center; justify-content: center; min-width: 42px; height: 42px; padding: 0 14px; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; font-size: 14px; font-weight: 600; font-family: var(--tp-ff-onest); color: var(--tp-common-black,#111); background: #fff; text-decoration: none; transition: all 0.25s ease; }
@@ -97,7 +99,13 @@
                             @endif
                         </a>
                     </div>
-                    <span class="dm-blog-card-category">{{ $item->category }}</span>
+                    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0 8px;">
+                        <span class="dm-blog-card-category" style="margin:0;">{{ $item->category }}</span>
+                        <span class="dm-card-read-time-badge">
+                            <i class="fa-regular fa-clock"></i>
+                            {{ $item->read_time ?: '5 min read' }}
+                        </span>
+                    </div>
                     <h4 class="dm-blog-card-title">
                         <a href="{{ route('case-study.show', $item->slug) }}">{{ $item->title }}</a>
                     </h4>

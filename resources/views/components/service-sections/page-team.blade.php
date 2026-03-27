@@ -2,6 +2,25 @@
 @php
     $title    = $data['title']    ?? 'Meet Our Team';
     $subtitle = $data['subtitle'] ?? 'The people behind Devmantra who drive excellence every day.';
+
+    $founders = $data['founders'] ?? [
+        ['name' => 'Vikash Tatia',  'role' => 'Founder & MD',        'photo' => 'assets/img/team/6.jpg'],
+        ['name' => 'Nidhi Tatia',   'role' => 'Founder & Director',  'photo' => 'assets/img/team/7.jpg'],
+    ];
+    $partners = $data['partners'] ?? [
+        ['name' => 'Sankaranarayanan',   'role' => 'Director & Associate Partner',         'photo' => 'assets/img/team/8.jpg'],
+        ['name' => 'Kamal Parakh',       'role' => 'Associate Director & Senior Partner',  'photo' => 'assets/img/team/9.jpg'],
+        ['name' => 'Darshit Bombaywala','role' => 'Associate Partner',                     'photo' => 'assets/img/team/10.png'],
+        ['name' => 'Pawan Bhotika',     'role' => 'Advisor - Agri Business',              'photo' => 'assets/img/team/11.jpg'],
+        ['name' => 'BC Datta',          'role' => 'Associate Director - Corporate Affairs','photo' => 'assets/img/team/12.jpg'],
+    ];
+    $teamMembers = $data['team_members'] ?? [
+        ['name' => 'Abhinaya U',       'role' => 'Associate - Investment Banking', 'photo' => 'assets/img/team/1.jpg'],
+        ['name' => 'Sandeep Dhupar',   'role' => 'Associate Director',             'photo' => 'assets/img/team/2.jpg'],
+        ['name' => 'Jalandhar Behera', 'role' => 'Associate VP - FAO Services',    'photo' => 'assets/img/team/3.jpg'],
+        ['name' => 'Rajani M',         'role' => 'Talent Acquisition Lead',        'photo' => 'assets/img/team/4.jpg'],
+        ['name' => 'Namrata Parakh',   'role' => 'Associate - Intl Relations',     'photo' => 'assets/img/team/5.jpg'],
+    ];
 @endphp
 
 <!-- team section start -->
@@ -12,108 +31,59 @@
             <p class="dm-team-main-subtitle">{{ $subtitle }}</p>
         </div>
 
+        @if(!empty($founders))
         <!-- Founders -->
         <h3 class="dm-team-group-title">Founders</h3>
         <div class="row dm-team-row justify-content-center">
-            <div class="dm-team-col">
+            @foreach($founders as $member)
+            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
                 <div class="dm-team-member">
                     <div class="dm-team-photo">
-                        <img src="{{ asset('assets/img/team/6.jpg') }}" alt="Vikash Tatia">
+                        <img src="{{ asset($member['photo'] ?? 'assets/img/team/6.jpg') }}" alt="{{ $member['name'] ?? '' }}">
                     </div>
-                    <span class="dm-team-role">Founder & MD</span>
-                    <h4 class="dm-team-name">Vikash Tatia</h4>
+                    <span class="dm-team-role">{{ $member['role'] ?? '' }}</span>
+                    <h4 class="dm-team-name">{{ $member['name'] ?? '' }}</h4>
                 </div>
             </div>
-            <div class="dm-team-col">
-                <div class="dm-team-member">
-                    <div class="dm-team-photo">
-                        <img src="{{ asset('assets/img/team/7.jpg') }}" alt="Nidhi Tatia">
-                    </div>
-                    <span class="dm-team-role">Founder & Director</span>
-                    <h4 class="dm-team-name">Nidhi Tatia</h4>
-                </div>
-            </div>
+            @endforeach
         </div>
+        @endif
 
-        <!-- Partners -->
+        @if(!empty($partners))
+        <!-- Partners & Advisory Board -->
         <h3 class="dm-team-group-title">Partners & Advisory Board</h3>
         <div class="row dm-team-row justify-content-center">
+            @foreach($partners as $member)
             <div class="col-lg-2 col-md-4 col-sm-6 col-6">
                 <div class="dm-team-member">
-                    <div class="dm-team-photo"><img src="{{ asset('assets/img/team/8.jpg') }}" alt=""></div>
-                    <span class="dm-team-role">Director & Associate Partner</span>
-                    <h4 class="dm-team-name">Sankaranarayanan</h4>
+                    <div class="dm-team-photo">
+                        <img src="{{ asset($member['photo'] ?? 'assets/img/team/8.jpg') }}" alt="{{ $member['name'] ?? '' }}">
+                    </div>
+                    <span class="dm-team-role">{{ $member['role'] ?? '' }}</span>
+                    <h4 class="dm-team-name">{{ $member['name'] ?? '' }}</h4>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
-                <div class="dm-team-member">
-                    <div class="dm-team-photo"><img src="{{ asset('assets/img/team/9.jpeg') }}" alt="Kamal Parakh"></div>
-                    <span class="dm-team-role">Associate Director & Senior Partner</span>
-                    <h4 class="dm-team-name">Kamal Parakh</h4>
-                </div>
-            </div>
-            <div style="border-right: 2px solid #1b3c6b;" class="col-lg-2 col-md-4 col-sm-6 col-6">
-                <div class="dm-team-member">
-                    <div class="dm-team-photo"><img src="{{ asset('assets/img/team/10.png') }}" alt="Darshit Bombaywala"></div>
-                    <span class="dm-team-role">Associate Partner</span>
-                    <h4 class="dm-team-name">Darshit Bombaywala</h4>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
-                <div class="dm-team-member">
-                    <div class="dm-team-photo"><img src="{{ asset('assets/img/team/11.jpg') }}" alt=""></div>
-                    <span class="dm-team-role">Advisor - Agri Business</span>
-                    <h4 class="dm-team-name">Pawan Bhotika</h4>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
-                <div class="dm-team-member">
-                    <div class="dm-team-photo"><img src="{{ asset('assets/img/team/12.jpg') }}" alt="BC Datta"></div>
-                    <span class="dm-team-role">Associate Director - Corporate Affairs</span>
-                    <h4 class="dm-team-name">BC Datta</h4>
-                </div>
-            </div>
+            @endforeach
         </div>
+        @endif
 
+        @if(!empty($teamMembers))
         <!-- Team -->
         <h3 class="dm-team-group-title">Team</h3>
         <div class="row dm-team-row justify-content-center">
+            @foreach($teamMembers as $member)
             <div class="col-lg-2 col-md-4 col-sm-6 col-6">
                 <div class="dm-team-member">
-                    <div class="dm-team-photo"><img src="{{ asset('assets/img/team/1.jpg') }}" alt="Abhinaya Udayakumar"></div>
-                    <span class="dm-team-role">Associate - Investment Banking</span>
-                    <h4 class="dm-team-name">Abhinaya U</h4>
+                    <div class="dm-team-photo">
+                        <img src="{{ asset($member['photo'] ?? 'assets/img/team/1.jpg') }}" alt="{{ $member['name'] ?? '' }}">
+                    </div>
+                    <span class="dm-team-role">{{ $member['role'] ?? '' }}</span>
+                    <h4 class="dm-team-name">{{ $member['name'] ?? '' }}</h4>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
-                <div class="dm-team-member">
-                    <div class="dm-team-photo"><img src="{{ asset('assets/img/team/2.jpg') }}" alt="Sandeep Dhupar"></div>
-                    <span class="dm-team-role">Associate Director</span>
-                    <h4 class="dm-team-name">Sandeep Dhupar</h4>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
-                <div class="dm-team-member">
-                    <div class="dm-team-photo"><img src="{{ asset('assets/img/team/3.jpg') }}" alt="Jalandhar Behera"></div>
-                    <span class="dm-team-role">Associate VP - FAO Services</span>
-                    <h4 class="dm-team-name">Jalandhar Behera</h4>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
-                <div class="dm-team-member">
-                    <div class="dm-team-photo"><img src="{{ asset('assets/img/team/4.jpg') }}" alt="Rajani M"></div>
-                    <span class="dm-team-role">Talent Acquisition Lead</span>
-                    <h4 class="dm-team-name">Rajani M</h4>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
-                <div class="dm-team-member">
-                    <div class="dm-team-photo"><img src="{{ asset('assets/img/team/5.jpg') }}" alt="Namrata Parakh Marothi"></div>
-                    <span class="dm-team-role">Associate - Intl Relations</span>
-                    <h4 class="dm-team-name">Namrata Parakh</h4>
-                </div>
-            </div>
+            @endforeach
         </div>
+        @endif
     </div>
 </section>
 <!-- team section end -->

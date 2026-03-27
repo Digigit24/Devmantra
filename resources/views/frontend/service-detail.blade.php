@@ -595,8 +595,8 @@
         </div>
     </div>
 </div>
-
+ 
 <!-- AI Platform section -->
-@include('frontend.partials.section-ai-platform')
+
 @endsection
 

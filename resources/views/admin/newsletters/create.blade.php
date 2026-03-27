@@ -60,6 +60,21 @@
                     <textarea name="meta_description" class="dm-form-textarea" style="min-height:60px;">{{ old('meta_description') }}</textarea>
                 </div>
                 <div class="dm-form-group">
+                    <label class="dm-form-label">Read Time</label>
+                    <input type="text" name="read_time" value="{{ old('read_time', '5 min read') }}" class="dm-form-input" placeholder="e.g. 5 min read">
+                    <div class="dm-form-hint">Shown as a badge on cards and detail pages. Default: 5 min read</div>
+                </div>
+                <div class="dm-form-group">
+                    <label class="dm-form-label">Button URL</label>
+                    <input type="url" name="button_url" value="{{ old('button_url') }}" class="dm-form-input" placeholder="https://example.com/newsletter.pdf">
+                    <div class="dm-form-hint">External link that opens in a new tab. Leave empty to hide the button.</div>
+                </div>
+                <div class="dm-form-group">
+                    <label class="dm-form-label">Button Label</label>
+                    <input type="text" name="button_text" value="{{ old('button_text', 'Read More') }}" class="dm-form-input" placeholder="Read More">
+                    <div class="dm-form-hint">Default: Read More</div>
+                </div>
+                <div class="dm-form-group">
                     <div class="dm-form-check">
                         <input type="checkbox" name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }}>
                         <label class="dm-form-label" style="margin-bottom:0;">Mark as Featured</label>

@@ -20,6 +20,7 @@ class Report extends Model
         'edition_label',
         'is_featured',
         'meta_description',
+        'read_time',
         'status',
         'published_at',
     ];
