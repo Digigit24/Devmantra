@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AlertController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CareerApplicationController;
 use App\Http\Controllers\Admin\CareerController;
+use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\CaseStudyController;
 use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\TypographyController;
@@ -37,6 +38,8 @@ Route::post('/contact', [FrontendController::class, 'contactSubmit'])->name('con
 Route::get('/careers', [FrontendController::class, 'careers'])->name('careers');
 Route::get('/careers/{slug}', [FrontendController::class, 'careerShow'])->name('career.show');
 Route::post('/careers/{slug}/apply', [FrontendController::class, 'careerApply'])->name('career.apply');
+Route::get('/events', [FrontendController::class, 'events'])->name('events');
+Route::get('/events/{slug}', [FrontendController::class, 'eventShow'])->name('event.show');
 Route::get('/case-study', [FrontendController::class, 'caseStudyIndex'])->name('case-study.index');
 Route::get('/case-study/{slug}', [FrontendController::class, 'caseStudyShow'])->name('case-study.show');
 Route::get('/alert', [FrontendController::class, 'alertIndex'])->name('alert.index');
@@ -87,6 +90,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::post('/reorder', [PageSectionController::class, 'reorder'])->name('reorder');
         Route::post('/{section}/toggle', [PageSectionController::class, 'toggle'])->name('toggle');
     });
+
+    // Events CRUD + Trash
+    Route::get('events/trash', [EventController::class, 'trash'])->name('events.trash');
+    Route::post('events/{id}/restore', [EventController::class, 'restore'])->name('events.restore');
+    Route::delete('events/{id}/force-delete', [EventController::class, 'forceDelete'])->name('events.force-delete');
+    Route::resource('events', EventController::class)->except(['show']);
 
     // Careers CRUD + Trash
     Route::get('careers/trash', [CareerController::class, 'trash'])->name('careers.trash');

@@ -99,6 +99,7 @@
                                             <li><a href="{{ route('blog.index') }}">Blogs</a></li>
                                         </ul>
                                     </li>
+                                    <li><a href="{{ route('events') }}">Events</a></li>
                                     <li><a href="{{ route('careers') }}">Careers</a></li>
                                     <li><a href="{{ route('contact') }}">Contact Us</a></li>
                                 </ul>

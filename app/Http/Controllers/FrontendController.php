@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Alert;
 use App\Models\Blog;
 use App\Models\Career;
+use App\Models\Event;
 use App\Models\CareerApplication;
 use App\Models\CaseStudy;
 use App\Models\ContactSetting;
@@ -126,6 +127,20 @@ class FrontendController extends Controller
         );
 
         return redirect()->route('contact')->with('success', 'Thank you for your message! We will get back to you shortly.');
+    }
+
+    public function events()
+    {
+        $event = Event::published()->with('galleryImages')->latest('published_at')->first();
+
+        return view('frontend.events', compact('event'));
+    }
+
+    public function eventShow(string $slug)
+    {
+        $event = Event::published()->with('galleryImages')->where('slug', $slug)->firstOrFail();
+
+        return view('frontend.events', compact('event'));
     }
 
     public function careers()

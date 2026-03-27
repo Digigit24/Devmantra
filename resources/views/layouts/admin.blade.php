@@ -457,6 +457,11 @@
                 <i class="fa-solid fa-bell"></i> Alerts
             </a>
 
+            <div class="dm-sidebar-label">Events</div>
+            <a href="{{ route('admin.events.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.events.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-calendar-days"></i> Events
+            </a>
+
             <div class="dm-sidebar-label">Recruitment</div>
             <a href="{{ route('admin.careers.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.careers.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-user-tie"></i> Careers
