@@ -131,9 +131,9 @@ class FrontendController extends Controller
 
     public function events()
     {
-        $event = Event::published()->with('galleryImages')->latest('published_at')->first();
+        $events = Event::published()->with('galleryImages')->latest('published_at')->get();
 
-        return view('frontend.events', compact('event'));
+        return view('frontend.event-index', compact('events'));
     }
 
     public function eventShow(string $slug)

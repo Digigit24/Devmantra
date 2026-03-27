@@ -24,3 +24,4 @@ Homestead.
 Thumbs.db
 "*.zip" 
 /.claude/
+/wp-content

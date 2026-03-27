@@ -142,7 +142,7 @@
             </div>
             <div class="col-lg-6 tp_fade_anim" data-delay=".5">
                 @if($event->featured_image)
-                <img src="{{ asset('storage/' . $event->featured_image) }}" alt="{{ $event->title }}" class="dm-event-featured-img">
+                <img src="{{ str_starts_with($event->featured_image, 'http') ? $event->featured_image : asset('storage/' . $event->featured_image) }}" alt="{{ $event->title }}" class="dm-event-featured-img">
                 @endif
             </div>
         </div>
@@ -156,7 +156,7 @@
         <div class="dm-event-gallery-grid">
             @foreach($event->galleryImages as $index => $img)
             <div class="dm-event-gallery-item tp_fade_anim" data-delay=".{{ 3 + ($index % 4) }}" onclick="openLightbox({{ $index }})">
-                <img src="{{ asset('storage/' . $img->image_path) }}" alt="{{ $event->title }} - Gallery Image {{ $index + 1 }}">
+                <img src="{{ str_starts_with($img->image_path, 'http') ? $img->image_path : asset('storage/' . $img->image_path) }}" alt="{{ $event->title }} - Gallery Image {{ $index + 1 }}">
             </div>
             @endforeach
         </div>
@@ -183,7 +183,7 @@
 @push('scripts')
 <script>
 (function() {
-    var images = @json($event && $event->galleryImages->count() ? $event->galleryImages->map(fn($img) => asset('storage/' . $img->image_path)) : []);
+    var images = @json($event && $event->galleryImages->count() ? $event->galleryImages->map(fn($img) => str_starts_with($img->image_path, 'http') ? $img->image_path : asset('storage/' . $img->image_path)) : []);
     var currentIndex = 0;
 
     window.openLightbox = function(index) {
