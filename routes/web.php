@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AccountController;
+use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\AlertController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CareerApplicationController;
@@ -45,10 +46,17 @@ Route::get('/case-study/{slug}', [FrontendController::class, 'caseStudyShow'])->
 Route::get('/alert', [FrontendController::class, 'alertIndex'])->name('alert.index');
 Route::get('/alert/{slug}', [FrontendController::class, 'alertShow'])->name('alert.show');
 Route::post('/newsletter/subscribe', [SubscriberController::class, 'store'])->name('newsletter.subscribe');
+Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy-policy');
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Media Gallery
+    Route::get('gallery', [GalleryController::class, 'index'])->name('gallery.index');
+    Route::get('gallery/browse', [GalleryController::class, 'browse'])->name('gallery.browse');
+    Route::post('gallery/replace', [GalleryController::class, 'replace'])->name('gallery.replace');
+    Route::post('gallery/delete', [GalleryController::class, 'delete'])->name('gallery.delete');
 
     // Blogs CRUD + Trash
     Route::get('blogs/trash', [BlogController::class, 'trash'])->name('blogs.trash');
@@ -95,6 +103,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('events/trash', [EventController::class, 'trash'])->name('events.trash');
     Route::post('events/{id}/restore', [EventController::class, 'restore'])->name('events.restore');
     Route::delete('events/{id}/force-delete', [EventController::class, 'forceDelete'])->name('events.force-delete');
+    Route::patch('events/{event}/quick-update', [EventController::class, 'quickUpdate'])->name('events.quick-update');
     Route::resource('events', EventController::class)->except(['show']);
 
     // Careers CRUD + Trash

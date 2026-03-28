@@ -8,7 +8,7 @@
 
 <div class="cr-brand-area cr-brand-ptb fix cr-multi-border-bottom">
     <div class="container container-1230">
-        <div class="cr-multi-border pt-100">
+        <div class="cr-multi-border ">
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="cr-brand-heading text-center mb-60">

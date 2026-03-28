@@ -443,7 +443,7 @@ const FIELD_SCHEMAS = {
         subFields:[
           { key:'name',  type:'text', label:'Name' },
           { key:'role',  type:'text', label:'Role / Title' },
-          { key:'photo', type:'text', label:'Photo Path', hint:'e.g. assets/img/team/1.jpg' },
+          { key:'photo', type:'text', label:'Photo Path', hint:'e.g. assets/img/team/1.png' },
         ]
       },
     ]
@@ -541,6 +541,15 @@ const FIELD_SCHEMAS = {
       { key:'cta_url',  type:'text',     label:'Button URL' },
     ]
   },
+
+  /* ── Rich Content (Privacy Policy, Terms, etc.) ─────────── */
+  'page-rich-content': {
+    label: 'Rich Content — Text Editor',
+    icon: 'fa-solid fa-file-lines',
+    fields: [
+      { key:'content', type:'richtext', label:'Page Content' },
+    ]
+  },
 };
 
 /* ═══════════════════════════════════════════════════════════
@@ -555,6 +564,10 @@ class SectionBuilder {
     render(type, data) {
         this.currentType = type;
         const schema = FIELD_SCHEMAS[type];
+        // Destroy any active Summernote instances before clearing
+        this.container.querySelectorAll('.sb-richtext').forEach(ta => {
+            try { if (typeof $ !== 'undefined') $(ta).summernote('destroy'); } catch(e) {}
+        });
         this.container.innerHTML = '';
         if (!schema) {
             this.container.innerHTML = '<p style="color:#94a3b8;text-align:center;padding:20px;">Select a section type to see fields.</p>';
@@ -587,6 +600,12 @@ class SectionBuilder {
 
         if (field.type === 'text')   return fieldEl.querySelector('.sb-input').value;
         if (field.type === 'textarea') return fieldEl.querySelector('.sb-textarea').value;
+        if (field.type === 'richtext') {
+            const ta = fieldEl.querySelector('.sb-richtext');
+            if (!ta) return '';
+            try { if (typeof $ !== 'undefined' && $.fn.summernote) return $(ta).summernote('code'); } catch(e) {}
+            return ta.value;
+        }
         if (field.type === 'array-of-strings') {
             const ta = fieldEl.querySelector('.sb-textarea');
             return ta ? ta.value.split('\n').map(s => s.trim()).filter(Boolean) : [];
@@ -651,6 +670,29 @@ class SectionBuilder {
             const btn = this._el('button', { type:'button', className:'sb-add-btn', innerHTML:'<i class="fa-solid fa-plus"></i> Add Row' });
             btn.addEventListener('click', () => rep.appendChild(this._renderPairItem(field, ['',''], rep.children.length)));
             wrap.appendChild(btn);
+        } else if (field.type === 'richtext') {
+            const ta = this._el('textarea', { className: 'sb-richtext' });
+            ta.style.cssText = 'width:100%;min-height:120px;';
+            ta.value = value || '';
+            wrap.appendChild(ta);
+            // Init Summernote after element is inserted into DOM
+            requestAnimationFrame(() => {
+                if (typeof $ !== 'undefined' && $.fn.summernote) {
+                    const v = ta.value;
+                    $(ta).summernote({
+                        height: 400,
+                        toolbar: [
+                            ['style',  ['style']],
+                            ['font',   ['bold', 'italic', 'underline']],
+                            ['para',   ['ul', 'ol', 'paragraph']],
+                            ['insert', ['link']],
+                            ['view',   ['codeview']],
+                        ],
+                        styleTags: ['p', 'h1', 'h2', 'h3'],
+                    });
+                    if (v) $(ta).summernote('code', v);
+                }
+            });
         }
         return wrap;
     }

@@ -93,6 +93,14 @@ class FrontendController extends Controller
         return view('frontend.about', compact('pageSections'));
     }
 
+    public function privacyPolicy()
+    {
+        $page = Page::where('name', 'privacy-policy')->first();
+        $pageSections = $page ? $page->activeSections()->get() : collect();
+
+        return view('frontend.privacy-policy', compact('pageSections'));
+    }
+
     public function contact()
     {
         $contact = ContactSetting::instance();
@@ -131,7 +139,7 @@ class FrontendController extends Controller
 
     public function events()
     {
-        $events = Event::published()->with('galleryImages')->latest('published_at')->get();
+        $events = Event::published()->with('galleryImages')->orderBy('sort_order')->orderBy('published_at', 'desc')->get();
 
         return view('frontend.event-index', compact('events'));
     }

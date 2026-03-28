@@ -232,6 +232,7 @@ const SECTION_WF = {
   /* New reusable sections */
   'page-cta':`<div class="wf cr-cta-area-light" style="align-items:center;background:#f8f9fa;border-radius:5px;padding:8px;">${Hc(70)}${B(55)}${B(45)}<div style="margin-top:4px;">${BTN}</div></div>`,
   'page-blogs':`<div class="wf" style="background:#001d30;border-radius:5px;padding:8px;">${Hc(60)}<div class="wf-r" style="margin-top:4px;gap:3px;"><div class="wf-card" style="flex:1;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);">${H(80)}${B(100)}${B(70)}</div><div class="wf-card" style="flex:1;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);">${H(80)}${B(100)}${B(70)}</div><div class="wf-card" style="flex:1;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);">${H(80)}${B(100)}${B(70)}</div></div></div>`,
+  'page-rich-content':`<div class="wf">${H(55)}<div style="margin-top:4px;gap:2px;display:flex;flex-direction:column;">${B(100)}${B(95)}${B(90)}${B(85)}${B(100)}${B(80)}</div></div>`,
 };
 
 let _libraryRendered = false;

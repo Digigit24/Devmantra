@@ -503,6 +503,11 @@
                 <i class="fa-solid fa-font"></i> Typography
             </a>
 
+            <div class="dm-sidebar-label">Media</div>
+            <a href="{{ route('admin.gallery.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-images"></i> Media Gallery
+            </a>
+
             <div class="dm-sidebar-label">System</div>
             <a href="{{ url('/') }}" target="_blank" class="dm-sidebar-link">
                 <i class="fa-solid fa-arrow-up-right-from-square"></i> View Site

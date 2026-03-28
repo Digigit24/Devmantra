@@ -10,7 +10,7 @@
                 <h6 style="font-size:16px;font-weight:700;margin-bottom:20px;">Contact Information</h6>
                 <div class="dm-form-group">
                     <label class="dm-form-label">Phone Number</label>
-                    <input type="text" name="phone" value="{{ old('phone', $contact->phone) }}" class="dm-form-input" placeholder="+91-8042061247">
+                    <input type="text" name="phone" value="{{ old('phone', $contact->phone) }}" class="dm-form-input" placeholder="+91-80-42061247">
                 </div>
                 <div class="dm-form-group">
                     <label class="dm-form-label">Email Address</label>

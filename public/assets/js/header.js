@@ -73,7 +73,7 @@
                 <div class="tp-offcanvas-contact">
                     <h3 class="tp-offcanvas-title sm">Information</h3>
                     <ul>
-                        <li><a href="tel:+918042061247">+91-8042061247</a></li>
+                        <li><a href="tel:+9180-42061247">+91-80-42061247</a></li>
                         <li><a href="mailto:support@devmantra.com">support@devmantra.com</a></li>
                         <li><a href="#">Bengaluru, India</a></li>
                     </ul>

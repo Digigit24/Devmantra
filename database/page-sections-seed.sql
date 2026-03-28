@@ -64,25 +64,25 @@ INSERT INTO page_sections (page_id, section_type, section_data, sort_order, is_a
     'title', 'Meet Our Team',
     'subtitle', 'The people behind Devmantra who drive excellence every day.',
     'founders', JSON_ARRAY(
-        JSON_OBJECT('name','Vikash Tatia','role','Founder & MD','photo','assets/img/team/6.jpg'),
-        JSON_OBJECT('name','Nidhi Tatia','role','Founder & Director','photo','assets/img/team/7.jpg')
+        JSON_OBJECT('name','Vikash Tatia','role','Founder & MD','photo','assets/img/team/6.png'),
+        JSON_OBJECT('name','Nidhi Tatia','role','Founder & Director','photo','assets/img/team/7.png')
     ),
     'partners', JSON_ARRAY(
-        JSON_OBJECT('name','Sankaranarayanan','role','Director & Associate Partner','photo','assets/img/team/8.jpg'),
-        JSON_OBJECT('name','Kamal Parakh','role','Associate Director & Senior Partner','photo','assets/img/team/9.jpg'),
+        JSON_OBJECT('name','Sankaranarayanan','role','Director & Associate Partner','photo','assets/img/team/8.png'),
+        JSON_OBJECT('name','Kamal Parakh','role','Associate Director & Senior Partner','photo','assets/img/team/9.png'),
         JSON_OBJECT('name','Darshit Bombaywala','role','Associate Partner','photo','assets/img/team/10.png'),
-        JSON_OBJECT('name','Pawan Bhotika','role','Advisor - Agri Business','photo','assets/img/team/11.jpg'),
-        JSON_OBJECT('name','BC Datta','role','Associate Director - Corporate Affairs','photo','assets/img/team/12.jpg')
+        JSON_OBJECT('name','Pawan Bhotika','role','Advisor - Agri Business','photo','assets/img/team/11.png'),
+        JSON_OBJECT('name','BC Datta','role','Associate Director - Corporate Affairs','photo','assets/img/team/12.png')
     ),
     'team_members', JSON_ARRAY(
-        JSON_OBJECT('name','Abhinaya U','role','Associate - Investment Banking','photo','assets/img/team/1.jpg'),
-        JSON_OBJECT('name','Sandeep Dhupar','role','Associate Director','photo','assets/img/team/2.jpg'),
-        JSON_OBJECT('name','Jalandhar Behera','role','Associate VP - FAO Services','photo','assets/img/team/3.jpg'),
-        JSON_OBJECT('name','Rajani M','role','Talent Acquisition Lead','photo','assets/img/team/4.jpg'),
-        JSON_OBJECT('name','Namrata Parakh','role','Associate - Intl Relations','photo','assets/img/team/5.jpg')
+        JSON_OBJECT('name','Abhinaya U','role','Associate - Investment Banking','photo','assets/img/team/1.png'),
+        JSON_OBJECT('name','Sandeep Dhupar','role','Associate Director','photo','assets/img/team/2.png'),
+        JSON_OBJECT('name','Jalandhar Behera','role','Associate VP - FAO Services','photo','assets/img/team/3.png'),
+        JSON_OBJECT('name','Rajani M','role','Talent Acquisition Lead','photo','assets/img/team/4.png'),
+        JSON_OBJECT('name','Namrata Parakh','role','Associate - Intl Relations','photo','assets/img/team/5.png')
     )
 ), 7, 1, NOW(), NOW()),
-
+ 
 (@home_id, 'page-approach-lifecycle', JSON_OBJECT(
     'label', 'How We Work',
     'title', 'Our Approach & Business Lifecycle',
@@ -164,18 +164,18 @@ INSERT INTO page_sections (page_id, section_type, section_data, sort_order, is_a
         JSON_OBJECT('name','Nidhi Tatia','role','Founder & Director','photo','assets/img/team/7.jpg')
     ),
     'partners', JSON_ARRAY(
-        JSON_OBJECT('name','Sankaranarayanan','role','Director & Associate Partner','photo','assets/img/team/8.jpg'),
-        JSON_OBJECT('name','Kamal Parakh','role','Associate Director & Senior Partner','photo','assets/img/team/9.jpg'),
+        JSON_OBJECT('name','Sankaranarayanan','role','Director & Associate Partner','photo','assets/img/team/8.png'),
+        JSON_OBJECT('name','Kamal Parakh','role','Associate Director & Senior Partner','photo','assets/img/team/9.png'),
         JSON_OBJECT('name','Darshit Bombaywala','role','Associate Partner','photo','assets/img/team/10.png'),
-        JSON_OBJECT('name','Pawan Bhotika','role','Advisor - Agri Business','photo','assets/img/team/11.jpg'),
-        JSON_OBJECT('name','BC Datta','role','Associate Director - Corporate Affairs','photo','assets/img/team/12.jpg')
+        JSON_OBJECT('name','Pawan Bhotika','role','Advisor - Agri Business','photo','assets/img/team/11.png'),
+        JSON_OBJECT('name','BC Datta','role','Associate Director - Corporate Affairs','photo','assets/img/team/12.png')
     ),
     'team_members', JSON_ARRAY(
-        JSON_OBJECT('name','Abhinaya U','role','Associate - Investment Banking','photo','assets/img/team/1.jpg'),
-        JSON_OBJECT('name','Sandeep Dhupar','role','Associate Director','photo','assets/img/team/2.jpg'),
-        JSON_OBJECT('name','Jalandhar Behera','role','Associate VP - FAO Services','photo','assets/img/team/3.jpg'),
-        JSON_OBJECT('name','Rajani M','role','Talent Acquisition Lead','photo','assets/img/team/4.jpg'),
-        JSON_OBJECT('name','Namrata Parakh','role','Associate - Intl Relations','photo','assets/img/team/5.jpg')
+        JSON_OBJECT('name','Abhinaya U','role','Associate - Investment Banking','photo','assets/img/team/1.png'),
+        JSON_OBJECT('name','Sandeep Dhupar','role','Associate Director','photo','assets/img/team/2.png'),
+        JSON_OBJECT('name','Jalandhar Behera','role','Associate VP - FAO Services','photo','assets/img/team/3.png'),
+        JSON_OBJECT('name','Rajani M','role','Talent Acquisition Lead','photo','assets/img/team/4.png'),
+        JSON_OBJECT('name','Namrata Parakh','role','Associate - Intl Relations','photo','assets/img/team/5.png')
     )
 ), 5, 1, NOW(), NOW()),
 

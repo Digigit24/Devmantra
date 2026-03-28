@@ -52,6 +52,7 @@ footer.z-index-1 { background-color: #001d30; }
                                         <li><a href="{{ route('blog.index') }}">Blog</a></li>
                                         <li><a href="{{ route('newsletter.index') }}">Newsletter</a></li>
                                         <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                                        <li><a href="{{ route('privacy-policy') }}">Privacy Policy</a></li>
                                     </ul>
                                 </div>
                             </div>

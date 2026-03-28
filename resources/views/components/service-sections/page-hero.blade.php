@@ -38,7 +38,7 @@
     position: absolute;
     width: 100%;
     
-    top: 20vh;
+    top: 30vh;
     
     will-change: transform;
     transform-style: preserve-3d;
@@ -81,13 +81,13 @@
 /* Tablet (≤ 991px): 20vh top */
 @media (max-width: 991px) {
     .dm-hero-scene .dm-card {
-        top: 0;
+        top: 50vh;
     }
 }
 /* Mobile (≤ 575px): 50vh top, reduced right margin */
 @media (max-width: 575px) {
     .dm-hero-scene .dm-card  {
-        top: 25vh;
+        top: 40vh;
         /* Hide cards on mobile for better performance and UX */
     }
     .dm-hero-scene .dm-card-top,

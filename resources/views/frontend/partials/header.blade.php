@@ -2,6 +2,13 @@
     .tp-header-menu > nav > ul { display: flex; flex-wrap: nowrap; align-items: center; }
     .tp-header-menu > nav > ul > li { flex-shrink: 0; }
     .tp-header-btn-box .tp-btn-white-border { white-space: nowrap; }
+
+    /* lg (992–1199px): compact nav, no buttons */
+    @media (min-width: 992px) and (max-width: 1199px) {
+        .tp-header-menu > nav > ul > li { margin: 0 6px; }
+        .tp-header-menu > nav > ul > li > a { font-size: 13px; }
+    }
+    /* xl (1200–1399px) */
     @media (min-width: 1200px) and (max-width: 1399px) {
         .tp-header-menu > nav > ul > li { margin: 0 10px; }
         .tp-header-menu > nav > ul > li > a { font-size: 15px; }
@@ -14,12 +21,16 @@
     @media (min-width: 1600px) {
         .tp-header-menu > nav > ul > li { margin: 0 18px; }
     }
+
+    /* Buttons only on xl+ — never show alongside the hamburger */
     @media (max-width: 1199px) {
         .tp-header-right .tp-header-btn-box { display: none !important; }
     }
-    @media (min-width: 768px) and (max-width: 1199px) {
-        .tp-header-right .tp-header-btn-box:first-of-type { display: block !important; }
-        .tp-header-right .tp-header-btn-box .tp-btn-white-border { font-size: 13px; padding: 10px 16px; }
+
+    /* Last dropdown (More) opens to the left to prevent overflow */
+    .tp-header-menu > nav > ul > li:last-child .tp-submenu {
+        left: auto;
+        right: 0;
     }
 </style>
 
@@ -53,7 +64,7 @@
             <div class="tp-offcanvas-contact">
                 <h3 class="tp-offcanvas-title sm">Information</h3>
                 <ul>
-                    <li><a href="tel:+918042061247">+91-8042061247</a></li>
+                    <li><a href="tel:+9180-42061247">+91-80-42061247</a></li>
                     <li><a href="mailto:support@devmantra.com">support@devmantra.com</a></li>
                     <li><a href="#">Bengaluru, India</a></li>
                 </ul>
@@ -68,14 +79,14 @@
     <div id="header-sticky" class="tp-header-area tp-header-13-ptb sticky-white-bg tp-header-blur header-transparent">
         <div class="container container-1750">
             <div class="row align-items-center">
-                <div class="col-xl-2 col-lg-5 col-5">
+                <div class="col-xl-2 col-lg-3 col-5">
                     <div class="tp-header-logo">
                         <a href="{{ route('home') }}"><img style="border-radius: 50px;" data-width="140" src="{{ asset('assets/img/logo/logo.jpeg') }}" alt="Dev Mantra"></a>
                     </div>
                 </div>
-                <div class="col-xl-10 col-lg-7 col-7">
+                <div class="col-xl-10 col-lg-9 col-7">
                     <div class="tp-header-box d-flex align-items-center justify-content-end justify-content-xl-between">
-                        <div class="tp-header-menu tp-header-13-menu tp-header-dropdown dropdown-black-bg d-none d-xl-flex">
+                        <div class="tp-header-menu tp-header-13-menu tp-header-dropdown dropdown-black-bg d-none d-lg-flex">
                             <nav class="tp-mobile-menu-active">
                                 <ul>
                                     <li><a href="{{ route('home') }}">Home</a></li>
@@ -99,9 +110,14 @@
                                             <li><a href="{{ route('blog.index') }}">Blogs</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="{{ route('events') }}">Events</a></li>
-                                    <li><a href="{{ route('careers') }}">Careers</a></li>
-                                    <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                                    <li class="has-dropdown">
+                                        <a href="javascript:void(0)">More</a>
+                                        <ul class="tp-submenu submenu">
+                                            <li><a href="{{ route('events') }}">Events</a></li>
+                                            <li><a href="{{ route('careers') }}">Careers</a></li>
+                                            <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
@@ -111,10 +127,10 @@
                                 <x-btn-secondary class="dm-btn-sm" />
                             </div>
                             {{-- Primary: global primary button (text + URL from Settings) --}}
-                            <div class="tp-header-btn-box d-none d-md-block ml-15">
+                            <div class="tp-header-btn-box d-none d-xl-block ml-15">
                                 <x-btn-primary class="dm-btn-sm" />
                             </div>
-                            <div class="tp-header-bar ml-20 d-xl-none">
+                            <div class="tp-header-bar ml-20 d-lg-none">
                                 <button class="tp-offcanvas-open-btn" type="button">
                                     <i></i><i></i><i></i>
                                 </button>

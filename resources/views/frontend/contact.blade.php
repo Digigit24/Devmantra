@@ -253,7 +253,7 @@
 
 <!-- Contact Info Cards -->
 @php
-    $phone = $contact->phone ?: '+91-8042061247';
+    $phone = $contact->phone ?: '+91-80-42061247';
     $contactEmail = $contact->email ?: 'support@devmantra.com';
     $address = $contact->address ?: 'NO.85/1, 2ND FLOOR, 10TH CROSS CBI ROAD, GANGANAGAR BENGALURU 560024';
     $officeHours = $contact->office_hours ?: 'Mon - Fri: 9:00 AM - 6:00 PM';

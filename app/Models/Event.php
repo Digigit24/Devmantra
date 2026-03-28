@@ -19,10 +19,13 @@ class Event extends Model
         'meta_description',
         'status',
         'published_at',
+        'sort_order',
+        'hero_image_url',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
+        'sort_order'   => 'integer',
     ];
 
     public static function booted(): void

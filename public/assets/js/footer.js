@@ -68,7 +68,7 @@
                                     <h4 class="dgm-footer-widget-title">Contact</h4>
                                     <div class="app-footer-widget-info mb-20">
                                         <div class="app-footer-widget-info-title">Call us</div>
-                                        <a class="tp-line-white" href="tel:+918042061247">+91-8042061247</a>
+                                        <a class="tp-line-white" href="tel:+9180-42061247">+91-80-42061247</a>
                                     </div>
                                     <div class="app-footer-widget-info mb-20">
                                         <div class="app-footer-widget-info-title">Email</div>

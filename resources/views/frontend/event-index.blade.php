@@ -111,7 +111,21 @@
     .dm-event-section-link:hover { gap: 12px; color: #1b3c6b; text-decoration: none; }
     .dm-event-section-link i { font-size: 12px; }
 
-    /* ── Featured image ── */
+    /* ── Hero banner image (per-event, full-width) ── */
+    .dm-event-hero-img {
+        width: 100%;
+        aspect-ratio: 16 / 6;
+        object-fit: cover;
+        border-radius: 14px;
+        display: block;
+        margin-bottom: 36px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    }
+    @media (max-width: 767px) {
+        .dm-event-hero-img { aspect-ratio: 16 / 9; border-radius: 10px; margin-bottom: 24px; }
+    }
+
+    /* ── Featured image (uploaded file, small) ── */
     .dm-event-featured-wrap { display: flex; align-items: flex-start; justify-content: center; }
     .dm-event-featured-wrap img {
         max-width: 100%; height: auto;
@@ -251,6 +265,11 @@
                 {{-- ── Clamped body ── --}}
                 <div class="dm-event-body" id="body-{{ $eventKey }}">
 
+                    {{-- Hero image (full-width banner URL) --}}
+                    @if($event->hero_image_url)
+                    <img class="dm-event-hero-img" src="{{ $event->hero_image_url }}" alt="{{ $event->title }}">
+                    @endif
+
                     {{-- Title + description + featured image --}}
                     <div class="dm-event-intro row align-items-start">
                         <div class="col-lg-7">
@@ -284,7 +303,7 @@
                         <div class="dm-masonry-item"
                              onclick="dmLightbox.open('{{ $eventKey }}', {{ $idx }})"
                              title="{{ $event->title }} — image {{ $idx + 1 }}">
-                            <img src="{{ $src }}" alt="{{ $event->title }} {{ $idx + 1 }}" loading="lazy">
+                            <img src="{{ $src }}" alt="{{ $event->title }} {{ $idx + 1 }}">
                         </div>
                         @endforeach
                     </div>
@@ -344,24 +363,27 @@
             : 'Show More <i class="fa-solid fa-chevron-down"></i>';
     };
 
-    /* ── On load: hide gradient + button for sections that don't overflow ── */
+    /* ── Hide gradient + button for sections that don't actually overflow ── */
     function checkOverflow() {
         var clampPx = window.innerHeight * 2; // 200vh in pixels
         document.querySelectorAll('.dm-event-body').forEach(function (body) {
-            var key   = body.id.replace('body-', '');
-            var fade  = document.getElementById('fade-' + key);
+            var key    = body.id.replace('body-', '');
+            var fade   = document.getElementById('fade-' + key);
             var rmWrap = document.getElementById('rm-' + key);
 
             if (body.scrollHeight <= clampPx + 20) {
-                // Content fits — no need for fade or button
                 if (fade)   { fade.classList.add('hidden'); }
                 if (rmWrap) { rmWrap.classList.add('hidden'); }
             }
         });
     }
 
-    // Run after images have loaded (scrollHeight changes as images load)
+    // 1) Run immediately after DOM is ready (handles text-only sections)
+    // 2) Run again on window.load (handles fast-loading images)
+    // 3) Run once more after a short delay (handles lazy/slow images)
+    document.addEventListener('DOMContentLoaded', checkOverflow);
     window.addEventListener('load', checkOverflow);
+    window.addEventListener('load', function () { setTimeout(checkOverflow, 800); });
 
     /* ── Lightbox ── */
     var registry = @json($events->mapWithKeys(function ($event) {

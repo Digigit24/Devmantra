@@ -55,6 +55,7 @@ class EventController extends Controller
             'meta_description' => 'nullable|string|max:255',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
+            'sort_order' => 'nullable|integer|min:0',
             'gallery_images' => 'nullable|array',
             'gallery_images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
@@ -66,6 +67,8 @@ class EventController extends Controller
         if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = now();
         }
+
+        $validated['sort_order'] = $validated['sort_order'] ?? 0;
 
         unset($validated['gallery_images']);
         $event = Event::create($validated);
@@ -99,6 +102,7 @@ class EventController extends Controller
             'meta_description' => 'nullable|string|max:255',
             'status' => 'required|in:draft,published',
             'published_at' => 'nullable|date',
+            'sort_order' => 'nullable|integer|min:0',
             'gallery_images' => 'nullable|array',
             'gallery_images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'remove_gallery' => 'nullable|array',
@@ -145,6 +149,18 @@ class EventController extends Controller
         }
 
         return redirect()->route('admin.events.index')->with('success', 'Event updated successfully.');
+    }
+
+    public function quickUpdate(Request $request, Event $event)
+    {
+        $validated = $request->validate([
+            'hero_image_url' => 'nullable|string|max:500',
+            'sort_order'     => 'nullable|integer|min:0',
+        ]);
+
+        $event->update($validated);
+
+        return response()->json(['success' => true]);
     }
 
     public function destroy(Event $event)
