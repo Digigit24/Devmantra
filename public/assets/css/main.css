@@ -59245,9 +59245,9 @@ only screen and (min-width: 768px) and (max-width: 991px),
 
 /* Pins */
 .pin {
-    fill: #134568;
-    /* your brand color */
-    filter: drop-shadow(0 0 6px rgba(19, 69, 104, 0.6));
+    fill: #dc2626;
+    /* red color */
+    filter: drop-shadow(0 0 6px rgba(220, 38, 38, 0.6));
     transform-origin: center;
     cursor: pointer;
     pointer-events: auto;
@@ -59257,15 +59257,15 @@ only screen and (min-width: 768px) and (max-width: 991px),
 
 @keyframes pulse {
     0% {
-        filter: drop-shadow(0 0 0 rgba(19, 69, 104, 0.6));
+        filter: drop-shadow(0 0 0 rgba(220, 38, 38, 0.6));
     }
 
     70% {
-        filter: drop-shadow(0 0 10px rgba(19, 69, 104, 0));
+        filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0));
     }
 
     100% {
-        filter: drop-shadow(0 0 0 rgba(19, 69, 104, 0));
+        filter: drop-shadow(0 0 0 rgba(220, 38, 38, 0));
     }
 }
 
@@ -59273,10 +59273,11 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .map-tooltip {
     position: absolute;
     padding: 6px 10px;
-    background: #111;
-    color: #fff;
+    background: #fff;
+    color: #111;
     font-size: 12px;
     border-radius: 6px;
+    border: 1px solid #000;
     pointer-events: none;
     opacity: 0;
     transform: translate(-50%, -120%);
@@ -59717,10 +59718,11 @@ only screen and (min-width: 768px) and (max-width: 991px),
 .map-tooltip-always {
     position: absolute;
     padding: 5px 10px;
-    background: #111;
-    color: #fff;
+    background: #fff;
+    color: #111;
     font-size: 11px;
     border-radius: 6px;
+    border: 1px solid #000;
     pointer-events: none;
     opacity: 1;
     transform: translate(-50%, -140%);
