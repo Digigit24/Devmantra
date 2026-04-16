@@ -59731,6 +59731,28 @@ only screen and (min-width: 768px) and (max-width: 991px),
     animation: tooltipFadeIn 0.6s ease forwards;
 }
 
+/* Mobile responsive tooltips */
+@media (max-width: 768px) {
+    .map-tooltip-always {
+        font-size: 13px;
+        padding: 6px 12px;
+        white-space: normal;
+        max-width: 80px;
+        text-align: center;
+        word-wrap: break-word;
+        line-height: 1.2;
+    }
+}
+
+@media (max-width: 480px) {
+    .map-tooltip-always {
+        font-size: 14px;
+        padding: 8px 14px;
+        max-width: 100px;
+        font-weight: 600;
+    }
+}
+
 @keyframes tooltipFadeIn {
     from {
         opacity: 0;
