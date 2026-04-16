@@ -161,6 +161,8 @@
         <form id="consultationForm" method="POST" action="{{ route('contact.submit') }}">
             @csrf
             <input type="hidden" name="subject" value="Consultation Request">
+            <!-- Honeypot field to prevent bots -->
+            <input type="hidden" name="website" style="display:none;" value="">
             <div class="row g-3">
                 <div class="col-md-6">
                     <div class="dm-cf-group">

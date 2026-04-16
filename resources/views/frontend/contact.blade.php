@@ -318,6 +318,8 @@
 
                     <form method="POST" action="{{ route('contact.submit') }}">
                         @csrf
+                        <!-- Honeypot field to prevent bots -->
+                        <input type="hidden" name="website" style="display:none;" value="">
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <div class="dm-cf-group">

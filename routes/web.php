@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CareerController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\CaseStudyController;
 use App\Http\Controllers\Admin\ContactSettingController;
+use App\Http\Controllers\Admin\EmailSettingController;
 use App\Http\Controllers\Admin\TypographyController;
 use App\Http\Controllers\Admin\ContactSubmissionController;
 use App\Http\Controllers\Admin\PopupController;
@@ -155,6 +156,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Contact Settings
     Route::get('contact-settings', [ContactSettingController::class, 'edit'])->name('contact-settings.edit');
     Route::put('contact-settings', [ContactSettingController::class, 'update'])->name('contact-settings.update');
+
+    // Email Settings
+    Route::get('email-settings', [EmailSettingController::class, 'edit'])->name('email-settings.edit');
+    Route::put('email-settings', [EmailSettingController::class, 'update'])->name('email-settings.update');
+    Route::post('email-settings/test', [EmailSettingController::class, 'test'])->name('email-settings.test');
 
     // Typography Settings
     Route::get('typography', [TypographyController::class, 'edit'])->name('typography.edit');

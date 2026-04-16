@@ -10,10 +10,14 @@ use App\Models\CareerApplication;
 use App\Models\CaseStudy;
 use App\Models\ContactSetting;
 use App\Models\ContactSubmission;
+use App\Models\EmailSetting;
 use App\Models\Newsletter;
 use App\Models\Page;
 use App\Models\Report;
 use App\Models\Service;
+use App\Rules\BusinessEmailRule;
+use App\Rules\NotSpamBot;
+use App\Services\RateLimitService;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -110,29 +114,63 @@ class FrontendController extends Controller
 
     public function contactSubmit(Request $request)
     {
+        // Check rate limit
+        $rateLimitService = new RateLimitService();
+        $rateLimitResult = $rateLimitService->checkRateLimit($request->ip(), 'contact');
+
+        if (!$rateLimitResult['allowed']) {
+            return redirect()->route('contact')->with('error', 'Too many submissions. Please try again in a few moments.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'email' => ['required', 'email', 'max:255', new BusinessEmailRule()],
             'phone' => 'nullable|string|max:50',
             'subject' => 'required|string|max:255',
             'message' => 'required|string|max:5000',
+            'website' => [new NotSpamBot()],
         ]);
 
         // Save to database
         ContactSubmission::create($request->only('name', 'email', 'phone', 'subject', 'message'));
 
+        // Get email settings
+        $emailSetting = EmailSetting::instance();
         $contact = ContactSetting::instance();
-        $adminEmail = $contact->email ?: 'support@devmantra.com';
+        $adminEmail = $emailSetting->from_email ?: ($contact->email ?: 'support@devmantra.com');
+
+        // Configure mail dynamically if email settings are active
+        if ($emailSetting->is_active) {
+            config([
+                'mail.mailers.smtp.host' => $emailSetting->smtp_host,
+                'mail.mailers.smtp.port' => $emailSetting->smtp_port,
+                'mail.mailers.smtp.username' => $emailSetting->smtp_username,
+                'mail.mailers.smtp.password' => $emailSetting->smtp_password_decrypted,
+                'mail.mailers.smtp.encryption' => $emailSetting->smtp_encryption,
+                'mail.from.address' => $emailSetting->from_email,
+                'mail.from.name' => $emailSetting->from_name,
+            ]);
+            config(['mail.default' => 'smtp']);
+        }
 
         // Send email to admin
-        \Illuminate\Support\Facades\Mail::raw(
-            "Name: {$request->name}\nEmail: {$request->email}\nPhone: {$request->phone}\nSubject: {$request->subject}\n\nMessage:\n{$request->message}",
-            function ($mail) use ($request, $adminEmail) {
-                $mail->to($adminEmail)
-                    ->subject('Contact Form: ' . $request->subject)
-                    ->replyTo($request->email, $request->name);
-            }
-        );
+        try {
+            \Illuminate\Support\Facades\Mail::raw(
+                "Name: {$request->name}\nEmail: {$request->email}\nPhone: {$request->phone}\nSubject: {$request->subject}\n\nMessage:\n{$request->message}",
+                function ($mail) use ($request, $adminEmail, $emailSetting) {
+                    $mail->to($adminEmail)
+                        ->subject('Contact Form: ' . $request->subject);
+
+                    if ($emailSetting->enable_reply_feature && $emailSetting->reply_to_email) {
+                        $mail->replyTo($emailSetting->reply_to_email);
+                    } elseif ($emailSetting->enable_reply_feature) {
+                        $mail->replyTo($request->email, $request->name);
+                    }
+                }
+            );
+        } catch (\Exception $e) {
+            \Log::error('Contact form email failed: ' . $e->getMessage());
+        }
 
         return redirect()->route('contact')->with('success', 'Thank you for your message! We will get back to you shortly.');
     }
@@ -167,13 +205,22 @@ class FrontendController extends Controller
 
     public function careerApply(Request $request, string $slug)
     {
+        // Check rate limit
+        $rateLimitService = new RateLimitService();
+        $rateLimitResult = $rateLimitService->checkRateLimit($request->ip(), 'career');
+
+        if (!$rateLimitResult['allowed']) {
+            return redirect()->route('career.show', $slug)->with('error', 'Too many submissions. Please try again in a few moments.');
+        }
+
         $career = Career::published()->where('slug', $slug)->firstOrFail();
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'email' => ['required', 'email', 'max:255', new BusinessEmailRule()],
             'phone' => 'nullable|string|max:50',
             'resume' => 'required|file|mimes:pdf,doc,docx|max:5120',
+            'website' => [new NotSpamBot()],
         ]);
 
         $resumePath = $request->file('resume')->store('resumes', 'public');

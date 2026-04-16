@@ -447,6 +447,8 @@
                         <i class="fa-regular fa-bell"></i> Subscribe to Newsletter
                     </button>
                     <div class="dm-sub-panel" id="dm-sub-panel-det">
+                        <!-- Honeypot field to prevent bots -->
+                        <input type="hidden" id="dm-sub-website-det" style="display:none;" value="">
                         <div class="dm-sub-inner">
                             <input type="text" id="dm-sub-name-det" class="dm-sub-input" placeholder="Your Name" autocomplete="name">
                             <input type="email" id="dm-sub-email-det" class="dm-sub-input" placeholder="Your Email Address" autocomplete="email">
@@ -630,13 +632,15 @@ function dmOpenSubscribe(id) {
 }
 
 async function dmSubscribe(id) {
-    const nameEl  = document.getElementById('dm-sub-name-' + id);
-    const emailEl = document.getElementById('dm-sub-email-' + id);
-    const btn     = document.getElementById('dm-sub-btn-' + id);
-    const msg     = document.getElementById('dm-sub-msg-' + id);
+    const nameEl    = document.getElementById('dm-sub-name-' + id);
+    const emailEl   = document.getElementById('dm-sub-email-' + id);
+    const websiteEl = document.getElementById('dm-sub-website-' + id);
+    const btn       = document.getElementById('dm-sub-btn-' + id);
+    const msg       = document.getElementById('dm-sub-msg-' + id);
 
-    const name  = nameEl.value.trim();
-    const email = emailEl.value.trim();
+    const name    = nameEl.value.trim();
+    const email   = emailEl.value.trim();
+    const website = websiteEl ? websiteEl.value : '';
 
     msg.className = 'dm-sub-msg';
     msg.textContent = '';
@@ -656,7 +660,7 @@ async function dmSubscribe(id) {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                 'Accept': 'application/json',
             },
-            body: JSON.stringify({ name, email }),
+            body: JSON.stringify({ name, email, website }),
         });
 
         const data = await res.json();

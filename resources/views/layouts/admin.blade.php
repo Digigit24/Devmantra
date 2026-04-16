@@ -499,6 +499,9 @@
             <a href="{{ route('admin.settings') }}" class="dm-sidebar-link {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
                 <i class="fa-solid fa-gear"></i> Settings
             </a>
+            <a href="{{ route('admin.email-settings.edit') }}" class="dm-sidebar-link {{ request()->routeIs('admin.email-settings.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-envelope"></i> Email Settings
+            </a>
             <a href="{{ route('admin.typography.edit') }}" class="dm-sidebar-link {{ request()->routeIs('admin.typography.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-font"></i> Typography
             </a>

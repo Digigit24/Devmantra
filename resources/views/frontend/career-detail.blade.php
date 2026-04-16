@@ -127,6 +127,8 @@
 
                     <form method="POST" action="{{ route('career.apply', $career->slug) }}" enctype="multipart/form-data">
                         @csrf
+                        <!-- Honeypot field to prevent bots -->
+                        <input type="hidden" name="website" style="display:none;" value="">
                         <div class="dm-apply-group">
                             <label class="dm-apply-label">Full Name *</label>
                             <input type="text" name="name" class="dm-apply-input" placeholder="Your full name" value="{{ old('name') }}" required>
