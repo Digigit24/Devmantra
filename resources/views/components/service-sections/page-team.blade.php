@@ -39,7 +39,7 @@
             <div class="col-lg-2 col-md-4 col-sm-6 col-6">
                 <div class="dm-team-member">
                     <div class="dm-team-photo">
-                        <img src="{{ asset($member['photo'] ?? 'assets/img/team/6.jpg') }}" alt="{{ $member['name'] ?? '' }}">
+                        <img src="{{ asset($member['photo'] ?? 'assets/img/team/6.jpg') }}" alt="{{ $member['name'] ?? '' }}" loading="lazy">
                     </div>
                     <span class="dm-team-role">{{ $member['role'] ?? '' }}</span>
                     <h4 class="dm-team-name">{{ $member['name'] ?? '' }}</h4>

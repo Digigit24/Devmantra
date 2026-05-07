@@ -18,6 +18,7 @@ use App\Models\Service;
 use App\Mail\ContactAdminMail;
 use App\Mail\ContactUserMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
@@ -25,8 +26,10 @@ class FrontendController extends Controller
 {
     public function home()
     {
-        $homePage = Page::where('name', 'home')->first();
-        $pageSections = $homePage ? $homePage->activeSections()->get() : collect();
+        $pageSections = Cache::remember('home.page_sections', 300, function () {
+            $homePage = Page::where('name', 'home')->first();
+            return $homePage ? $homePage->activeSections()->get() : collect();
+        });
 
         return view('frontend.home', compact('pageSections'));
     }

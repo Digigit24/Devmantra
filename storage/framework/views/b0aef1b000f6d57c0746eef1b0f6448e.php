@@ -67,7 +67,7 @@ unset($__defined_vars, $__key, $__value); ?>
             <div class="col-lg-2 col-md-4 col-sm-6 col-6">
                 <div class="dm-team-member">
                     <div class="dm-team-photo">
-                        <img src="<?php echo e(asset($member['photo'] ?? 'assets/img/team/6.jpg')); ?>" alt="<?php echo e($member['name'] ?? ''); ?>">
+                        <img src="<?php echo e(asset($member['photo'] ?? 'assets/img/team/6.jpg')); ?>" alt="<?php echo e($member['name'] ?? ''); ?>" loading="lazy">
                     </div>
                     <span class="dm-team-role"><?php echo e($member['role'] ?? ''); ?></span>
                     <h4 class="dm-team-name"><?php echo e($member['name'] ?? ''); ?></h4>

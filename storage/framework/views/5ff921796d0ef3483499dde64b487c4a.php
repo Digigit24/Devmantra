@@ -38,7 +38,7 @@ unset($__defined_vars, $__key, $__value); ?>
     $blogs = Blog::published()->latest('published_at')->take($count)->get();
 ?>
 
-<?php if (! $__env->hasRenderedOnce('646e3db7-58f8-46e2-934e-eba8e8ce8ada')): $__env->markAsRenderedOnce('646e3db7-58f8-46e2-934e-eba8e8ce8ada'); ?>
+<?php if (! $__env->hasRenderedOnce('16cc9b8e-4988-4b39-a043-de4f149fae84')): $__env->markAsRenderedOnce('16cc9b8e-4988-4b39-a043-de4f149fae84'); ?>
 <?php $__env->startPush('styles'); ?>
 <style>
 .cr-blog-area-dark { background: #001d30; }

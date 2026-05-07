@@ -94,7 +94,6 @@
                                     <li class="has-dropdown">
                                         <a href="javascript:void(0)">Expertise</a>
                                         <ul class="tp-submenu submenu">
-                                            @php $navServices = \App\Models\Service::published()->orderBy('sort_order')->get(); @endphp
                                             @foreach($navServices as $navService)
                                             <li><a href="{{ route('service.show', $navService->slug) }}">{{ $navService->title }}</a></li>
                                             @endforeach

@@ -94,7 +94,6 @@
                                     <li class="has-dropdown">
                                         <a href="javascript:void(0)">Expertise</a>
                                         <ul class="tp-submenu submenu">
-                                            <?php $navServices = \App\Models\Service::published()->orderBy('sort_order')->get(); ?>
                                             <?php $__currentLoopData = $navServices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $navService): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <li><a href="<?php echo e(route('service.show', $navService->slug)); ?>"><?php echo e($navService->title); ?></a></li>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

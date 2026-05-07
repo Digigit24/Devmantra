@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     @php
-        $seoDefTitle  = \App\Models\SiteSetting::get('seo_default_title', 'DevMantra');
-        $seoTitleSep  = \App\Models\SiteSetting::get('seo_title_separator', '—');
-        $seoDefDesc   = \App\Models\SiteSetting::get('seo_default_description', 'Dev Mantra - Strategic partner in progress for businesses operating in a global and digital economy.');
-        $seoDefOg     = \App\Models\SiteSetting::get('seo_default_og_image', '');
-        $seoRobots    = \App\Models\SiteSetting::get('seo_robots_mode', 'index') === 'noindex' ? 'noindex, nofollow' : 'index, follow';
-        $seoVerify    = \App\Models\SiteSetting::get('seo_google_verification', '');
-        $seoGa4       = \App\Models\SiteSetting::get('seo_ga4_id', 'G-MHGXZHPY6P');
-        $seoGtm       = \App\Models\SiteSetting::get('seo_gtm_id', '');
+        $_s           = \App\Models\SiteSetting::all_cached();
+        $seoDefTitle  = $_s['seo_default_title']        ?? 'DevMantra';
+        $seoTitleSep  = $_s['seo_title_separator']      ?? '—';
+        $seoDefDesc   = $_s['seo_default_description']  ?? 'Dev Mantra - Strategic partner in progress for businesses operating in a global and digital economy.';
+        $seoDefOg     = $_s['seo_default_og_image']     ?? '';
+        $seoRobots    = (($_s['seo_robots_mode'] ?? 'index') === 'noindex') ? 'noindex, nofollow' : 'index, follow';
+        $seoVerify    = $_s['seo_google_verification']  ?? '';
+        $seoGa4       = $_s['seo_ga4_id']              ?? 'G-MHGXZHPY6P';
+        $seoGtm       = $_s['seo_gtm_id']              ?? '';
     @endphp
     <title>@hasSection('title')@yield('title') {{ $seoTitleSep }} @endif{{ $seoDefTitle }}</title>
     <meta name="description" content="@hasSection('meta_description')@yield('meta_description')@else{{ $seoDefDesc }}@endif">
@@ -27,6 +28,16 @@
     <meta property="og:image" content="@yield('og_image')">
     @elseif($seoDefOg)
     <meta property="og:image" content="{{ $seoDefOg }}">
+    @endif
+    <meta property="og:site_name" content="{{ $seoDefTitle }}">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@hasSection('title')@yield('title') {{ $seoTitleSep }} @endif{{ $seoDefTitle }}">
+    <meta name="twitter:description" content="@hasSection('meta_description')@yield('meta_description')@else{{ $seoDefDesc }}@endif">
+    @hasSection('og_image')
+    <meta name="twitter:image" content="@yield('og_image')">
+    @elseif($seoDefOg)
+    <meta name="twitter:image" content="{{ $seoDefOg }}">
     @endif
     @hasSection('noindex')<meta name="robots" content="noindex, nofollow">
     @else<meta name="robots" content="{{ $seoRobots }}">
@@ -63,16 +74,16 @@
     @endif
 
     @php
-        // Collect selected typography fonts from settings
+        // Collect selected typography fonts from settings (reuse $_s loaded above)
         $dmFontSettings = [
-            'body' => \App\Models\SiteSetting::get('font_body', ''),
-            'h1'   => \App\Models\SiteSetting::get('font_h1',   ''),
-            'h2'   => \App\Models\SiteSetting::get('font_h2',   ''),
-            'h3'   => \App\Models\SiteSetting::get('font_h3',   ''),
-            'h4'   => \App\Models\SiteSetting::get('font_h4',   ''),
-            'h5'   => \App\Models\SiteSetting::get('font_h5',   ''),
-            'h6'   => \App\Models\SiteSetting::get('font_h6',   ''),
-            'p'    => \App\Models\SiteSetting::get('font_p',    ''),
+            'body' => $_s['font_body'] ?? '',
+            'h1'   => $_s['font_h1']   ?? '',
+            'h2'   => $_s['font_h2']   ?? '',
+            'h3'   => $_s['font_h3']   ?? '',
+            'h4'   => $_s['font_h4']   ?? '',
+            'h5'   => $_s['font_h5']   ?? '',
+            'h6'   => $_s['font_h6']   ?? '',
+            'p'    => $_s['font_p']    ?? '',
         ];
         // Always include Onest (used on buttons) + any admin-selected fonts
         $dmGoogleFonts = array_merge(['Onest'], array_values($dmFontSettings));
@@ -83,9 +94,11 @@
         $dmFontsUrl = \App\Http\Controllers\Admin\TypographyController::buildGoogleFontsUrl($dmGoogleFonts);
         $dmFontMap  = collect(\App\Http\Controllers\Admin\TypographyController::FONTS)->keyBy('key')->all();
     @endphp
-    {{-- Google Fonts: only load fonts actually in use (selected in Admin → Typography) --}}
+    {{-- Google Fonts: preload hint + non-blocking swap (media="print" trick) --}}
     @if($dmFontsUrl)
-    <link rel="stylesheet" href="{{ $dmFontsUrl }}">
+    <link rel="preload" as="style" href="{{ $dmFontsUrl }}">
+    <link rel="stylesheet" href="{{ $dmFontsUrl }}" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ $dmFontsUrl }}"></noscript>
     @endif
 
     <!-- CSS -->
@@ -93,12 +106,18 @@
     <link rel="stylesheet" href="{{ asset('assets/css/swiper-bundle.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/spacing.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+    {{-- FontAwesome: non-blocking — prints first, swaps to screen once loaded --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
+
+    @php
+        $brandFrom = $_s['brand_color_from'] ?? '#1b3c6b';
+        $brandTo   = $_s['brand_color_to']   ?? '#4a73c4';
+    @endphp
     <style>
-        /* Header always above GSAP ScrollSmoother wrapper */
+        /* ── Z-index layers ── */
         #header-sticky { z-index: 9999 !important; }
-        /* Preloader above everything including header */
-        #preloader { z-index: 99999 !important; }
-        /* Hamburger — dark lines, animates to × when menu is open */
+        /* ── Hamburger — dark lines, animates to × when menu is open ── */
         .tp-header-bar button {
             background: transparent !important;
             border: none !important;
@@ -123,20 +142,9 @@
             transform-origin: center !important;
         }
         .tp-header-bar button i:nth-child(2) { width: 18px !important; }
-        /* × state */
         .dm-menu-open .tp-header-bar button i:nth-child(1) { transform: translateY(7px) rotate(45deg) !important; width: 24px !important; }
         .dm-menu-open .tp-header-bar button i:nth-child(2) { opacity: 0 !important; width: 24px !important; }
         .dm-menu-open .tp-header-bar button i:nth-child(3) { transform: translateY(-7px) rotate(-45deg) !important; width: 24px !important; }
-    </style>
-    {{-- FontAwesome: non-blocking — prints first, swaps to screen once loaded --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
-
-    @php
-        $brandFrom = \App\Models\SiteSetting::get('brand_color_from', '#1b3c6b');
-        $brandTo   = \App\Models\SiteSetting::get('brand_color_to',   '#4a73c4');
-    @endphp
-    <style>
         /* ── Brand colour variables (editable from Admin → Settings) ── */
         :root {
             --dm-brand-from: {{ $brandFrom }};
@@ -184,23 +192,8 @@
         @media (max-width: 575px) {
             .dm-btn-primary, .dm-btn-secondary { font-size: 13px; padding: 12px 22px; }
         }
-    </style>
-
-    @stack('styles')
-
-    {{-- Per-page JSON-LD structured data --}}
-    @stack('schema')
-
-    {{-- Per-page custom <head> code (from admin SEO panel) --}}
-    @stack('custom_head')
-
-    <!-- Widget / third-party overrides — must stay last in <head> -->
-    <style>
+        /* ── Third-party widget overrides (must stay after all other rules) ── */
         .bg-stone-50 { display: none !important; }
-
-        /* Rispose chat widget — collapse wrapper to 0×0 so it never
-           adds scroll height outside #smooth-wrapper. overflow:visible
-           keeps the actual chat UI visible above the fold. */
         [id^="rispose_agent_"] {
             position: fixed !important;
             height: 0 !important;
@@ -212,6 +205,14 @@
             pointer-events: auto !important;
         }
     </style>
+
+    @stack('styles')
+
+    {{-- Per-page JSON-LD structured data --}}
+    @stack('schema')
+
+    {{-- Per-page custom <head> code (from admin SEO panel) --}}
+    @stack('custom_head')
 </head>
 
 <body class="tp-magic-cursor agntix-light">
@@ -225,7 +226,7 @@
         <div class="dm-l-stage">
             <div class="dm-l-orbit" style="--s:160px;--dur:3.2s;--dir:1"></div>
             <div class="dm-l-orbit" style="--s:220px;--dur:5s;--dir:-1"></div>
-            <img src="{{ asset('assets/img/favicon/favicon.png') }}" alt="DevMantra" class="dm-l-logo">
+            <img src="{{ asset('assets/img/favicon/favicon.png') }}" alt="DevMantra" class="dm-l-logo" width="130" height="130">
         </div>
         <div class="dm-l-dots"><span></span><span></span><span></span></div>
     </div>
@@ -366,7 +367,7 @@
             l.style.opacity='0';
             l.style.transform='scale(1.04)';
             setTimeout(function(){l.style.display='none'},600);
-        },1200);
+        },400);
     });
     </script>
 
@@ -379,14 +380,6 @@
     <!-- magic cursor -->
     <div id="magic-cursor" class="cursor-white-bg">
         <div id="ball"></div>
-    </div>
-
-    <!-- preloader -->
-    <div id="preloader">
-        <div class="preloader">
-            <span></span>
-            <span></span>
-        </div>
     </div>
 
     <!-- back to top -->

@@ -43,7 +43,7 @@ unset($__defined_vars, $__key, $__value); ?>
                 <div class="col-lg-10">
                     <div class="world-map-box">
                         <div class="map-base">
-                            <img src="<?php echo e(asset('assets/img/logo/map.png')); ?>" alt="">
+                            <img src="<?php echo e(asset('assets/img/logo/map.png')); ?>" alt="" loading="lazy">
                         </div>
                         <svg class="map-overlay" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
                             <g id="pins">
@@ -71,7 +71,7 @@ unset($__defined_vars, $__key, $__value); ?>
     </div>
 </section>
 
-<?php if (! $__env->hasRenderedOnce('f8b93665-2af6-49ac-bdd4-6d46780e9cee')): $__env->markAsRenderedOnce('f8b93665-2af6-49ac-bdd4-6d46780e9cee'); ?>
+<?php if (! $__env->hasRenderedOnce('98df45cd-6eb2-47ca-bfed-d1e3d71cb296')): $__env->markAsRenderedOnce('98df45cd-6eb2-47ca-bfed-d1e3d71cb296'); ?>
 <?php $__env->startPush('scripts'); ?>
 <script>
 (function () {

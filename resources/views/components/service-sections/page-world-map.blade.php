@@ -15,7 +15,7 @@
                 <div class="col-lg-10">
                     <div class="world-map-box">
                         <div class="map-base">
-                            <img src="{{ asset('assets/img/logo/map.png') }}" alt="">
+                            <img src="{{ asset('assets/img/logo/map.png') }}" alt="" loading="lazy">
                         </div>
                         <svg class="map-overlay" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
                             <g id="pins">

@@ -1,11 +1,11 @@
-@php $footerContact = \App\Models\ContactSetting::instance(); @endphp
+{{-- $footerContact and $footerServices are injected by the View composer in AppServiceProvider --}}
 <style>
 footer.z-index-1 { background-color: #001d30; }
 .cr-footer-bg { display: none; }
 </style>
 <footer class="z-index-1 include-bg">
     <div class="cr-footer-bg">
-        <img src="{{ asset('assets/img/home-13/footer/cr-footer-bg.png') }}" alt="">
+        <img src="{{ asset('assets/img/home-13/footer/cr-footer-bg.png') }}" alt="" loading="lazy">
     </div>
     <div class="dgm-footer-area cr-footer-area pb-60">
         <div class="container container-1230">
@@ -62,7 +62,6 @@ footer.z-index-1 { background-color: #001d30; }
                                 <h4 class="dgm-footer-widget-title">Expertise</h4>
                                 <div class="dgm-footer-widget-menu">
                                     <ul>
-                                        @php $footerServices = \App\Models\Service::published()->orderBy('sort_order')->take(5)->get(); @endphp
                                         @foreach($footerServices as $fs)
                                         <li><a href="{{ route('service.show', $fs->slug) }}">{{ $fs->title }}</a></li>
                                         @endforeach

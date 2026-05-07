@@ -41,7 +41,7 @@ unset($__defined_vars, $__key, $__value); ?>
                 <div class="col-lg-12">
                     <div class="cr-brand-heading text-center mb-60">
                         <div class="ca-brand-sub mb-70">
-                            <img src="<?php echo e(asset('assets/img/home-13/brand/brand-sub.png')); ?>" alt="">
+                            <img src="<?php echo e(asset('assets/img/home-13/brand/brand-sub.png')); ?>" alt="" loading="lazy">
                         </div>
                         <div class="tp_text_anim">
                            
@@ -59,7 +59,7 @@ unset($__defined_vars, $__key, $__value); ?>
                                 <?php for($i = 1; $i <= 20; $i++): ?>
                                 <div class="swiper-slide">
                                     <div class="app-brand-item">
-                                        <img src="<?php echo e(asset('assets/img/logo/'.$i.'.png')); ?>" alt="">
+                                        <img src="<?php echo e(asset('assets/img/logo/'.$i.'.png')); ?>" alt="" loading="lazy">
                                     </div>
                                 </div>
                                 <?php endfor; ?>
@@ -67,7 +67,7 @@ unset($__defined_vars, $__key, $__value); ?>
                         </div>
                     </div>
                     <div class="cr-brand-bottom">
-                        <img src="<?php echo e(asset('assets/img/home-13/brand/brand-bottom.png')); ?>" alt="">
+                        <img src="<?php echo e(asset('assets/img/home-13/brand/brand-bottom.png')); ?>" alt="" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -101,32 +101,32 @@ unset($__defined_vars, $__key, $__value); ?>
                 <div class="col-lg-12">
                     <div class="dm-values-grid">
                         <div class="dm-value-card">
-                            <div class="dm-value-icon"><img src="<?php echo e(asset('assets/img/logo/icon/1.png')); ?>" alt=""></div>
+                            <div class="dm-value-icon"><img src="<?php echo e(asset('assets/img/logo/icon/1.png')); ?>" alt="" loading="lazy"></div>
                             <h5>Trust</h5>
                             <p style="color: black;">We build strong, lasting relationships with our clients based on mutual trust and respect. Our commitment to integrity ensures that we always act in the best interest of our clients.</p>
                         </div>
                         <div class="dm-value-card">
-                            <div class="dm-value-icon"><img src="<?php echo e(asset('assets/img/logo/icon/2.png')); ?>" alt=""></div>
+                            <div class="dm-value-icon"><img src="<?php echo e(asset('assets/img/logo/icon/2.png')); ?>" alt="" loading="lazy"></div>
                             <h5>Transparency</h5>
                             <p style="color: black;">We maintain open and honest communication, ensuring our clients are fully informed and confident in their financial decisions.</p>
                         </div>
                         <div class="dm-value-card">
-                            <div class="dm-value-icon"><img src="<?php echo e(asset('assets/img/logo/icon/3.png')); ?>" alt=""></div>
+                            <div class="dm-value-icon"><img src="<?php echo e(asset('assets/img/logo/icon/3.png')); ?>" alt="" loading="lazy"></div>
                             <h5>Integrity</h5>
                             <p style="color: black;">We uphold the highest ethical standards in all our dealings, ensuring fairness and honesty. Integrity is the foundation of our practice, guiding our actions and decisions.</p>
                         </div>
                         <div class="dm-value-card">
-                            <div class="dm-value-icon"><img src="<?php echo e(asset('assets/img/logo/icon/4.png')); ?>" alt=""></div>
+                            <div class="dm-value-icon"><img src="<?php echo e(asset('assets/img/logo/icon/4.png')); ?>" alt="" loading="lazy"></div>
                             <h5>Tech Integration</h5>
                             <p style="color: black;">We leverage the latest technology to provide innovative solutions that enhance efficiency, accuracy, and convenience for our clients.</p>
                         </div>
                         <div class="dm-value-card">
-                            <div class="dm-value-icon"><img src="<?php echo e(asset('assets/img/logo/icon/5.png')); ?>" alt=""></div>
+                            <div class="dm-value-icon"><img src="<?php echo e(asset('assets/img/logo/icon/5.png')); ?>" alt="" loading="lazy"></div>
                             <h5>Excellence</h5>
                             <p style="color: black;">We are committed to delivering the highest quality services and continuously improving our processes. Our dedication to excellence drives us to exceed client expectations.</p>
                         </div>
                         <div class="dm-value-card">
-                            <div class="dm-value-icon"><img src="<?php echo e(asset('assets/img/logo/icon/6.png')); ?>" alt=""></div>
+                            <div class="dm-value-icon"><img src="<?php echo e(asset('assets/img/logo/icon/6.png')); ?>" alt="" loading="lazy"></div>
                             <h5>Client-Centric Approach</h5>
                             <p style="color: black;">We prioritize the needs and goals of our clients, offering tailored solutions that align with their unique requirements.</p>
                         </div>
