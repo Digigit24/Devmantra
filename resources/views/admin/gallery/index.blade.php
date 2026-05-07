@@ -219,6 +219,43 @@
     .gallery-root-btn.active { border-bottom-color: #1b3c6b; border-left: none; }
     .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
 }
+
+/* ── Alt text section ── */
+.alt-section { margin-bottom: 4px; }
+.alt-label {
+    font-size: 12px; font-weight: 600; color: #374151;
+    margin: 0 0 5px; display: block;
+}
+.alt-input {
+    width: 100%; padding: 8px 12px;
+    border: 1px solid #e5e7eb; border-radius: 8px;
+    font-size: 13px; color: #111; outline: none;
+    transition: border-color 0.2s; box-sizing: border-box;
+}
+.alt-input:focus { border-color: #1b3c6b; }
+.alt-input.has-value { border-color: #10b981; background: #f0fdf4; }
+.alt-suggestion-row { display: flex; gap: 6px; align-items: stretch; }
+.alt-suggestion-row .alt-input { flex: 1; background: #f8f9fb; color: #6b7280; font-style: italic; }
+.alt-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .4px;
+}
+.alt-badge-set   { background: #d1fae5; color: #065f46; }
+.alt-badge-empty { background: #fef3c7; color: #92400e; }
+.alt-btn-sm {
+    flex-shrink: 0; padding: 6px 12px;
+    border-radius: 7px; font-size: 12px; font-weight: 600;
+    cursor: pointer; border: 1px solid #e5e7eb;
+    background: #fff; color: #374151;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+}
+.alt-btn-sm:hover { background: #f1f5f9; border-color: #1b3c6b; color: #1b3c6b; }
+.alt-btn-suggest { background: #eef2ff; border-color: #c7d2fe; color: #4338ca; }
+.alt-btn-suggest:hover { background: #e0e7ff; border-color: #818cf8; }
+.alt-btn-use { background: #f0fdf4; border-color: #bbf7d0; color: #15803d; }
+.alt-btn-use:hover { background: #dcfce7; border-color: #86efac; }
 </style>
 @endpush
 
@@ -251,6 +288,10 @@
             <input type="text" class="gallery-search" id="gallerySearch"
                    placeholder="Filter images by name…"
                    oninput="Gallery.filterImages(this.value)">
+            <button class="alt-btn-sm alt-btn-suggest" id="suggestAltsBtn"
+                    onclick="Gallery.suggestAlts()" title="Auto-fill missing suggestions for catalogued images">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Suggest All Missing
+            </button>
             <span class="gallery-count" id="galleryCount"></span>
         </div>
 
@@ -275,6 +316,49 @@
             <span id="modalPath" style="flex:1;"></span>
             <button onclick="Gallery.copyPath()" title="Copy path">
                 <i class="fa-solid fa-copy"></i> Copy
+            </button>
+        </div>
+
+        <hr class="gallery-modal-divider">
+
+        {{-- ── Alt text section ── --}}
+        <div class="alt-section">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+                <span style="font-size:13px; font-weight:700; color:#374151;">
+                    <i class="fa-solid fa-tag" style="color:#6366f1; margin-right:4px;"></i>Alt Text
+                </span>
+                <span class="alt-badge" id="altBadge"></span>
+            </div>
+
+            <label class="alt-label" for="altTextInput">Alt Text
+                <span style="font-weight:400; color:#9ca3af;">(used in HTML <code>alt=</code> and screen readers)</span>
+            </label>
+            <input type="text" id="altTextInput" class="alt-input"
+                   maxlength="500" placeholder="Describe this image for accessibility and SEO…"
+                   oninput="Gallery.onAltInput(this)">
+
+            <label class="alt-label" for="altSuggestion"
+                   style="margin-top:12px;">Suggested Alt
+                <span style="font-weight:400; color:#9ca3af;">(generated from filename)</span>
+            </label>
+            <div class="alt-suggestion-row">
+                <input type="text" id="altSuggestion" class="alt-input"
+                       readonly placeholder="Click ✨ Suggest to auto-generate…">
+                <button class="alt-btn-sm alt-btn-suggest" id="suggestOneBtn"
+                        onclick="Gallery.suggestOne()" title="Generate suggestion from filename">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Suggest
+                </button>
+                <button class="alt-btn-sm alt-btn-use" id="useBtn"
+                        onclick="Gallery.useSuggestion()" title="Copy suggestion into alt text field"
+                        style="display:none;">
+                    ← Use
+                </button>
+            </div>
+        </div>
+
+        <div style="margin-top:14px; margin-bottom:2px;">
+            <button class="dm-btn dm-btn-primary dm-btn-sm" id="saveAltBtn" onclick="Gallery.saveAlt()">
+                <i class="fa-solid fa-floppy-disk"></i> Save Alt Text
             </button>
         </div>
 
@@ -318,10 +402,13 @@
         current: null,   // image object open in modal
     };
 
-    var BROWSE_URL  = '{{ route("admin.gallery.browse") }}';
-    var REPLACE_URL = '{{ route("admin.gallery.replace") }}';
-    var DELETE_URL  = '{{ route("admin.gallery.delete") }}';
-    var CSRF        = '{{ csrf_token() }}';
+    var BROWSE_URL       = '{{ route("admin.gallery.browse") }}';
+    var REPLACE_URL      = '{{ route("admin.gallery.replace") }}';
+    var DELETE_URL       = '{{ route("admin.gallery.delete") }}';
+    var SAVE_ALT_URL     = '{{ route("admin.media.saveAlt") }}';
+    var SUGGEST_ALTS_URL = '{{ route("admin.media.suggestAlts") }}';
+    var SUGGEST_ALT_BASE = '{{ url("admin/media") }}';  // append /{id}/suggest-alt
+    var CSRF             = '{{ csrf_token() }}';
 
     /* ── Load folder contents ── */
     function load(root, dir) {
@@ -414,6 +501,15 @@
         document.getElementById('modalMeta').textContent = img.size + '  ·  Modified ' + img.modified;
         document.getElementById('modalPath').textContent = '/' + img.rel_path;
 
+        // Populate alt text fields
+        var altInput  = document.getElementById('altTextInput');
+        var altSugEl  = document.getElementById('altSuggestion');
+        altInput.value  = img.alt_text || '';
+        altSugEl.value  = img.alt_text_suggestion || '';
+        syncAltBadge(img.alt_text);
+        syncAltInput(altInput);
+        document.getElementById('useBtn').style.display = altSugEl.value ? 'inline-flex' : 'none';
+
         // Reset replace UI
         document.getElementById('replaceInput').value  = '';
         document.getElementById('replacePreview').style.display = 'none';
@@ -422,6 +518,184 @@
 
         document.getElementById('galleryModal').classList.add('open');
         document.body.style.overflow = 'hidden';
+    }
+
+    /* ── Alt badge helper ── */
+    function syncAltBadge(altValue) {
+        var badge = document.getElementById('altBadge');
+        if (altValue && altValue.trim()) {
+            badge.textContent = 'Set';
+            badge.className   = 'alt-badge alt-badge-set';
+        } else {
+            badge.textContent = 'Missing';
+            badge.className   = 'alt-badge alt-badge-empty';
+        }
+    }
+
+    function syncAltInput(el) {
+        el.classList.toggle('has-value', !!(el.value && el.value.trim()));
+    }
+
+    function onAltInput(el) {
+        syncAltInput(el);
+        syncAltBadge(el.value);
+    }
+
+    /* ── Copy suggestion → alt text field ── */
+    function useSuggestion() {
+        var sug = document.getElementById('altSuggestion').value;
+        if (!sug) return;
+        var altInput = document.getElementById('altTextInput');
+        altInput.value = sug;
+        syncAltInput(altInput);
+        syncAltBadge(sug);
+        if (state.current) state.current.alt_text = sug;
+    }
+
+    /* ── Save alt text ── */
+    function saveAlt() {
+        if (!state.current) return;
+        var altText   = document.getElementById('altTextInput').value;
+        var altSug    = document.getElementById('altSuggestion').value;
+        var btn       = document.getElementById('saveAltBtn');
+        var origLabel = btn.innerHTML;
+
+        btn.disabled  = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner" style="animation:spin 1s linear infinite"></i> Saving…';
+
+        var fd = new FormData();
+        fd.append('rel_path',            state.current.rel_path);
+        fd.append('alt_text',            altText);
+        fd.append('alt_text_suggestion', altSug);
+        fd.append('_token', CSRF);
+
+        fetch(SAVE_ALT_URL, { method: 'POST', body: fd })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                btn.disabled  = false;
+                btn.innerHTML = origLabel;
+                if (data.success) {
+                    // Update state so suggest-alt can use the new id
+                    state.current.meta_id             = data.id;
+                    state.current.alt_text            = data.alt_text;
+                    state.current.alt_text_suggestion = data.alt_text_suggestion;
+                    syncAltBadge(data.alt_text);
+                    // Sync back into images array
+                    var idx = state.images.findIndex(function(i){ return i.rel_path === state.current.rel_path; });
+                    if (idx > -1) {
+                        state.images[idx].meta_id             = data.id;
+                        state.images[idx].alt_text            = data.alt_text;
+                        state.images[idx].alt_text_suggestion = data.alt_text_suggestion;
+                    }
+                    toast('Alt text saved!');
+                } else {
+                    toast(data.message || 'Save failed.', true);
+                }
+            })
+            .catch(function() {
+                btn.disabled  = false;
+                btn.innerHTML = origLabel;
+                toast('Network error.', true);
+            });
+    }
+
+    /* ── Suggest alt text for one image ── */
+    function suggestOne() {
+        if (!state.current) return;
+        var btn       = document.getElementById('suggestOneBtn');
+        var origLabel = btn.innerHTML;
+
+        // If the image already has a meta record, use POST /media/{id}/suggest-alt
+        // If not, save first (creates the record) and then suggest
+        if (state.current.meta_id) {
+            btn.disabled  = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner" style="animation:spin 1s linear infinite"></i>';
+            runSuggestById(state.current.meta_id, btn, origLabel);
+        } else {
+            // Upsert via saveAlt (empty values) to get an ID, then suggest
+            btn.disabled  = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner" style="animation:spin 1s linear infinite"></i>';
+            var fd = new FormData();
+            fd.append('rel_path', state.current.rel_path);
+            fd.append('alt_text', state.current.alt_text || '');
+            fd.append('alt_text_suggestion', '');
+            fd.append('_token', CSRF);
+            fetch(SAVE_ALT_URL, { method: 'POST', body: fd })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data.success && data.id) {
+                        state.current.meta_id = data.id;
+                        var idx = state.images.findIndex(function(i){ return i.rel_path === state.current.rel_path; });
+                        if (idx > -1) state.images[idx].meta_id = data.id;
+                        runSuggestById(data.id, btn, origLabel);
+                    } else {
+                        btn.disabled = false; btn.innerHTML = origLabel;
+                        toast('Could not register image.', true);
+                    }
+                })
+                .catch(function() {
+                    btn.disabled = false; btn.innerHTML = origLabel;
+                    toast('Network error.', true);
+                });
+        }
+    }
+
+    function runSuggestById(id, btn, origLabel) {
+        fetch(SUGGEST_ALT_BASE + '/' + id + '/suggest-alt', {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            btn.disabled  = false;
+            btn.innerHTML = origLabel;
+            if (data.success) {
+                var sug = data.alt_text_suggestion;
+                document.getElementById('altSuggestion').value = sug;
+                document.getElementById('useBtn').style.display = sug ? 'inline-flex' : 'none';
+                state.current.alt_text_suggestion = sug;
+                var idx = state.images.findIndex(function(i){ return i.rel_path === state.current.rel_path; });
+                if (idx > -1) state.images[idx].alt_text_suggestion = sug;
+                toast('Suggestion generated!');
+            } else {
+                toast(data.message || 'Suggestion failed.', true);
+            }
+        })
+        .catch(function() {
+            btn.disabled  = false;
+            btn.innerHTML = origLabel;
+            toast('Network error.', true);
+        });
+    }
+
+    /* ── Bulk suggest for all catalogued images without a suggestion ── */
+    function suggestAlts() {
+        var btn       = document.getElementById('suggestAltsBtn');
+        var origLabel = btn.innerHTML;
+        btn.disabled  = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner" style="animation:spin 1s linear infinite"></i> Working…';
+
+        fetch(SUGGEST_ALTS_URL, {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' },
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            btn.disabled  = false;
+            btn.innerHTML = origLabel;
+            if (data.success) {
+                toast('Filled suggestions for ' + data.updated + ' image' + (data.updated !== 1 ? 's' : '') + '.');
+                // Reload current folder so new suggestions show up
+                load(state.root, state.dir);
+            } else {
+                toast('Bulk suggest failed.', true);
+            }
+        })
+        .catch(function() {
+            btn.disabled  = false;
+            btn.innerHTML = origLabel;
+            toast('Network error.', true);
+        });
     }
 
     function closeModal(e) {
@@ -559,16 +833,21 @@
 
     /* ── Public API ── */
     window.Gallery = {
-        browse:       function(root, dir) { load(root, dir); },
-        switchRoot:   switchRoot,
-        openModal:    openModal,
-        closeModal:   closeModal,
-        copyPath:     copyPath,
-        quickCopy:    quickCopy,
+        browse:         function(root, dir) { load(root, dir); },
+        switchRoot:     switchRoot,
+        openModal:      openModal,
+        closeModal:     closeModal,
+        copyPath:       copyPath,
+        quickCopy:      quickCopy,
         previewReplace: previewReplace,
-        doReplace:    doReplace,
-        doDelete:     doDelete,
-        filterImages: filterImages,
+        doReplace:      doReplace,
+        doDelete:       doDelete,
+        filterImages:   filterImages,
+        onAltInput:     onAltInput,
+        useSuggestion:  useSuggestion,
+        saveAlt:        saveAlt,
+        suggestOne:     suggestOne,
+        suggestAlts:    suggestAlts,
     };
 
     // Init: load default root

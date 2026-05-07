@@ -35,7 +35,7 @@ unset($__defined_vars, $__key, $__value); ?>
     $ctaUrl   = $data['cta_url']  ?? null;   // null → x-btn-primary uses global setting
 ?>
 
-<?php if (! $__env->hasRenderedOnce('82d14e08-df76-48aa-aaf7-676914111abc')): $__env->markAsRenderedOnce('82d14e08-df76-48aa-aaf7-676914111abc'); ?>
+<?php if (! $__env->hasRenderedOnce('bc0e747f-70f4-4090-97cb-3caaaf723bd6')): $__env->markAsRenderedOnce('bc0e747f-70f4-4090-97cb-3caaaf723bd6'); ?>
 <?php $__env->startPush('styles'); ?>
 
 <link rel="preload" as="image" href="<?php echo e(asset('assets/img/hero/card1.webp')); ?>" fetchpriority="high">
@@ -283,7 +283,7 @@ unset($__defined_vars, $__key, $__value); ?>
     </div>
 </div>
 
-<?php if (! $__env->hasRenderedOnce('da6bc3bf-42c9-4c74-8ebd-244411920305')): $__env->markAsRenderedOnce('da6bc3bf-42c9-4c74-8ebd-244411920305'); ?>
+<?php if (! $__env->hasRenderedOnce('f1a73eee-9ede-4606-9c94-dc1bce020715')): $__env->markAsRenderedOnce('f1a73eee-9ede-4606-9c94-dc1bce020715'); ?>
 <?php $__env->startPush('scripts'); ?>
 <script>
 

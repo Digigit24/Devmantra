@@ -3,21 +3,38 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title><?php echo $__env->yieldContent('title', 'DevMantra'); ?></title>
-    <meta name="description" content="<?php echo $__env->yieldContent('meta_description', 'Dev Mantra - Strategic partner in progress for businesses operating in a global and digital economy.'); ?>">
+    <?php
+        $seoDefTitle  = \App\Models\SiteSetting::get('seo_default_title', 'DevMantra');
+        $seoTitleSep  = \App\Models\SiteSetting::get('seo_title_separator', '—');
+        $seoDefDesc   = \App\Models\SiteSetting::get('seo_default_description', 'Dev Mantra - Strategic partner in progress for businesses operating in a global and digital economy.');
+        $seoDefOg     = \App\Models\SiteSetting::get('seo_default_og_image', '');
+        $seoRobots    = \App\Models\SiteSetting::get('seo_robots_mode', 'index') === 'noindex' ? 'noindex, nofollow' : 'index, follow';
+        $seoVerify    = \App\Models\SiteSetting::get('seo_google_verification', '');
+        $seoGa4       = \App\Models\SiteSetting::get('seo_ga4_id', 'G-MHGXZHPY6P');
+        $seoGtm       = \App\Models\SiteSetting::get('seo_gtm_id', '');
+    ?>
+    <title><?php if (! empty(trim($__env->yieldContent('title')))): ?><?php echo $__env->yieldContent('title'); ?> <?php echo e($seoTitleSep); ?> <?php endif; ?><?php echo e($seoDefTitle); ?></title>
+    <meta name="description" content="<?php if (! empty(trim($__env->yieldContent('meta_description')))): ?><?php echo $__env->yieldContent('meta_description'); ?><?php else: ?><?php echo e($seoDefDesc); ?><?php endif; ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
     <!-- OG Tags -->
-    <meta property="og:title" content="<?php echo $__env->yieldContent('title', 'DevMantra'); ?>">
-    <meta property="og:description" content="<?php echo $__env->yieldContent('meta_description', 'Dev Mantra - Strategic partner in progress for businesses operating in a global and digital economy.'); ?>">
+    <meta property="og:title" content="<?php if (! empty(trim($__env->yieldContent('title')))): ?><?php echo $__env->yieldContent('title'); ?> <?php echo e($seoTitleSep); ?> <?php endif; ?><?php echo e($seoDefTitle); ?>">
+    <meta property="og:description" content="<?php if (! empty(trim($__env->yieldContent('meta_description')))): ?><?php echo $__env->yieldContent('meta_description'); ?><?php else: ?><?php echo e($seoDefDesc); ?><?php endif; ?>">
     <meta property="og:type" content="<?php echo $__env->yieldContent('og_type', 'website'); ?>">
     <meta property="og:url" content="<?php echo e(url()->current()); ?>">
     <?php if (! empty(trim($__env->yieldContent('og_image')))): ?>
     <meta property="og:image" content="<?php echo $__env->yieldContent('og_image'); ?>">
+    <?php elseif($seoDefOg): ?>
+    <meta property="og:image" content="<?php echo e($seoDefOg); ?>">
     <?php endif; ?>
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="<?php echo e(url()->current()); ?>">
+    <?php if (! empty(trim($__env->yieldContent('noindex')))): ?><meta name="robots" content="noindex, nofollow">
+    <?php else: ?><meta name="robots" content="<?php echo e($seoRobots); ?>">
+    <?php endif; ?>
+    <?php if($seoVerify): ?>
+    <meta name="google-site-verification" content="<?php echo e($seoVerify); ?>">
+    <?php endif; ?>
+    <link rel="canonical" href="<?php if (! empty(trim($__env->yieldContent('canonical_url')))): ?><?php echo $__env->yieldContent('canonical_url'); ?><?php else: ?><?php echo e(url()->current()); ?><?php endif; ?>">
 
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo e(asset('assets/img/favicon/favicon.png')); ?>">
 
@@ -26,15 +43,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://omnidim.io">
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MHGXZHPY6P"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-MHGXZHPY6P');
-</script>
+    
+    <?php if($seoGtm): ?>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','<?php echo e($seoGtm); ?>');</script>
+    <?php endif; ?>
+    
+    <?php if($seoGa4): ?>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo e($seoGa4); ?>"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '<?php echo e($seoGa4); ?>');
+    </script>
+    <?php endif; ?>
 
     <?php
         // Collect selected typography fonts from settings
@@ -162,6 +188,12 @@
 
     <?php echo $__env->yieldPushContent('styles'); ?>
 
+    
+    <?php echo $__env->yieldPushContent('schema'); ?>
+
+    
+    <?php echo $__env->yieldPushContent('custom_head'); ?>
+
     <!-- Widget / third-party overrides — must stay last in <head> -->
     <style>
         .bg-stone-50 { display: none !important; }
@@ -183,6 +215,166 @@
 </head>
 
 <body class="tp-magic-cursor agntix-light">
+
+    
+    <div id="dm-loader">
+        <div class="dm-l-aurora"></div>
+        <div class="dm-l-ring" style="--d:0s"></div>
+        <div class="dm-l-ring" style="--d:.9s"></div>
+        <div class="dm-l-ring" style="--d:1.8s"></div>
+        <div class="dm-l-stage">
+            <div class="dm-l-orbit" style="--s:160px;--dur:3.2s;--dir:1"></div>
+            <div class="dm-l-orbit" style="--s:220px;--dur:5s;--dir:-1"></div>
+            <img src="<?php echo e(asset('assets/img/favicon/favicon.png')); ?>" alt="DevMantra" class="dm-l-logo">
+        </div>
+        <div class="dm-l-dots"><span></span><span></span><span></span></div>
+    </div>
+    <style>
+    #dm-loader{
+        position:fixed;inset:0;z-index:999999;overflow:hidden;
+        background:radial-gradient(ellipse at 40% 40%,#1b3c6b 0%,#0d1f3c 60%,#060f1e 100%);
+        display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;
+        transition:opacity .6s ease,transform .6s ease;
+    }
+
+    /* ── Aurora shimmer ── */
+    .dm-l-aurora{
+        position:absolute;inset:0;pointer-events:none;
+        background:
+            radial-gradient(ellipse 70% 50% at 20% 30%,rgba(74,115,196,.28) 0%,transparent 60%),
+            radial-gradient(ellipse 55% 45% at 80% 70%,rgba(27,60,107,.45) 0%,transparent 60%),
+            radial-gradient(ellipse 40% 60% at 60% 20%,rgba(99,141,219,.18) 0%,transparent 55%);
+        animation:dm-aurora 7s ease-in-out infinite alternate;
+    }
+    @keyframes dm-aurora{
+        0%  {opacity:.6;transform:scale(1)   rotate(0deg)}
+        50% {opacity:1; transform:scale(1.15) rotate(8deg)}
+        100%{opacity:.7;transform:scale(1.05) rotate(-4deg)}
+    }
+
+    /* ── Ripple rings ── */
+    .dm-l-ring{
+        position:absolute;
+        width:200px;height:200px;
+        border-radius:50%;
+        border:1.5px solid rgba(74,115,196,.55);
+        animation:dm-ripple 2.7s ease-out infinite;
+        animation-delay:var(--d);
+        pointer-events:none;
+    }
+    @keyframes dm-ripple{
+        0%  {transform:scale(.5);opacity:.7}
+        100%{transform:scale(4);opacity:0}
+    }
+
+    /* ── Centre stage ── */
+    .dm-l-stage{
+        position:relative;
+        width:200px;height:200px;
+        display:flex;align-items:center;justify-content:center;
+        flex-shrink:0;
+    }
+
+    /* ── Orbit arcs ── */
+    .dm-l-orbit{
+        position:absolute;
+        width:var(--s);height:var(--s);
+        border-radius:50%;
+        border:1px dashed rgba(99,141,219,.35);
+        animation:dm-spin calc(var(--dur)) linear infinite;
+        animation-direction:calc(var(--dir) * 1s > 0s ? normal : reverse);
+    }
+    /* inline calc on animation-direction won't work — use two classes instead */
+    .dm-l-orbit:nth-child(1){animation:dm-spin-cw  3.2s linear infinite}
+    .dm-l-orbit:nth-child(2){animation:dm-spin-ccw 5s   linear infinite}
+    @keyframes dm-spin-cw {from{transform:rotate(0deg)}  to{transform:rotate(360deg)}}
+    @keyframes dm-spin-ccw{from{transform:rotate(0deg)}  to{transform:rotate(-360deg)}}
+
+    /* dot on each orbit arc */
+    .dm-l-orbit::after{
+        content:'';position:absolute;top:-4px;left:50%;
+        width:8px;height:8px;margin-left:-4px;
+        border-radius:50%;
+        background:rgba(99,141,219,.9);
+        box-shadow:0 0 8px 2px rgba(74,115,196,.7);
+    }
+
+    /* ── Logo ── */
+    .dm-l-logo{
+        position:relative;z-index:2;
+        width:130px;height:auto;
+        user-select:none;pointer-events:none;
+        animation:
+            dm-spring  2.4s cubic-bezier(.36,.07,.19,.97) infinite,
+            dm-glow    3s   ease-in-out              infinite,
+            dm-tilt    6s   ease-in-out              infinite;
+        will-change:transform,filter;
+        transform-origin:center bottom;
+    }
+
+    /* Spring bounce with proper squash-and-stretch */
+    @keyframes dm-spring{
+        0%  {transform:translateY(0)    scale(1,1)      rotate(0deg)}
+        12% {transform:translateY(-36px) scale(1.06,.95) rotate(-1.5deg)}
+        24% {transform:translateY(6px)  scale(.95,1.06) rotate(.8deg)}
+        36% {transform:translateY(-18px) scale(1.04,.97) rotate(-.8deg)}
+        48% {transform:translateY(3px)  scale(.98,1.03) rotate(.4deg)}
+        60% {transform:translateY(-8px) scale(1.02,.99) rotate(-.3deg)}
+        72% {transform:translateY(1px)  scale(.99,1.01) rotate(.1deg)}
+        84% {transform:translateY(-3px) scale(1.01,1)   rotate(0deg)}
+        100%{transform:translateY(0)    scale(1,1)      rotate(0deg)}
+    }
+
+    /* Brand-blue glow pulse */
+    @keyframes dm-glow{
+        0%,100%{filter:drop-shadow(0 0 10px rgba(74,115,196,.45)) drop-shadow(0 0 30px rgba(27,60,107,.3))  brightness(1)}
+        50%    {filter:drop-shadow(0 0 28px rgba(99,141,219,.95)) drop-shadow(0 0 70px rgba(74,115,196,.55)) brightness(1.12)}
+    }
+
+    /* Slow pendulum tilt */
+    @keyframes dm-tilt{
+        0%,100%{--tilt:0deg}
+        25%    {--tilt:2deg}
+        75%    {--tilt:-2deg}
+    }
+
+    /* ── Loading dots ── */
+    .dm-l-dots{display:flex;gap:.55rem;align-items:center}
+    .dm-l-dots span{
+        display:block;width:8px;height:8px;border-radius:50%;
+        background:rgba(74,115,196,.7);
+        animation:dm-dot 1.4s ease-in-out infinite;
+    }
+    .dm-l-dots span:nth-child(1){animation-delay:0s}
+    .dm-l-dots span:nth-child(2){animation-delay:.22s}
+    .dm-l-dots span:nth-child(3){animation-delay:.44s}
+    @keyframes dm-dot{
+        0%,80%,100%{transform:scale(.55) translateY(0);opacity:.3;background:rgba(74,115,196,.5)}
+        40%        {transform:scale(1.15) translateY(-6px);opacity:1;background:rgba(99,141,219,1);
+                    box-shadow:0 0 10px rgba(74,115,196,.8)}
+    }
+
+    @media(max-width:768px){
+        .dm-l-logo{width:100px}
+        .dm-l-ring{width:150px;height:150px}
+    }
+    </style>
+    <script>
+    window.addEventListener('load',function(){
+        var l=document.getElementById('dm-loader');
+        setTimeout(function(){
+            l.style.opacity='0';
+            l.style.transform='scale(1.04)';
+            setTimeout(function(){l.style.display='none'},600);
+        },1200);
+    });
+    </script>
+
+    
+    <?php if($seoGtm): ?>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo e($seoGtm); ?>"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <?php endif; ?>
 
     <!-- magic cursor -->
     <div id="magic-cursor" class="cursor-white-bg">

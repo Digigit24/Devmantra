@@ -57,6 +57,12 @@ class ServiceController extends Controller
             'hero_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'meta_description' => 'nullable|string|max:255',
+            'meta_title'       => 'nullable|string|max:60',
+            'og_image'         => 'nullable|string|max:500',
+            'og_image_file'    => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'canonical_url'    => 'nullable|string|max:500',
+            'noindex'          => 'nullable|boolean',
+            'custom_head'      => 'nullable|string',
             'show_on_homepage' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',
             'status' => 'required|in:draft,published',
@@ -72,7 +78,15 @@ class ServiceController extends Controller
             $validated['featured_image'] = $request->file('featured_image')->store('services', 'public');
         }
 
+        if ($request->hasFile('og_image_file')) {
+            $validated['og_image'] = Storage::disk('public')->url(
+                $request->file('og_image_file')->store('seo/og-images', 'public')
+            );
+        }
+        unset($validated['og_image_file']);
+
         $validated['show_on_homepage'] = $request->boolean('show_on_homepage');
+        $validated['noindex']          = $request->boolean('noindex');
         $validated['sort_order'] = $validated['sort_order'] ?? 0;
 
         Service::create($validated);
@@ -97,6 +111,12 @@ class ServiceController extends Controller
             'hero_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'meta_description' => 'nullable|string|max:255',
+            'meta_title'       => 'nullable|string|max:60',
+            'og_image'         => 'nullable|string|max:500',
+            'og_image_file'    => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'canonical_url'    => 'nullable|string|max:500',
+            'noindex'          => 'nullable|boolean',
+            'custom_head'      => 'nullable|string',
             'show_on_homepage' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',
             'status' => 'required|in:draft,published',
@@ -127,7 +147,15 @@ class ServiceController extends Controller
             unset($validated['featured_image']);
         }
 
+        if ($request->hasFile('og_image_file')) {
+            $validated['og_image'] = Storage::disk('public')->url(
+                $request->file('og_image_file')->store('seo/og-images', 'public')
+            );
+        }
+        unset($validated['og_image_file']);
+
         $validated['show_on_homepage'] = $request->boolean('show_on_homepage');
+        $validated['noindex']          = $request->boolean('noindex');
         $validated['sort_order'] = $validated['sort_order'] ?? 0;
 
         $service->update($validated);

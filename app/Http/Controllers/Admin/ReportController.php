@@ -56,6 +56,12 @@ class ReportController extends Controller
             'edition_label' => 'nullable|string|max:100',
             'is_featured' => 'nullable|boolean',
             'meta_description' => 'nullable|string|max:255',
+            'meta_title'       => 'nullable|string|max:60',
+            'og_image'         => 'nullable|string|max:500',
+            'og_image_file'    => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'canonical_url'    => 'nullable|string|max:500',
+            'noindex'          => 'nullable|boolean',
+            'custom_head'      => 'nullable|string',
             'read_time' => 'nullable|string|max:50',
             'button_url' => 'nullable|url|max:2048',
             'button_text' => 'nullable|string|max:100',
@@ -71,7 +77,15 @@ class ReportController extends Controller
             $validated['featured_image'] = $request->file('featured_image')->store('reports', 'public');
         }
 
+        if ($request->hasFile('og_image_file')) {
+            $validated['og_image'] = Storage::disk('public')->url(
+                $request->file('og_image_file')->store('seo/og-images', 'public')
+            );
+        }
+        unset($validated['og_image_file']);
+
         $validated['is_featured'] = $request->boolean('is_featured');
+        $validated['noindex']     = $request->boolean('noindex');
 
         if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = now();
@@ -98,6 +112,12 @@ class ReportController extends Controller
             'edition_label' => 'nullable|string|max:100',
             'is_featured' => 'nullable|boolean',
             'meta_description' => 'nullable|string|max:255',
+            'meta_title'       => 'nullable|string|max:60',
+            'og_image'         => 'nullable|string|max:500',
+            'og_image_file'    => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'canonical_url'    => 'nullable|string|max:500',
+            'noindex'          => 'nullable|boolean',
+            'custom_head'      => 'nullable|string',
             'read_time' => 'nullable|string|max:50',
             'button_url' => 'nullable|url|max:2048',
             'button_text' => 'nullable|string|max:100',
@@ -118,7 +138,15 @@ class ReportController extends Controller
             unset($validated['featured_image']);
         }
 
+        if ($request->hasFile('og_image_file')) {
+            $validated['og_image'] = Storage::disk('public')->url(
+                $request->file('og_image_file')->store('seo/og-images', 'public')
+            );
+        }
+        unset($validated['og_image_file']);
+
         $validated['is_featured'] = $request->boolean('is_featured');
+        $validated['noindex']     = $request->boolean('noindex');
 
         if ($validated['status'] === 'published' && !$report->published_at && empty($validated['published_at'])) {
             $validated['published_at'] = now();

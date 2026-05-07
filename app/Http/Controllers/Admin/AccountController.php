@@ -67,15 +67,30 @@ class AccountController extends Controller
     public function updateSettings(Request $request)
     {
         $request->validate([
-            'brand_color_from'      => ['nullable', 'regex:/^#[0-9a-fA-F]{6}$/'],
-            'brand_color_to'        => ['nullable', 'regex:/^#[0-9a-fA-F]{6}$/'],
-            'primary_button_text'   => ['nullable', 'string', 'max:120'],
-            'primary_button_url'    => ['nullable', 'string', 'max:500'],
-            'secondary_button_text' => ['nullable', 'string', 'max:120'],
-            'secondary_button_link' => ['nullable', 'string', 'max:500'],
+            'brand_color_from'         => ['nullable', 'regex:/^#[0-9a-fA-F]{6}$/'],
+            'brand_color_to'           => ['nullable', 'regex:/^#[0-9a-fA-F]{6}$/'],
+            'primary_button_text'      => ['nullable', 'string', 'max:120'],
+            'primary_button_url'       => ['nullable', 'string', 'max:500'],
+            'secondary_button_text'    => ['nullable', 'string', 'max:120'],
+            'secondary_button_link'    => ['nullable', 'string', 'max:500'],
+            'seo_default_title'        => ['nullable', 'string', 'max:120'],
+            'seo_title_separator'      => ['nullable', 'string', 'max:10'],
+            'seo_default_description'  => ['nullable', 'string', 'max:160'],
+            'seo_default_og_image'     => ['nullable', 'url', 'max:500'],
+            'seo_google_verification'  => ['nullable', 'string', 'max:200'],
+            'seo_robots_mode'          => ['nullable', 'in:index,noindex'],
+            'seo_ga4_id'               => ['nullable', 'string', 'max:50'],
+            'seo_gtm_id'               => ['nullable', 'string', 'max:50'],
         ]);
 
-        $keys = ['brand_color_from', 'brand_color_to', 'primary_button_text', 'primary_button_url', 'secondary_button_text', 'secondary_button_link'];
+        $keys = [
+            'brand_color_from', 'brand_color_to',
+            'primary_button_text', 'primary_button_url',
+            'secondary_button_text', 'secondary_button_link',
+            'seo_default_title', 'seo_title_separator', 'seo_default_description',
+            'seo_default_og_image', 'seo_google_verification', 'seo_robots_mode',
+            'seo_ga4_id', 'seo_gtm_id',
+        ];
 
         foreach ($keys as $key) {
             SiteSetting::set($key, $request->input($key, ''));

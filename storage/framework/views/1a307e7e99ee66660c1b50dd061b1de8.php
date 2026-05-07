@@ -1,5 +1,14 @@
 <?php $__env->startSection('title', 'DevMantra - Strategic Financial & Advisory Services'); ?>
 
+<?php $__env->startPush('schema'); ?>
+<?php echo \App\Services\SchemaService::organization(); ?>
+
+<?php echo \App\Services\SchemaService::localBusiness(); ?>
+
+<?php echo \App\Services\SchemaService::breadcrumb([['name' => 'Home', 'url' => '/']]); ?>
+
+<?php $__env->stopPush(); ?>
+
 <?php $__env->startSection('content'); ?>
 
 

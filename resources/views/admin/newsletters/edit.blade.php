@@ -60,10 +60,6 @@
                     <input type="file" name="featured_image" class="dm-form-input" accept="image/*">
                 </div>
                 <div class="dm-form-group">
-                    <label class="dm-form-label">Meta Description</label>
-                    <textarea name="meta_description" class="dm-form-textarea" style="min-height:60px;">{{ old('meta_description', $newsletter->meta_description) }}</textarea>
-                </div>
-                <div class="dm-form-group">
                     <label class="dm-form-label">Read Time</label>
                     <input type="text" name="read_time" value="{{ old('read_time', $newsletter->read_time ?: '5 min read') }}" class="dm-form-input" placeholder="e.g. 5 min read">
                     <div class="dm-form-hint">Shown as a badge on cards and detail pages. Default: 5 min read</div>
@@ -89,6 +85,9 @@
                 </button>
             </div>
         </div>
+    </div>
+    <div class="mt-4">
+        @include('admin.partials._seo-panel', ['model' => $newsletter])
     </div>
 </form>
 @endsection

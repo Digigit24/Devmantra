@@ -193,6 +193,31 @@
 @keyframes cc-slide{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
 .cc-toast-x{background:none;border:none;color:#94a3b8;cursor:pointer;margin-left:auto;font-size:0.85rem}
 
+/* ── Prime Insights locked card ───────────────────────────────────────────*/
+.cc-prime-card{background:#fff;border-radius:10px;border:1.5px solid #e0e7ff;overflow:hidden;margin-bottom:1.125rem}
+.cc-prime-hdr{display:flex;align-items:center;gap:0.5rem;padding:0.75rem 1rem;background:linear-gradient(90deg,#1b3c6b,#4a73c4);color:#fff;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em}
+.cc-prime-hdr i{font-size:0.85rem}
+.cc-prime-badge{margin-left:auto;background:rgba(255,255,255,0.2);font-size:0.6rem;padding:0.18rem 0.55rem;border-radius:100px;letter-spacing:0.04em;font-weight:600}
+.cc-prime-teaser{padding:0.75rem 1rem 0.5rem;border-bottom:1px dashed #e0e7ff}
+.cc-prime-teaser-label{font-size:0.65rem;font-weight:700;color:#4a73c4;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem}
+.cc-prime-teaser-row{display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;color:#1e293b;font-weight:600}
+.cc-prime-teaser-val{font-weight:800;color:#059669;font-size:0.95rem}
+.cc-prime-locked-wrap{position:relative}
+.cc-prime-content{padding:1rem;display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;filter:blur(5px);user-select:none;pointer-events:none;transition:filter 0.4s ease}
+@media(max-width:560px){.cc-prime-content{grid-template-columns:1fr}}
+.cc-prime-card.unlocked .cc-prime-content{filter:none;pointer-events:auto}
+.cc-prime-item{background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;padding:0.75rem}
+.cc-prime-item-label{font-size:0.63rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:0.35rem;display:flex;align-items:center;gap:0.3rem}
+.cc-prime-item-val{font-size:1rem;font-weight:800;color:#1e293b;margin-bottom:0.15rem}
+.cc-prime-item-sub{font-size:0.7rem;color:#64748b;line-height:1.4}
+.cc-prime-lock-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(to bottom,rgba(248,250,252,0.55) 0%,rgba(248,250,252,0.92) 55%,rgba(248,250,252,1) 100%);z-index:2}
+.cc-prime-card.unlocked .cc-prime-lock-overlay{display:none}
+.cc-prime-lock-inner{text-align:center;padding:1rem}
+.cc-prime-lock-inner i.fa-lock{font-size:1.5rem;color:#94a3b8;margin-bottom:0.5rem;display:block}
+.cc-prime-lock-inner p{font-size:0.82rem;color:#64748b;margin:0 0 0.75rem;font-weight:500}
+.cc-prime-unlock-btn{display:inline-flex;align-items:center;gap:0.45rem;padding:0.6rem 1.25rem;background:var(--dm-brand-gradient,linear-gradient(135deg,#1b3c6b,#4a73c4));color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.18s;box-shadow:0 4px 14px rgba(27,60,107,0.25)}
+.cc-prime-unlock-btn:hover{opacity:0.88}
+
 @media print{
     .cc-hero{padding-top:1rem!important}
     .cc-fallback-banner,.cc-stepper,.cc-progress-strip,.cc-step-footer,#apiLogsWrap,.no-print,.cc-hero-actions,.cc-view-tabs,.cc-tco-note,.cc-sens-card{display:none!important}
@@ -683,12 +708,63 @@
                     </div>
                 </div>
 
+                {{-- ── Prime Insights (locked until lead submitted) ──────────────── --}}
+                <div class="cc-prime-card no-print" id="primeInsightsCard">
+                    <div class="cc-prime-hdr">
+                        <i class="fas fa-gem"></i> Prime Insights
+                        <span class="cc-prime-badge">Personalised Analysis</span>
+                    </div>
+                    {{-- Teaser row — always visible --}}
+                    <div class="cc-prime-teaser">
+                        <div class="cc-prime-teaser-label"><i class="fas fa-bolt"></i> Your Cost Advantage at a Glance</div>
+                        <div class="cc-prime-teaser-row">
+                            India sourcing saves you approximately
+                            <span class="cc-prime-teaser-val" id="primeTeaserPct">&mdash;</span>
+                            vs <span id="primeTeaserCountry">Europe</span> &mdash; here's what drives it.
+                        </div>
+                    </div>
+                    {{-- Locked content --}}
+                    <div class="cc-prime-locked-wrap">
+                        <div class="cc-prime-content" id="primeInsightsContent">
+                            <div class="cc-prime-item">
+                                <div class="cc-prime-item-label"><i class="fas fa-trophy"></i> Biggest Cost Lever</div>
+                                <div class="cc-prime-item-val" id="piLever">&mdash;</div>
+                                <div class="cc-prime-item-sub" id="piLeverSub"></div>
+                            </div>
+                            <div class="cc-prime-item">
+                                <div class="cc-prime-item-label"><i class="fas fa-calendar-check"></i> Break-even Horizon</div>
+                                <div class="cc-prime-item-val" id="piBreakeven">&mdash;</div>
+                                <div class="cc-prime-item-sub" id="piBreakevenSub"></div>
+                            </div>
+                            <div class="cc-prime-item">
+                                <div class="cc-prime-item-label"><i class="fas fa-chart-line"></i> 3-Year Savings Potential</div>
+                                <div class="cc-prime-item-val" id="pi3yr">&mdash;</div>
+                                <div class="cc-prime-item-sub" id="pi3yrSub"></div>
+                            </div>
+                            <div class="cc-prime-item">
+                                <div class="cc-prime-item-label"><i class="fas fa-shield-alt"></i> Risk-adjusted Verdict</div>
+                                <div class="cc-prime-item-val" id="piVerdict">&mdash;</div>
+                                <div class="cc-prime-item-sub" id="piVerdictSub"></div>
+                            </div>
+                        </div>
+                        <div class="cc-prime-lock-overlay" id="primeLockOverlay">
+                            <div class="cc-prime-lock-inner">
+                                <i class="fas fa-lock"></i>
+                                <p>Get your personalised sourcing roadmap — free</p>
+                                <button class="cc-prime-unlock-btn" onclick="ccShowLeadGate()">
+                                    <i class="fas fa-unlock-alt"></i> Unlock Full Insights
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="cc-step-footer">
                 <button class="dm-btn-secondary dm-btn-sm" onclick="ccPrev()"><i class="fas fa-arrow-left"></i> Edit Inputs</button>
                 <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
                     <button class="dm-btn-secondary dm-btn-sm" onclick="ccGo(1)"><i class="fas fa-redo"></i> Recalculate</button>
-                    <button class="dm-btn-primary dm-btn-sm" onclick="window.print()"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                    <button class="dm-btn-primary dm-btn-sm" onclick="ccExportPdf()"><i class="fas fa-file-pdf"></i> Export PDF</button>
                 </div>
             </div>
         </div>
@@ -729,6 +805,56 @@
 </div>{{-- end cc-wizard-bg --}}
 
 </div>{{-- end cc-page --}}
+
+{{-- ── Lead Gate Overlay ───────────────────────────────────────────────────── --}}
+<div id="ccLeadGate" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(15,23,42,0.72);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;">
+    <div style="background:#fff;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,0.22);width:100%;max-width:420px;overflow:hidden;animation:cc-step-in 0.25s ease;">
+        {{-- header --}}
+        <div style="background:var(--dm-brand-gradient,linear-gradient(135deg,#1b3c6b,#4a73c4));padding:1.5rem 1.75rem 1.25rem;">
+            <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.55);margin-bottom:0.3rem;font-family:var(--tp-ff-onest,inherit)">Free — Instant Access</div>
+            <h2 style="font-size:1.25rem;font-weight:800;color:#fff;margin:0;letter-spacing:-0.02em;font-family:var(--tp-ff-onest,inherit)">Unlock Your Prime Insights</h2>
+            <p style="font-size:0.78rem;color:rgba(255,255,255,0.65);margin:0.35rem 0 0;line-height:1.45;">Get your personalised sourcing roadmap, break-even horizon, and risk-adjusted verdict.</p>
+        </div>
+        {{-- form --}}
+        <div style="padding:1.5rem 1.75rem;">
+            <div id="ccLeadError" style="display:none;font-size:0.78rem;color:#dc2626;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:0.5rem 0.75rem;margin-bottom:1rem;"></div>
+            <div style="margin-bottom:0.875rem;">
+                <label style="display:block;font-size:0.68rem;font-weight:700;color:#64748b;margin-bottom:0.28rem;text-transform:uppercase;letter-spacing:0.04em;">Full Name <span style="color:#dc2626">*</span></label>
+                <input id="lgName" type="text" autocomplete="name"
+                       style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.875rem;font-family:inherit;color:#1e293b;background:#fafbfc;outline:none;transition:border-color 0.18s;"
+                       onfocus="this.style.borderColor='#4a73c4'" onblur="this.style.borderColor='#e2e8f0'">
+            </div>
+            <div style="margin-bottom:0.875rem;">
+                <label style="display:block;font-size:0.68rem;font-weight:700;color:#64748b;margin-bottom:0.28rem;text-transform:uppercase;letter-spacing:0.04em;">Work Email <span style="color:#dc2626">*</span></label>
+                <input id="lgEmail" type="email" autocomplete="email"
+                       style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.875rem;font-family:inherit;color:#1e293b;background:#fafbfc;outline:none;transition:border-color 0.18s;"
+                       onfocus="this.style.borderColor='#4a73c4'" onblur="this.style.borderColor='#e2e8f0'">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.875rem;">
+                <div>
+                    <label style="display:block;font-size:0.68rem;font-weight:700;color:#64748b;margin-bottom:0.28rem;text-transform:uppercase;letter-spacing:0.04em;">Phone <span style="color:#dc2626">*</span></label>
+                    <input id="lgPhone" type="tel" autocomplete="tel"
+                           style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.875rem;font-family:inherit;color:#1e293b;background:#fafbfc;outline:none;transition:border-color 0.18s;"
+                           onfocus="this.style.borderColor='#4a73c4'" onblur="this.style.borderColor='#e2e8f0'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.68rem;font-weight:700;color:#64748b;margin-bottom:0.28rem;text-transform:uppercase;letter-spacing:0.04em;">Company <span style="color:#dc2626">*</span></label>
+                    <input id="lgCompany" type="text" autocomplete="organization"
+                           style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-size:0.875rem;font-family:inherit;color:#1e293b;background:#fafbfc;outline:none;transition:border-color 0.18s;"
+                           onfocus="this.style.borderColor='#4a73c4'" onblur="this.style.borderColor='#e2e8f0'">
+                </div>
+            </div>
+            <button id="lgSubmitBtn" onclick="ccLeadSubmit()"
+                    style="width:100%;padding:0.7rem;background:var(--dm-brand-gradient,linear-gradient(135deg,#1b3c6b,#4a73c4));color:#fff;border:none;border-radius:8px;font-size:0.875rem;font-weight:700;cursor:pointer;font-family:inherit;transition:opacity 0.18s;">
+                <i class="fas fa-unlock-alt"></i> Unlock Full Insights
+            </button>
+            <p style="font-size:0.68rem;color:#94a3b8;text-align:center;margin:0.65rem 0 0;line-height:1.5;">
+                We respect your privacy. No spam — just insights.
+            </p>
+        </div>
+    </div>
+</div>
+
 <div class="cc-toasts" id="toastContainer"></div>
 @endsection
 
@@ -829,6 +955,88 @@ const LOOKUPS = {
 let compChart=null, donutChart=null, lastCalc=null, liveExchangeRate=null;
 let apiLogs=[], logIdCounter=0;
 
+// ── Lead gate (contact modal for Prime Insights + Export PDF) ──────────────
+let ccLeadUnlocked = false;
+
+function ccExportPdf() {
+    if (ccLeadUnlocked) { window.print(); return; }
+    ccShowLeadGate();
+}
+
+function ccShowLeadGate() {
+    const gate = document.getElementById('ccLeadGate');
+    gate.style.display = 'flex';
+    setTimeout(() => document.getElementById('lgName').focus(), 120);
+}
+
+function ccHideLeadGate() {
+    document.getElementById('ccLeadGate').style.display = 'none';
+}
+
+function ccUnlockPrimeInsights() {
+    document.getElementById('primeInsightsCard').classList.add('unlocked');
+    document.getElementById('primeLockOverlay').style.display = 'none';
+    document.getElementById('primeInsightsCard').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+async function ccLeadSubmit() {
+    const name    = document.getElementById('lgName').value.trim();
+    const email   = document.getElementById('lgEmail').value.trim();
+    const phone   = document.getElementById('lgPhone').value.trim();
+    const company = document.getElementById('lgCompany').value.trim();
+    const errEl   = document.getElementById('ccLeadError');
+    const btn     = document.getElementById('lgSubmitBtn');
+
+    errEl.style.display = 'none';
+    if (!name || !email || !phone || !company) {
+        errEl.textContent = 'All fields are required.';
+        errEl.style.display = 'block';
+        return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errEl.textContent = 'Please enter a valid email address.';
+        errEl.style.display = 'block';
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+    try {
+        const res = await fetch('{{ route("cost-calculator.lead") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ name, email, phone, company }),
+        });
+
+        if (res.ok) {
+            ccLeadUnlocked = true;
+            ccHideLeadGate();
+            ccUnlockPrimeInsights();
+        } else {
+            const data = await res.json().catch(() => ({}));
+            errEl.textContent = data.message || 'Something went wrong. Please try again.';
+            errEl.style.display = 'block';
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-unlock-alt"></i> Unlock Full Insights';
+        }
+    } catch {
+        errEl.textContent = 'Network error. Please check your connection and try again.';
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-unlock-alt"></i> Unlock Full Insights';
+    }
+}
+
+// Close gate on backdrop click
+document.getElementById('ccLeadGate').addEventListener('click', function(e) {
+    if (e.target === this) ccHideLeadGate();
+});
+
 // ── Step navigation ────────────────────────────────────────────────────────
 function ccGo(n) {
     if(n<1||n>TOTAL_STEPS) return;
@@ -838,7 +1046,7 @@ function ccGo(n) {
     updateProgress();
     if(n===TOTAL_STEPS){
         document.getElementById('wizOuter').classList.add('is-results');
-        calculate(); setTimeout(()=>renderCharts(lastCalc),50);
+        calculate(); setTimeout(()=>{ renderCharts(lastCalc); renderPrimeInsights(lastCalc); },50);
     } else { document.getElementById('wizOuter').classList.remove('is-results'); }
     document.getElementById('wizOuter').scrollIntoView({behavior:'smooth',block:'start'});
 }
@@ -1233,6 +1441,69 @@ function renderCharts(d){
         plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10,padding:8}},
             tooltip:{callbacks:{label:c=>`${c.label}: ${fmtEUR(c.raw)} (${((c.raw/d.indiaTotalEur)*100).toFixed(1)}%)`}}}}
     });
+}
+
+// ── Prime Insights population ──────────────────────────────────────────────
+function renderPrimeInsights(d) {
+    if (!d) return;
+
+    // Teaser row
+    document.getElementById('primeTeaserPct').textContent = fmtPct(Math.abs(d.savingsPct));
+    document.getElementById('primeTeaserCountry').textContent = d.country;
+
+    // ── Biggest Cost Lever ──────────────────────────────────────────────────
+    const levers = [
+        { label: 'Labour',    val: d.indiaLabourCost + d.indiaOverheadCost },
+        { label: 'Materials', val: d.indiaMaterialCost },
+        { label: 'Logistics', val: d.logisticsCost },
+        { label: 'Duties',    val: d.importDuty + d.sws },
+    ];
+    levers.sort((a,b) => b.val - a.val);
+    const topLever = levers[0];
+    const leverPct = d.indiaTotalEur > 0 ? (topLever.val / d.indiaTotalEur) : 0;
+    document.getElementById('piLever').textContent    = topLever.label;
+    document.getElementById('piLeverSub').textContent = `${fmtEUR(topLever.val)} / unit · ${fmtPct(leverPct)} of India landed cost. Optimising ${topLever.label.toLowerCase()} yields the highest per-unit savings.`;
+
+    // ── Break-even Horizon ──────────────────────────────────────────────────
+    // Estimate: typical India market-entry cost €25k–€60k; use midpoint €40k
+    const entryEst = 40000;
+    const annSav   = d.annualSavingEur || (d.savingsEur * d.annualVolume);
+    const months   = annSav > 0 ? Math.ceil((entryEst / annSav) * 12) : null;
+    if (months !== null && months <= 48) {
+        document.getElementById('piBreakeven').textContent = months <= 3 ? '< 3 months' : `~${months} months`;
+        document.getElementById('piBreakevenSub').textContent = `Based on est. €${(entryEst/1000).toFixed(0)}k market-entry cost (entity setup + supplier qualification). Actual timeline varies.`;
+    } else {
+        document.getElementById('piBreakeven').textContent = annSav <= 0 ? 'N/A' : '4 + years';
+        document.getElementById('piBreakevenSub').textContent = annSav <= 0
+            ? 'Europe is competitive for this configuration.'
+            : 'High entry cost relative to savings — reassess volume assumptions.';
+    }
+
+    // ── 3-Year Savings ──────────────────────────────────────────────────────
+    const yr3 = annSav * 3;
+    document.getElementById('pi3yr').textContent    = fmtEURLg(yr3);
+    document.getElementById('pi3yrSub').textContent = yr3 > 0
+        ? `At ${d.annualVolume.toLocaleString('en-IN')} units/yr over 3 years vs ${d.country} manufacturing — assuming stable FX and volume.`
+        : `Europe manufacturing is cost-competitive for this volume and configuration.`;
+
+    // ── Risk-adjusted Verdict ───────────────────────────────────────────────
+    const savPct = d.savingsPct * 100;
+    let verdict, verdictSub;
+    if (savPct >= 30) {
+        verdict    = 'Strong ✓';
+        verdictSub = `${fmtPct(d.savingsPct)} cost advantage makes India a compelling sourcing hub for ${d.sector}. FX hedging recommended given EUR/INR exposure.`;
+    } else if (savPct >= 15) {
+        verdict    = 'Moderate ✓';
+        verdictSub = `Viable sourcing case. Ensure logistics lead times and minimum order quantities are accounted for in your total landed cost model.`;
+    } else if (savPct > 0) {
+        verdict    = 'Marginal';
+        verdictSub = `Thin margin of advantage. Consider increasing volume or negotiating better freight rates before committing to India sourcing.`;
+    } else {
+        verdict    = 'Not Recommended';
+        verdictSub = `For this configuration, ${d.country} manufacturing is cost-competitive. Review HS code or logistics mode for a different outcome.`;
+    }
+    document.getElementById('piVerdict').textContent    = verdict;
+    document.getElementById('piVerdictSub').textContent = verdictSub;
 }
 
 // ── API log engine ─────────────────────────────────────────────────────────

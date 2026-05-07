@@ -65,10 +65,6 @@
                     <input type="file" name="featured_image" class="dm-form-input" accept="image/*">
                 </div>
                 <div class="dm-form-group">
-                    <label class="dm-form-label">Meta Description</label>
-                    <textarea name="meta_description" class="dm-form-textarea" style="min-height:60px;">{{ old('meta_description', $report->meta_description) }}</textarea>
-                </div>
-                <div class="dm-form-group">
                     <label class="dm-form-label">Button URL</label>
                     <input type="url" name="button_url" value="{{ old('button_url', $report->button_url) }}" class="dm-form-input" placeholder="https://example.com/report.pdf">
                     <div class="dm-form-hint">External link shown as a button on the report page. Leave empty to hide.</div>
@@ -89,6 +85,9 @@
                 </button>
             </div>
         </div>
+    </div>
+    <div class="mt-4">
+        @include('admin.partials._seo-panel', ['model' => $report])
     </div>
 </form>
 @endsection

@@ -1,9 +1,23 @@
 @extends('layouts.frontend')
-@section('title', $blog->title . ' - DevMantra')
+@section('title', $blog->meta_title ?: $blog->title)
 @section('meta_description', $blog->meta_description ?? Str::limit($blog->clean_excerpt, 160))
 @section('og_type', 'article')
-@if($blog->featured_image)
-@section('og_image', asset('storage/' . $blog->featured_image))
+@php $blogOg = $blog->og_image ?: ($blog->featured_image ? asset('storage/' . $blog->featured_image) : null); @endphp
+@if($blogOg)
+@section('og_image', $blogOg)
+@endif
+@if($blog->canonical_url)
+@section('canonical_url', $blog->canonical_url)
+@endif
+@if($blog->noindex)
+@section('noindex', '1')
+@endif
+
+{{-- Schema stored in custom_head field (Article + BreadcrumbList per blog) --}}
+@if($blog->custom_head)
+@push('custom_head')
+{!! $blog->custom_head !!}
+@endpush
 @endif
 
 @push('styles')

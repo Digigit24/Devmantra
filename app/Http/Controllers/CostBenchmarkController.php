@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CalculatorLead;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
@@ -128,5 +129,21 @@ class CostBenchmarkController extends Controller
             $rates,
             ['source' => 'CBIC Budget 2025-26']
         ));
+    }
+
+    public function storeLead(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'name'    => 'required|string|max:120',
+            'email'   => 'required|email|max:160',
+            'phone'   => 'required|string|max:30',
+            'company' => 'required|string|max:160',
+        ]);
+
+        $data['ip_address'] = $request->ip();
+
+        CalculatorLead::create($data);
+
+        return response()->json(['success' => true]);
     }
 }

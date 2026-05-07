@@ -1,9 +1,30 @@
 @extends('layouts.frontend')
-@section('title', $caseStudy->title . ' - DevMantra')
+@section('title', $caseStudy->meta_title ?: $caseStudy->title)
 @section('meta_description', $caseStudy->meta_description ?? $caseStudy->excerpt ?? Str::limit(strip_tags($caseStudy->content), 160))
 @section('og_type', 'article')
-@if($caseStudy->featured_image)
-@section('og_image', asset('storage/' . $caseStudy->featured_image))
+@php $caseStudyOg = $caseStudy->og_image ?: ($caseStudy->featured_image ? asset('storage/' . $caseStudy->featured_image) : null); @endphp
+@if($caseStudyOg)
+@section('og_image', $caseStudyOg)
+@endif
+@if($caseStudy->canonical_url)
+@section('canonical_url', $caseStudy->canonical_url)
+@endif
+@if($caseStudy->noindex)
+@section('noindex', '1')
+@endif
+
+@push('schema')
+{!! \App\Services\SchemaService::caseStudySchema($caseStudy) !!}
+{!! \App\Services\SchemaService::breadcrumb([
+    ['name' => 'Home',        'url' => '/'],
+    ['name' => 'Case Studies','url' => '/case-study'],
+    ['name' => $caseStudy->meta_title ?: $caseStudy->title],
+]) !!}
+@endpush
+@if($caseStudy->custom_head)
+@push('custom_head')
+{!! $caseStudy->custom_head !!}
+@endpush
 @endif
 
 @push('styles')

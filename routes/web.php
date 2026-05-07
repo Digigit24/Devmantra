@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\Admin\SchemaController;
 use App\Http\Controllers\Admin\AlertController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CareerApplicationController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\CaseStudyController;
 use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\TypographyController;
 use App\Http\Controllers\Admin\ContactSubmissionController;
+use App\Http\Controllers\Admin\CalculatorLeadController;
 use App\Http\Controllers\Admin\FundabilityLeadController;
 use App\Http\Controllers\Admin\PopupController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -57,16 +59,25 @@ Route::get('/india-europe-benchmarking-calculator', [CostBenchmarkController::cl
 Route::get('/api/calculator/exchange-rate', [CostBenchmarkController::class, 'getExchangeRate']);
 Route::get('/api/calculator/freight-rate',  [CostBenchmarkController::class, 'getFreightRates']);
 Route::get('/api/calculator/duty-rate',     [CostBenchmarkController::class, 'getDutyRate']);
+Route::post('/india-europe-benchmarking-calculator/lead', [CostBenchmarkController::class, 'storeLead'])->name('cost-calculator.lead')->middleware('throttle:10,1');
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Structured Data / Schema
+    Route::get('schema',  [SchemaController::class, 'index'])->name('schema.index');
+    Route::put('schema',  [SchemaController::class, 'update'])->name('schema.update');
 
     // Media Gallery
     Route::get('gallery', [GalleryController::class, 'index'])->name('gallery.index');
     Route::get('gallery/browse', [GalleryController::class, 'browse'])->name('gallery.browse');
     Route::post('gallery/replace', [GalleryController::class, 'replace'])->name('gallery.replace');
     Route::post('gallery/delete', [GalleryController::class, 'delete'])->name('gallery.delete');
+    // Alt text — static routes BEFORE {imageMeta} to avoid shadowing
+    Route::post('media/save-alt',    [GalleryController::class, 'saveAlt'])->name('media.saveAlt');
+    Route::post('media/suggest-alts',[GalleryController::class, 'suggestAlts'])->name('media.suggestAlts');
+    Route::post('media/{imageMeta}/suggest-alt', [GalleryController::class, 'suggestAlt'])->name('media.suggestAlt');
 
     // Blogs CRUD + Trash
     Route::get('blogs/trash', [BlogController::class, 'trash'])->name('blogs.trash');
@@ -131,6 +142,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('career-applications/{application}', [CareerApplicationController::class, 'show'])->name('career-applications.show');
     Route::put('career-applications/{application}/status', [CareerApplicationController::class, 'updateStatus'])->name('career-applications.update-status');
     Route::delete('career-applications/{application}', [CareerApplicationController::class, 'destroy'])->name('career-applications.destroy');
+
+    // India vs Europe Calculator Leads
+    Route::get('calculator-leads', [CalculatorLeadController::class, 'index'])->name('calculator-leads.index');
+    Route::put('calculator-leads/{calculatorLead}/status', [CalculatorLeadController::class, 'updateStatus'])->name('calculator-leads.update-status');
+    Route::delete('calculator-leads/{calculatorLead}', [CalculatorLeadController::class, 'destroy'])->name('calculator-leads.destroy');
 
     // Fundability Leads (proxied server-side — credentials never exposed to browser)
     Route::get('fundability-leads', [FundabilityLeadController::class, 'index'])->name('fundability-leads.index');

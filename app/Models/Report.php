@@ -12,23 +12,16 @@ class Report extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title',
-        'slug',
-        'content',
-        'excerpt',
-        'featured_image',
-        'edition_label',
-        'is_featured',
-        'meta_description',
-        'read_time',
-        'button_url',
-        'button_text',
-        'status',
-        'published_at',
+        'title', 'slug', 'content', 'excerpt', 'featured_image',
+        'edition_label', 'is_featured', 'meta_description',
+        'read_time', 'button_url', 'button_text', 'status', 'published_at',
+        // SEO panel fields
+        'meta_title', 'og_image', 'canonical_url', 'noindex', 'custom_head',
     ];
 
     protected $casts = [
         'is_featured' => 'boolean',
+        'noindex'     => 'boolean',
         'published_at' => 'datetime',
     ];
 

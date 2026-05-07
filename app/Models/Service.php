@@ -13,22 +13,16 @@ class Service extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title',
-        'slug',
-        'short_description',
-        'content',
-        'icon',
-        'image',
-        'hero_image',
-        'featured_image',
-        'meta_description',
-        'show_on_homepage',
-        'sort_order',
-        'status',
+        'title', 'slug', 'short_description', 'content', 'icon',
+        'image', 'hero_image', 'featured_image', 'meta_description',
+        'show_on_homepage', 'sort_order', 'status',
+        // SEO panel fields
+        'meta_title', 'og_image', 'canonical_url', 'noindex', 'custom_head',
     ];
 
     protected $casts = [
         'show_on_homepage' => 'boolean',
+        'noindex'          => 'boolean',
     ];
 
     public static function booted(): void

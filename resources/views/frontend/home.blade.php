@@ -1,6 +1,12 @@
 @extends('layouts.frontend')
 @section('title', 'DevMantra - Strategic Financial & Advisory Services')
 
+@push('schema')
+{!! \App\Services\SchemaService::organization() !!}
+{!! \App\Services\SchemaService::localBusiness() !!}
+{!! \App\Services\SchemaService::breadcrumb([['name' => 'Home', 'url' => '/']]) !!}
+@endpush
+
 @section('content')
 
 {{-- Dynamic page sections managed via admin --}}

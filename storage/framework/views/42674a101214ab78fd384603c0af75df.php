@@ -34,7 +34,7 @@ unset($__defined_vars, $__key, $__value); ?>
     $ctaUrl   = $data['cta_url']  ?? null;
 ?>
 
-<?php if (! $__env->hasRenderedOnce('002e0320-c297-48c1-9306-72d73a1a4256')): $__env->markAsRenderedOnce('002e0320-c297-48c1-9306-72d73a1a4256'); ?>
+<?php if (! $__env->hasRenderedOnce('08b500e1-989e-4d2f-99ea-e8aab4c5e17d')): $__env->markAsRenderedOnce('08b500e1-989e-4d2f-99ea-e8aab4c5e17d'); ?>
 <?php $__env->startPush('styles'); ?>
 <style>
 .cr-cta-area-light { background: #f8f9fa; }

@@ -189,10 +189,6 @@
                     <input type="file" name="featured_image" class="dm-form-input" accept="image/*">
                 </div>
                 <div class="dm-form-group">
-                    <label class="dm-form-label">Meta Description</label>
-                    <textarea name="meta_description" class="dm-form-textarea" style="min-height:60px;">{{ old('meta_description', $blog->meta_description) }}</textarea>
-                </div>
-                <div class="dm-form-group">
                     <div class="dm-form-check">
                         <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $blog->is_featured) ? 'checked' : '' }}>
                         <label class="dm-form-label" style="margin:0;">Featured Post</label>
@@ -203,6 +199,9 @@
                 </button>
             </div>
         </div>
+    </div>
+    <div class="mt-4">
+        @include('admin.partials._seo-panel', ['model' => $blog])
     </div>
 </form>
 @endsection

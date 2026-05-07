@@ -1,9 +1,30 @@
 @extends('layouts.frontend')
-@section('title', $newsletter->title . ' - DevMantra')
+@section('title', $newsletter->meta_title ?: $newsletter->title)
 @section('meta_description', $newsletter->meta_description ?? $newsletter->excerpt ?? Str::limit(strip_tags($newsletter->content), 160))
 @section('og_type', 'article')
-@if($newsletter->featured_image)
-@section('og_image',  $newsletter->featured_image)
+@php $newsletterOg = $newsletter->og_image ?: ($newsletter->featured_image ?: null); @endphp
+@if($newsletterOg)
+@section('og_image', $newsletterOg)
+@endif
+@if($newsletter->canonical_url)
+@section('canonical_url', $newsletter->canonical_url)
+@endif
+@if($newsletter->noindex)
+@section('noindex', '1')
+@endif
+
+@push('schema')
+{!! \App\Services\SchemaService::newsletterSchema($newsletter) !!}
+{!! \App\Services\SchemaService::breadcrumb([
+    ['name' => 'Home',       'url' => '/'],
+    ['name' => 'Newsletter', 'url' => '/newsletter'],
+    ['name' => $newsletter->meta_title ?: $newsletter->title],
+]) !!}
+@endpush
+@if($newsletter->custom_head)
+@push('custom_head')
+{!! $newsletter->custom_head !!}
+@endpush
 @endif
 
 @push('styles')

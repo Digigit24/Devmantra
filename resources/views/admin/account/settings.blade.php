@@ -132,6 +132,95 @@
                 </p>
             </div>
 
+            {{-- SEO & Meta --}}
+            <div class="dm-table-wrap" style="padding:28px;margin-bottom:24px;">
+                <p class="st-title"><i class="fa-solid fa-magnifying-glass"></i> SEO &amp; Meta</p>
+                <p style="font-size:13px;color:#64748b;margin-bottom:20px;">
+                    Sitewide fallback values used on pages that don't have their own per-page SEO set.
+                    Per-page overrides always take precedence.
+                </p>
+
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <div class="dm-form-group">
+                            <label class="dm-form-label">Default Site Meta Title</label>
+                            <input type="text" name="seo_default_title" class="dm-form-input"
+                                   value="{{ $settings['seo_default_title'] ?? '' }}"
+                                   placeholder="e.g. DevMantra — Strategic Growth Partner" maxlength="120">
+                            <div class="dm-form-hint">Used as the &lt;title&gt; fallback when a page has none.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="dm-form-group">
+                            <label class="dm-form-label">Title Separator</label>
+                            <input type="text" name="seo_title_separator" class="dm-form-input"
+                                   value="{{ $settings['seo_title_separator'] ?? '—' }}"
+                                   placeholder="—" maxlength="10" style="font-size:18px;text-align:center;">
+                            <div class="dm-form-hint">Placed between page title &amp; site name.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dm-form-group">
+                    <label class="dm-form-label">Default Meta Description</label>
+                    <textarea name="seo_default_description" class="dm-form-textarea" style="min-height:70px;"
+                              maxlength="160"
+                              placeholder="A concise description of your website for search engines…">{{ $settings['seo_default_description'] ?? '' }}</textarea>
+                    <div class="dm-form-hint">Max 160 characters. Used on pages without a custom description.</div>
+                </div>
+
+                <div class="dm-form-group">
+                    <label class="dm-form-label">Default OG Image URL</label>
+                    <input type="url" name="seo_default_og_image" class="dm-form-input"
+                           value="{{ $settings['seo_default_og_image'] ?? '' }}"
+                           placeholder="https://example.com/images/og-default.jpg">
+                    <div class="dm-form-hint">Shown in social share previews when no per-page OG image is set. Recommended: 1200×630 px.</div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="dm-form-group">
+                            <label class="dm-form-label">Google Site Verification</label>
+                            <input type="text" name="seo_google_verification" class="dm-form-input"
+                                   value="{{ $settings['seo_google_verification'] ?? '' }}"
+                                   placeholder="Google Search Console verification code">
+                            <div class="dm-form-hint">Paste only the <code>content</code> value from the meta tag.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="dm-form-group">
+                            <label class="dm-form-label">Robots Mode</label>
+                            <select name="seo_robots_mode" class="dm-form-select">
+                                <option value="index"   {{ ($settings['seo_robots_mode'] ?? 'index') === 'index'   ? 'selected' : '' }}>index, follow (default)</option>
+                                <option value="noindex" {{ ($settings['seo_robots_mode'] ?? 'index') === 'noindex' ? 'selected' : '' }}>noindex, nofollow (hide from search)</option>
+                            </select>
+                            <div class="dm-form-hint">Use <em>noindex</em> only for staging or private sites.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3" style="margin-bottom:0;">
+                    <div class="col-md-6">
+                        <div class="dm-form-group" style="margin-bottom:0;">
+                            <label class="dm-form-label">Google Analytics 4 ID</label>
+                            <input type="text" name="seo_ga4_id" class="dm-form-input"
+                                   value="{{ $settings['seo_ga4_id'] ?? '' }}"
+                                   placeholder="G-XXXXXXXXXX">
+                            <div class="dm-form-hint">Paste your GA4 Measurement ID. Leave empty to disable.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="dm-form-group" style="margin-bottom:0;">
+                            <label class="dm-form-label">Google Tag Manager ID</label>
+                            <input type="text" name="seo_gtm_id" class="dm-form-input"
+                                   value="{{ $settings['seo_gtm_id'] ?? '' }}"
+                                   placeholder="GTM-XXXXXXX">
+                            <div class="dm-form-hint">Paste your GTM container ID. Leave empty to disable.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <button type="submit" class="dm-btn dm-btn-primary">
                 <i class="fa-solid fa-check"></i> Save All Settings
             </button>

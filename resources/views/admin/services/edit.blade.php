@@ -223,10 +223,6 @@
                     <input type="number" name="sort_order" value="{{ old('sort_order', $service->sort_order) }}" class="dm-form-input">
                 </div>
                 <div class="dm-form-group">
-                    <label class="dm-form-label">Meta Description</label>
-                    <textarea name="meta_description" class="dm-form-textarea" style="min-height:60px;">{{ old('meta_description', $service->meta_description) }}</textarea>
-                </div>
-                <div class="dm-form-group">
                     <div class="dm-form-check">
                         <input type="checkbox" name="show_on_homepage" value="1" {{ old('show_on_homepage', $service->show_on_homepage) ? 'checked' : '' }}>
                         <label class="dm-form-label" style="margin:0;">Show on Homepage Slider</label>
@@ -237,6 +233,9 @@
                 </button>
             </div>
         </div>
+    </div>
+    <div class="mt-4">
+        @include('admin.partials._seo-panel', ['model' => $service])
     </div>
 </form>
 

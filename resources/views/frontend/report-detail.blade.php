@@ -1,9 +1,30 @@
 @extends('layouts.frontend')
-@section('title', $report->title . ' - DevMantra')
+@section('title', $report->meta_title ?: $report->title)
 @section('meta_description', $report->meta_description ?? $report->excerpt ?? Str::limit(strip_tags($report->content), 160))
 @section('og_type', 'article')
-@if($report->featured_image)
-@section('og_image', asset('storage/' . $report->featured_image))
+@php $reportOg = $report->og_image ?: ($report->featured_image ? asset('storage/' . $report->featured_image) : null); @endphp
+@if($reportOg)
+@section('og_image', $reportOg)
+@endif
+@if($report->canonical_url)
+@section('canonical_url', $report->canonical_url)
+@endif
+@if($report->noindex)
+@section('noindex', '1')
+@endif
+
+@push('schema')
+{!! \App\Services\SchemaService::reportSchema($report) !!}
+{!! \App\Services\SchemaService::breadcrumb([
+    ['name' => 'Home',    'url' => '/'],
+    ['name' => 'Reports', 'url' => '/reports'],
+    ['name' => $report->meta_title ?: $report->title],
+]) !!}
+@endpush
+@if($report->custom_head)
+@push('custom_head')
+{!! $report->custom_head !!}
+@endpush
 @endif
 
 @push('styles')

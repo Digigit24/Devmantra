@@ -1,12 +1,27 @@
 @extends('layouts.frontend')
-@section('title', $service->title . ' - DevMantra')
+@section('title', $service->meta_title ?: $service->title)
 @section('meta_description', $service->meta_description ?? $service->short_description ?? Str::limit(strip_tags($service->content), 160))
-@if($service->featured_image)
-@section('og_image', asset('storage/' . $service->featured_image))
-@elseif($service->hero_image)
-@section('og_image', asset('storage/' . $service->hero_image))
-@elseif($service->image)
-@section('og_image', asset('storage/' . $service->image))
+@php
+    $serviceOg = $service->og_image
+        ?: ($service->featured_image ? asset('storage/' . $service->featured_image) : null)
+        ?: ($service->hero_image     ? asset('storage/' . $service->hero_image)     : null)
+        ?: ($service->image          ? asset('storage/' . $service->image)           : null);
+@endphp
+@if($serviceOg)
+@section('og_image', $serviceOg)
+@endif
+@if($service->canonical_url)
+@section('canonical_url', $service->canonical_url)
+@endif
+@if($service->noindex)
+@section('noindex', '1')
+@endif
+
+{{-- Schema stored in custom_head field (Service + BreadcrumbList per service) --}}
+@if($service->custom_head)
+@push('custom_head')
+{!! $service->custom_head !!}
+@endpush
 @endif
 
 @push('styles')

@@ -12,21 +12,16 @@ class CaseStudy extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title',
-        'slug',
-        'excerpt',
-        'content',
-        'featured_image',
-        'category',
-        'meta_description',
-        'read_time',
-        'is_featured',
-        'status',
-        'published_at',
+        'title', 'slug', 'excerpt', 'content', 'featured_image',
+        'category', 'meta_description', 'read_time', 'is_featured',
+        'status', 'published_at',
+        // SEO panel fields
+        'meta_title', 'og_image', 'canonical_url', 'noindex', 'custom_head',
     ];
 
     protected $casts = [
         'is_featured' => 'boolean',
+        'noindex'     => 'boolean',
         'published_at' => 'datetime',
     ];
 

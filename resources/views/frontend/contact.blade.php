@@ -2,6 +2,14 @@
 @section('title', 'Contact Us - DevMantra')
 @section('meta_description', 'Get in touch with Dev Mantra. We are here to help with your financial and advisory needs.')
 
+@push('schema')
+{!! \App\Services\SchemaService::localBusiness() !!}
+{!! \App\Services\SchemaService::breadcrumb([
+    ['name' => 'Home',       'url' => '/'],
+    ['name' => 'Contact Us', 'url' => '/contact'],
+]) !!}
+@endpush
+
 @push('styles')
 <style>
     /* Hero */
