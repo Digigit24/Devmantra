@@ -1,0 +1,368 @@
+/*
+ * dm-blog-components.css
+ * DevMantra Blog Brand Component Library
+ * All classes prefixed dm-blog- to avoid collisions with tp-* and dm-article-* classes.
+ * Depends on main.css CSS variables: --tp-ff-onest, --tp-common-black, --tp-border-1
+ */
+
+/* ─────────────────────────────────────────────────────────────────
+   1. CALLOUT BOXES
+   Usage: <div class="dm-blog-callout dm-blog-callout--info">
+            <strong class="dm-blog-callout__title">Title</strong>
+            <p>Body text.</p>
+          </div>
+   Variants: --info (navy), --tip (gold), --warning (amber)
+───────────────────────────────────────────────────────────────── */
+.dm-blog-callout {
+    border-left: 3px solid #001d30;
+    background: rgba(0, 29, 48, 0.04);
+    border-radius: 0 8px 8px 0;
+    padding: 18px 24px;
+    margin: 32px 0;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+}
+.dm-blog-callout p {
+    font-size: 15px !important;
+    line-height: 1.7 !important;
+    margin-bottom: 0 !important;
+    color: rgba(0, 0, 0, 0.65) !important;
+}
+.dm-blog-callout__title {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #001d30;
+    margin-bottom: 8px;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+}
+.dm-blog-callout--info {
+    border-left-color: #001d30;
+    background: rgba(0, 29, 48, 0.04);
+}
+.dm-blog-callout--tip {
+    border-left-color: #c8a96e;
+    background: rgba(200, 169, 110, 0.07);
+}
+.dm-blog-callout--tip .dm-blog-callout__title {
+    color: #9a7a3e;
+}
+.dm-blog-callout--warning {
+    border-left-color: #d97706;
+    background: rgba(217, 119, 6, 0.06);
+}
+.dm-blog-callout--warning .dm-blog-callout__title {
+    color: #b45309;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   2. STAT HIGHLIGHT
+   Usage: <div class="dm-blog-stat">
+            <div class="dm-blog-stat__number">₹200 Cr</div>
+            <div class="dm-blog-stat__label">Year 4 Revenue</div>
+            <div class="dm-blog-stat__context">From ₹0 in 4 years</div>
+          </div>
+───────────────────────────────────────────────────────────────── */
+.dm-blog-stat {
+    text-align: center;
+    padding: 40px 32px;
+    background: rgba(0, 29, 48, 0.03);
+    border: 1px solid rgba(0, 29, 48, 0.1);
+    border-radius: 12px;
+    margin: 36px 0;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+}
+.dm-blog-stat__number {
+    font-size: 64px;
+    font-weight: 800;
+    color: #001d30;
+    line-height: 1;
+    margin-bottom: 10px;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+}
+.dm-blog-stat__label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(0, 0, 0, 0.45);
+    margin-bottom: 8px;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+}
+.dm-blog-stat__context {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.45);
+    font-style: italic;
+    margin: 0;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+}
+@media (max-width: 767px) {
+    .dm-blog-stat__number { font-size: 44px; }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   3. KEY TAKEAWAYS BOX
+   Usage: <div class="dm-blog-takeaways">
+            <ul>
+              <li>First takeaway</li>
+              <li>Second takeaway</li>
+            </ul>
+          </div>
+───────────────────────────────────────────────────────────────── */
+.dm-blog-takeaways {
+    margin: 36px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 29, 48, 0.12);
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+}
+.dm-blog-takeaways::before {
+    content: 'Key Takeaways';
+    display: block;
+    background: #001d30;
+    color: #c8a96e;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 14px 24px;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+}
+.dm-blog-takeaways ul {
+    list-style: none !important;
+    padding: 20px 24px !important;
+    margin: 0 !important;
+    background: rgba(0, 29, 48, 0.02);
+}
+.dm-blog-takeaways ul li {
+    font-size: 15px !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+    padding-left: 24px !important;
+    position: relative !important;
+    margin-bottom: 10px !important;
+    line-height: 1.65 !important;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+}
+.dm-blog-takeaways ul li:last-child {
+    margin-bottom: 0 !important;
+}
+.dm-blog-takeaways ul li::before {
+    content: '→' !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    color: #c8a96e !important;
+    font-weight: 700 !important;
+    width: auto !important;
+    height: auto !important;
+    background: none !important;
+    border-radius: 0 !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   4. IMAGE WITH CAPTION (figure)
+   Usage: <figure class="dm-blog-figure">
+            <img src="/storage/content-images/photo.jpg" alt="Description">
+            <figcaption>Caption text here</figcaption>
+          </figure>
+───────────────────────────────────────────────────────────────── */
+.dm-blog-figure {
+    margin: 40px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+.dm-blog-figure img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+}
+.dm-blog-figure figcaption {
+    padding: 12px 18px;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.45);
+    font-style: italic;
+    background: rgba(0, 0, 0, 0.02);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+    line-height: 1.5;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   5. SECTION DIVIDER
+   Usage: <hr class="dm-blog-divider">
+───────────────────────────────────────────────────────────────── */
+.dm-blog-divider {
+    border: none !important;
+    border-top: 1px solid rgba(0, 29, 48, 0.12) !important;
+    margin: 48px 0 !important;
+    position: relative !important;
+    height: 0 !important;
+}
+.dm-blog-divider::after {
+    content: '◆';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -10px;
+    color: #c8a96e;
+    background: #ffffff;
+    padding: 0 14px;
+    font-size: 11px;
+    line-height: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   6. TWO-COLUMN COMPARISON
+   Usage: <div class="dm-blog-compare">
+            <div class="dm-blog-compare__col dm-blog-compare__col--left">
+              <div class="dm-blog-compare__col-title">Before / Problem</div>
+              <p>Left content.</p>
+            </div>
+            <div class="dm-blog-compare__col dm-blog-compare__col--right">
+              <div class="dm-blog-compare__col-title">After / Solution</div>
+              <p>Right content.</p>
+            </div>
+          </div>
+───────────────────────────────────────────────────────────────── */
+.dm-blog-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 36px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 29, 48, 0.1);
+    background: rgba(0, 29, 48, 0.06);
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+}
+.dm-blog-compare__col {
+    padding: 24px 28px;
+    background: #ffffff;
+}
+.dm-blog-compare__col-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #001d30;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #c8a96e;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+}
+.dm-blog-compare__col--right .dm-blog-compare__col-title {
+    border-bottom-color: rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.5);
+}
+.dm-blog-compare__col p {
+    font-size: 15px !important;
+    color: rgba(0, 0, 0, 0.65) !important;
+    line-height: 1.7 !important;
+    margin-bottom: 0 !important;
+}
+.dm-blog-compare__col ul {
+    padding-left: 0 !important;
+    margin-bottom: 0 !important;
+}
+.dm-blog-compare__col ul li {
+    font-size: 15px !important;
+    color: rgba(0, 0, 0, 0.65) !important;
+    line-height: 1.7 !important;
+    padding-left: 18px !important;
+    position: relative !important;
+    margin-bottom: 6px !important;
+}
+.dm-blog-compare__col ul li::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 10px !important;
+    width: 5px !important;
+    height: 5px !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 50% !important;
+}
+@media (max-width: 640px) {
+    .dm-blog-compare {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   7. DARK HIGHLIGHT BOX
+   Usage: <div class="dm-blog-highlight-dark">
+            <h3>Optional Heading</h3>
+            <p>Body text. Use <strong>bold text</strong> for emphasis.</p>
+          </div>
+───────────────────────────────────────────────────────────────── */
+.dm-blog-highlight-dark {
+    background: #001d30;
+    border-radius: 12px;
+    padding: 36px 40px;
+    margin: 36px 0;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif);
+}
+.dm-blog-highlight-dark h3 {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    margin-top: 0 !important;
+    margin-bottom: 16px !important;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif) !important;
+}
+.dm-blog-highlight-dark h4 {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    margin-top: 0 !important;
+    margin-bottom: 14px !important;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif) !important;
+}
+.dm-blog-highlight-dark p {
+    font-size: 16px !important;
+    color: rgba(255, 255, 255, 0.72) !important;
+    line-height: 1.75 !important;
+    margin-bottom: 14px !important;
+    font-family: var(--tp-ff-onest, 'Onest', sans-serif) !important;
+}
+.dm-blog-highlight-dark p:last-child {
+    margin-bottom: 0 !important;
+}
+.dm-blog-highlight-dark strong {
+    color: #c8a96e !important;
+    font-weight: 700 !important;
+}
+.dm-blog-highlight-dark ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+}
+.dm-blog-highlight-dark ul li {
+    font-size: 15px !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    padding-left: 20px !important;
+    position: relative !important;
+    margin-bottom: 8px !important;
+    line-height: 1.65 !important;
+}
+.dm-blog-highlight-dark ul li::before {
+    content: '→' !important;
+    position: absolute !important;
+    left: 0 !important;
+    color: #c8a96e !important;
+    font-weight: 700 !important;
+    background: none !important;
+    width: auto !important;
+    height: auto !important;
+    border-radius: 0 !important;
+    top: 0 !important;
+}
+@media (max-width: 767px) {
+    .dm-blog-highlight-dark {
+        padding: 28px 24px;
+    }
+}

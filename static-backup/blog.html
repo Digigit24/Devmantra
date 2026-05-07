@@ -1,0 +1,385 @@
+<!doctype html>
+<html class="no-js agntix-light" lang="zxx">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Insights & Blog - Dev Mantra</title>
+    <meta name="description" content="Expert insights on corporate governance, financial advisory, compliance, and business strategy from Dev Mantra.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon/favicon.png">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/slick.css">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/font-awesome-pro.css">
+    <link rel="stylesheet" href="assets/css/spacing.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        .dm-blog-hero {
+            background-color: #000;
+            padding: 200px 0 120px;
+            position: relative;
+            overflow: hidden;
+        }
+        @media (max-width: 767px) {
+            .dm-blog-hero { padding: 150px 0 80px; }
+        }
+        .dm-blog-hero-desc {
+            font-size: 18px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.7;
+            max-width: 520px;
+        }
+        @media (max-width: 767px) {
+            .dm-blog-hero-desc { font-size: 16px; }
+        }
+
+        /* Blog grid */
+        .dm-blog-grid { padding: 100px 0 80px; }
+        @media (max-width: 767px) { .dm-blog-grid { padding: 60px 0 40px; } }
+
+        .dm-blog-card {
+            margin-bottom: 50px;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .dm-blog-card:hover { transform: translateY(-6px); }
+
+        .dm-blog-card-thumb {
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .dm-blog-card-thumb img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .dm-blog-card:hover .dm-blog-card-thumb img {
+            transform: scale(1.05);
+        }
+        .dm-blog-card-category {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(0,0,0,0.4);
+            margin-bottom: 12px;
+            font-family: var(--tp-ff-onest);
+        }
+        .dm-blog-card-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--tp-common-black);
+            line-height: 1.4;
+            margin-bottom: 12px;
+            font-family: var(--tp-ff-onest);
+        }
+        .dm-blog-card-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        .dm-blog-card-title a:hover { opacity: 0.6; }
+        .dm-blog-card-meta {
+            font-size: 14px;
+            color: rgba(0,0,0,0.4);
+            font-family: var(--tp-ff-onest);
+        }
+        .dm-blog-card-excerpt {
+            font-size: 15px;
+            color: rgba(0,0,0,0.55);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .dm-blog-card-link {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--tp-common-black);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.3s ease;
+            font-family: var(--tp-ff-onest);
+        }
+        .dm-blog-card-link:hover { gap: 14px; }
+        .dm-blog-card-link svg { transition: transform 0.3s ease; }
+        .dm-blog-card-link:hover svg { transform: translateX(4px); }
+
+        /* Featured post */
+        .dm-blog-featured {
+            border-bottom: 1px solid var(--tp-border-1);
+            padding-bottom: 80px;
+            margin-bottom: 80px;
+        }
+        .dm-blog-featured-thumb {
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        .dm-blog-featured-thumb img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .dm-blog-featured:hover .dm-blog-featured-thumb img {
+            transform: scale(1.03);
+        }
+        .dm-blog-featured-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+        @media (max-width: 991px) {
+            .dm-blog-featured-content { padding-top: 30px; }
+            .dm-blog-featured-thumb img { height: 300px; }
+            .dm-blog-featured { padding-bottom: 50px; margin-bottom: 50px; }
+        }
+        .dm-blog-featured-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--tp-common-black);
+            line-height: 1.35;
+            margin-bottom: 16px;
+            font-family: var(--tp-ff-onest);
+        }
+        .dm-blog-featured-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        .dm-blog-featured-title a:hover { opacity: 0.6; }
+        @media (max-width: 767px) {
+            .dm-blog-featured-title { font-size: 24px; }
+        }
+    </style>
+
+</head>
+
+<body class="tp-magic-cursor">
+
+    <div id="magic-cursor" class="cursor-white-bg">
+        <div id="ball"></div>
+    </div>
+
+    <div id="preloader">
+        <div class="preloader"><span></span><span></span></div>
+    </div>
+
+    <div class="back-to-top-wrapper">
+        <button id="back_to_top" type="button" class="back-to-top-btn">
+            <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 6L6 1L1 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+    </div>
+
+
+    <script src="assets/js/header.js"></script>
+
+    <div id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <main>
+
+                <!-- hero -->
+                <div class="dm-blog-hero">
+                    <div class="container container-1230">
+                        <div class="row">
+                            <div class="col-xl-8">
+                                <div class="tp-section-subtitle-gradient ct mb-20 tp_fade_anim" data-delay=".3">
+                                    Insights
+                                </div>
+                                <h2 class="tp-section-title-onest fs-68 tp-text-revel-anim" style="color:#fff;">
+                                    Explore Our Latest<br>Insights & Updates
+                                </h2>
+                                <div class="tp_text_anim mt-30">
+                                    <p class="dm-blog-hero-desc">
+                                        Stay ahead with expert perspectives on corporate governance,
+                                        financial strategy, regulatory compliance, and business growth.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- blog content -->
+                <div class="dm-blog-grid">
+                    <div class="container container-1230">
+
+                        <!-- featured post -->
+                        <div class="dm-blog-featured">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6">
+                                    <div class="dm-blog-featured-thumb tp_fade_anim" data-delay=".3">
+                                        <a href="blog-details.html">
+                                            <img src="assets/img/home-13/blog/blog-thumb-1.jpg" alt="Corporate Governance">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="dm-blog-featured-content tp_fade_anim" data-delay=".5">
+                                        <span class="dm-blog-card-category">Featured</span>
+                                        <h3 class="dm-blog-featured-title">
+                                            <a href="blog-details.html">Strengthening Corporate Governance in a Global Economy</a>
+                                        </h3>
+                                        <p class="dm-blog-card-excerpt">
+                                            As businesses expand across borders, maintaining robust corporate governance
+                                            becomes both more critical and more complex. Learn how leading organizations
+                                            are adapting their frameworks for global compliance.
+                                        </p>
+                                        <span class="dm-blog-card-meta mb-20">Apr 21, 2025</span>
+                                        <div>
+                                            <a href="blog-details.html" class="dm-blog-card-link">
+                                                Read Article
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" viewBox="0 0 15 12" fill="none">
+                                                    <path d="M14.5303 6.53033C14.8232 6.23744 14.8232 5.76256 14.5303 5.46967L9.75736 0.696699C9.46447 0.403806 8.98959 0.403806 8.6967 0.696699C8.40381 0.989592 8.40381 1.46447 8.6967 1.75736L12.9393 6L8.6967 10.2426C8.40381 10.5355 8.40381 11.0104 8.6967 11.3033C8.98959 11.5962 9.46447 11.5962 9.75736 11.3033L14.5303 6.53033ZM0 6.75H14V5.25H0V6.75Z" fill="currentColor"></path>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- blog grid -->
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="dm-blog-card tp_fade_anim" data-delay=".3">
+                                    <div class="dm-blog-card-thumb">
+                                        <a href="blog-details.html"><img src="assets/img/home-13/blog/blog-thumb-2.jpg" alt=""></a>
+                                    </div>
+                                    <span class="dm-blog-card-category">Newsletter</span>
+                                    <h4 class="dm-blog-card-title">
+                                        <a href="blog-details.html">Regulatory Updates & Compliance Insights for Growing Businesses</a>
+                                    </h4>
+                                    <p class="dm-blog-card-excerpt">
+                                        Navigate the evolving regulatory landscape with confidence. Key updates every CFO should know.
+                                    </p>
+                                    <span class="dm-blog-card-meta">Mar 15, 2025</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="dm-blog-card tp_fade_anim" data-delay=".5">
+                                    <div class="dm-blog-card-thumb">
+                                        <a href="blog-details.html"><img src="assets/img/home-13/blog/blog-thumb-3.jpg" alt=""></a>
+                                    </div>
+                                    <span class="dm-blog-card-category">Case Study</span>
+                                    <h4 class="dm-blog-card-title">
+                                        <a href="blog-details.html">Enabling Scalable Growth through Strategic Financial Advisory</a>
+                                    </h4>
+                                    <p class="dm-blog-card-excerpt">
+                                        How a mid-size enterprise leveraged Dev Mantra's advisory services to scale operations across 3 countries.
+                                    </p>
+                                    <span class="dm-blog-card-meta">Feb 28, 2025</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="dm-blog-card tp_fade_anim" data-delay=".7">
+                                    <div class="dm-blog-card-thumb">
+                                        <a href="blog-details.html"><img src="assets/img/blog/blog-details/blog-details-1.jpg" alt=""></a>
+                                    </div>
+                                    <span class="dm-blog-card-category">Tax Alert</span>
+                                    <h4 class="dm-blog-card-title">
+                                        <a href="blog-details.html">Union Budget 2025: Key Implications for Indian Businesses</a>
+                                    </h4>
+                                    <p class="dm-blog-card-excerpt">
+                                        Breaking down the most impactful tax reforms and what they mean for your organization's financial planning.
+                                    </p>
+                                    <span class="dm-blog-card-meta">Feb 10, 2025</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="dm-blog-card tp_fade_anim" data-delay=".3">
+                                    <div class="dm-blog-card-thumb">
+                                        <a href="blog-details.html"><img src="assets/img/blog/blog-standard/blog-rp-1.jpg" alt=""></a>
+                                    </div>
+                                    <span class="dm-blog-card-category">Deal Alert</span>
+                                    <h4 class="dm-blog-card-title">
+                                        <a href="blog-details.html">M&A Trends: What's Driving Consolidation in 2025</a>
+                                    </h4>
+                                    <p class="dm-blog-card-excerpt">
+                                        A deep dive into the forces shaping mergers and acquisitions across sectors this year.
+                                    </p>
+                                    <span class="dm-blog-card-meta">Jan 25, 2025</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="dm-blog-card tp_fade_anim" data-delay=".5">
+                                    <div class="dm-blog-card-thumb">
+                                        <a href="blog-details.html"><img src="assets/img/blog/blog-standard/blog-rp-2.jpg" alt=""></a>
+                                    </div>
+                                    <span class="dm-blog-card-category">Blog</span>
+                                    <h4 class="dm-blog-card-title">
+                                        <a href="blog-details.html">Virtual CFO: When & Why Your Startup Needs One</a>
+                                    </h4>
+                                    <p class="dm-blog-card-excerpt">
+                                        Understanding the right stage to bring in a Virtual CFO and the value they deliver beyond number-crunching.
+                                    </p>
+                                    <span class="dm-blog-card-meta">Jan 12, 2025</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="dm-blog-card tp_fade_anim" data-delay=".7">
+                                    <div class="dm-blog-card-thumb">
+                                        <a href="blog-details.html"><img src="assets/img/blog/blog-standard/blog-rp-3.jpg" alt=""></a>
+                                    </div>
+                                    <span class="dm-blog-card-category">Blog</span>
+                                    <h4 class="dm-blog-card-title">
+                                        <a href="blog-details.html">GCC Setup in India: A Strategic Roadmap for Global Companies</a>
+                                    </h4>
+                                    <p class="dm-blog-card-excerpt">
+                                        Why India is emerging as the preferred destination for Global Capability Centers and how to get started.
+                                    </p>
+                                    <span class="dm-blog-card-meta">Dec 28, 2024</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </main>
+
+            <script src="assets/js/footer.js"></script>
+
+        </div>
+    </div>
+
+    <script src="assets/js/vendor/jquery.js"></script>
+    <script src="assets/js/bootstrap-bundle.js"></script>
+    <script src="assets/js/swiper-bundle.js"></script>
+    <script src="assets/js/plugin.js"></script>
+    <script src="assets/js/three.js"></script>
+    <script src="assets/js/slick.js"></script>
+    <script src="assets/js/scroll-magic.js"></script>
+    <script src="assets/js/hover-effect.umd.js"></script>
+    <script src="assets/js/magnific-popup.js"></script>
+    <script src="assets/js/parallax-slider.js"></script>
+    <script src="assets/js/nice-select.js"></script>
+    <script src="assets/js/purecounter.js"></script>
+    <script src="assets/js/isotope-pkgd.js"></script>
+    <script src="assets/js/imagesloaded-pkgd.js"></script>
+    <script src="assets/js/ajax-form.js"></script>
+    <script src="assets/js/Observer.min.js"></script>
+    <script src="assets/js/splitting.min.js"></script>
+    <script src="assets/js/webgl.js"></script>
+    <script src="assets/js/parallax-scroll.js"></script>
+    <script src="assets/js/slider-active.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/tp-cursor.js"></script>
+
+</body>
+
+</html>

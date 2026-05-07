@@ -1,0 +1,5 @@
+.header-sticky
+.sticky-black-bg
+.sticky-white-bg
+.tp-header-10-sticky
+.tp-header-9-sticky

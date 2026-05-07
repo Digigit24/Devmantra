@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>India's Critical Minerals &amp; Battery Recycling Sector | Dev Mantra</title>
+  <meta name="description" content="A $2 billion recycling market by 2034. A 60x capacity gap. Government subsidies live and waiting. Market Intelligence Insight by Dev Mantra — March 2026.">
+  <meta property="og:title" content="India's Critical Minerals & Battery Recycling Sector">
+  <meta property="og:description" content="40% CAGR Li-ion recycling. 60x capacity gap. Why the window is 2026.">
+  <meta property="og:type" content="article">
+  <link rel="icon" href="/assets/img/favicon/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/report-files/report-theme.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    /* ── Report-specific overrides ── */
+    .rpt-cover-hero-img {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 80% 30%, rgba(49,136,255,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 20% 80%, rgba(255,153,75,0.08) 0%, transparent 55%);
+    }
+    .breaking-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--dm-gradient);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .breaking-badge::before {
+      content: '';
+      display: inline-block;
+      width: 7px; height: 7px;
+      background: #fff;
+      border-radius: 50%;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.75); }
+    }
+    .cagr-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--rpt-border);
+    }
+    .cagr-bar:last-child { border-bottom: none; }
+    .cagr-label { font-size: 14px; font-weight: 600; color: var(--rpt-offwhite); width: 160px; flex-shrink: 0; }
+    .cagr-track { flex: 1; height: 10px; background: var(--rpt-grey); border-radius: 10px; overflow: hidden; }
+    .cagr-fill { height: 100%; border-radius: 10px; transition: width 1.2s ease; }
+    .cagr-val { font-size: 14px; font-weight: 800; width: 60px; text-align: right; }
+
+    .recovery-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.07); gap: 16px; }
+    .recovery-row:last-child { border-bottom: none; }
+    .recovery-type { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.85); flex: 1; }
+    .recovery-badges { display: flex; gap: 8px; }
+    .r-badge { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 4px; }
+    .r-badge.prev { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.55); }
+    .r-badge.now  { background: rgba(49,136,255,0.18);  color: #3188FF; }
+    .r-badge.next { background: rgba(255,153,75,0.18);  color: #FF994B; }
+
+    .partner-card {
+      background: var(--rpt-white);
+      border: 1px solid var(--rpt-border);
+      border-radius: var(--rpt-radius);
+      padding: 24px 24px 20px;
+      margin-bottom: 16px;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .partner-card:hover { box-shadow: var(--rpt-shadow); transform: translateY(-2px); }
+    .partner-card-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 16px; }
+    .partner-type { font-size: 15px; font-weight: 700; color: var(--rpt-text); }
+    .partner-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 4px 12px; border-radius: 20px; background: var(--rpt-offwhite); color: var(--rpt-text-muted); flex-shrink: 0; }
+    .partner-brings { font-size: 13px; color: var(--rpt-text-muted); margin-bottom: 12px; line-height: 1.6; }
+    .partner-return { font-size: 13px; font-weight: 600; color: var(--rpt-navy); padding: 10px 14px; background: var(--rpt-offwhite); border-radius: var(--rpt-radius-sm); line-height: 1.55; }
+
+    .epr-step-box {
+      background: var(--rpt-offwhite);
+      border: 1px solid var(--rpt-border);
+      border-radius: var(--rpt-radius);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    .epr-step-head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .epr-step-circle { width: 40px; height: 40px; background: var(--rpt-navy); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; flex-shrink: 0; }
+    .epr-step-title { font-size: 17px; font-weight: 700; color: var(--rpt-text); }
+    .epr-step-desc { font-size: 15px; color: var(--rpt-text-muted); line-height: 1.65; }
+
+    .cert-formula {
+      background: var(--rpt-navy);
+      color: #fff;
+      border-radius: var(--rpt-radius);
+      padding: 24px 28px;
+      margin: 24px 0;
+      font-family: var(--rpt-mono);
+    }
+    .cert-formula-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--rpt-blue); margin-bottom: 12px; font-family: var(--rpt-font); }
+    .cert-formula-eq { font-size: 18px; font-weight: 700; line-height: 1.45; }
+    .cert-formula-eq span { color: var(--rpt-blue); }
+
+    .conclusion-box {
+      background: var(--dm-gradient);
+      border-radius: var(--rpt-radius-lg);
+      padding: 48px;
+      text-align: center;
+      margin: 48px 0 0;
+    }
+    .conclusion-box h2 { font-size: clamp(22px, 3vw, 36px); font-weight: 800; color: #fff; line-height: 1.3; margin-bottom: 16px; letter-spacing: -0.5px; }
+    .conclusion-box p { font-size: 17px; color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; line-height: 1.7; }
+    @media (max-width: 768px) { .conclusion-box { padding: 32px 24px; } }
+  </style>
+</head>
+<body>
+
+<!-- Reading Progress Bar -->
+<div id="rpt-progress"></div>
+
+<!-- ═══════════════════════════════════════════════════
+     STICKY CHAPTER NAV
+═══════════════════════════════════════════════════ -->
+<nav id="rpt-nav">
+  <div class="rpt-nav-logo">
+    <img src="/assets/img/logo/logo.jpeg" alt="Dev Mantra">
+    <span>Industry Insight</span>
+  </div>
+  <div class="rpt-nav-chapters">
+    <button class="rpt-nav-link" data-target="ch1" onclick="document.getElementById('ch1').scrollIntoView({behavior:'smooth'})">01 · India's EV Surge</button>
+    <button class="rpt-nav-link" data-target="ch2" onclick="document.getElementById('ch2').scrollIntoView({behavior:'smooth'})">02 · Gigafactories</button>
+    <button class="rpt-nav-link" data-target="ch3" onclick="document.getElementById('ch3').scrollIntoView({behavior:'smooth'})">03 · Market Data</button>
+    <button class="rpt-nav-link" data-target="ch4" onclick="document.getElementById('ch4').scrollIntoView({behavior:'smooth'})">04 · Policy</button>
+    <button class="rpt-nav-link" data-target="ch5" onclick="document.getElementById('ch5').scrollIntoView({behavior:'smooth'})">05 · EPR Framework</button>
+    <button class="rpt-nav-link" data-target="ch6" onclick="document.getElementById('ch6').scrollIntoView({behavior:'smooth'})">06 · Global Context</button>
+    <button class="rpt-nav-link" data-target="ch7" onclick="document.getElementById('ch7').scrollIntoView({behavior:'smooth'})">07 · Supply</button>
+    <button class="rpt-nav-link" data-target="ch8" onclick="document.getElementById('ch8').scrollIntoView({behavior:'smooth'})">08 · Partnerships</button>
+    <button class="rpt-nav-link" data-target="ch9" onclick="document.getElementById('ch9').scrollIntoView({behavior:'smooth'})">09 · EPR Eligibility</button>
+    <button class="rpt-nav-link" data-target="ch10" onclick="document.getElementById('ch10').scrollIntoView({behavior:'smooth'})">10 · Window Is 2026</button>
+  </div>
+  <div class="rpt-nav-actions">
+    <a class="rpt-nav-btn" href="https://devmantra.com/report-files/india's-critical-minerals-and-battery-pdf.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-download"></i> PDF</a>
+    
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════
+     COVER
+═══════════════════════════════════════════════════ -->
+<section class="rpt-cover" id="cover">
+  <div class="rpt-cover-hero-img"></div>
+  <div class="rpt-cover-inner">
+    <div class="rpt-cover-tag">Industry Insight &nbsp;·&nbsp; Market Intelligence</div>
+    <h1 class="rpt-cover-title">India's Critical Minerals &amp; Battery Recycling Sector</h1>
+    <p class="rpt-cover-subtitle">A $2 billion recycling market by 2034. A 60× capacity gap. Government subsidies live and waiting. The question is not whether this opportunity is real — it is who moves first.</p>
+    <div class="rpt-cover-edition">
+      <span>March 2026</span>
+      <span>|</span>
+      <span>AOne Dev Mantra Financial Services Pvt. Ltd.</span>
+    </div>
+  </div>
+
+  <div class="rpt-kpi-strip">
+    <div class="rpt-kpi-item">
+      <div class="rpt-kpi-num">2.37 Mn</div>
+      <div class="rpt-kpi-label">EVs Sold — Last 12 Months</div>
+      <div class="rpt-kpi-sub">Mar 2025–Feb 2026 &nbsp;·&nbsp; +38% YoY &nbsp;·&nbsp; All-time record</div>
+    </div>
+    <div class="rpt-kpi-item">
+      <div class="rpt-kpi-num">60×</div>
+      <div class="rpt-kpi-label">Recycling Capacity Gap</div>
+      <div class="rpt-kpi-sub">2 GWh today vs 128 GWh needed by 2030 &nbsp;·&nbsp; NITI Aayog</div>
+    </div>
+    <div class="rpt-kpi-item">
+      <div class="rpt-kpi-num">~40%</div>
+      <div class="rpt-kpi-label">India Li-ion Recycling CAGR</div>
+      <div class="rpt-kpi-sub">2025–2032 &nbsp;·&nbsp; Grand View Research &amp; GMI Research</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     EXECUTIVE SUMMARY
+═══════════════════════════════════════════════════ -->
+<section class="rpt-exec rpt-section--alt" id="exec-summary">
+  <div class="rpt-container">
+    <div class="rpt-exec-label">Executive Summary</div>
+    <div class="rpt-exec-grid">
+      <div class="rpt-exec-item">
+        <div class="rpt-exec-num">01</div>
+        <div class="rpt-exec-text">India's EV market is no longer emerging — it has structurally arrived, with 2.37 million units sold in 12 months and government projections of 17 million annual sales by 2030.</div>
+      </div>
+      <div class="rpt-exec-item">
+        <div class="rpt-exec-num">02</div>
+        <div class="rpt-exec-text">India's formal Li-ion recycling capacity is 2 GWh against a projected 128 GWh of recyclable batteries by 2030 — a 60× gap with essentially no incumbent to displace.</div>
+      </div>
+      <div class="rpt-exec-item">
+        <div class="rpt-exec-num">03</div>
+        <div class="rpt-exec-text">The government has committed ₹34,300 crore via the National Critical Minerals Mission plus a ₹1,500 crore recycling scheme offering up to 20% capex subsidy on new plants.</div>
+      </div>
+      <div class="rpt-exec-item">
+        <div class="rpt-exec-num">04</div>
+        <div class="rpt-exec-text">The 90% recovery mandate from FY 2026–27 acts as a government-imposed barrier that eliminates informal operators and creates a protected market for hydrometallurgical technology partners.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 1 — India Has Already Arrived
+═══════════════════════════════════════════════════ -->
+<section class="rpt-section rpt-section--white" id="ch1">
+  <div class="rpt-container">
+
+    <div class="rpt-ch-header">
+      <div class="rpt-ch-num">01</div>
+      <div class="rpt-ch-title-wrap">
+        <div class="rpt-ch-tag">Chapter 1</div>
+        <h2 class="rpt-ch-title">India Is Not Emerging — It Has Already Arrived</h2>
+        <p class="rpt-ch-lead">The EV transition that analysts predicted for the 2030s is happening now, driven by consumer adoption rather than subsidies — and the scale of OEM moves leaves no room for ambiguity.</p>
+      </div>
+    </div>
+
+    <div class="rpt-body">
+      <p>India is the <strong>world's third-largest automobile market</strong> and one of its fastest-growing economies. The automotive sector contributes over 7% to GDP, with government projections targeting <strong>USD 300 billion by 2030</strong>. Electric vehicles have shifted from policy ambition to mainstream industrial reality faster than most analysts predicted.</p>
+      <p>EV sales crossed <strong>2.37 million units in the 12 months to February 2026</strong> — a 38% year-on-year surge and India's highest-ever rolling annual EV total. Electric two-wheelers grew 45.6% YoY. Electric passenger vehicles grew 44% YoY. Government projections put annual EV sales at <strong>17 million units by 2030</strong>.</p>
+    </div>
+
+    <div class="rpt-oem-grid">
+      <div class="rpt-oem-card">
+        <div class="rpt-oem-name">Mahindra &amp; Mahindra</div>
+        <div class="rpt-oem-stat">+473% YoY</div>
+        <div class="rpt-oem-desc">Electric PV sales growth in February 2026 alone</div>
+      </div>
+      <div class="rpt-oem-card">
+        <div class="rpt-oem-name">Hero MotoCorp</div>
+        <div class="rpt-oem-stat">+44% YoY</div>
+        <div class="rpt-oem-desc">Overall growth in Feb 2026; VIDA EV arm tripled market share</div>
+      </div>
+      <div class="rpt-oem-card">
+        <div class="rpt-oem-name">Tata Motors</div>
+        <div class="rpt-oem-stat">47% Share</div>
+        <div class="rpt-oem-desc">Of India's EV passenger vehicle market — multi-model, mass-market presence</div>
+      </div>
+      <div class="rpt-oem-card">
+        <div class="rpt-oem-name">Global Validation</div>
+        <div class="rpt-oem-stat">Tesla · BYD · VinFast</div>
+        <div class="rpt-oem-desc">All have active India sales operations in 2026 — market has crossed the credibility threshold</div>
+      </div>
+    </div>
+
+    <div class="rpt-two-col rpt-two-col--60-40">
+      <div class="rpt-body">
+        <p>This is not government-subsidy-driven demand. It is <strong>consumer-led structural adoption</strong> across income segments and geographies — driven by competitive pricing, improving range, and a rapidly expanding charging network now covering over <strong>25,000 public points nationwide</strong>.</p>
+        <p>The implication for battery recycling is direct: every EV sold today becomes a recycling feedstock event in 6–10 years. At 2.37 million units per year — and growing at 38% — the volume of end-of-life batteries entering the system from 2028 onwards is not speculative. It is already in the field.</p>
+      </div>
+      <div class="rpt-chart-wrap">
+        <div class="rpt-chart-title">India EV Sales — Rolling Annual (Mn units)</div>
+        <div class="rpt-chart-sub">Actual &amp; projection through 2030 · Source: FADA, MoRTH</div>
+        <div class="rpt-chart-canvas">
+          <canvas id="evSalesChart" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 2 — Gigafactory Build-Out
+═══════════════════════════════════════════════════ -->
+<section class="rpt-section rpt-section--alt" id="ch2">
+  <div class="rpt-container">
+
+    <div class="rpt-ch-header">
+      <div class="rpt-ch-num">02</div>
+      <div class="rpt-ch-title-wrap">
+        <div class="rpt-ch-tag">Chapter 2</div>
+        <h2 class="rpt-ch-title">The Gigafactory Build-Out</h2>
+        <p class="rpt-ch-lead">Manufacturing infrastructure is being built to match demand — and the pace of announcements in the last 60 days signals that India's battery supply chain is entering its most consequential phase.</p>
+      </div>
+    </div>
+
+    <div class="rpt-callout rpt-callout--breaking">
+      <div class="breaking-badge">Breaking · February 2026</div>
+      <p><strong>Waaree Energies</strong> has received state government approval to build India's largest integrated lithium-ion battery gigafactory in Andhra Pradesh — a <strong>₹8,175 crore investment with 16 GWh capacity</strong>, covering the full value chain from cell manufacturing to battery packs and grid-scale BESS. 3,000 direct jobs. Operational target: 2027.</p>
+      <p><strong>ChemVolt Global</strong> signed an MoU with Andhra Pradesh in January 2026 for a separate <strong>5 GWh LFP battery gigafactory</strong> — ₹2,500 crore investment.</p>
+      <p style="color:rgba(255,255,255,0.5); font-style:italic; font-size:14px; margin-top:12px;">Both projects are operational in the exact window when formal EPR compliance enforcement intensifies and recycled content mandates take effect.</p>
+    </div>
+
+    <div class="rpt-body">
+      <p>Beyond these two, <strong>Reliance, Tata Group, Ola Electric, Amara Raja, and Exide Industries</strong> all have active gigafactory programmes. Companies have announced an additional <strong>246 GWh of cell manufacturing capacity through 2035</strong>, backed by the government's PLI-ACC scheme (₹18,100 crore). More than <strong>30 manufacturing sites</strong> are expected operational by 2030, targeting 290 GWh of total output.</p>
+    </div>
+
+    <div class="rpt-pullquote">
+      <p>Every battery gigafactory built is a future recycling feedstock source. Every GWh of manufacturing capacity added today becomes recyclable material in 7–10 years.</p>
+      <cite>Dev Mantra Market Analysis, March 2026</cite>
+    </div>
+
+    <div class="rpt-stat-grid">
+      <div class="rpt-stat-card">
+        <div class="rpt-stat-val">₹18,100 cr</div>
+        <div class="rpt-stat-name">PLI-ACC Scheme</div>
+        <div class="rpt-stat-sub">50 GWh domestic cell manufacturing capacity target</div>
+      </div>
+      <div class="rpt-stat-card">
+        <div class="rpt-stat-val">246 GWh</div>
+        <div class="rpt-stat-name">Announced Capacity</div>
+        <div class="rpt-stat-sub">Cell manufacturing capacity announced through 2035</div>
+      </div>
+      <div class="rpt-stat-card">
+        <div class="rpt-stat-val">30+</div>
+        <div class="rpt-stat-name">Manufacturing Sites</div>
+        <div class="rpt-stat-sub">Expected operational by 2030 across India</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 3 — The Market Numbers
+═══════════════════════════════════════════════════ -->
+<section class="rpt-section rpt-section--dark" id="ch3">
+  <div class="rpt-container">
+
+    <div class="rpt-ch-header rpt-ch-header--dark">
+      <div class="rpt-ch-num rpt-ch-num--dark">03</div>
+      <div class="rpt-ch-title-wrap">
+        <div class="rpt-ch-tag">Chapter 3</div>
+        <h2 class="rpt-ch-title rpt-ch-title--white">The Battery Recycling Market — What the Numbers Say</h2>
+        <p class="rpt-ch-lead rpt-ch-lead--light">India's battery recycling market is valued at USD 532 million in 2026 and projected to reach USD 2 billion by 2034. The headline CAGR range — from 9% to 41% — requires careful interpretation.</p>
+      </div>
+    </div>
+
+    <div class="rpt-two-col">
+      <div>
+        <div class="rpt-chart-wrap rpt-chart-wrap--dark">
+          <div class="rpt-chart-title">Market Size Projection (USD Million)</div>
+          <div class="rpt-chart-sub">All India battery recycling &nbsp;·&nbsp; Source: Inkwood Research</div>
+          <div class="rpt-chart-canvas">
+            <canvas id="marketSizeChart" height="220"></canvas>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="rpt-chart-wrap rpt-chart-wrap--dark">
+          <div class="rpt-chart-title">Capacity Gap: Current vs Needed by 2030</div>
+          <div class="rpt-chart-sub">GWh of formal recycling capacity &nbsp;·&nbsp; Source: NITI Aayog, Mordor Intelligence</div>
+          <div class="rpt-chart-canvas">
+            <canvas id="capacityGapChart" height="220"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 40px;">
+      <div style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--rpt-text-faint); margin-bottom:20px;">CAGR by Research Firm — Understanding the Range</div>
+
+      <div class="cagr-bar">
+        <div class="cagr-label">Grand View Research</div>
+        <div class="cagr-track"><div class="cagr-fill" style="width:73%; background:linear-gradient(90deg,#3188FF,#D34BE9);"></div></div>
+        <div class="cagr-val" style="color:#3188FF;">40.5%</div>
+      </div>
+      <div class="cagr-bar">
+        <div class="cagr-label">GMI Research</div>
+        <div class="cagr-track"><div class="cagr-fill" style="width:75%; background:linear-gradient(90deg,#3188FF,#D34BE9);"></div></div>
+        <div class="cagr-val" style="color:#3188FF;">41.1%</div>
+      </div>
+      <div class="cagr-bar">
+        <div class="cagr-label">Inkwood Research</div>
+        <div class="cagr-track"><div class="cagr-fill" style="width:33%; background:rgba(49,136,255,0.65);"></div></div>
+        <div class="cagr-val" style="color:var(--rpt-blue);">17.98%</div>
+      </div>
+      <div class="cagr-bar">
+        <div class="cagr-label">Mordor Intelligence</div>
+        <div class="cagr-track"><div class="cagr-fill" style="width:16%; background:rgba(255,255,255,0.25);"></div></div>
+        <div class="cagr-val" style="color:rgba(255,255,255,0.4);">9.06%</div>
+      </div>
+
+      <p style="font-size:13px; color:var(--rpt-text-faint); margin-top:16px; font-style:italic;">Scope explains the divergence: firms measuring all battery types (lead-acid dominant) report 9–10%. Firms measuring Li-ion specifically report 40–41%. The scope of your investment thesis determines which number is relevant.</p>
+    </div>
+
+    <div class="rpt-callout rpt-callout--insight" style="margin-top:40px;">
+      <span class="rpt-callout-tag">The Critical Insight</span>
+      <p>India already processes approximately <strong>60,000 tonnes of battery material annually</strong> through informal channels, producing around 3,000 tonnes of lithium carbonate. The formal, technology-led sector barely exists — which means this market has <strong>essentially no incumbent to displace</strong>.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 4 — Policy Commitment
+═══════════════════════════════════════════════════ -->
+<section class="rpt-section rpt-section--white" id="ch4">
+  <div class="rpt-container">
+
+    <div class="rpt-ch-header">
+      <div class="rpt-ch-num">04</div>
+      <div class="rpt-ch-title-wrap">
+        <div class="rpt-ch-tag">Chapter 4</div>
+        <h2 class="rpt-ch-title">The Policy Commitment — National Priority</h2>
+        <p class="rpt-ch-lead">India's approach is anchored in the Atmanirbhar Bharat framework — a national-level industrial commitment, not a ministry initiative. The policy stack is unusually complete.</p>
+      </div>
+    </div>
+
+    <div class="rpt-table-wrap">
+      <table class="rpt-table">
+        <thead>
+          <tr>
+            <th>Policy / Scheme</th>
+            <th>What It Means for Investors</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>National Critical Minerals Mission</td>
+            <td>₹34,300 crore | 7-year | Full value chain: exploration → mining → processing → recycling | Announced Jan 2025 | One of India's largest focused industrial commitments</td>
+          </tr>
+          <tr>
+            <td>Critical Minerals Recycling Scheme</td>
+            <td>₹1,500 crore | Sept 2025 | Up to <strong>20% capex subsidy</strong> on new plants | 40–60% opex incentives on incremental sales for 5 years | Targets 270 kt/yr capacity | ₹8,000 crore private investment to be catalysed</td>
+          </tr>
+          <tr>
+            <td>PLI — Advanced Chemistry Cell</td>
+            <td>₹18,100 crore | 50 GWh domestic cell manufacturing capacity | Creates direct, commercial demand for recycled battery-grade inputs from domestic OEMs</td>
+          </tr>
+          <tr>
+            <td>PM E-DRIVE Scheme</td>
+            <td>Replaced FAME subsidy | 114% budget increase in 2025 | 800,000 diesel buses to be converted to electric — generating large, predictable battery volumes for recycling from 2030</td>
+          </tr>
+          <tr>
+            <td>State-Level Programmes</td>
+            <td>Tamil Nadu, Gujarat, Karnataka, Andhra Pradesh: dedicated battery parks, gigafactory zones, and additional recycler incentive schemes running in parallel to national policy</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="rpt-table-caption">Source: Ministry of Mines, Govt. of India | MoEFCC | NITI Aayog</p>
+
+    <div class="rpt-callout rpt-callout--positive">
+      <span class="rpt-callout-tag">Incentive Caps — Know the Numbers</span>
+      <p>All structures establishing or expanding recycling capacity in India are eligible for government capex and opex incentives under the Incentive Scheme for Promotion of Critical Minerals Recycling. Incentive caps apply — <strong>₹50 crore for large entities, ₹25 crore for MSMEs</strong>. Facilities engaged solely in black mass production are explicitly excluded; end-to-end recovery operations qualify.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 5 — EPR Framework
+═══════════════════════════════════════════════════ -->
+<section class="rpt-section rpt-section--alt" id="ch5">
+  <div class="rpt-container">
+
+    <div class="rpt-ch-header">
+      <div class="rpt-ch-num">05</div>
+      <div class="rpt-ch-title-wrap">
+        <div class="rpt-ch-tag">Chapter 5</div>
+        <h2 class="rpt-ch-title">EPR Framework — The Full Picture</h2>
+        <p class="rpt-ch-lead">The Battery Waste Management Rules 2022 are law. The implementation faces real gaps. Both facts are important — and together they explain why this market needs advanced technology partners.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:18px; font-weight:700; color:var(--rpt-text); margin-bottom:20px;">What Is Legally Settled and Enforceable</h3>
+
+    <div class="rpt-table-wrap">
+      <table class="rpt-table">
+        <thead>
+          <tr>
+            <th>Provision</th>
+            <th>Requirement &amp; Timeline</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>EPR Obligation</td>
+            <td>Every OEM, importer and seller must ensure batteries are collected and recycled. Cannot be fulfilled through informal operators. Mandatory registration on CPCB portal.</td>
+          </tr>
+          <tr>
+            <td>Material Recovery Targets</td>
+            <td>Li-ion recyclers: 70% recovery in 2024–25 | 80% in 2025–26 | <strong>90% from 2026–27 onwards</strong>. Non-compliance triggers Environmental Compensation levy.</td>
+          </tr>
+          <tr>
+            <td>EV Battery Collection</td>
+            <td>70% of EV batteries placed on market must be formally collected by 2027–28. Targets escalate annually by vehicle category (2W, 3W, 4W).</td>
+          </tr>
+          <tr>
+            <td>Recycled Content Mandate</td>
+            <td>From FY 2027–28: minimum % of domestically recycled materials required in all new batteries. Starts at 5%, rising to <strong>20% by 2030–31</strong>. Must be Indian-origin — imported recycled content does not qualify.</td>
+          </tr>
+          <tr>
+            <td>EPR Certificate Market</td>
+            <td>Registered recyclers earn tradeable EPR certificates on CPCB portal upon verified material recovery. Producers purchase certificates to demonstrate compliance. 7-year certificate validity.</td>
+          </tr>
+          <tr>
+            <td>2025 Amendments</td>
+            <td>Mandatory QR codes on all batteries for digital traceability. Fully online CPCB portal — no paper filings. Strengthened audit and third-party verification mechanisms.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rpt-divider"></div>
+
+    <h3 style="font-size:18px; font-weight:700; color:var(--rpt-text); margin-bottom:20px;">The Real Implementation Challenges — Acknowledged Directly</h3>
+
+    <ul class="rpt-risk-list">
+      <li class="rpt-risk-item">
+        <div class="rpt-risk-title">EPR Certificate Floor Price Too Low</div>
+        <div class="rpt-risk-desc">Current pricing makes formal Li-ion recycling economically marginal for most operators — the single most cited systemic challenge. Some producers are sourcing certificates from non-compliant routes, mirroring early failures in India's plastic EPR system. Government review is expected but not yet implemented.</div>
+      </li>
+      <li class="rpt-risk-item">
+        <div class="rpt-risk-title">Only ~1% Formally Recycled Today</div>
+        <div class="rpt-risk-desc">Despite the legal framework, India's formal collection and recycling rate for Li-ion batteries remains critically low. The majority still enters informal, unsafe, non-compliant channels.</div>
+      </li>
+      <li class="rpt-risk-item">
+        <div class="rpt-risk-title">Self-Declared Data Inconsistency</div>
+        <div class="rpt-risk-desc">The CPCB portal relies on producer self-reporting. Independent audits have found significant mismatches between declared and actual volumes. Third-party audit modules are not yet fully operational.</div>
+      </li>
+      <li class="rpt-risk-item">
+        <div class="rpt-risk-title">Fragmented Reverse Logistics</div>
+        <div class="rpt-risk-desc">No standardised national collection infrastructure exists yet. Used batteries are mixed with general e-waste or held by informal aggregators, making consistent, certified feedstock supply a challenge.</div>
+      </li>
+      <li class="rpt-risk-item">
+        <div class="rpt-risk-title">OEM Legal Resistance</div>
+        <div class="rpt-risk-desc">In April 2025, multinationals including Daikin, Hitachi, and Samsung filed legal challenges against India's e-waste EPR policies — signalling that large producers are not passively accepting compliance costs.</div>
+      </li>
+    </ul>
+
+    <div class="rpt-callout rpt-callout--insight">
+      <span class="rpt-callout-tag">Why These Challenges Favour the Serious Partner</span>
+      <p>Every challenge above represents a gap that <strong>technology-led, audit-ready operators</strong> are uniquely positioned to fill. The domestic recycled content mandate from FY 2027–28 means OEMs will actively compete to secure certified, high-purity recycled material supply — and there are currently nowhere near enough qualified suppliers to meet that demand.</p>
+      <ul>
+        <li><strong>90% recovery mandate:</strong> Only operators with proven hydrometallurgical technology can consistently hit this — eliminating informal competition</li>
+        <li><strong>QR traceability mandate:</strong> Digital chain-of-custody integration positions compliant recyclers as the preferred OEM partner</li>
+        <li><strong>Recycled content mandate:</strong> Creates a captive, regulated, growing demand pool that first-movers will own</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 6 — Global Context
+═══════════════════════════════════════════════════ -->
+<section class="rpt-section rpt-section--dark" id="ch6">
+  <div class="rpt-container">
+
+    <div class="rpt-ch-header rpt-ch-header--dark">
+      <div class="rpt-ch-num rpt-ch-num--dark">06</div>
+      <div class="rpt-ch-title-wrap">
+        <div class="rpt-ch-tag">Chapter 6</div>
+        <h2 class="rpt-ch-title rpt-ch-title--white">Global Context — Why Global Companies Are Well Positioned</h2>
+        <p class="rpt-ch-lead rpt-ch-lead--light">India's strategy is part of a converging global shift. Six converging factors make India's critical minerals space uniquely compelling for international technology partners right now.</p>
+      </div>
+    </div>
+
+    <div class="rpt-two-col rpt-two-col--40-60">
+      <div class="rpt-chart-wrap rpt-chart-wrap--dark">
+        <div class="rpt-chart-title">Global Battery Recycling Market (USD Billion)</div>
+        <div class="rpt-chart-sub">2025–2035 &nbsp;·&nbsp; ~10× growth &nbsp;·&nbsp; Source: Industry Estimates</div>
+        <div class="rpt-chart-canvas">
+          <canvas id="globalMarketChart" height="280"></canvas>
+        </div>
+      </div>
+      <div class="rpt-body rpt-body--dark">
+        <p style="margin-bottom:20px;"><strong style="color:#fff;">Korea chairs FORGE (February 2026):</strong> Korea is now chair of FORGE — the Forum on Resource Geostrategic Engagement. Korean companies entering India's critical minerals space do so with explicit geopolitical alignment, not against it.</p>
+        <p style="margin-bottom:20px;"><strong style="color:#fff;">EU Critical Raw Materials Act (2023):</strong> 15% recycling of strategic minerals mandated by 2030. Indian manufacturers exporting to Europe must meet this — creating direct, commercial demand for certified recycled inputs that only advanced technology partners can supply.</p>
+        <p style="margin-bottom:20px;"><strong style="color:#fff;">China's WTO Challenge (2025):</strong> China formally challenged India's PLI battery and EV schemes at the WTO — the clearest external signal that India's industrial strategy is working and being taken seriously as a competitive force.</p>
+        <p style="margin-bottom:20px;"><strong style="color:#fff;">IEA 2024 Data:</strong> Global nickel and cobalt recycling rates have reached 40–50%. Lithium is at ~20% — the largest remaining growth opportunity, and the segment where India's policy incentives are most heavily concentrated.</p>
+        <p style="margin-bottom:20px;"><strong style="color:#fff;">US Critical Minerals Strategy:</strong> $12 billion proposed strategic stockpile. Over 30 new recycling measures introduced globally since 2022. India–Korea bilateral supply chains offer a compelling alternative to China-dependent routes.</p>
+        <p><strong style="color:#fff;">Global Market:</strong> Battery recycling grows ~10× — from $13 billion in 2025 to $115 billion by 2035. India's share of this growth, with its combination of market size, policy support, and current capacity gap, is disproportionately large.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 7 — Raw Material Supply
+═══════════════════════════════════════════════════ -->
+<section class="rpt-section rpt-section--white" id="ch7">
+  <div class="rpt-container">
+
+    <div class="rpt-ch-header">
+      <div class="rpt-ch-num">07</div>
+      <div class="rpt-ch-title-wrap">
+        <div class="rpt-ch-tag">Chapter 7</div>
+        <h2 class="rpt-ch-title">On Raw Material Supply — An Honest Assessment</h2>
+        <p class="rpt-ch-lead">End-of-life EV battery volumes are building — not yet at peak, but on a clearly quantified trajectory. The raw material ramp is real, predictable, and already quantified.</p>
+      </div>
+    </div>
+
+    <div class="rpt-body">
+      <p>With battery lifespans of 6–10 years, <strong>high-volume EV battery scrap materialises from 2028–2030</strong> and accelerates strongly into the mid-2030s. This is a known timeline, not an unknown risk — and it decisively favours those who build now over those who wait.</p>
+    </div>
+
+    <div class="rpt-stat-grid">
+      <div class="rpt-stat-card">
+        <div class="rpt-stat-val">2028–30</div>
+        <div class="rpt-stat-name">EV Scrap Ramp</div>
+        <div class="rpt-stat-sub">High-volume end-of-life batteries begin entering the formal recycling system</div>
+      </div>
+      <div class="rpt-stat-card">
+        <div class="rpt-stat-val">3rd Largest</div>
+        <div class="rpt-stat-name">E-waste Generator</div>
+        <div class="rpt-stat-sub">India generates cobalt, copper, gold, and rare earths available as feedstock now, not in 2030</div>
+      </div>
+      <div class="rpt-stat-card">
+        <div class="rpt-stat-val">15–20%</div>
+        <div class="rpt-stat-name">Second-Life Cells</div>
+        <div class="rpt-stat-sub">Of end-of-life EV battery cells remain viable for grid storage — improving unit economics</div>
+      </div>
+      <div class="rpt-stat-card">
+        <div class="rpt-stat-val">Only 10%</div>
+        <div class="rpt-stat-name">Capacity vs Need</div>
+        <div class="rpt-stat-sub">Announced recycling capacity covers only 10% of projected feedstock volumes by 2040</div>
+      </div>
+    </div>
+
+    <div class="rpt-callout rpt-callout--warning">
+      <span class="rpt-callout-tag">Infrastructure Lead Time — Act Now</span>
+      <p>Recycling plants require <strong>2–3 years from investment decision to full commissioning</strong>. Decisions made in 2026 translate to operational capacity in 2028–2029 — precisely when EV battery scrap begins its structural ramp. Waiting means arriving late to a market that will consolidate quickly.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 8 — Partnership Structures
+═══════════════════════════════════════════════════ -->
+<section class="rpt-section rpt-section--alt" id="ch8">
+  <div class="rpt-container">
+
+    <div class="rpt-ch-header">
+      <div class="rpt-ch-num">08</div>
+      <div class="rpt-ch-title-wrap">
+        <div class="rpt-ch-tag">Chapter 8</div>
+        <h2 class="rpt-ch-title">Partnership Structures — Flexible and Incentive-Backed</h2>
+        <p class="rpt-ch-lead">Indian entities across the ecosystem are actively seeking technology partners and JV co-investors with proven capabilities in hydrometallurgical processing, black mass refining, and high-purity material recovery.</p>
+      </div>
+    </div>
+
+    <div class="partner-card">
+      <div class="partner-card-head">
+        <div class="partner-type">Technology Licensing</div>
+        <div class="partner-badge">Low Capital</div>
+      </div>
+      <div class="partner-brings">What the partner brings: Proprietary processing IP, technical advisory, process validation, yield guarantee</div>
+      <div class="partner-return">Revenue &amp; Return: Royalty stream + long-term technical service fees. Immediate revenue, limited capital commitment.</div>
+    </div>
+
+    <div class="partner-card">
+      <div class="partner-card-head">
+        <div class="partner-type">Greenfield JV</div>
+        <div class="partner-badge">High Upside</div>
+      </div>
+      <div class="partner-brings">What the partner brings: Technology + co-investment in new Indian recycling facility. Capex subsidy (up to 20%) directly de-risks the greenfield investment.</div>
+      <div class="partner-return">Revenue &amp; Return: Opex subsidy — 40% disbursed in Year 2, balance 60% in Year 5 — on incremental sales over 5 years.</div>
+    </div>
+
+    <div class="partner-card">
+      <div class="partner-card-head">
+        <div class="partner-type">Brownfield Upgrade</div>
+        <div class="partner-badge">Fast to Market</div>
+      </div>
+      <div class="partner-brings">What the partner brings: Partner with an existing Indian recycler — upgrade technology, expand capacity. Faster to market with established feedstock relationships.</div>
+      <div class="partner-return">Revenue &amp; Return: Technology transfer fees + revenue share + accelerated market entry with existing EPR compliance contracts.</div>
+    </div>
+
+    <div class="partner-card">
+      <div class="partner-card-head">
+        <div class="partner-type">Offtake Partnership</div>
+        <div class="partner-badge">Supply Security</div>
+      </div>
+      <div class="partner-brings">What the partner brings: Committed offtake for battery-grade recovered Li, Co, Ni, Mn from Indian operations.</div>
+      <div class="partner-return">Revenue &amp; Return: Secured, price-stable critical mineral supply — reducing spot market volatility exposure for Korean or global manufacturing operations.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 9 — EPR Eligibility
+═══════════════════════════════════════════════════ -->
+<section class="rpt-section rpt-section--white" id="ch9">
+  <div class="rpt-container">
+
+    <div class="rpt-ch-header">
+      <div class="rpt-ch-num">09</div>
+      <div class="rpt-ch-title-wrap">
+        <div class="rpt-ch-tag">Chapter 9</div>
+        <h2 class="rpt-ch-title">EPR Eligibility for an End-to-End Recycler</h2>
+        <p class="rpt-ch-lead">Precisely: if a company wants to set up a full end-to-end recycling operation in India, what must it extract, in what quantities, and from which battery types — to qualify for EPR certificates?</p>
+      </div>
+    </div>
+
+    <div class="epr-step-box">
+      <div class="epr-step-head">
+        <div class="epr-step-circle">1</div>
+        <div class="epr-step-title">Who Qualifies as an EPR-Eligible Recycler</div>
+      </div>
+      <div class="rpt-body">
+        <ul>
+          <li>Register on the <strong>CPCB centralized EPR portal</strong> at eprbattery.cpcb.gov.in — mandatory before any certificate can be generated</li>
+          <li>Obtain authorization from the concerned <strong>SPCB (State Pollution Control Board)</strong> — dual registration, both CPCB and SPCB</li>
+          <li>Operate an <strong>authorized recycling facility</strong> — formal, registered plant. Informal or backyard operations are explicitly excluded</li>
+          <li>Submit <strong>quarterly returns to CPCB</strong> — detailing quantity of battery collected, processed, materials recovered, and hazardous waste generated</li>
+        </ul>
+      </div>
+      <div class="rpt-callout rpt-callout--warning" style="margin: 16px 0 0;">
+        <span class="rpt-callout-tag">Foreign Company Rule</span>
+        <p>A foreign company cannot register directly as a recycler on the CPCB portal. The Rules require an Indian legal entity — either an Indian subsidiary, a JV company registered in India, or a local partner as the registered operator. This is one of the key structural reasons why a <strong>JV or Indian subsidiary</strong> is the recommended entry model.</p>
+      </div>
+    </div>
+
+    <div class="epr-step-box">
+      <div class="epr-step-head">
+        <div class="epr-step-circle">2</div>
+        <div class="epr-step-title">EPR Certificate Generation Formula</div>
+      </div>
+      <div class="cert-formula">
+        <div class="cert-formula-label">CPCB Official Formula — Battery Waste Management Rules 2022</div>
+        <div class="cert-formula-eq">
+          EPR Certificates (kg) = <span>Weight of identified key battery metal PRODUCED AND SOLD</span> after recovery from recycling
+        </div>
+      </div>
+      <p style="font-size:14px; color:var(--rpt-text-muted); margin-top:12px; line-height:1.65;"><strong>Critical rule:</strong> Only materials that are SOLD after recovery qualify — not just processed. The recycler must have an actual sale transaction on record. This is why having downstream offtake agreements or your own refining-to-sale capability significantly strengthens EPR certificate generation.</p>
+      <p style="font-size:14px; color:var(--rpt-text-muted); margin-top:8px;">Certificates are generated separately for: <strong>Lithium (Li) · Cobalt (Co) · Nickel (Ni) · Manganese (Mn) · Aluminium (Al) · Copper (Cu) · Graphite</strong></p>
+    </div>
+
+    <div class="epr-step-box">
+      <div class="epr-step-head">
+        <div class="epr-step-circle">3</div>
+        <div class="epr-step-title">Minimum Recovery Targets — Legally Binding, Escalating Annually</div>
+      </div>
+
+      <div style="background: var(--rpt-navy); border-radius: var(--rpt-radius); padding: 8px 24px; margin-top: 8px;">
+        <div class="recovery-row">
+          <div class="recovery-type">Battery Type</div>
+          <div class="recovery-badges">
+            <span class="r-badge prev">FY 2024–25</span>
+            <span class="r-badge now">FY 2025–26</span>
+            <span class="r-badge next">FY 2026–27+</span>
+          </div>
+        </div>
+        <div class="recovery-row">
+          <div class="recovery-type">EV &amp; Portable Li-ion</div>
+          <div class="recovery-badges">
+            <span class="r-badge prev">70%</span>
+            <span class="r-badge now">80%</span>
+            <span class="r-badge next">90%</span>
+          </div>
+        </div>
+        <div class="recovery-row">
+          <div class="recovery-type">Automotive &amp; Industrial</div>
+          <div class="recovery-badges">
+            <span class="r-badge prev">50%</span>
+            <span class="r-badge now">55%</span>
+            <span class="r-badge next">60%</span>
+          </div>
+        </div>
+        <div class="recovery-row">
+          <div class="recovery-type">Lead-Acid Batteries</div>
+          <div class="recovery-badges">
+            <span class="r-badge prev">95%</span>
+            <span class="r-badge now">95%</span>
+            <span class="r-badge next">95%</span>
+          </div>
+        </div>
+        <div class="recovery-row" style="border-bottom:none;">
+          <div class="recovery-type">Nickel-Cadmium Batteries</div>
+          <div class="recovery-badges">
+            <span class="r-badge prev">70%</span>
+            <span class="r-badge now">75%</span>
+            <span class="r-badge next">80%</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px; color:var(--rpt-text-muted); margin-top:12px; font-style:italic;">The 90% recovery target for Li-ion batteries from FY 2026–27 is only consistently achievable through hydrometallurgical processing — eliminating informal and pyrometallurgical-only operators from the market.</p>
+    </div>
+
+    <div class="epr-step-box">
+      <div class="epr-step-head">
+        <div class="epr-step-circle">4</div>
+        <div class="epr-step-title">Why End-to-End Is the Strongest EPR Position</div>
+      </div>
+      <div class="rpt-body">
+        <ul>
+          <li><strong>Certificate generation requires actual material sale:</strong> An end-to-end operator who refines and sells battery-grade Li, Co, Ni directly generates the maximum number of certificates per tonne of input. A recycler who only produces black mass generates zero certificates for the refined output.</li>
+          <li><strong>Hydromet recovers all 7 certificate-generating materials:</strong> Pyromet typically recovers only Co, Ni, Cu as an alloy — losing Li and Mn entirely. Hydrometallurgical processing recovers all 7 separately, maximising certificate count per batch.</li>
+          <li><strong>Domestic sale is mandatory for recycled content mandate:</strong> From FY 2027–28, OEMs must source domestically recycled Li, Co, Ni. End-to-end operators are the only qualified suppliers — creating a captive, regulated demand pool.</li>
+          <li><strong>EPR certificate validity is 7 years:</strong> Certificates generated during the ramp-up phase remain tradeable for 7 years — giving early-movers a long commercial runway.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 10 — Why the Window Is 2026
+═══════════════════════════════════════════════════ -->
+<section class="rpt-section rpt-section--dark" id="ch10">
+  <div class="rpt-container">
+
+    <div class="rpt-ch-header rpt-ch-header--dark">
+      <div class="rpt-ch-num rpt-ch-num--dark">10</div>
+      <div class="rpt-ch-title-wrap">
+        <div class="rpt-ch-tag">Chapter 10</div>
+        <h2 class="rpt-ch-title rpt-ch-title--white">Why the Window Is 2026</h2>
+        <p class="rpt-ch-lead rpt-ch-lead--light">India's battery recycling sector sits at a specific and time-limited inflection: past the point of regulatory ambiguity, before the point of market saturation.</p>
+      </div>
+    </div>
+
+    <div class="rpt-body rpt-body--dark">
+      <p>The incentive schemes are live. The gigafactories are breaking ground. OEMs are selling EVs at record volumes and facing incoming recycled-content mandates they do not yet have supply chains to meet. The government is actively clearing foreign technology partnerships.</p>
+      <p>There are no dominant international players entrenched in this space. The formal, technology-led recycling sector barely exists — which means this market has essentially <strong style="color:#fff;">no incumbent to displace</strong>. Companies that establish partnerships and operational presence now will enter the high-volume phase already contracted, already trusted, and already optimised.</p>
+      <p>India is not looking for any partner. The scale of OEM compliance obligations, the rigour of the recovery mandates, and the quality demands of battery-grade material specifications mean this market will <strong style="color:#fff;">consolidate quickly around a small number of technically credible operators</strong>. The informal sector cannot meet those standards.</p>
+    </div>
+
+    <div class="conclusion-box">
+      <h2>The 90% recovery mandate from FY 2026–27 is the filter that separates serious players from the rest.</h2>
+      <p>It is, in effect, a government-imposed barrier to entry that eliminates informal and low-technology operators and creates a protected market for those with advanced hydrometallurgical capability. The EPR gap is not a reason to hesitate. It is the reason this market needs exactly the kind of partner described in this report.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CTA FOOTER
+═══════════════════════════════════════════════════ -->
+<footer class="rpt-footer">
+  <div class="rpt-footer-inner">
+    <div class="rpt-footer-logo">
+      <img src="/favicon.png" alt="Dev Mantra">
+    </div>
+    <div class="rpt-footer-tagline">AOne Dev Mantra Financial Services Pvt. Ltd.</div>
+    <h2 class="rpt-footer-heading">Ready to explore India's critical minerals opportunity?</h2>
+    <p class="rpt-footer-sub">Dev Mantra helps technology companies, investors, and industrial partners navigate India's emerging battery recycling and critical minerals sector. We connect strategy to execution.</p>
+    <div class="rpt-footer-actions">
+      <a href="https://devmantra.com/contact" class="rpt-btn rpt-btn--primary">
+        <i class="fa-solid fa-calendar"></i> Book a Discovery Call
+      </a>
+      <a class="rpt-btn rpt-btn--ghost" href="https://devmantra.com/report-files/india's-critical-minerals-and-battery-pdf.pdf" target="_blank" rel="noopener">
+        <i class="fa-solid fa-download"></i> Download PDF
+      </a>
+    </div>
+    <div class="rpt-footer-bottom">
+      <p class="rpt-footer-disc">This report has been prepared by AOne Dev Mantra Financial Services Private Limited for informational purposes only. The information is based on publicly available sources, industry reports, government publications, and internal research. The contents should not be construed as investment, financial, legal, or professional advice. This document is the intellectual property of AOne Dev Mantra Financial Services Private Limited and may not be reproduced, distributed, or published without prior written consent. Data Sources: FADA Retail Data Feb 2026 | Grand View Research | GMI Research | Inkwood Research | Mordor Intelligence | NITI Aayog | Ministry of Mines, Govt. of India | IEA Critical Minerals Report 2024 | Battery Waste Management Rules 2022 &amp; 2024/2025 Amendments | CPCB EPR Portal.</p>
+      <div class="rpt-footer-copy">© 2026 Dev Mantra. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════ -->
+<script>
+  // ── Reading Progress Bar ──
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('rpt-progress');
+    const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    el.style.width = Math.min(pct, 100) + '%';
+  });
+
+  // ── Active Chapter Nav ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.rpt-nav-link');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.rpt-nav-link[data-target="${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.25 });
+  sections.forEach(s => observer.observe(s));
+
+  // ── Chart: EV Sales Projection ──
+  new Chart(document.getElementById('evSalesChart'), {
+    type: 'bar',
+    data: {
+      labels: ['2022', '2023', '2024', '2025', '2026*', '2028*', '2030*'],
+      datasets: [{
+        label: 'EV Sales (Million units)',
+        data: [0.62, 1.05, 1.71, 2.37, 3.2, 8.5, 17],
+        backgroundColor: [
+          'rgba(49,136,255,0.65)', 'rgba(49,136,255,0.65)', 'rgba(49,136,255,0.65)',
+          'rgba(212,75,233,0.85)', 'rgba(212,75,233,0.55)',
+          'rgba(255,153,75,0.45)', 'rgba(255,153,75,0.45)'
+        ],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.parsed.y + ' Mn units' } }
+      },
+      scales: {
+        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: v => v + ' Mn' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  // ── Chart: Market Size Projection ──
+  const marketGradient = (function() {
+    const ctx2 = document.getElementById('marketSizeChart').getContext('2d');
+    const g = ctx2.createLinearGradient(0, 0, 0, 250);
+    g.addColorStop(0, 'rgba(49,136,255,0.4)');
+    g.addColorStop(1, 'rgba(49,136,255,0.02)');
+    return g;
+  })();
+
+  new Chart(document.getElementById('marketSizeChart'), {
+    type: 'line',
+    data: {
+      labels: ['2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034'],
+      datasets: [{
+        label: 'Market Size (USD Mn)',
+        data: [532, 628, 741, 875, 1033, 1221, 1444, 1706, 2000],
+        borderColor: '#3188FF',
+        backgroundColor: marketGradient,
+        fill: true,
+        tension: 0.45,
+        pointBackgroundColor: '#3188FF',
+        pointBorderColor: '#0d2d48',
+        pointBorderWidth: 2,
+        pointRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y + ' Mn' } }
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          ticks: { color: 'rgba(255,255,255,0.4)', callback: v => '$' + v + 'M' }
+        },
+        x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)' } }
+      }
+    }
+  });
+
+  // ── Chart: Capacity Gap ──
+  new Chart(document.getElementById('capacityGapChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Current Formal Capacity', 'Needed by 2030'],
+      datasets: [{
+        label: 'GWh',
+        data: [2, 128],
+        backgroundColor: ['rgba(49,136,255,0.75)', 'rgba(211,75,233,0.75)'],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.parsed.y + ' GWh' } }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          ticks: { color: 'rgba(255,255,255,0.4)', callback: v => v + ' GWh' }
+        },
+        x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.5)' } }
+      }
+    }
+  });
+
+  // ── Chart: Global Battery Recycling Market ──
+  const globalGrad = (function() {
+    const ctx6 = document.getElementById('globalMarketChart').getContext('2d');
+    const g = ctx6.createLinearGradient(0, 0, 0, 300);
+    g.addColorStop(0, 'rgba(212,75,233,0.35)');
+    g.addColorStop(1, 'rgba(212,75,233,0.02)');
+    return g;
+  })();
+
+  new Chart(document.getElementById('globalMarketChart'), {
+    type: 'line',
+    data: {
+      labels: ['2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035'],
+      datasets: [{
+        label: 'Global Market (USD Bn)',
+        data: [13, 17, 22, 29, 38, 50, 64, 78, 92, 104, 115],
+        borderColor: '#D34BE9',
+        backgroundColor: globalGrad,
+        fill: true,
+        tension: 0.45,
+        pointBackgroundColor: '#D34BE9',
+        pointBorderColor: '#0d2d48',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y + 'B' } }
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          ticks: { color: 'rgba(255,255,255,0.4)', callback: v => '$' + v + 'B' }
+        },
+        x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.4)', maxRotation: 0 } }
+      }
+    }
+  });
+
+  // ── Animate CAGR bars on scroll ──
+  const cagr = document.querySelectorAll('.cagr-fill');
+  const widths = [];
+  cagr.forEach(b => { widths.push(b.style.width); b.style.width = '0'; });
+  const cbarObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      cagr.forEach((b, i) => { setTimeout(() => { b.style.width = widths[i]; }, i * 120); });
+      cbarObserver.disconnect();
+    }
+  }, { threshold: 0.5 });
+  if (cagr[0]) cbarObserver.observe(cagr[0].closest('section') || document.body);
+</script>
+
+</body>
+</html>

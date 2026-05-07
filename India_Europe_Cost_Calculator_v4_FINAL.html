@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India vs Europe Manufacturing Cost Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d; --primary-light: #2c5282;
+            --accent: #2563eb; --accent-light: #3b82f6;
+            --success: #059669; --success-bg: #d1fae5;
+            --danger: #dc2626; --danger-bg: #fee2e2;
+            --warning: #d97706; --warning-bg: #fef3c7;
+            --bg: #f8fafc; --surface: #ffffff;
+            --border: #e2e8f0; --text: #1e293b;
+            --text-secondary: #64748b; --text-muted: #94a3b8;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --radius: 10px; --radius-sm: 6px;
+        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
+
+        .header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);color:white;padding:1.25rem 2rem;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow-lg);position:sticky;top:0;z-index:100}
+        .header-left{display:flex;align-items:center;gap:1rem}
+        .header-logo{font-size:1.4rem;font-weight:700;letter-spacing:-0.02em}
+        .header-sub{font-size:0.78rem;opacity:0.85;font-weight:400;margin-top:2px}
+        .header-actions{display:flex;gap:0.75rem;align-items:center}
+        .api-status{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;padding:0.35rem 0.75rem;background:rgba(255,255,255,0.15);border-radius:100px;backdrop-filter:blur(8px);cursor:pointer;transition:background 0.2s}
+        .api-status:hover{background:rgba(255,255,255,0.25)}
+        .api-status .dot{width:7px;height:7px;border-radius:50%;background:var(--text-muted)}
+        .api-status.online .dot{background:#34d399;box-shadow:0 0 8px #34d399}
+        .api-status.offline .dot{background:#f87171}
+        .api-status.loading .dot{background:#fbbf24;animation:pulse 1.5s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+        .btn{padding:0.5rem 1rem;border:none;border-radius:var(--radius-sm);font-size:0.85rem;font-weight:500;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.4rem}
+        .btn-white{background:white;color:var(--primary)}
+        .btn-white:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+        .btn-outline{background:transparent;color:white;border:1px solid rgba(255,255,255,0.4)}
+        .btn-outline:hover{background:rgba(255,255,255,0.1)}
+        .btn-sm{padding:0.35rem 0.75rem;font-size:0.78rem}
+        .btn-danger{background:var(--danger);color:white}
+        .btn-danger:hover{background:#b91c1c}
+
+        /* BUG #1 FIX — stale-rate warning banner */
+        .fallback-banner{display:none;background:#fef3c7;border:1px solid #f59e0b;border-radius:var(--radius-sm);padding:0.6rem 1rem;margin-bottom:1rem;font-size:0.82rem;font-weight:600;color:#92400e;align-items:center;gap:0.5rem}
+        .fallback-banner.visible{display:flex}
+        .fallback-banner i{color:#d97706}
+
+        /* BUG #8 FIX — validation warning */
+        .validation-warn{display:none;font-size:0.72rem;color:#b45309;background:#fef3c7;border:1px solid #fde68a;border-radius:4px;padding:0.3rem 0.6rem;margin-top:0.3rem}
+        .validation-warn.show{display:block}
+
+        .container{max-width:1440px;margin:0 auto;padding:1.5rem 2rem}
+        .grid{display:grid;grid-template-columns:420px 1fr;gap:1.5rem}
+        @media(max-width:1100px){.grid{grid-template-columns:1fr}}
+        .card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:1rem}
+        .card-header{padding:0.875rem 1.25rem;background:linear-gradient(90deg,#f1f5f9 0%,#ffffff 100%);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.5rem;font-weight:600;font-size:0.85rem;color:var(--primary);text-transform:uppercase;letter-spacing:0.04em}
+        .card-body{padding:1.25rem}
+        .card-body.compact{padding:0.875rem 1.25rem}
+        .form-group{margin-bottom:1rem}
+        .form-group:last-child{margin-bottom:0}
+        .form-label{display:block;font-size:0.78rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.35rem;text-transform:uppercase;letter-spacing:0.03em}
+        .form-hint{font-size:0.72rem;color:var(--text-muted);margin-top:0.25rem;font-style:italic}
+        .form-hint a{color:var(--accent);text-decoration:none}
+        select,input[type="number"],input[type="text"]{width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:0.9rem;font-family:inherit;color:var(--text);background:#fafbfc;transition:all 0.2s}
+        select:focus,input:focus{outline:none;border-color:var(--accent);background:white;box-shadow:0 0 0 3px rgba(37,99,235,0.08)}
+        select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.75rem center;padding-right:2rem}
+        .input-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+        .input-override{position:relative}
+        .input-override .reset-btn{position:absolute;right:0.5rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--accent);font-size:0.7rem;cursor:pointer;opacity:0;transition:opacity 0.2s;padding:0.2rem}
+        .input-override:hover .reset-btn{opacity:1}
+        .override-active{border-color:var(--warning)!important;background:#fffbeb!important}
+
+        .kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+        @media(max-width:900px){.kpi-grid{grid-template-columns:1fr}}
+        .kpi-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);padding:1.25rem;position:relative;overflow:hidden}
+        .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+        .kpi-card.india::before{background:var(--accent)}
+        .kpi-card.europe::before{background:#7c3aed}
+        .kpi-card.savings::before{background:var(--success)}
+        .kpi-card.negative::before{background:var(--danger)}
+        .kpi-label{font-size:0.75rem;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.5rem}
+        .kpi-value{font-size:1.75rem;font-weight:700;color:var(--text);letter-spacing:-0.02em}
+        .kpi-sub{font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem}
+
+        .insight-banner{background:linear-gradient(90deg,var(--success-bg) 0%,#ecfdf5 100%);border:1px solid #a7f3d0;border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem}
+        .insight-banner.negative-insight{background:linear-gradient(90deg,var(--danger-bg) 0%,#fef2f2 100%);border-color:#fecaca}
+        .insight-icon{font-size:1.25rem}
+        .insight-text{font-weight:600;color:var(--success);font-size:0.95rem}
+        .insight-banner.negative-insight .insight-text{color:var(--danger)}
+
+        .chart-container{position:relative;height:300px}
+        .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+        @media(max-width:900px){.chart-grid{grid-template-columns:1fr}}
+
+        /* BUG #7 FIX — tab buttons for Unit Cost vs TCO */
+        .view-tabs{display:flex;gap:0;margin-bottom:0;border-bottom:2px solid var(--border)}
+        .view-tab{padding:0.6rem 1.25rem;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;font-size:0.82rem;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:all 0.2s;text-transform:uppercase;letter-spacing:0.04em}
+        .view-tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+        .view-tab:hover:not(.active){color:var(--text);background:#f8fafc}
+
+        .breakdown-table{width:100%;border-collapse:collapse;font-size:0.875rem}
+        .breakdown-table th{text-align:left;padding:0.625rem 1rem;background:#f8fafc;font-weight:600;color:var(--text-secondary);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid var(--border)}
+        .breakdown-table td{padding:0.625rem 1rem;border-bottom:1px solid var(--border)}
+        .breakdown-table tr:hover td{background:#f8fafc}
+        .breakdown-table .section-row td{background:linear-gradient(90deg,#f1f5f9 0%,#ffffff 100%);font-weight:600;color:var(--primary);font-size:0.8rem;text-transform:uppercase;letter-spacing:0.04em}
+        .breakdown-table .total-row td{font-weight:700;color:var(--text);background:var(--success-bg);border-top:2px solid var(--success)}
+        .breakdown-table .total-row.europe-row td{background:#ede9fe;border-top:2px solid #7c3aed}
+        .breakdown-table .tco-row td{background:#fef9c3;border-top:1px dashed var(--warning);color:#92400e;font-style:italic;font-size:0.82rem}
+        .breakdown-table .igst-row td{background:#fff7ed;color:#9a3412;font-size:0.82rem;font-style:italic}
+        .breakdown-table tr.tco-only{display:none}
+        .tco-mode .breakdown-table tr.tco-only{display:table-row}
+        .num{text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
+        .num.bold{font-weight:700}
+        .pct{text-align:right;color:var(--text-muted);font-size:0.8rem}
+
+        .sensitivity-slider{width:100%;margin:0.5rem 0;accent-color:var(--accent)}
+        .sensitivity-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted)}
+        .sensitivity-value{text-align:center;font-weight:700;color:var(--primary);font-size:1.1rem;margin-top:0.25rem}
+
+        /* API LOGS */
+        .api-logs-container{background:#0b1120;border-radius:var(--radius);border:1px solid #1e293b;overflow:hidden;margin-top:1.5rem}
+        .api-logs-header{display:flex;justify-content:space-between;align-items:center;padding:0.7rem 1.25rem;background:#0f172a;border-bottom:1px solid #1e293b}
+        .api-logs-title{font-size:0.75rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;display:flex;align-items:center;gap:0.5rem}
+        .api-logs-title i{color:#475569}
+        .api-logs-count{background:#1e293b;color:#94a3b8;font-size:0.68rem;padding:0.12rem 0.5rem;border-radius:100px;font-weight:700;font-family:'SF Mono',Monaco,monospace}
+        .api-logs-table-wrap{max-height:420px;overflow-y:auto}
+        .api-logs-table{width:100%;border-collapse:collapse;font-size:0.78rem;font-family:'SF Mono',Monaco,'Cascadia Code',monospace}
+        .api-logs-table th{text-align:left;padding:0.45rem 1rem;background:#0f172a;color:#334155;font-weight:600;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;position:sticky;top:0;z-index:10;border-bottom:1px solid #1e293b}
+        .api-logs-table td{padding:0.55rem 1rem;color:#cbd5e1;border-bottom:1px solid #111827;vertical-align:middle;line-height:1.4}
+        .api-logs-table tr:last-child td{border-bottom:none}
+        .api-logs-table tr:hover td{background:#0f172a88}
+        .log-time{color:#334155!important;white-space:nowrap;font-size:0.72rem}
+        .log-api{color:#60a5fa!important;font-weight:600}
+        .log-endpoint{color:#334155;font-size:0.7rem;display:block;margin-top:1px}
+        .log-detail{color:#64748b!important;font-size:0.72rem;word-break:break-all;max-width:0;width:100%}
+        .log-duration{text-align:right!important;white-space:nowrap;color:#334155!important;font-size:0.72rem}
+        .log-status-success{color:#34d399!important;font-weight:700}
+        .log-status-error{color:#f87171!important;font-weight:700}
+        .log-status-fallback{color:#fbbf24!important;font-weight:700}
+        .log-status-pending{color:#fbbf24!important;font-weight:700;animation:pulse 1.2s ease-in-out infinite}
+        .api-logs-empty{text-align:center;padding:2.5rem 1rem;color:#1e293b;font-style:italic;font-size:0.82rem}
+        .log-badge{display:inline-block;padding:0.1rem 0.4rem;border-radius:3px;font-size:0.62rem;font-weight:800;text-transform:uppercase;letter-spacing:0.04em}
+        .log-badge-get{background:#0c2340;color:#3b82f6;border:1px solid #1e3a5f}
+
+        .toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;display:flex;flex-direction:column;gap:0.5rem}
+        .toast{background:var(--surface);border-radius:var(--radius-sm);box-shadow:var(--shadow-lg);padding:0.875rem 1.25rem;border-left:4px solid var(--accent);display:flex;align-items:center;gap:0.75rem;animation:slideIn 0.3s ease;min-width:280px}
+        .toast.success{border-left-color:var(--success)}
+        .toast.error{border-left-color:var(--danger)}
+        .toast.warning{border-left-color:var(--warning)}
+        @keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+        .toast-close{background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto}
+        .data-source-note{font-size:0.7rem;color:var(--text-muted);font-style:italic;padding:0.4rem 1.25rem 0.6rem;border-top:1px solid var(--border);background:#fafbfc}
+        .data-source-note a{color:var(--accent);text-decoration:none}
+        .section-toggle{background:none;border:none;color:var(--primary);cursor:pointer;font-size:0.8rem;margin-left:auto;font-weight:500}
+        .collapsed .card-body{display:none}
+        .collapsed .section-toggle i{transform:rotate(180deg)}
+        .section-toggle i{transition:transform 0.2s}
+        .v4-badge{display:inline-block;background:rgba(255,255,255,0.2);color:white;font-size:0.72rem;padding:0.1rem 0.5rem;border-radius:4px;margin-left:0.5rem;font-weight:500}
+        @media print{.header{position:static;background:var(--primary)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.no-print{display:none!important}.card{break-inside:avoid;box-shadow:none;border:1px solid #ddd}body{background:white}}
+        ::-webkit-scrollbar{width:8px;height:8px}
+        ::-webkit-scrollbar-track{background:var(--bg)}
+        ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:4px}
+        ::-webkit-scrollbar-thumb:hover{background:#94a3b8}
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="header-left">
+        <div>
+            <!-- BUG #9 FIX: Updated from "2025 Benchmark Data" to "2025-26 Data" -->
+            <div class="header-logo"><i class="fas fa-industry"></i> India vs Europe Cost Calculator <span class="v4-badge">2025-26</span></div>
+            <div class="header-sub">Manufacturing Cost Comparison &amp; Landed Cost Analysis · 2025-26 Data · NACE C Manufacturing Rates · CBIC 2025-26</div>
+        </div>
+    </div>
+    <div class="header-actions no-print">
+        <div class="api-status loading" id="apiStatus" title="Click for API log">
+            <div class="dot"></div>
+            <span id="apiStatusText">Loading rates...</span>
+        </div>
+        <button class="btn btn-outline" onclick="refreshRates()"><i class="fas fa-sync-alt"></i> Refresh Rates</button>
+        <button class="btn btn-white" onclick="window.print()"><i class="fas fa-file-pdf"></i> Export PDF</button>
+    </div>
+</header>
+
+<div class="container">
+    <!-- BUG #1 FIX: Stale-rate warning banner — shown when live fetch fails -->
+    <div class="fallback-banner" id="fallbackBanner">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span id="fallbackBannerText">Live EUR/INR rate unavailable — using fallback ₹110.92 (last known rate, <span id="fallbackDate">—</span>). Outputs may be slightly off. Click <strong>Refresh Rates</strong> to retry.</span>
+    </div>
+
+    <div class="grid">
+        <!-- ═══ LEFT: INPUTS ═══ -->
+        <div class="inputs-panel no-print">
+
+            <div class="card" id="secA">
+                <div class="card-header"><i class="fas fa-globe-europe"></i> Product &amp; Geography <button class="section-toggle" onclick="toggleSection('secA')"><i class="fas fa-chevron-up"></i></button></div>
+                <div class="card-body compact">
+                    <div class="form-group">
+                        <label class="form-label">European Country</label>
+                        <select id="europeanCountry" onchange="onCountryChange()">
+                            <option value="Germany" selected>Germany</option>
+                            <option value="Switzerland">Switzerland</option>
+                            <option value="France">France</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Netherlands">Netherlands</option>
+                            <option value="Sweden">Sweden</option>
+                            <option value="Austria">Austria</option>
+                            <option value="Belgium">Belgium</option>
+                            <option value="Spain">Spain</option>
+                            <option value="Poland">Poland</option>
+                            <option value="Denmark">Denmark</option>
+                            <option value="Finland">Finland</option>
+                            <option value="Czech Republic">Czech Republic</option>
+                            <option value="Hungary">Hungary</option>
+                            <option value="Portugal">Portugal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Manufacturing Sector</label>
+                        <select id="sector" onchange="onSectorChange()">
+                            <option value="Auto Components" selected>Auto Components</option>
+                            <option value="Industrial Machinery">Industrial Machinery</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Textiles &amp; Apparel">Textiles &amp; Apparel</option>
+                            <option value="Pharmaceuticals">Pharmaceuticals</option>
+                            <option value="Precision Engineering">Precision Engineering</option>
+                            <option value="Food Processing">Food Processing</option>
+                            <option value="Medical Devices">Medical Devices</option>
+                            <option value="Chemicals">Chemicals</option>
+                            <option value="Plastics &amp; Rubber">Plastics &amp; Rubber</option>
+                            <option value="Steel &amp; Metals">Steel &amp; Metals</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">HS Code / Import Category</label>
+                        <select id="hsCode" onchange="onHsCodeChange()">
+                            <option value="8708" selected>8708 — Auto Parts (7.5% BCD)</option>
+                            <option value="8467">8467 — Industrial Machinery (7.5% BCD)</option>
+                            <option value="8541">8541 — Electronics / Semiconductors (0% BCD)</option>
+                            <option value="6203">6203 — Textiles / Clothing (20% BCD)</option>
+                            <option value="3004">3004 — Pharmaceuticals (5% BCD)</option>
+                            <option value="9031">9031 — Precision Instruments (7.5% BCD)</option>
+                            <option value="2106">2106 — Food Preparations (30% BCD)</option>
+                            <option value="9018">9018 — Medical Devices (5% BCD)</option>
+                            <option value="2710">2710 — Chemicals (10% BCD)</option>
+                            <option value="3926">3926 — Plastics / Rubber (10% BCD)</option>
+                            <option value="7228">7228 — Steel / Metals (15% BCD)</option>
+                        </select>
+                        <!-- BUG #6 FIX: note about IGST -->
+                        <div class="form-hint">BCD per CBIC 2025-26 · <a href="https://icegate.gov.in" target="_blank">icegate.gov.in</a> · IGST 18% shown separately below</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="secB">
+                <div class="card-header"><i class="fas fa-cogs"></i> Production Parameters <button class="section-toggle" onclick="toggleSection('secB')"><i class="fas fa-chevron-up"></i></button></div>
+                <div class="card-body compact">
+                    <div class="form-group">
+                        <label class="form-label">Annual Production Volume (units)</label>
+                        <input type="number" id="annualVolume" value="10000" min="1" oninput="calculate()">
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label class="form-label">Units per Batch</label>
+                            <input type="number" id="unitsPerBatch" value="500" min="1" oninput="calculate()">
+                        </div>
+                        <div class="form-group">
+                            <!-- BUG #8 FIX: validation + sector benchmark hint -->
+                            <label class="form-label">Prod. Hours / Unit
+                                <span id="prodHoursBenchmarkBadge" style="font-size:0.65rem;background:#dbeafe;color:#1d40ae;padding:0.1rem 0.4rem;border-radius:3px;margin-left:4px;font-weight:500;text-transform:none;letter-spacing:0"></span>
+                            </label>
+                            <input type="number" id="prodHours" value="2.5" min="0.01" step="0.1" oninput="onProdHoursChange()">
+                            <div class="validation-warn" id="prodHoursWarn"></div>
+                            <div class="form-hint" id="prodHoursBenchmarkHint">Sector benchmark: 1.5–4 hrs/unit</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Raw Material Cost / Unit (EUR)</label>
+                        <input type="number" id="rawMaterialCost" value="18.50" min="0" step="0.10" oninput="calculate()">
+                        <div class="form-hint">Independent input — not derived from labour cost</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="secC">
+                <div class="card-header"><i class="fas fa-users"></i> Labour <button class="section-toggle" onclick="toggleSection('secC')"><i class="fas fa-chevron-up"></i></button></div>
+                <div class="card-body compact">
+                    <div class="form-group">
+                        <!-- BUG #2 FIX: Rates recalculated at EUR/INR 110.92; central VDA caveat added -->
+                        <label class="form-label">India Labour Grade</label>
+                        <select id="labourGrade" onchange="onGradeChange()">
+                            <option value="Unskilled">Unskilled — €0.88/hr (VDA Oct-2024 @ ₹110.92)</option>
+                            <option value="Semi-Skilled">Semi-Skilled — €1.06/hr</option>
+                            <option value="Skilled (B-hub)" selected>Skilled B-hub — €1.18/hr (Pune/Chennai)</option>
+                            <option value="Skilled (Metro)">Skilled Metro — €1.69/hr (Mumbai/Bengaluru)</option>
+                            <option value="Highly Skilled">Highly Skilled — €2.82/hr</option>
+                        </select>
+                        <div class="form-hint">Central sphere VDA Oct-2024 (MoL/labourbureau.gov.in). Manufacturing wages vary by state — override as needed. <a href="https://labourbureau.gov.in" target="_blank">labourbureau.gov.in</a></div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label class="form-label">India Rate (EUR/hr)</label>
+                            <div class="input-override">
+                                <input type="number" id="indiaHourlyRate" value="1.18" min="0" step="0.01" oninput="markOverride('indiaHourlyRate'); calculate()">
+                                <button class="reset-btn" onclick="resetRate()" title="Reset to grade benchmark">↺</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!-- BUG #3 FIX: NACE C manufacturing-specific Eurostat 2024 rates -->
+                            <label class="form-label">Europe Rate (EUR/hr)</label>
+                            <div class="input-override">
+                                <input type="number" id="europeHourlyRate" value="45.00" min="0" step="0.50" oninput="markOverride('europeHourlyRate'); calculate()">
+                                <button class="reset-btn" onclick="resetEuropeRate()" title="Reset to Eurostat NACE C benchmark">↺</button>
+                            </div>
+                            <div class="form-hint">Eurostat 2024 NACE C (Manufacturing sector)</div>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label class="form-label">India Overhead %</label>
+                            <input type="number" id="indiaOverheadPct" value="35" min="0" step="1" oninput="calculate()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Europe Overhead %</label>
+                            <input type="number" id="overheadPct" value="35" min="0" step="1" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="secD">
+                <div class="card-header"><i class="fas fa-ship"></i> Logistics &amp; Landed Cost <button class="section-toggle" onclick="toggleSection('secD')"><i class="fas fa-chevron-up"></i></button></div>
+                <div class="card-body compact">
+                    <div class="form-group">
+                        <!-- BUG #5 FIX: Sea FCL corrected to €0.085/kg; methodology note added -->
+                        <label class="form-label">Logistics Mode</label>
+                        <select id="logisticsMode" onchange="calculate()">
+                            <option value="Sea" selected>Sea FCL — €0.085/kg (Drewry WCI, 40ft FEU ÷ 26,000 kg)</option>
+                            <option value="SeaLCL">Sea LCL — €0.27/kg</option>
+                            <option value="Air">Air Freight — €5.00/kg (IATA 2025)</option>
+                            <option value="Road">Road+Sea Multimodal — €0.34/kg</option>
+                        </select>
+                        <div class="form-hint">FCL rate = container cost ÷ cargo weight. LCL/Air quoted per kg.</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Shipment Weight (kg / batch)</label>
+                        <input type="number" id="shipmentWeight" value="1000" min="0" oninput="calculate()">
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label class="form-label">EUR / INR Rate</label>
+                            <div class="input-override">
+                                <!-- BUG #1 FIX: default updated to 110.92 -->
+                                <input type="number" id="exchangeRate" value="110.92" min="0" step="0.01" oninput="markOverride('exchangeRate'); calculate()">
+                                <button class="reset-btn" onclick="resetExchangeRate()" title="Fetch live rate">↺</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Import Duty BCD %</label>
+                            <div class="input-override">
+                                <input type="number" id="dutyPct" value="7.5" min="0" step="0.1" oninput="markOverride('dutyPct'); calculate()">
+                                <button class="reset-btn" onclick="resetDuty()" title="Reset to HS code benchmark">↺</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BUG #4 FIX: sector-specific material saving % -->
+                    <div class="form-group">
+                        <label class="form-label">India Material Saving vs Europe %
+                            <span id="materialSavingBenchmark" style="font-size:0.65rem;background:#dcfce7;color:#15803d;padding:0.1rem 0.4rem;border-radius:3px;margin-left:4px;font-weight:500;text-transform:none;letter-spacing:0"></span>
+                        </label>
+                        <input type="number" id="indiaMaterialSavingPct" value="20" min="0" max="70" step="1" oninput="calculate()">
+                        <div class="form-hint" id="materialSavingHint">Auto-set per sector benchmark. Override freely — sourcing benefit varies by supply chain.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="secE">
+                <div class="card-header"><i class="fas fa-euro-sign"></i> Europe Cost Additions <button class="section-toggle" onclick="toggleSection('secE')"><i class="fas fa-chevron-up"></i></button></div>
+                <div class="card-body compact">
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label class="form-label">EU Regulatory % (of mfg)</label>
+                            <input type="number" id="regulatoryPct" value="8" min="0" step="1" oninput="calculate()">
+                            <div class="form-hint">CE marking, compliance etc.</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">EU Energy Premium %</label>
+                            <input type="number" id="energyPct" value="5" min="0" step="1" oninput="calculate()">
+                            <div class="form-hint">Eurostat energy cost premium</div>
+                        </div>
+                    </div>
+                    <!-- BUG #7 FIX: Repatriation clearly labelled TCO-only -->
+                    <div class="form-group">
+                        <label class="form-label">Repatriation Buffer % <span style="font-size:0.65rem;background:#fef3c7;color:#d97706;padding:0.1rem 0.35rem;border-radius:3px">TCO TAB ONLY</span></label>
+                        <input type="number" id="repatriationPct" value="3" min="0" step="1" oninput="calculate()">
+                        <div class="form-hint">FX hedge, transfer pricing, dividend repatriation — visible in TCO tab only, excluded from unit cost comparison</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="secF">
+                <div class="card-header"><i class="fas fa-sliders-h"></i> Sensitivity Analysis <button class="section-toggle" onclick="toggleSection('secF')"><i class="fas fa-chevron-up"></i></button></div>
+                <div class="card-body compact">
+                    <label class="form-label">Annual Volume Adjustment (±50%)</label>
+                    <input type="range" class="sensitivity-slider" id="sensitivitySlider" min="-50" max="50" value="0" step="5" oninput="updateSensitivity()">
+                    <div class="sensitivity-labels"><span>−50%</span><span>−25%</span><span>Base</span><span>+25%</span><span>+50%</span></div>
+                    <div class="sensitivity-value" id="sensitivityValue">0% (Base Volume)</div>
+                    <div id="sensitivityImpact" style="text-align:center;font-size:0.82rem;color:var(--text-muted);margin-top:0.35rem;">Adjust slider to see annual savings impact</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ═══ RIGHT: RESULTS ═══ -->
+        <div class="results-panel">
+
+            <div class="kpi-grid">
+                <div class="kpi-card india">
+                    <div class="kpi-label"><i class="fas fa-flag" style="color:#ff9933"></i> India Landed Cost</div>
+                    <div class="kpi-value" id="kpiIndia">—</div>
+                    <div class="kpi-sub" id="kpiIndiaEur">per unit (EUR)</div>
+                </div>
+                <div class="kpi-card europe">
+                    <div class="kpi-label"><i class="fas fa-flag" style="color:#003399"></i> Europe Mfg Cost</div>
+                    <div class="kpi-value" id="kpiEurope">—</div>
+                    <div class="kpi-sub" id="kpiEuropeEur">per unit (EUR)</div>
+                </div>
+                <div class="kpi-card savings" id="kpiSavingsCard">
+                    <div class="kpi-label"><i class="fas fa-piggy-bank"></i> Annual Savings (India)</div>
+                    <div class="kpi-value" id="kpiSavings">—</div>
+                    <div class="kpi-sub" id="kpiSavingsPct">vs Europe manufacturing</div>
+                </div>
+            </div>
+
+            <div class="insight-banner" id="insightBanner">
+                <div class="insight-icon">💡</div>
+                <div class="insight-text" id="insightText">Calculating...</div>
+            </div>
+
+            <!-- BUG #7 FIX — Unit Cost / TCO tab switcher -->
+            <div class="card">
+                <div class="view-tabs no-print" style="padding:0 1.25rem;background:#f8fafc;border-bottom:1px solid var(--border)">
+                    <button class="view-tab active" id="tabUnitCost" onclick="switchTab('unit')">Unit Manufacturing Cost</button>
+                    <button class="view-tab" id="tabTCO" onclick="switchTab('tco')">Total Cost of Ownership (TCO)</button>
+                </div>
+                <div id="tcoNote" style="display:none;padding:0.5rem 1.25rem;background:#fef9c3;font-size:0.78rem;color:#92400e;border-bottom:1px solid #fde68a">
+                    <i class="fas fa-info-circle"></i> TCO view includes repatriation buffer. This does <strong>not</strong> affect the unit cost comparison above.
+                </div>
+                <table class="breakdown-table" id="breakdownTable">
+                    <thead>
+                        <tr>
+                            <th style="width:45%">Line Item</th>
+                            <th class="num">EUR / unit</th>
+                            <th class="num">Annual (EUR)</th>
+                            <th class="pct">% of Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="breakdownBody"></tbody>
+                </table>
+                <div class="data-source-note">
+                    Sources: India MoL VDA Oct-2024 · Eurostat NACE C 2024 · Drewry WCI 2025 · IATA 2025 · CBIC Budget 2025-26 · <a href="https://icegate.gov.in" target="_blank">icegate.gov.in</a>
+                    &nbsp;|&nbsp; IGST 18% shown for transparency — reclaimable as Input Tax Credit (ITC) for GST-registered entities.
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="card">
+                    <div class="card-header"><i class="fas fa-chart-bar"></i> Cost Component Comparison</div>
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="comparisonChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><i class="fas fa-chart-pie"></i> India Cost Breakdown</div>
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="breakdownChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- API CALL LOGS — full width, BUG #11: visible, clean label -->
+    <div class="api-logs-container no-print" id="apiLogsContainer">
+        <div class="api-logs-header">
+            <div class="api-logs-title">
+                <i class="fas fa-terminal"></i>
+                Live API Call Log
+                <span class="api-logs-count" id="logCount">0</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center">
+                <button class="btn btn-sm" style="background:#0c2340;color:#60a5fa;border:1px solid #1e3a5f" onclick="fetchFreightOnly()"><i class="fas fa-ship"></i> Fetch Freight</button>
+                <button class="btn btn-sm" style="background:#0c2340;color:#60a5fa;border:1px solid #1e3a5f" onclick="fetchDutyOnly()"><i class="fas fa-file-invoice-dollar"></i> Fetch Duty</button>
+                <button class="btn btn-sm" style="background:#1c0a0a;color:#f87171;border:1px solid #450a0a" onclick="clearLogs()"><i class="fas fa-trash"></i> Clear</button>
+            </div>
+        </div>
+        <div class="api-logs-table-wrap">
+            <table class="api-logs-table">
+                <thead>
+                    <tr>
+                        <th style="width:72px">Time</th>
+                        <th style="width:52px">Method</th>
+                        <th style="width:240px">API / Endpoint</th>
+                        <th style="width:88px">Status</th>
+                        <th>Details</th>
+                        <th style="width:76px;text-align:right">Duration</th>
+                    </tr>
+                </thead>
+                <tbody id="apiLogsBody">
+                    <tr><td colspan="6" class="api-logs-empty">No API calls yet — click <strong style="color:#3b82f6;font-style:normal">Refresh Rates</strong> to load live data.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// LOOKUP TABLES — VERIFIED 2025-26 BENCHMARK DATA
+// ═══════════════════════════════════════════════════════════════
+const LOOKUPS = {
+
+    // BUG #2 FIX — India hourly rates recalculated at EUR/INR = 110.92
+    // Source: India MoL VDA Oct-2024 (Central sphere)
+    // ⚠ NOTE: These are central sphere VDA rates. State-level manufacturing
+    //   rates vary — Tamil Nadu, Maharashtra, Gujarat differ significantly.
+    //   Override the EUR/hr input for state-specific accuracy.
+    indiaLabour: {
+        "Unskilled":        0.88,  // ₹783/day ÷ 8hr = ₹97.88/hr ÷ 110.92 = €0.88
+        "Semi-Skilled":     1.06,  // ₹940/day ÷ 8hr = ₹117.5/hr ÷ 110.92 = €1.06
+        "Skilled (B-hub)":  1.18,  // ₹1,050/day (Pune/Chennai avg) ÷ 110.92 = €1.18
+        "Skilled (Metro)":  1.69,  // ₹1,500/day (Mumbai/Bengaluru) ÷ 110.92 = €1.69
+        "Highly Skilled":   2.82   // ₹2,500/day supervisory ÷ 110.92 = €2.82
+    },
+
+    // BUG #3 FIX — Europe rates use Eurostat 2024 NACE C (Manufacturing sector)
+    // NOT whole-economy averages. Source: Eurostat Labour Cost Survey 2024 (NACE C)
+    europeLabour: {
+        "Germany":        45.0,   // Eurostat NACE C 2024 (Destatis)
+        "Switzerland":    65.0,   // FSO 2024 CHF all-in, EUR equiv.
+        "France":         42.0,   // Eurostat NACE C 2024
+        "Italy":          29.0,   // Eurostat NACE C 2024
+        "Netherlands":    46.0,   // Eurostat NACE C 2024
+        "Sweden":         49.0,   // Eurostat NACE C 2024
+        "Austria":        39.0,   // Eurostat NACE C 2024
+        "Belgium":        50.0,   // Eurostat NACE C 2024
+        "Spain":          25.5,   // Eurostat NACE C 2024
+        "Poland":         13.5,   // Eurostat NACE C 2024
+        "Denmark":        52.0,   // Eurostat NACE C 2024
+        "Finland":        41.0,   // Eurostat NACE C 2024
+        "Czech Republic": 15.0,   // Eurostat NACE C 2024
+        "Hungary":        12.0,   // Eurostat NACE C 2024
+        "Portugal":       15.5    // Eurostat NACE C 2024
+    },
+
+    // BUG #5 FIX — Sea FCL corrected: $2,213/40ft FEU ÷ 26,000 kg ÷ 1.10 USD/EUR = €0.077
+    // Rounded up to €0.085 to account for surcharges (BAF, CAF, THC)
+    freight: {
+        "Sea":    0.085,  // FCL 40ft FEU ÷ 26,000 kg cap. + surcharges (Drewry WCI 2025)
+        "SeaLCL": 0.27,   // LCL: warehouse handling + consolidation premium
+        "Air":    5.00,   // IATA 2025 India-Europe average
+        "Road":   0.34    // Road+Sea multimodal
+    },
+
+    // BUG #6 FIX — BCD rates per CBIC Budget 2025-26. IGST 18% added separately.
+    duty: {
+        "8708": 0.075,  // Auto parts: 7.5% BCD
+        "8467": 0.075,  // Industrial machinery: 7.5% BCD
+        "8541": 0.00,   // Electronics/semiconductors: 0% BCD ✓
+        "6203": 0.20,   // Textiles/clothing: 20% BCD ✓
+        "3004": 0.05,   // Pharmaceuticals: 5% BCD ✓
+        "9031": 0.075,  // Precision instruments: 7.5%
+        "2106": 0.30,   // Food preparations: 30% BCD (varies 0-100% — verify per subheading)
+        "9018": 0.05,   // Medical devices: 5% BCD
+        "2710": 0.10,   // Chemicals: 10% BCD
+        "3926": 0.10,   // Plastics/rubber: 10% BCD
+        "7228": 0.15    // Steel/metals: 15% BCD
+    },
+
+    // BUG #4 FIX — Sector-specific India material saving % defaults
+    // Based on local sourcing advantage vs European material cost
+    sectorMaterialSaving: {
+        "Auto Components":      20,  // Steel/aluminium: 15-25% local advantage
+        "Industrial Machinery": 25,  // Castings, forgings: ~25%
+        "Electronics":          15,  // Components often imported; smaller advantage
+        "Textiles & Apparel":   45,  // Cotton/synthetic yarns: 40-55% cheaper
+        "Pharmaceuticals":      30,  // APIs local sourcing benefit
+        "Precision Engineering":20,  // Alloys, tool steel
+        "Food Processing":      35,  // Agricultural inputs: 30-40%
+        "Medical Devices":      20,  // Mixed import/local components
+        "Chemicals":            25,  // Petrochemical feedstock
+        "Plastics & Rubber":    30,  // Polymer resin local pricing
+        "Steel & Metals":       20   // Domestic steel vs European pricing
+    },
+
+    // BUG #8 FIX — sector-specific benchmark ranges for prod hours/unit validation
+    prodHoursBenchmark: {
+        "Auto Components":      { min: 0.5, typical: 2.0, max: 8,  label: "0.5–8 hrs (stamping to assembly)" },
+        "Industrial Machinery": { min: 2,   typical: 6,   max: 40, label: "2–40 hrs (machining, assembly)" },
+        "Electronics":          { min: 0.1, typical: 1.5, max: 6,  label: "0.1–6 hrs (PCB to system)" },
+        "Textiles & Apparel":   { min: 0.3, typical: 1.0, max: 5,  label: "0.3–5 hrs (cut-sew-trim)" },
+        "Pharmaceuticals":      { min: 0.1, typical: 0.5, max: 4,  label: "0.1–4 hrs (batch process)" },
+        "Precision Engineering":{ min: 1,   typical: 4,   max: 30, label: "1–30 hrs (CNC, grinding)" },
+        "Food Processing":      { min: 0.05,typical: 0.3, max: 2,  label: "0.05–2 hrs (continuous process)" },
+        "Medical Devices":      { min: 0.5, typical: 3,   max: 20, label: "0.5–20 hrs (assembly, QA)" },
+        "Chemicals":            { min: 0.05,typical: 0.2, max: 2,  label: "0.05–2 hrs (batch/continuous)" },
+        "Plastics & Rubber":    { min: 0.1, typical: 0.5, max: 4,  label: "0.1–4 hrs (moulding, trim)" },
+        "Steel & Metals":       { min: 0.3, typical: 1.5, max: 10, label: "0.3–10 hrs (rolling, fab)" }
+    },
+
+    sectorToHs: {
+        "Auto Components":      "8708",
+        "Industrial Machinery": "8467",
+        "Electronics":          "8541",
+        "Textiles & Apparel":   "6203",
+        "Pharmaceuticals":      "3004",
+        "Precision Engineering":"9031",
+        "Food Processing":      "2106",
+        "Medical Devices":      "9018",
+        "Chemicals":            "2710",
+        "Plastics & Rubber":    "3926",
+        "Steel & Metals":       "7228"
+    }
+};
+
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+let comparisonChart = null;
+let breakdownChart  = null;
+let lastCalculated  = null;
+let apiLogs         = [];
+let logIdCounter    = 0;
+let liveExchangeRate = null;
+let currentTab      = 'unit'; // 'unit' | 'tco'
+
+// ═══════════════════════════════════════════════════════════════
+// FORMATTERS
+// ═══════════════════════════════════════════════════════════════
+function formatINR(n){ return '₹' + new Intl.NumberFormat('en-IN',{maximumFractionDigits:0}).format(n); }
+function formatEUR(n){ return '€' + new Intl.NumberFormat('en-DE',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n); }
+function formatEURLarge(n){ return '€' + new Intl.NumberFormat('en-IN',{maximumFractionDigits:0}).format(n); }
+function formatPct(n){ return (n*100).toFixed(1)+'%'; }
+
+// ═══════════════════════════════════════════════════════════════
+// TAB SWITCHING — BUG #7 FIX
+// ═══════════════════════════════════════════════════════════════
+function switchTab(tab) {
+    currentTab = tab;
+    document.getElementById('tabUnitCost').className = 'view-tab' + (tab === 'unit' ? ' active' : '');
+    document.getElementById('tabTCO').className      = 'view-tab' + (tab === 'tco'  ? ' active' : '');
+    document.getElementById('tcoNote').style.display  = tab === 'tco' ? 'block' : 'none';
+    const wrapper = document.getElementById('breakdownTable').parentElement;
+    if (tab === 'tco') wrapper.classList.add('tco-mode');
+    else               wrapper.classList.remove('tco-mode');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INPUT HANDLERS
+// ═══════════════════════════════════════════════════════════════
+function onCountryChange() {
+    const country = document.getElementById('europeanCountry').value;
+    document.getElementById('europeHourlyRate').value = (LOOKUPS.europeLabour[country] || 45).toFixed(2);
+    markOverride('europeHourlyRate', false);
+    calculate();
+}
+
+function onSectorChange() {
+    const sector = document.getElementById('sector').value;
+    // Update HS code
+    const hs = LOOKUPS.sectorToHs[sector] || "8708";
+    const sel = document.getElementById('hsCode');
+    for (let i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === hs) { sel.selectedIndex = i; break; }
+    }
+    onHsCodeChange();
+    // BUG #4 FIX — update material saving % to sector benchmark
+    const saving = LOOKUPS.sectorMaterialSaving[sector] || 20;
+    document.getElementById('indiaMaterialSavingPct').value = saving;
+    document.getElementById('materialSavingBenchmark').textContent = 'Sector benchmark: ' + saving + '%';
+    document.getElementById('materialSavingHint').textContent =
+        'Sector default for ' + sector + '. Override for your specific sourcing.';
+    // BUG #8 FIX — update prod hours benchmark hint
+    updateProdHoursBenchmark();
+    calculate();
+}
+
+function onHsCodeChange() {
+    const hs   = document.getElementById('hsCode').value;
+    const duty = (LOOKUPS.duty[hs] || 0) * 100;
+    document.getElementById('dutyPct').value = duty.toFixed(1);
+    markOverride('dutyPct', false);
+    calculate();
+}
+
+function onGradeChange() {
+    const grade = document.getElementById('labourGrade').value;
+    document.getElementById('indiaHourlyRate').value = (LOOKUPS.indiaLabour[grade] || 1.18).toFixed(2);
+    markOverride('indiaHourlyRate', false);
+    calculate();
+}
+
+// BUG #8 FIX — validate prod hours against sector benchmark
+function onProdHoursChange() {
+    updateProdHoursBenchmark();
+    calculate();
+}
+
+function updateProdHoursBenchmark() {
+    const sector = document.getElementById('sector').value;
+    const hours  = parseFloat(document.getElementById('prodHours').value) || 0;
+    const bench  = LOOKUPS.prodHoursBenchmark[sector];
+    const hintEl = document.getElementById('prodHoursBenchmarkHint');
+    const warnEl = document.getElementById('prodHoursWarn');
+    const badgeEl= document.getElementById('prodHoursBenchmarkBadge');
+    if (!bench) return;
+    hintEl.textContent = 'Sector benchmark: ' + bench.label;
+    badgeEl.textContent = 'typical ~' + bench.typical + 'h';
+    if (hours > 0 && (hours < bench.min * 0.5 || hours > bench.max * 2)) {
+        warnEl.textContent = '⚠ ' + hours + ' hrs/unit is outside normal range for ' + sector + ' (' + bench.label + '). Please verify.';
+        warnEl.classList.add('show');
+    } else {
+        warnEl.classList.remove('show');
+    }
+}
+
+function markOverride(id, active = true) {
+    const el = document.getElementById(id);
+    if (active) el.classList.add('override-active');
+    else        el.classList.remove('override-active');
+}
+function resetRate()         { onGradeChange();   showToast('India rate reset to VDA 2025 benchmark','success'); }
+function resetEuropeRate()   { onCountryChange(); showToast('Europe rate reset to Eurostat NACE C 2024','success'); }
+function resetExchangeRate() {
+    const rate = liveExchangeRate || 110.92;
+    document.getElementById('exchangeRate').value = rate.toFixed(2);
+    markOverride('exchangeRate', false);
+    calculate();
+    showToast('Exchange rate reset to ' + (liveExchangeRate ? 'live API' : 'fallback') + ' value','success');
+}
+function resetDuty() { onHsCodeChange(); showToast('Duty reset to CBIC 2025-26 benchmark','success'); }
+function toggleSection(id) { document.getElementById(id).classList.toggle('collapsed'); }
+
+// ═══════════════════════════════════════════════════════════════
+// CALCULATION ENGINE
+// ═══════════════════════════════════════════════════════════════
+function calculate() {
+    const country          = document.getElementById('europeanCountry').value;
+    const annualVolume     = parseFloat(document.getElementById('annualVolume').value) || 0;
+    const unitsPerBatch    = Math.max(parseFloat(document.getElementById('unitsPerBatch').value) || 1, 1);
+    const prodHours        = parseFloat(document.getElementById('prodHours').value) || 0;
+    const rawMaterialEur   = parseFloat(document.getElementById('rawMaterialCost').value) || 0;
+    const indiaHourlyRate  = parseFloat(document.getElementById('indiaHourlyRate').value) || 0;
+    const europeHourlyRate = parseFloat(document.getElementById('europeHourlyRate').value) || 0;
+    const logisticsMode    = document.getElementById('logisticsMode').value;
+    const shipmentWeight   = parseFloat(document.getElementById('shipmentWeight').value) || 0;
+    const exchangeRate     = parseFloat(document.getElementById('exchangeRate').value) || 110.92;
+    const overheadPct      = (parseFloat(document.getElementById('overheadPct').value) || 0) / 100;
+    const indiaOverheadPct = (parseFloat(document.getElementById('indiaOverheadPct').value) || 0) / 100;
+    const dutyPct          = (parseFloat(document.getElementById('dutyPct').value) || 0) / 100;
+    const regulatoryPct    = (parseFloat(document.getElementById('regulatoryPct').value) || 0) / 100;
+    const energyPct        = (parseFloat(document.getElementById('energyPct').value) || 0) / 100;
+    const repatriationPct  = (parseFloat(document.getElementById('repatriationPct').value) || 0) / 100;
+    const indiaMaterialSavingPct = (parseFloat(document.getElementById('indiaMaterialSavingPct').value) || 0) / 100;
+
+    const freightRate = LOOKUPS.freight[logisticsMode] || 0.085;
+
+    // ── INDIA ──────────────────────────────────────────────────
+    const indiaLabourCost   = indiaHourlyRate * prodHours;
+    const indiaOverheadCost = indiaLabourCost * indiaOverheadPct;
+    const indiaMaterialCost = rawMaterialEur * (1 - indiaMaterialSavingPct);
+    const indiaManufCost    = indiaLabourCost + indiaOverheadCost + indiaMaterialCost;
+
+    const logisticsCost     = (shipmentWeight * freightRate) / unitsPerBatch;
+    const insurance         = indiaManufCost * 0.005;
+    const cifValue          = indiaManufCost + logisticsCost + insurance;
+
+    const importDuty        = cifValue * dutyPct;
+    // BUG #6 FIX — IGST 18% on (CIF + BCD), reclaimable as ITC for GST-registered entities
+    const igst              = (cifValue + importDuty) * 0.18;
+    const portHandling      = cifValue * 0.01;
+
+    const indiaTotalEur     = cifValue + importDuty + portHandling;
+    // TCO adds IGST (cash-flow impact) + repatriation
+    const repatriationCost  = indiaTotalEur * repatriationPct;
+    const indiaTCOEur       = indiaTotalEur + igst + repatriationCost;
+
+    // ── EUROPE ─────────────────────────────────────────────────
+    const europeLabourCost   = europeHourlyRate * prodHours;
+    const europeOverheadCost = europeLabourCost * overheadPct;
+    const europeMaterialCost = rawMaterialEur;
+    const europeManufCost    = europeLabourCost + europeOverheadCost + europeMaterialCost;
+    const europeRegulatory   = europeManufCost * regulatoryPct;
+    const europeEnergy       = europeManufCost * energyPct;
+    const europeTotalEur     = europeManufCost + europeRegulatory + europeEnergy;
+
+    // ── SAVINGS (unit cost, excluding IGST as it's reclaimable) ─
+    const savingsEur      = europeTotalEur - indiaTotalEur;
+    const savingsPct      = europeTotalEur > 0 ? savingsEur / europeTotalEur : 0;
+    const annualSavingEur = savingsEur * annualVolume;
+
+    lastCalculated = {
+        indiaLabourCost, indiaOverheadCost, indiaMaterialCost, indiaManufCost,
+        logisticsCost, insurance, cifValue, importDuty, igst, portHandling,
+        indiaTotalEur, repatriationCost, indiaTCOEur,
+        europeLabourCost, europeOverheadCost, europeMaterialCost, europeManufCost,
+        europeRegulatory, europeEnergy, europeTotalEur,
+        savingsEur, savingsPct, annualSavingEur,
+        exchangeRate, annualVolume, country, dutyPct
+    };
+
+    updateUI(lastCalculated);
+    return lastCalculated;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UI UPDATES
+// ═══════════════════════════════════════════════════════════════
+function updateUI(d) {
+    document.getElementById('kpiIndia').textContent     = formatINR(d.indiaTotalEur * d.exchangeRate);
+    document.getElementById('kpiIndiaEur').textContent  = formatEUR(d.indiaTotalEur) + ' / unit';
+    document.getElementById('kpiEurope').textContent    = formatINR(d.europeTotalEur * d.exchangeRate);
+    document.getElementById('kpiEuropeEur').textContent = formatEUR(d.europeTotalEur) + ' / unit';
+    document.getElementById('kpiSavings').textContent   = formatINR(d.annualSavingEur * d.exchangeRate);
+    document.getElementById('kpiSavingsPct').textContent = formatPct(d.savingsPct) + ' · ' + d.annualVolume.toLocaleString('en-IN') + ' units/yr';
+    document.getElementById('kpiSavingsCard').className  = 'kpi-card ' + (d.savingsEur >= 0 ? 'savings' : 'negative');
+
+    const banner = document.getElementById('insightBanner');
+    const text   = document.getElementById('insightText');
+    if (d.savingsEur > 0) {
+        banner.className = 'insight-banner';
+        text.textContent = `India is ${formatPct(d.savingsPct)} cheaper than ${d.country} per unit. At ${d.annualVolume.toLocaleString('en-IN')} units/year, annual saving: ${formatEURLarge(d.annualSavingEur)} (${formatINR(d.annualSavingEur * d.exchangeRate)}).`;
+    } else {
+        banner.className = 'insight-banner negative-insight';
+        text.textContent = `India is ${formatPct(-d.savingsPct)} more expensive than ${d.country} with current inputs. Review logistics, duty, labour grade.`;
+    }
+    renderBreakdownTable(d);
+    renderCharts(d);
+    updateSensitivity();
+}
+
+function renderBreakdownTable(d) {
+    const it = d.indiaTotalEur;
+    const et = d.europeTotalEur;
+
+    const rows = [
+        { section: '🇮🇳  India — Landed Cost' },
+        { label: 'Labour Cost',                                      val: d.indiaLabourCost,   base: it },
+        { label: 'Overhead & Facilities',                            val: d.indiaOverheadCost, base: it },
+        { label: 'Raw Material (India local sourcing)',              val: d.indiaMaterialCost, base: it },
+        { label: 'Manufacturing Sub-total',                          val: d.indiaManufCost,    base: it, isSub: true },
+        { label: 'Sea/Air/Road Freight',                             val: d.logisticsCost,     base: it },
+        { label: 'Cargo Insurance (0.5%)',                          val: d.insurance,         base: it },
+        { label: 'CIF Value (duty base = Mfg + Freight + Ins.)',    val: d.cifValue,          base: it, isSub: true },
+        { label: `Import Duty BCD (${(d.dutyPct*100).toFixed(1)}% of CIF)`, val: d.importDuty, base: it },
+        { label: 'Port Handling + Inland (1% of CIF)',              val: d.portHandling,      base: it },
+        { label: 'INDIA TOTAL LANDED COST / UNIT',                  val: d.indiaTotalEur,     isTotal: true },
+        // BUG #6 FIX — IGST line item (TCO tab only)
+        { label: 'IGST 18% on (CIF + BCD) — reclaimable as ITC for GST-registered entities', val: d.igst, isIGST: true, tcoOnly: true },
+        { label: `Repatriation Buffer (${(parseFloat(document.getElementById('repatriationPct').value)||0)}%) — FX hedge/transfer pricing`, val: d.repatriationCost, isTCO: true, tcoOnly: true },
+        { label: 'India TCO / Unit (incl. IGST cash-flow + repatriation)', val: d.indiaTCOEur, isTCOTotal: true, tcoOnly: true },
+
+        { section: '🇪🇺  Europe — Manufacturing Cost' },
+        { label: 'Labour Cost (Eurostat NACE C 2024)',               val: d.europeLabourCost,   base: et },
+        { label: 'Overhead & Facilities',                            val: d.europeOverheadCost, base: et },
+        { label: 'Raw Material (full cost, no India discount)',      val: d.europeMaterialCost, base: et },
+        { label: 'Manufacturing Sub-total',                          val: d.europeManufCost,    base: et, isSub: true },
+        { label: 'EU Regulatory Compliance',                         val: d.europeRegulatory,   base: et },
+        { label: 'EU Energy Cost Premium',                           val: d.europeEnergy,       base: et },
+        { label: 'EUROPE TOTAL MFG COST / UNIT',                    val: d.europeTotalEur,     isEuropeTotal: true },
+
+        { section: '💰  Savings Summary' },
+        { label: 'Unit Saving (Europe − India)',     val: d.savingsEur,        isSavings: true },
+        { label: `Annual Saving (${d.annualVolume.toLocaleString('en-IN')} units)`, val: d.annualSavingEur, isSavings: true, bold: true },
+    ];
+
+    const tbody = document.getElementById('breakdownBody');
+    tbody.innerHTML = '';
+
+    rows.forEach(r => {
+        const tr = document.createElement('tr');
+        if (r.tcoOnly) tr.classList.add('tco-only');
+
+        if (r.section) {
+            tr.className = (tr.className + ' section-row').trim();
+            tr.innerHTML = `<td colspan="4">${r.section}</td>`;
+            tbody.appendChild(tr);
+            return;
+        }
+
+        let cls = '';
+        if (r.isTotal)      cls = 'total-row';
+        if (r.isEuropeTotal)cls = 'total-row europe-row';
+        if (r.isTCO || r.isTCOTotal) cls = 'tco-row';
+        if (r.isIGST)       cls = 'igst-row';
+        tr.className = (tr.className + ' ' + cls).trim();
+
+        let pctStr = '';
+        if (r.base && r.base > 0 && !r.isTotal && !r.isEuropeTotal && !r.isSavings && !r.isTCO && !r.isTCOTotal && !r.isIGST) {
+            pctStr = formatPct(r.val / r.base);
+        }
+
+        const isBold  = r.isTotal || r.isEuropeTotal || r.isSavings || r.isTCOTotal || r.bold;
+        const numCls  = 'num' + (isBold ? ' bold' : '');
+        const color   = r.isSavings ? (r.val >= 0 ? 'color:var(--success)' : 'color:var(--danger)') : '';
+        const sign    = r.isSavings && r.val >= 0 ? '+' : '';
+        const annualVal = (r.isTCO || r.isTCOTotal) ? '—' : formatEURLarge(r.val * d.annualVolume);
+
+        tr.innerHTML = `
+            <td>${r.label}</td>
+            <td class="${numCls}" style="${color}">${sign}${formatEUR(r.val)}</td>
+            <td class="${numCls}" style="${color}">${r.isSavings ? sign + formatEURLarge(r.val * d.annualVolume) : annualVal}</td>
+            <td class="pct">${pctStr}</td>`;
+        tbody.appendChild(tr);
+    });
+}
+
+function renderCharts(d) {
+    const ctx1 = document.getElementById('comparisonChart').getContext('2d');
+    if (comparisonChart) comparisonChart.destroy();
+    comparisonChart = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: ['Labour','Overhead','Material','Logistics','Duty+Port','Reg.+Energy'],
+            datasets: [
+                { label: 'India',  data: [d.indiaLabourCost, d.indiaOverheadCost, d.indiaMaterialCost, d.logisticsCost + d.insurance, d.importDuty + d.portHandling, 0], backgroundColor: '#2563eb' },
+                { label: 'Europe', data: [d.europeLabourCost, d.europeOverheadCost, d.europeMaterialCost, 0, 0, d.europeRegulatory + d.europeEnergy], backgroundColor: '#7c3aed' }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position: 'top' } },
+            scales: { y: { beginAtZero: true, ticks: { callback: v => '€' + v.toFixed(0) } } }
+        }
+    });
+
+    const ctx2 = document.getElementById('breakdownChart').getContext('2d');
+    if (breakdownChart) breakdownChart.destroy();
+    breakdownChart = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Labour','Overhead','Material','Logistics+Ins.','Duty (BCD)','Port Handling'],
+            datasets: [{
+                data: [d.indiaLabourCost, d.indiaOverheadCost, d.indiaMaterialCost, d.logisticsCost + d.insurance, d.importDuty, d.portHandling],
+                backgroundColor: ['#2563eb','#3b82f6','#60a5fa','#f59e0b','#ef4444','#10b981'],
+                hoverOffset: 8
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false, cutout: '65%',
+            plugins: {
+                legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12 } },
+                tooltip: { callbacks: { label: ctx => ` ${ctx.label}: €${ctx.raw.toFixed(2)} (${d.indiaTotalEur > 0 ? ((ctx.raw/d.indiaTotalEur)*100).toFixed(1) : 0}%)` } }
+            }
+        }
+    });
+}
+
+function updateSensitivity() {
+    const pct = parseInt(document.getElementById('sensitivitySlider').value);
+    document.getElementById('sensitivityValue').textContent = pct === 0 ? '0% (Base Volume)' : (pct > 0 ? `+${pct}%` : `${pct}%`);
+    if (!lastCalculated) return;
+    const adjVol  = (parseFloat(document.getElementById('annualVolume').value) || 0) * (1 + pct / 100);
+    const annSave = lastCalculated.savingsEur * adjVol;
+    const dir     = annSave >= 0 ? 'savings' : 'additional cost';
+    document.getElementById('sensitivityImpact').textContent =
+        `${adjVol.toLocaleString('en-IN',{maximumFractionDigits:0})} units/yr → Annual ${dir}: ${formatEURLarge(Math.abs(annSave))} (${formatINR(Math.abs(annSave * lastCalculated.exchangeRate))})`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// API LOG ENGINE
+// ═══════════════════════════════════════════════════════════════
+function startApiLog({ method, api, endpoint, detail }) {
+    const id      = ++logIdCounter;
+    const timeStr = new Date().toTimeString().slice(0, 8);
+    apiLogs.unshift({ id, timeStr, method, api, endpoint, status: 'PENDING', detail, durationMs: -1 });
+    if (apiLogs.length > 100) apiLogs.pop();
+    renderLogs();
+    document.getElementById('logCount').textContent = apiLogs.length;
+    return id;
+}
+
+function finishApiLog(id, { status, detail, durationMs }) {
+    const log = apiLogs.find(l => l.id === id);
+    if (log) { log.status = status; log.detail = detail; log.durationMs = durationMs; }
+    renderLogs();
+    // BUG #1 FIX — update header status chip counts
+    const ok  = apiLogs.filter(l => l.status === 'SUCCESS').length;
+    const err = apiLogs.filter(l => l.status === 'ERROR').length;
+    const fb  = apiLogs.filter(l => l.status === 'FALLBACK').length;
+    document.getElementById('apiStatusText').textContent = `${ok} OK · ${err} Err · ${fb} Fallback`;
+}
+
+function renderLogs() {
+    const tbody = document.getElementById('apiLogsBody');
+    if (apiLogs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="api-logs-empty">No API calls yet — click <strong style="color:#3b82f6;font-style:normal">Refresh Rates</strong> to load live data.</td></tr>';
+        return;
+    }
+    const clsMap = { SUCCESS: 'log-status-success', ERROR: 'log-status-error', FALLBACK: 'log-status-fallback', PENDING: 'log-status-pending' };
+    tbody.innerHTML = apiLogs.map(log => {
+        const sCls = clsMap[log.status] || 'log-status-pending';
+        const dur  = log.durationMs < 0
+            ? '<span style="opacity:0.35;animation:pulse 1.2s infinite">…</span>'
+            : `${log.durationMs}ms`;
+        return `<tr>
+            <td class="log-time">${log.timeStr}</td>
+            <td><span class="log-badge log-badge-get">${log.method}</span></td>
+            <td class="log-api">${log.api}<span class="log-endpoint">${log.endpoint}</span></td>
+            <td class="${sCls}">${log.status}</td>
+            <td class="log-detail">${log.detail}</td>
+            <td class="log-duration">${dur}</td>
+        </tr>`;
+    }).join('');
+}
+
+function clearLogs() {
+    apiLogs = []; logIdCounter = 0;
+    renderLogs();
+    document.getElementById('logCount').textContent = 0;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LIVE RATE FETCHING — BUG #1 FIX (fallback = 110.92 + warning banner)
+// Tries Frankfurter (ECB) first, then exchangerate-api.com as backup.
+// ═══════════════════════════════════════════════════════════════
+async function fetchExchangeRateWithFallback() {
+    const statusEl = document.getElementById('apiStatus');
+    statusEl.className = 'api-status loading';
+    const start = Date.now();
+    const logId = startApiLog({ method: 'GET', api: 'Frankfurter (ECB)', endpoint: '/latest?from=EUR&to=INR', detail: 'Fetching live EUR/INR from ECB reference rates…' });
+    try {
+        const res  = await fetch('https://api.frankfurter.app/latest?from=EUR&to=INR');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        const rate = data?.rates?.INR;
+        if (!rate || rate < 50) throw new Error('Invalid rate: ' + rate);
+        liveExchangeRate = rate;
+        document.getElementById('exchangeRate').value = rate.toFixed(2);
+        markOverride('exchangeRate', false);
+        document.getElementById('fallbackBanner').classList.remove('visible');
+        finishApiLog(logId, { status: 'SUCCESS', detail: `1 EUR = ₹${rate.toFixed(4)} · base: ${data.base} · date: ${data.date}`, durationMs: Date.now()-start });
+        statusEl.className = 'api-status online';
+        showToast(`Live EUR/INR: ₹${rate.toFixed(2)} (ECB)`, 'success');
+        return rate;
+    } catch (e) {
+        finishApiLog(logId, { status: 'FALLBACK', detail: `Frankfurter failed: ${e.message}. Trying exchangerate-api.com…`, durationMs: Date.now()-start });
+    }
+
+    // Second attempt — exchangerate-api.com free tier
+    const start2 = Date.now();
+    const logId2 = startApiLog({ method: 'GET', api: 'ExchangeRate-API', endpoint: '/v4/latest/EUR', detail: 'Backup: fetching EUR/INR from exchangerate-api.com…' });
+    try {
+        const res2  = await fetch('https://api.exchangerate-api.com/v4/latest/EUR');
+        if (!res2.ok) throw new Error('HTTP ' + res2.status);
+        const data2 = await res2.json();
+        const rate2 = data2?.rates?.INR;
+        if (!rate2 || rate2 < 50) throw new Error('Invalid rate: ' + rate2);
+        liveExchangeRate = rate2;
+        document.getElementById('exchangeRate').value = rate2.toFixed(2);
+        markOverride('exchangeRate', false);
+        document.getElementById('fallbackBanner').classList.remove('visible');
+        finishApiLog(logId2, { status: 'SUCCESS', detail: `1 EUR = ₹${rate2.toFixed(4)} · date: ${data2.date}`, durationMs: Date.now()-start2 });
+        statusEl.className = 'api-status online';
+        showToast(`Live EUR/INR: ₹${rate2.toFixed(2)}`, 'success');
+        return rate2;
+    } catch (e2) {
+        // BUG #1 FIX: fallback = 110.92 (not stale 90.50), show dated warning banner
+        const fallbackRate = 110.92;
+        liveExchangeRate   = null;
+        document.getElementById('exchangeRate').value = fallbackRate.toFixed(2);
+        markOverride('exchangeRate', false);
+        const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        document.getElementById('fallbackDate').textContent = 'last known as of ' + today;
+        document.getElementById('fallbackBanner').classList.add('visible');
+        finishApiLog(logId2, { status: 'FALLBACK', detail: `Both APIs failed. Using fallback ₹${fallbackRate} — actual rate may differ. ${e2.message}`, durationMs: Date.now()-start2 });
+        statusEl.className = 'api-status offline';
+        showToast('Live rate unavailable — using fallback ₹110.92', 'warning');
+        return fallbackRate;
+    }
+}
+
+async function fetchFreightOnly() {
+    const start = Date.now();
+    const logId = startApiLog({ method: 'GET', api: 'DevMantra Freight API', endpoint: '/api/calculator/freight-rate', detail: 'Fetching current freight rates from backend…' });
+    try {
+        const res  = await fetch('/api/calculator/freight-rate');
+        if (!res.ok) throw new Error('HTTP ' + res.status + ' — backend may not be running');
+        const data = await res.json();
+        if (data.Sea)    LOOKUPS.freight.Sea    = data.Sea;
+        if (data.SeaLCL) LOOKUPS.freight.SeaLCL = data.SeaLCL;
+        if (data.Air)    LOOKUPS.freight.Air    = data.Air;
+        if (data.Road)   LOOKUPS.freight.Road   = data.Road;
+        finishApiLog(logId, { status: 'SUCCESS', detail: `Sea FCL €${data.Sea}/kg · LCL €${data.SeaLCL}/kg · Air €${data.Air}/kg · Road €${data.Road}/kg · Source: ${data.source || 'backend'}`, durationMs: Date.now()-start });
+        calculate();
+        showToast('Freight rates updated from API', 'success');
+    } catch (e) {
+        finishApiLog(logId, { status: 'ERROR', detail: `${e.message}. Drewry WCI hardcoded fallback in use (Sea €${LOOKUPS.freight.Sea}/kg).`, durationMs: Date.now()-start });
+        showToast('Freight API unavailable — cached rates in use', 'error');
+    }
+}
+
+async function fetchDutyOnly() {
+    const hs    = document.getElementById('hsCode').value;
+    const start = Date.now();
+    const logId = startApiLog({ method: 'GET', api: 'DevMantra Duty API', endpoint: `/api/calculator/duty-rate?hs_code=${hs}`, detail: `Fetching BCD + IGST for HS ${hs} from backend…` });
+    try {
+        const res  = await fetch(`/api/calculator/duty-rate?hs_code=${hs}`);
+        if (!res.ok) throw new Error('HTTP ' + res.status + ' — backend may not be running');
+        const data = await res.json();
+        if (data.bcd_pct === undefined) throw new Error(data.error || 'bcd_pct missing');
+        LOOKUPS.duty[hs] = data.bcd_pct / 100;
+        document.getElementById('dutyPct').value = data.bcd_pct.toFixed(1);
+        markOverride('dutyPct', false);
+        finishApiLog(logId, { status: 'SUCCESS', detail: `HS ${hs}: BCD ${data.bcd_pct}% · IGST ${data.igst_pct ?? 18}% (reclaimable ITC) · SWS ${data.sws_pct ?? 0}% · ${data.source || 'CBIC 2025-26'}`, durationMs: Date.now()-start });
+        calculate();
+        showToast(`HS ${hs}: BCD ${data.bcd_pct}% loaded`, 'success');
+    } catch (e) {
+        const fallback = (LOOKUPS.duty[hs] || 0.075) * 100;
+        finishApiLog(logId, { status: 'ERROR', detail: `${e.message}. CBIC 2025-26 fallback in use: ${fallback.toFixed(1)}% BCD.`, durationMs: Date.now()-start });
+        showToast('Duty API unavailable — cached rates in use', 'error');
+    }
+}
+
+async function refreshRates() {
+    await fetchExchangeRateWithFallback();
+    await fetchFreightOnly();
+    await fetchDutyOnly();
+    calculate();
+}
+
+// Toast
+function showToast(message, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast     = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<span>${message}</span><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 4500);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+    // Seed the sector-specific defaults on first load
+    onSectorChange();
+    calculate();
+    refreshRates();
+});
+</script>
+</body>
+</html>

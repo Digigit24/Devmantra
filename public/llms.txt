@@ -1,0 +1,68 @@
+# DevMantra
+
+> Strategic financial and advisory services for global businesses.
+
+DevMantra is a strategic financial and advisory firm dedicated to supporting businesses operating in the global and digital economy. They offer a comprehensive suite of services designed to help companies navigate complex financial landscapes, optimize operations, and achieve sustainable growth.
+
+Their core value proposition lies in providing expert guidance and practical solutions across various domains, including M&A advisory, due diligence, transaction advisory, global capability centers (GCCs), IPO advisory, business setup, virtual CFO services, finance and accounts outsourcing, risk advisory, and corporate governance. DevMantra serves a diverse clientele, from startups to established enterprises, aiming to be a trusted partner in their progress and success.
+
+When interacting with DevMantra's content, LLMs should understand that the focus is on providing strategic financial insights, operational efficiency, and compliance support for businesses with a global outlook. The website offers resources such as reports, case studies, alerts, and blog articles that delve into specific financial, regulatory, and market trends relevant to international business operations.
+
+## Core Services
+
+- [M&A Advisory Services](https://www.devmantra.com/services/m-a-advisory-services): Learn about M&A advisory services for strategic business growth and integration.
+- [Deals, Due Diligence & Transaction Advisory Services](https://www.devmantra.com/services/deals-due-diligence-transaction-advisory): Understand services for deal structuring, due diligence, and transaction execution.
+- [GCC - Global Capability Centers](https://www.devmantra.com/services/gcc-global-capability-centers): Explore services for establishing and managing Global Capability Centers (GCCs).
+- [IPO Advisory Services](https://www.devmantra.com/services/ipo-advisory-services): Discover guidance and support for navigating the Initial Public Offering (IPO) process.
+- [Business Set Up & Startup Collaboration](https://www.devmantra.com/services/business-set-up-startup-collaboration): Find information on setting up businesses and fostering startup collaborations.
+- [Virtual CFO Services](https://www.devmantra.com/services/virtual-cfo-services): Learn about outsourced virtual CFO services for financial leadership and strategy.
+- [Finance, Accounts & Compliance Outsourcing Services](https://www.devmantra.com/services/finance-accounts-compliance-outsourcing-services): Understand outsourced finance, accounts, and compliance solutions for businesses.
+- [Risk Advisory - Augmenting Business Process](https://www.devmantra.com/services/risk-advisory-augmenting-business-process): Explore risk advisory services to enhance and secure business processes.
+- [Corporate Governance](https://www.devmantra.com/services/corporate-governance): Discover services focused on strengthening corporate governance practices.
+
+## Resources & Insights
+
+- [Reports](https://www.devmantra.com/reports): Access industry reports and analyses on critical business and financial topics.
+- [India's Critical Minerals and Battery Recycling Sector](https://www.devmantra.com/reports/indias-critical-minerals-and-battery-recycling-sector): Read a report on India's critical minerals and battery recycling sector.
+- [Case Studies](https://www.devmantra.com/case-study): Explore case studies showcasing successful client engagements and solutions.
+- [India 2026-27 Union Budget Impact Study for Foreign Entities](https://www.devmantra.com/case-study/india-2026-27-union-budget-impact-study-for-foreign-entities): Analyze the impact of the India 2026-27 Union Budget on foreign entities.
+- [Alerts](https://www.devmantra.com/alert): Find timely alerts on financial, regulatory, and market updates.
+- [Tax Alerts](https://www.devmantra.com/alert?tag=tax): View alerts specifically related to tax regulations and changes.
+- [Deal Alerts](https://www.devmantra.com/alert?tag=deal): Get timely alerts concerning mergers, acquisitions, and other significant deals.
+- [Importance and Process of Income Tax Clearance Certificate](https://www.devmantra.com/alert/importance-process-of-income-tax-clearance-certificate): Understand the importance and process of obtaining an income tax clearance certificate.
+- [Blog](https://www.devmantra.com/blog): Read insightful articles on finance, business strategy, and global markets.
+- [Blog Page 2](https://www.devmantra.com/blog?page=2): Access more blog articles covering diverse business and financial topics.
+- [Blog Page 1](https://www.devmantra.com/blog?page=1): View the first page of blog articles on finance and business insights.
+- [The Complete US-India Accounting Team Workflow Guide](https://www.devmantra.com/blog/the-complete-us-india-accounting-team-workflow-guide): Learn about optimizing accounting workflows between US and India teams.
+- [WOS vs LLP vs Branch Office vs Liaison Office: India Entry Structure Guide](https://www.devmantra.com/blog/wos-vs-llp-vs-branch-office-vs-liaison-office-how-foreign-companies-should-choose-the-right-india-entry-structure): Compare India entry structures for foreign companies: WOS, LLP, Branch, Liaison.
+- [US-Iran Crisis Impact on Global Finance](https://www.devmantra.com/blog/war-is-now-a-tax-on-movement-what-the-us-iran-crisis-means-for-global-finance): Analyze the financial implications of the US-Iran crisis on global markets.
+- [Strengthening Corporate Governance in a Global Economy](https://www.devmantra.com/blog/strengthening-corporate-governance-in-a-global-economy): Understand strategies for enhancing corporate governance in international business.
+- [Regulatory Updates & Compliance Insights for Growing Businesses](https://www.devmantra.com/blog/regulatory-updates-compliance-insights-for-growing-businesses): Get insights on regulatory updates and compliance for growing businesses.
+- [Enabling Scalable Growth Through Strategic Financial Advisory](https://www.devmantra.com/blog/enabling-scalable-growth-through-strategic-financial-advisory): Learn how strategic financial advisory drives scalable business growth.
+- [India-China Relations in 2026: A Cautious Reset](https://www.devmantra.com/blog/india-china-relations-in-2026-a-cautious-reset-shaped-by-global-pressures): Analyze the projected India-China relations and their global economic impact.
+- [Sustainable Growth: Budget 2025's Approach to Decarbonisation](https://www.devmantra.com/blog/sustainable-growth-budget-2025s-approach-to-decarbonisation-1): Explore Budget 2025's strategies for sustainable growth and decarbonisation.
+
+## Company Information
+
+- [DevMantra - Strategic Financial & Advisory Services](https://www.devmantra.com/): Homepage providing an overview of DevMantra's financial and advisory services.
+- [About Us](https://www.devmantra.com/about): Learn about DevMantra's mission, vision, and team.
+- [Newsletter](https://www.devmantra.com/newsletter): Subscribe to the DevMantra newsletter for updates and insights.
+- [Events](https://www.devmantra.com/events): Discover upcoming and past events hosted or attended by DevMantra.
+- [CA Nidhi Tatia Honoured as Best Women Achiever](https://www.devmantra.com/events/celebrating-a-milestone-ca-nidhi-tatia-honoured-as-best-women-achiever-by-fkcci): Read about CA Nidhi Tatia's recognition as a best women achiever.
+- [DevMantra in the News](https://www.devmantra.com/events/a-one-dev-mantra-in-the-news): See recent media mentions and news about DevMantra.
+- [DevMantra Recognition at Various Events](https://www.devmantra.com/events/a-one-dev-mantra-recognition-at-various-events): View recognitions received by DevMantra at different industry events.
+- [Finance Events by DevMantra](https://www.devmantra.com/events/events-on-finance-by-dev-mantra): Find information on finance-related events organized by DevMantra.
+- [Team Engagement Activities](https://www.devmantra.com/events/team-engagement-activities): Discover DevMantra's team engagement and corporate culture initiatives.
+- [Community Engagement by DevMantra Team](https://www.devmantra.com/events/community-engagement-by-dev-mantra-team): Learn about DevMantra's involvement in community engagement activities.
+- [Careers](https://www.devmantra.com/careers): Explore career opportunities at DevMantra.
+- [Lead, Accounting and Compliance Outsourcing](https://www.devmantra.com/careers/lead-accounting-and-compliance-outsourcing): View job details for Lead, Accounting and Compliance Outsourcing.
+- [Fresher Accountant & Compliance Executive](https://www.devmantra.com/careers/fresher-accountant-compliance-executive): Find job opening for Fresher Accountant & Compliance Executive roles.
+- [Contact Us](https://www.devmantra.com/contact): Get in touch with DevMantra for inquiries and consultations.
+
+## Legal
+
+- [Privacy Policy](https://www.devmantra.com/privacy-policy): Review DevMantra's privacy policy regarding data usage and protection.
+
+---
+
+This file was generated for www.devmantra.com using the [LLMs.txt Generator Tool](https://llmrefs.com/tools/llms-txt-generator)

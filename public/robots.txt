@@ -1,0 +1,233 @@
+# ==============================================================
+# robots.txt for https://www.devmantra.com/
+# Generated: April 2026
+# Purpose: SEO-optimized crawl control for financial advisory site
+# ==============================================================
+
+
+# ---------------------------------------------------------------
+# SECTION 1: Allow all major search engine bots (full access)
+# ---------------------------------------------------------------
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Googlebot-Image
+Allow: /assets/img/
+Allow: /storage/
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 3
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 5
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 3
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 5
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 5
+
+User-agent: facebot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+
+# ---------------------------------------------------------------
+# SECTION 2: Global rules for all other bots
+# ---------------------------------------------------------------
+
+User-agent: *
+
+# Allow all important public-facing pages
+Allow: /about/
+Allow: /services/
+Allow: /blog/
+Allow: /newsletter/
+Allow: /reports/
+Allow: /case-study/
+Allow: /events/
+Allow: /careers/
+Allow: /contact
+Allow: /alert/
+
+# Allow static assets (CSS, JS, images) — critical for rendering score
+Allow: /assets/
+Allow: /storage/
+
+# Disallow admin, backend, and private areas
+Disallow: /admin/
+Disallow: /wp-admin/
+Disallow: /dashboard/
+Disallow: /login/
+Disallow: /register/
+Disallow: /user/
+Disallow: /account/
+Disallow: /api/
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /cache/
+Disallow: /config/
+Disallow: /vendor/
+Disallow: /node_modules/
+
+# Disallow duplicate/low-value URL patterns
+Disallow: /*?*page=
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Disallow: /*?*ref=
+Disallow: /*?*utm_source=
+Disallow: /*?*utm_medium=
+Disallow: /*?*utm_campaign=
+Disallow: /*?*session=
+Disallow: /*?*token=
+Disallow: /blog?page=
+Disallow: /alert?tag=
+Disallow: /newsletter?page=
+
+
+# Disallow search result pages (thin/duplicate content risk)
+Disallow: /search/
+Disallow: /search?
+
+# Disallow print/PDF versions if any exist
+Disallow: /print/
+
+# Crawl-delay for unknown bots
+Crawl-delay: 10
+
+
+# ---------------------------------------------------------------
+# SECTION 3: Block harmful / scraper bots
+# ---------------------------------------------------------------
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: ia_archiver
+Disallow: /
+
+User-agent: serpstatbot
+Disallow: /
+
+User-agent: SEOkicks
+Disallow: /
+
+User-agent: Exabot
+Disallow: /
+
+User-agent: Cliqzbot
+Disallow: /
+
+User-agent: admantx
+Disallow: /
+
+User-agent: Screaming Frog SEO Spider
+Crawl-delay: 20
+
+
+# ---------------------------------------------------------------
+# SECTION 4: AI / LLM Bots — ALLOWED for GEO (Generative Engine
+# Optimization). These bots power AI answers on ChatGPT, Gemini,
+# Perplexity, Claude, Bing Copilot etc. Allowing them helps
+# devmantra.com appear in AI-generated responses and recommendations.
+# ---------------------------------------------------------------
+
+# OpenAI — ChatGPT browsing & training
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic — Claude AI
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Google — Gemini & AI Overviews
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+# Perplexity AI — popular for financial research queries
+User-agent: PerplexityBot
+Allow: /
+
+# Microsoft — Bing Copilot / AI search
+User-agent: Bingbot
+Allow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+
+# Common Crawl — used by many LLMs for training data
+User-agent: CCBot
+Allow: /
+
+# Meta AI
+User-agent: meta-externalagent
+Allow: /
+
+# Apple — Siri & Apple Intelligence
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+
+# ---------------------------------------------------------------
+# SECTION 5: Sitemap declaration
+# ---------------------------------------------------------------
+
+Sitemap: https://www.devmantra.com/sitemap.xml
+
+# If you have multiple sitemaps, add them:
+#https://www.devmantra.com/sitemap.xml
+#https://www.devmantra.com/llms.txt
+# ---------------------------------------------------------------
+# SECTION 6: Host directive (canonical domain preference)
+# ---------------------------------------------------------------
+
+Host: https://www.devmantra.com
