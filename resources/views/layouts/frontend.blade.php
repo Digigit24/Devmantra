@@ -194,16 +194,6 @@
         }
         /* ── Third-party widget overrides (must stay after all other rules) ── */
         .bg-stone-50 { display: none !important; }
-        [id^="rispose_agent_"] {
-            position: fixed !important;
-            height: 0 !important;
-            width: 0 !important;
-            overflow: visible !important;
-            pointer-events: none !important;
-        }
-        [id^="rispose_agent_"] * {
-            pointer-events: auto !important;
-        }
     </style>
 
     @stack('styles')
@@ -421,30 +411,32 @@
     @include('frontend.partials.consultation-modal')
     @include('frontend.partials.popup')
 
-    {{-- OmniDimension Chatbot — commented out, replaced with Rispose
+    <!-- Conferbot chat widget — lazy-loaded on first interaction (scroll/click/key/touch) -->
     <script>
     (function () {
         var loaded = false;
-        function loadChatbot() {
+        function loadConferbot() {
             if (loaded) return;
             loaded = true;
-            var s = document.createElement('script');
-            s.id  = 'omnidimension-web-widget';
-            s.src = 'https://omnidim.io/web_widget.js?secret_key=0aa1ca1064aabd91ea50c5544319e2bd';
-            document.body.appendChild(s);
+            (function (d, s, id) {
+                var js, el = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s);
+                js.async = true;
+                js.src = 'https://cdn.conferbot.com/dist/v1/widget.min.js';
+                js.id = id;
+                js.charset = 'UTF-8';
+                el.parentNode.insertBefore(js, el);
+                js.onload = function () {
+                    window.ConferbotWidget('69fcf4831142c8b2c5c9dbb4', 'live_chat');
+                };
+            })(document, 'script', 'conferbot-js');
         }
         ['scroll', 'click', 'keydown', 'touchstart', 'mousemove'].forEach(function (ev) {
-            window.addEventListener(ev, loadChatbot, { once: true, passive: true });
+            window.addEventListener(ev, loadConferbot, { once: true, passive: true });
         });
-        setTimeout(loadChatbot, 8000);
+        setTimeout(loadConferbot, 7000);
     })();
-    </script>
-    --}}
-
-    <!-- Rispose Agent Widget -->
-    <script type="module">
-        import { Agents } from "https://rispose.com/cdn/v1/sdk.es.js"
-        const agent = Agents.getOrCreate('ag_qkd64r7kxxpt')
     </script>
 
     <!-- Mobile menu toggle — plain JS, no defer, runs immediately -->
