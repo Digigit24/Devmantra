@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Admin\SchemaController;
 use App\Http\Controllers\Admin\AlertController;
 use App\Http\Controllers\Admin\BlogController;
@@ -28,6 +29,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
 use Illuminate\Support\Facades\Route;
+
+// Sitemap
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // Frontend routes
 Route::get('/', [FrontendController::class, 'home'])->name('home');

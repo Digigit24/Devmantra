@@ -1017,6 +1017,7 @@ async function ccLeadSubmit() {
             ccLeadUnlocked = true;
             ccHideLeadGate();
             ccUnlockPrimeInsights();
+            ccGo(TOTAL_STEPS);
         } else {
             const data = await res.json().catch(() => ({}));
             errEl.textContent = data.message || 'Something went wrong. Please try again.';
@@ -1040,6 +1041,7 @@ document.getElementById('ccLeadGate').addEventListener('click', function(e) {
 // ── Step navigation ────────────────────────────────────────────────────────
 function ccGo(n) {
     if(n<1||n>TOTAL_STEPS) return;
+    if(n===TOTAL_STEPS && !ccLeadUnlocked) { ccShowLeadGate(); return; }
     document.getElementById(`step-${currentStep}`).classList.remove('active');
     currentStep=n;
     document.getElementById(`step-${currentStep}`).classList.add('active');

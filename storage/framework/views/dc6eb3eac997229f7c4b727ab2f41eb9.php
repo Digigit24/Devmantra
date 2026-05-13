@@ -23,7 +23,7 @@
     <meta property="og:title" content="<?php if (! empty(trim($__env->yieldContent('title')))): ?><?php echo $__env->yieldContent('title'); ?> <?php echo e($seoTitleSep); ?> <?php endif; ?><?php echo e($seoDefTitle); ?>">
     <meta property="og:description" content="<?php if (! empty(trim($__env->yieldContent('meta_description')))): ?><?php echo $__env->yieldContent('meta_description'); ?><?php else: ?><?php echo e($seoDefDesc); ?><?php endif; ?>">
     <meta property="og:type" content="<?php echo $__env->yieldContent('og_type', 'website'); ?>">
-    <meta property="og:url" content="<?php echo e(url()->current()); ?>">
+    <meta property="og:url" content="<?php echo e(request()->url()); ?>">
     <?php if (! empty(trim($__env->yieldContent('og_image')))): ?>
     <meta property="og:image" content="<?php echo $__env->yieldContent('og_image'); ?>">
     <?php elseif($seoDefOg): ?>
@@ -45,7 +45,7 @@
     <?php if($seoVerify): ?>
     <meta name="google-site-verification" content="<?php echo e($seoVerify); ?>">
     <?php endif; ?>
-    <link rel="canonical" href="<?php if (! empty(trim($__env->yieldContent('canonical_url')))): ?><?php echo $__env->yieldContent('canonical_url'); ?><?php else: ?><?php echo e(url()->current()); ?><?php endif; ?>">
+    <link rel="canonical" href="<?php if (! empty(trim($__env->yieldContent('canonical_url')))): ?><?php echo $__env->yieldContent('canonical_url'); ?><?php else: ?><?php echo e(request()->url()); ?><?php endif; ?>">
 
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo e(asset('assets/img/favicon/favicon.png')); ?>">
 
@@ -194,16 +194,6 @@
         }
         /* ── Third-party widget overrides (must stay after all other rules) ── */
         .bg-stone-50 { display: none !important; }
-        [id^="rispose_agent_"] {
-            position: fixed !important;
-            height: 0 !important;
-            width: 0 !important;
-            overflow: visible !important;
-            pointer-events: none !important;
-        }
-        [id^="rispose_agent_"] * {
-            pointer-events: auto !important;
-        }
     </style>
 
     <?php echo $__env->yieldPushContent('styles'); ?>
@@ -421,12 +411,32 @@
     <?php echo $__env->make('frontend.partials.consultation-modal', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
     <?php echo $__env->make('frontend.partials.popup', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
-    
-
-    <!-- Rispose Agent Widget -->
-    <script type="module">
-        import { Agents } from "https://rispose.com/cdn/v1/sdk.es.js"
-        const agent = Agents.getOrCreate('ag_qkd64r7kxxpt')
+    <!-- Conferbot chat widget — lazy-loaded on first interaction (scroll/click/key/touch) -->
+    <script>
+    (function () {
+        var loaded = false;
+        function loadConferbot() {
+            if (loaded) return;
+            loaded = true;
+            (function (d, s, id) {
+                var js, el = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s);
+                js.async = true;
+                js.src = 'https://cdn.conferbot.com/dist/v1/widget.min.js';
+                js.id = id;
+                js.charset = 'UTF-8';
+                el.parentNode.insertBefore(js, el);
+                js.onload = function () {
+                    window.ConferbotWidget('69fcf4831142c8b2c5c9dbb4', 'live_chat');
+                };
+            })(document, 'script', 'conferbot-js');
+        }
+        ['scroll', 'click', 'keydown', 'touchstart', 'mousemove'].forEach(function (ev) {
+            window.addEventListener(ev, loadConferbot, { once: true, passive: true });
+        });
+        setTimeout(loadConferbot, 7000);
+    })();
     </script>
 
     <!-- Mobile menu toggle — plain JS, no defer, runs immediately -->

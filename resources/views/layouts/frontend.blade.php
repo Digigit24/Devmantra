@@ -23,7 +23,7 @@
     <meta property="og:title" content="@hasSection('title')@yield('title') {{ $seoTitleSep }} @endif{{ $seoDefTitle }}">
     <meta property="og:description" content="@hasSection('meta_description')@yield('meta_description')@else{{ $seoDefDesc }}@endif">
     <meta property="og:type" content="@yield('og_type', 'website')">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:url" content="{{ request()->url() }}">
     @hasSection('og_image')
     <meta property="og:image" content="@yield('og_image')">
     @elseif($seoDefOg)
@@ -45,7 +45,7 @@
     @if($seoVerify)
     <meta name="google-site-verification" content="{{ $seoVerify }}">
     @endif
-    <link rel="canonical" href="@hasSection('canonical_url')@yield('canonical_url')@else{{ url()->current() }}@endif">
+    <link rel="canonical" href="@hasSection('canonical_url')@yield('canonical_url')@else{{ request()->url() }}@endif">
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.png') }}">
 

@@ -51,6 +51,7 @@
             </div>
         </div>
         <div class="col-lg-4">
+            @include('admin.partials._seo-panel', ['model' => $event])
             <div class="dm-table-wrap" style="padding:24px;">
                 <div class="dm-form-group">
                     <label class="dm-form-label">Tags</label>
@@ -84,10 +85,6 @@
                         </div>
                     @endif
                     <input type="file" name="featured_image" class="dm-form-input" accept="image/*">
-                </div>
-                <div class="dm-form-group">
-                    <label class="dm-form-label">Meta Description</label>
-                    <textarea name="meta_description" class="dm-form-textarea" style="min-height:60px;">{{ old('meta_description', $event->meta_description) }}</textarea>
                 </div>
                 <button type="submit" class="dm-btn dm-btn-primary w-100">
                     <i class="fa-solid fa-check"></i> Update Event

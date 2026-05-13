@@ -51,17 +51,22 @@ class AlertController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255',
-            'excerpt' => 'nullable|string',
-            'content' => 'required|string',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'tag' => 'required|in:tax,deal',
-            'meta_description' => 'nullable|string|max:255',
-            'read_time' => 'nullable|string|max:50',
-            'is_featured' => 'nullable|boolean',
-            'status' => 'required|in:draft,published',
-            'published_at' => 'nullable|date',
+            'title'            => 'required|string|max:255',
+            'slug'             => 'nullable|string|max:255',
+            'excerpt'          => 'nullable|string',
+            'content'          => 'required|string',
+            'featured_image'   => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'tag'              => 'required|in:tax,deal',
+            'read_time'        => 'nullable|string|max:50',
+            'is_featured'      => 'nullable|boolean',
+            'status'           => 'required|in:draft,published',
+            'published_at'     => 'nullable|date',
+            'meta_title'       => 'nullable|string|max:120',
+            'meta_description' => 'nullable|string|max:500',
+            'og_image'         => 'nullable|string|max:512',
+            'canonical_url'    => 'nullable|string|max:512',
+            'noindex'          => 'nullable|boolean',
+            'custom_head'      => 'nullable|string',
         ]);
 
         if ($request->hasFile('featured_image')) {
@@ -69,6 +74,7 @@ class AlertController extends Controller
         }
 
         $validated['is_featured'] = $request->boolean('is_featured');
+        $validated['noindex']     = $request->boolean('noindex');
 
         if ($validated['status'] === 'published' && empty($validated['published_at'])) {
             $validated['published_at'] = now();
@@ -87,17 +93,22 @@ class AlertController extends Controller
     public function update(Request $request, Alert $alert)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255',
-            'excerpt' => 'nullable|string',
-            'content' => 'required|string',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'tag' => 'required|in:tax,deal',
-            'meta_description' => 'nullable|string|max:255',
-            'read_time' => 'nullable|string|max:50',
-            'is_featured' => 'nullable|boolean',
-            'status' => 'required|in:draft,published',
-            'published_at' => 'nullable|date',
+            'title'            => 'required|string|max:255',
+            'slug'             => 'nullable|string|max:255',
+            'excerpt'          => 'nullable|string',
+            'content'          => 'required|string',
+            'featured_image'   => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'tag'              => 'required|in:tax,deal',
+            'read_time'        => 'nullable|string|max:50',
+            'is_featured'      => 'nullable|boolean',
+            'status'           => 'required|in:draft,published',
+            'published_at'     => 'nullable|date',
+            'meta_title'       => 'nullable|string|max:120',
+            'meta_description' => 'nullable|string|max:500',
+            'og_image'         => 'nullable|string|max:512',
+            'canonical_url'    => 'nullable|string|max:512',
+            'noindex'          => 'nullable|boolean',
+            'custom_head'      => 'nullable|string',
         ]);
 
         if ($request->hasFile('featured_image')) {
@@ -110,6 +121,7 @@ class AlertController extends Controller
         }
 
         $validated['is_featured'] = $request->boolean('is_featured');
+        $validated['noindex']     = $request->boolean('noindex');
 
         if ($validated['status'] === 'published' && !$alert->published_at && empty($validated['published_at'])) {
             $validated['published_at'] = now();

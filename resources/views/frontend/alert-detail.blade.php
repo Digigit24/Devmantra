@@ -1,10 +1,44 @@
 @extends('layouts.frontend')
-@section('title', $alert->title . ' - DevMantra')
-@section('meta_description', $alert->meta_description ?? $alert->excerpt ?? Str::limit(strip_tags($alert->content), 160))
+@section('title', $alert->meta_title ?: ($alert->title . ' - DevMantra'))
+@section('meta_description', $alert->meta_description ?: ($alert->excerpt ?? Str::limit(strip_tags($alert->content), 160)))
 @section('og_type', 'article')
-@if($alert->featured_image)
+@if($alert->og_image)
+@section('og_image', $alert->og_image)
+@elseif($alert->featured_image)
 @section('og_image', asset('storage/' . $alert->featured_image))
 @endif
+@if($alert->canonical_url)
+@section('canonical_url', $alert->canonical_url)
+@endif
+@if($alert->noindex)
+@section('noindex', '1')
+@endif
+
+@push('schema')
+@php
+    $alertSchema = [
+        '@context'         => 'https://schema.org',
+        '@type'            => 'NewsArticle',
+        'headline'         => $alert->meta_title ?: $alert->title,
+        'description'      => $alert->meta_description ?: ($alert->excerpt ?? Str::limit(strip_tags($alert->content ?? ''), 160)),
+        'datePublished'    => optional($alert->published_at)->toIso8601String() ?? $alert->created_at->toIso8601String(),
+        'dateModified'     => $alert->updated_at->toIso8601String(),
+        'author'           => ['@type' => 'Organization', 'name' => 'DevMantra'],
+        'publisher'        => ['@type' => 'Organization', 'name' => 'DevMantra', 'url' => url('/')],
+        'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => url()->current()],
+    ];
+    if ($alert->featured_image) {
+        $alertSchema['image'] = asset('storage/' . $alert->featured_image);
+    }
+@endphp
+<script type="application/ld+json">{!! json_encode($alertSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}</script>
+{!! \App\Services\SchemaService::breadcrumb([
+    ['name' => 'Home', 'url' => '/'],
+    ['name' => 'Alerts', 'url' => '/alert'],
+    ['name' => $alert->title, 'url' => '/alert/' . $alert->slug],
+]) !!}
+@if($alert->custom_head){!! $alert->custom_head !!}@endif
+@endpush
 
 @push('styles')
 <style>
@@ -19,8 +53,8 @@
     @media (max-width: 767px) { .dm-article-hero-title { font-size: 28px; } }
     .dm-article-featured-section { margin-top: -40px; position: relative; z-index: 2; padding-bottom: 60px; }
     .dm-article-featured-img { border-radius: 16px; overflow: hidden; }
-    .dm-article-featured-img img { width: 100%; height: 480px; object-fit: cover; display: block; }
-    @media (max-width: 767px) { .dm-article-featured-img img { height: 260px; } .dm-article-featured-section { margin-top: -20px; padding-bottom: 40px; } }
+    .dm-article-featured-img img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+    @media (max-width: 767px) { .dm-article-featured-img img { aspect-ratio: 4 / 3; } .dm-article-featured-section { margin-top: -20px; padding-bottom: 40px; } }
     .dm-article-body { padding: 0 0 100px; }
     @media (max-width: 767px) { .dm-article-body { padding: 0 0 60px; } }
     .dm-article-content p { font-size: 17px; line-height: 1.8; color: rgba(0,0,0,0.7); margin-bottom: 28px; font-family: var(--tp-ff-onest); }
@@ -47,8 +81,8 @@
     .dm-sidebar-post { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--tp-border-1); transition: all 0.3s ease; }
     .dm-sidebar-post:first-of-type { border-top: 1px solid var(--tp-border-1); }
     .dm-sidebar-post:hover { padding-left: 6px; }
-    .dm-sidebar-post-thumb { width: 72px; height: 72px; border-radius: 10px; overflow: hidden; flex-shrink: 0; }
-    .dm-sidebar-post-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+    .dm-sidebar-post-thumb { width: 72px; border-radius: 10px; overflow: hidden; flex-shrink: 0; }
+    .dm-sidebar-post-thumb img { width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; display: block; transition: transform 0.4s ease; }
     .dm-sidebar-post:hover .dm-sidebar-post-thumb img { transform: scale(1.06); }
     .dm-sidebar-post-info { flex: 1; min-width: 0; }
     .dm-sidebar-post-category { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: rgba(0,0,0,0.35); margin-bottom: 6px; display: block; font-family: var(--tp-ff-onest); }
@@ -61,7 +95,7 @@
     .dm-related-card { margin-bottom: 30px; transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
     .dm-related-card:hover { transform: translateY(-4px); }
     .dm-related-card-thumb { overflow: hidden; border-radius: 10px; margin-bottom: 20px; }
-    .dm-related-card-thumb img { width: 100%; height: 220px; object-fit: cover; transition: transform 0.5s ease; }
+    .dm-related-card-thumb img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform 0.5s ease; }
     .dm-related-card:hover .dm-related-card-thumb img { transform: scale(1.04); }
     .dm-related-card-category { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: rgba(0,0,0,0.4); margin-bottom: 8px; display: block; font-family: var(--tp-ff-onest); }
     .dm-related-card-title { font-size: 18px; font-weight: 600; color: var(--tp-common-black); line-height: 1.4; font-family: var(--tp-ff-onest); }
@@ -95,7 +129,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="dm-article-featured-img tp_fade_anim" data-delay=".3">
-                    <img src="{{ asset('storage/' . $alert->featured_image) }}" alt="{{ $alert->title }}">
+                    <img src="{{ asset('storage/' . $alert->featured_image) }}" alt="{{ $alert->title }}" loading="lazy">
                 </div>
             </div>
         </div>
@@ -130,7 +164,7 @@
                         <div class="dm-sidebar-post-thumb">
                             <a href="{{ route('alert.show', $sidePost->slug) }}">
                                 @if($sidePost->featured_image)
-                                    <img src="{{ asset( $sidePost->featured_image) }}" alt="{{ $sidePost->title }}">
+                                    <img src="{{ asset( $sidePost->featured_image) }}" alt="{{ $sidePost->title }}" loading="lazy">
                                 @else
                                     <img src="{{ asset('assets/img/home-13/blog/blog-thumb-' . (($loop->index % 3) + 1) . '.jpg') }}" alt="{{ $sidePost->title }}">
                                 @endif

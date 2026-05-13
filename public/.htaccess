@@ -41,6 +41,17 @@
 
     RewriteEngine On
 
+    # ── Canonical domain: force HTTPS ─────────────────────────────────────────
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # ── Canonical domain: force www ───────────────────────────────────────────
+    RewriteCond %{HTTP_HOST} !^www\. [NC]
+    RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # ── Dynamic sitemap — always route to Laravel, bypass static file ─────────
+    RewriteRule ^sitemap\.xml$ index.php [L]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

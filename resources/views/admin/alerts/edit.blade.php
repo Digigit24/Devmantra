@@ -33,6 +33,7 @@
             </div>
         </div>
         <div class="col-lg-4">
+            @include('admin.partials._seo-panel', ['model' => $alert])
             <div class="dm-table-wrap" style="padding:24px;">
                 <div class="dm-form-group">
                     <label class="dm-form-label">Status</label>
@@ -65,10 +66,6 @@
                         </div>
                     @endif
                     <input type="file" name="featured_image" class="dm-form-input" accept="image/*">
-                </div>
-                <div class="dm-form-group">
-                    <label class="dm-form-label">Meta Description</label>
-                    <textarea name="meta_description" class="dm-form-textarea" style="min-height:60px;">{{ old('meta_description', $alert->meta_description) }}</textarea>
                 </div>
                 <div class="dm-form-group">
                     <div class="dm-form-check">

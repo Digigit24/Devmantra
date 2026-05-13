@@ -92,12 +92,13 @@
     }
     .dm-article-featured-img img {
         width: 100%;
-        height: 480px;
+        height: auto;
+        aspect-ratio: 16 / 9;
         object-fit: cover;
         display: block;
     }
     @media (max-width: 767px) {
-        .dm-article-featured-img img { height: 260px; }
+        .dm-article-featured-img img { aspect-ratio: 4 / 3; }
         .dm-article-featured-section { margin-top: -20px; padding-bottom: 40px; }
     }
 
@@ -291,15 +292,16 @@
     }
     .dm-sidebar-post-thumb {
         width: 72px;
-        height: 72px;
         border-radius: 10px;
         overflow: hidden;
         flex-shrink: 0;
     }
     .dm-sidebar-post-thumb img {
         width: 100%;
-        height: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
         object-fit: cover;
+        display: block;
         transition: transform 0.4s ease;
     }
     .dm-sidebar-post:hover .dm-sidebar-post-thumb img {
@@ -372,7 +374,8 @@
     }
     .dm-related-card-thumb img {
         width: 100%;
-        height: 220px;
+        height: auto;
+        aspect-ratio: 16 / 9;
         object-fit: cover;
         transition: transform 0.5s ease;
     }
@@ -433,7 +436,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="dm-article-featured-img tp_fade_anim" data-delay=".3">
-                    <img src="{{ asset('storage/' . $report->featured_image) }}" alt="{{ $report->title }}">
+                    <img src="{{ asset('storage/' . $report->featured_image) }}" alt="{{ $report->title }}" loading="lazy">
                 </div>
             </div>
         </div>
@@ -529,7 +532,7 @@
                     <div class="dm-related-card-thumb">
                         <a href="{{ route('report.show', $post->slug) }}">
                             @if($post->featured_image)
-                                <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}">
+                                <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" loading="lazy">
                             @else
                                 <img src="{{ asset('assets/img/home-13/blog/blog-thumb-' . (($loop->index % 3) + 1) . '.jpg') }}" alt="{{ $post->title }}">
                             @endif

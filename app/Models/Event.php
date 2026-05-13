@@ -23,18 +23,20 @@ class Event extends Model
         'slug',
         'description',
         'featured_image',
-        'meta_description',
         'status',
         'published_at',
         'sort_order',
         'hero_image_url',
         'tags',
+        // SEO panel fields
+        'meta_title', 'meta_description', 'og_image', 'canonical_url', 'noindex', 'custom_head',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
         'sort_order'   => 'integer',
         'tags'         => 'array',
+        'noindex'      => 'boolean',
     ];
 
     public static function booted(): void

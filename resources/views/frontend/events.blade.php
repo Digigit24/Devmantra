@@ -1,6 +1,44 @@
 @extends('layouts.frontend')
-@section('title', ($event->title ?? 'Events') . ' - DevMantra')
-@section('meta_description', $event->meta_description ?? 'Dev Mantra events, news coverage, and media highlights.')
+@section('title', $event->meta_title ?: (($event->title ?? 'Events') . ' - DevMantra'))
+@section('meta_description', $event->meta_description ?: 'Dev Mantra events, news coverage, and media highlights.')
+@section('og_type', 'article')
+@if($event->og_image ?? null)
+@section('og_image', $event->og_image)
+@elseif($event->featured_image ?? null)
+@section('og_image', $event->featured_image)
+@endif
+@if($event->canonical_url ?? null)
+@section('canonical_url', $event->canonical_url)
+@endif
+@if($event->noindex ?? false)
+@section('noindex', '1')
+@endif
+
+@push('schema')
+@php
+    $eventSchema = [
+        '@context'         => 'https://schema.org',
+        '@type'            => 'Event',
+        'name'             => $event->title ?? '',
+        'description'      => $event->meta_description ?: Str::limit(strip_tags($event->description ?? ''), 160),
+        'startDate'        => optional($event->published_at)->toIso8601String() ?? ($event->created_at->toIso8601String()),
+        'organizer'        => ['@type' => 'Organization', 'name' => 'DevMantra', 'url' => url('/')],
+        'eventStatus'      => 'https://schema.org/EventScheduled',
+        'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
+        'url'              => url()->current(),
+    ];
+    if ($event->featured_image ?? null) {
+        $eventSchema['image'] = $event->featured_image;
+    }
+@endphp
+<script type="application/ld+json">{!! json_encode($eventSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}</script>
+{!! \App\Services\SchemaService::breadcrumb([
+    ['name' => 'Home', 'url' => '/'],
+    ['name' => 'Events', 'url' => '/events'],
+    ['name' => $event->title ?? 'Event', 'url' => '/events/' . ($event->slug ?? '')],
+]) !!}
+@if($event->custom_head ?? null){!! $event->custom_head !!}@endif
+@endpush
 
 @push('styles')
 <style>

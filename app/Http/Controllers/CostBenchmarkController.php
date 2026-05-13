@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\CalculatorLead;
+use App\Models\ContactSetting;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 
 class CostBenchmarkController extends Controller
 {
@@ -143,6 +145,26 @@ class CostBenchmarkController extends Controller
         $data['ip_address'] = $request->ip();
 
         CalculatorLead::create($data);
+
+        // Notify admin of new calculator lead
+        try {
+            $adminEmail = ContactSetting::instance()?->email ?: config('mail.from.address');
+            if ($adminEmail) {
+                Mail::raw(
+                    "New India-Europe Calculator Lead\n\n" .
+                    "Name:    {$data['name']}\n" .
+                    "Email:   {$data['email']}\n" .
+                    "Phone:   {$data['phone']}\n" .
+                    "Company: {$data['company']}\n" .
+                    "IP:      {$data['ip_address']}\n" .
+                    "Time:    " . now()->format('d M Y H:i') . " UTC\n\n" .
+                    "View leads: " . url('/admin/calculator-leads'),
+                    fn ($message) => $message
+                        ->to($adminEmail)
+                        ->subject('New Calculator Lead — ' . $data['name'] . ' (' . $data['company'] . ')')
+                );
+            }
+        } catch (\Throwable) {}
 
         return response()->json(['success' => true]);
     }

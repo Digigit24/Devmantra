@@ -18,15 +18,17 @@ class Alert extends Model
         'content',
         'featured_image',
         'tag',
-        'meta_description',
         'read_time',
         'is_featured',
         'status',
         'published_at',
+        // SEO panel fields
+        'meta_title', 'meta_description', 'og_image', 'canonical_url', 'noindex', 'custom_head',
     ];
 
     protected $casts = [
         'is_featured' => 'boolean',
+        'noindex'     => 'boolean',
         'published_at' => 'datetime',
     ];
 

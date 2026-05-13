@@ -134,12 +134,13 @@
     }
     .dm-article-featured-img img {
         width: 100%;
-        height: 480px;
+        height: auto;
+        aspect-ratio: 16 / 9;
         object-fit: cover;
         display: block;
     }
     @media (max-width: 767px) {
-        .dm-article-featured-img img { height: 260px; }
+        .dm-article-featured-img img { aspect-ratio: 4 / 3; }
         .dm-article-featured-section { margin-top: -20px; padding-bottom: 40px; }
     }
 
@@ -333,16 +334,17 @@
     }
     .dm-sidebar-post-thumb {
         width: 72px;
-        height: 72px;
         border-radius: 10px;
         overflow: hidden;
         flex-shrink: 0;
     }
     .dm-sidebar-post-thumb img {
         width: 100%;
-        height: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
         object-fit: cover;
         transition: transform 0.4s ease;
+        display: block;
     }
     .dm-sidebar-post:hover .dm-sidebar-post-thumb img {
         transform: scale(1.06);
@@ -414,7 +416,8 @@
     }
     .dm-related-card-thumb img {
         width: 100%;
-        height: 220px;
+        height: auto;
+        aspect-ratio: 16 / 9;
         object-fit: cover;
         transition: transform 0.5s ease;
     }
@@ -493,7 +496,7 @@
                    
                 <!--<img src="{{  $newsletter->featured_image }}" alt="{{ $newsletter->title }}">-->
                 
-              <img src="{{ asset('storage/' . $newsletter->featured_image) }}" alt="{{ $newsletter->title }}"> 
+              <img src="{{ asset('storage/' . $newsletter->featured_image) }}" alt="{{ $newsletter->title }}" loading="lazy">
             </div>
 
 
@@ -567,7 +570,7 @@
                          <!-- <div class="dm-sidebar-post-thumb">
                             @if($sidePost->featured_image)
                                 <a href="{{ route('newsletter.show', $sidePost->slug) }}">
-                                    <img src="{{ asset('storage/' . $sidePost->featured_image) }}" alt="{{ $sidePost->title }}">
+                                    <img src="{{ asset('storage/' . $sidePost->featured_image) }}" alt="{{ $sidePost->title }}" loading="lazy">
                                 </a>
                             @else
                                 <a href="{{ route('newsletter.show', $sidePost->slug) }}">
@@ -603,8 +606,8 @@
                 <div class="dm-related-card tp_fade_anim" data-delay=".{{ 3 + ($loop->index * 2) }}">
                     <div class="dm-related-card-thumb">
                         <a href="{{ route('newsletter.show', $post->slug) }}">
-                            @if($post->featured_image)
-                                <img src="{{  $post->featured_image }}" alt="{{ $post->title }}">
+                           @if($post->featured_image)
+                                <img src="{{ Str::startsWith($post->featured_image, 'http') ? $post->featured_image : asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" loading="lazy">
                             @else
                                 <img src="{{ asset('assets/img/home-13/blog/blog-thumb-' . (($loop->index % 3) + 1) . '.jpg') }}" alt="{{ $post->title }}">
                             @endif

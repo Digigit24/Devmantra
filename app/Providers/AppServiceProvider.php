@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\ContactSetting;
 use App\Models\Service;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        if ($this->app->isProduction()) {
+            URL::forceScheme('https');
+        }
+
         // Share navigation services with header (cached 10 min, cleared by admin on save)
         View::composer('frontend.partials.header', function ($view) {
             $navServices = Cache::remember('nav.services', 600, function () {

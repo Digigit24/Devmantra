@@ -52,7 +52,6 @@ class EventController extends Controller
             'slug'             => 'nullable|string|max:255',
             'description'      => 'required|string',
             'featured_image'   => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'meta_description' => 'nullable|string|max:255',
             'status'           => 'required|in:draft,published',
             'published_at'     => 'nullable|date',
             'sort_order'       => 'nullable|integer|min:0',
@@ -60,6 +59,12 @@ class EventController extends Controller
             'tags.*'           => 'string|in:events,media-and-news,team-activities,achievements',
             'gallery_images'   => 'nullable|array',
             'gallery_images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'meta_title'       => 'nullable|string|max:120',
+            'meta_description' => 'nullable|string|max:500',
+            'og_image'         => 'nullable|string|max:512',
+            'canonical_url'    => 'nullable|string|max:512',
+            'noindex'          => 'nullable|boolean',
+            'custom_head'      => 'nullable|string',
         ]);
 
         if ($request->hasFile('featured_image')) {
@@ -72,6 +77,7 @@ class EventController extends Controller
 
         $validated['sort_order'] = $validated['sort_order'] ?? 0;
         $validated['tags']       = $validated['tags'] ?? ['events'];
+        $validated['noindex']    = $request->boolean('noindex');
 
         unset($validated['gallery_images']);
         $event = Event::create($validated);
@@ -102,7 +108,6 @@ class EventController extends Controller
             'slug'             => 'nullable|string|max:255',
             'description'      => 'required|string',
             'featured_image'   => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'meta_description' => 'nullable|string|max:255',
             'status'           => 'required|in:draft,published',
             'published_at'     => 'nullable|date',
             'sort_order'       => 'nullable|integer|min:0',
@@ -112,6 +117,12 @@ class EventController extends Controller
             'gallery_images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'remove_gallery'   => 'nullable|array',
             'remove_gallery.*' => 'integer',
+            'meta_title'       => 'nullable|string|max:120',
+            'meta_description' => 'nullable|string|max:500',
+            'og_image'         => 'nullable|string|max:512',
+            'canonical_url'    => 'nullable|string|max:512',
+            'noindex'          => 'nullable|boolean',
+            'custom_head'      => 'nullable|string',
         ]);
 
         if ($request->hasFile('featured_image')) {
@@ -127,6 +138,7 @@ class EventController extends Controller
             $validated['published_at'] = now();
         }
 
+        $validated['noindex'] = $request->boolean('noindex');
         unset($validated['gallery_images'], $validated['remove_gallery']);
         $event->update($validated);
 

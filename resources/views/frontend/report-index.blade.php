@@ -12,7 +12,7 @@
 
     /* Featured Report */
     .dm-report-featured { border-bottom: 1px solid var(--tp-border-1,#eee); padding-bottom: 60px; margin-bottom: 60px; }
-    .dm-report-featured-thumb img { width: 100%; height: 380px; object-fit: cover; border-radius: 12px; }
+    .dm-report-featured-thumb img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; }
     .dm-report-featured-title { font-size: 32px; font-weight: 600; color: var(--tp-common-black,#111); margin-bottom: 16px; line-height: 1.3; font-family: var(--tp-ff-onest); }
     .dm-report-featured-title a { color: inherit; text-decoration: none; }
     .dm-report-featured-title a:hover { opacity: 0.7; }
@@ -20,7 +20,7 @@
     /* Edition Cards */
     .dm-edition-card { margin-bottom: 40px; transition: transform 0.3s; }
     .dm-edition-card:hover { transform: translateY(-4px); }
-    .dm-edition-card-thumb img { width: 100%; height: 220px; object-fit: cover; border-radius: 12px; }
+    .dm-edition-card-thumb img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; }
     .dm-edition-card-date {
         font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
         color: rgba(0,0,0,0.4); display: inline-flex; align-items: center; gap: 8px;

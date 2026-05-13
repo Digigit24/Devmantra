@@ -447,7 +447,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="dm-article-featured-img tp_fade_anim" data-delay=".3">
-                    <img src="{{ asset('storage/' . ($service->featured_image ?? $service->hero_image ?? $service->image)) }}" alt="{{ $service->title }}">
+                    <img src="{{ asset('storage/' . ($service->featured_image ?? $service->hero_image ?? $service->image)) }}" alt="{{ $service->title }}" loading="lazy">
                 </div>
             </div>
         </div>
@@ -488,11 +488,11 @@
                         <div class="dm-sidebar-post-thumb">
                             @if($sideService->image)
                                 <a href="{{ route('service.show', $sideService->slug) }}">
-                                    <img src="{{ asset('storage/' . $sideService->image) }}" alt="{{ $sideService->title }}">
+                                    <img src="{{ asset('storage/' . $sideService->image) }}" alt="{{ $sideService->title }}" loading="lazy">
                                 </a>
                             @elseif($sideService->hero_image)
                                 <a href="{{ route('service.show', $sideService->slug) }}">
-                                    <img src="{{ asset('storage/' . $sideService->hero_image) }}" alt="{{ $sideService->title }}">
+                                    <img src="{{ asset('storage/' . $sideService->hero_image) }}" alt="{{ $sideService->title }}" loading="lazy">
                                 </a>
                             @else
                                 <a href="{{ route('service.show', $sideService->slug) }}">
@@ -529,9 +529,9 @@
                     <div class="dm-related-card-thumb">
                         <a href="{{ route('service.show', $relService->slug) }}">
                             @if($relService->image)
-                                <img src="{{ asset('storage/' . $relService->image) }}" alt="{{ $relService->title }}">
+                                <img src="{{ asset('storage/' . $relService->image) }}" alt="{{ $relService->title }}" loading="lazy">
                             @elseif($relService->hero_image)
-                                <img src="{{ asset('storage/' . $relService->hero_image) }}" alt="{{ $relService->title }}">
+                                <img src="{{ asset('storage/' . $relService->hero_image) }}" alt="{{ $relService->title }}" loading="lazy">
                             @else
                                 <img src="{{ asset('assets/img/home-13/blog/blog-thumb-' . (($loop->index % 3) + 1) . '.jpg') }}" alt="{{ $relService->title }}">
                             @endif
