@@ -14,13 +14,21 @@
         $seoGa4       = $_s['seo_ga4_id']              ?? 'G-MHGXZHPY6P';
         $seoGtm       = $_s['seo_gtm_id']              ?? '';
     ?>
-    <title><?php if (! empty(trim($__env->yieldContent('title')))): ?><?php echo $__env->yieldContent('title'); ?> <?php echo e($seoTitleSep); ?> <?php endif; ?><?php echo e($seoDefTitle); ?></title>
+    <?php
+        // Build the page title once and de-duplicate a trailing brand suffix.
+        // Some content stores meta_title already ending in "— DevMantra"; without this
+        // the layout would append it again → "… — DevMantra — DevMantra".
+        $__rawTitle  = trim(\Illuminate\Support\Facades\View::yieldContent('title'));
+        $__rawTitle  = preg_replace('/\s*[-–—|:]\s*' . preg_quote($seoDefTitle, '/') . '\s*$/iu', '', $__rawTitle);
+        $dmFullTitle = $__rawTitle !== '' ? $__rawTitle . ' ' . $seoTitleSep . ' ' . $seoDefTitle : $seoDefTitle;
+    ?>
+    <title><?php echo e($dmFullTitle); ?></title>
     <meta name="description" content="<?php if (! empty(trim($__env->yieldContent('meta_description')))): ?><?php echo $__env->yieldContent('meta_description'); ?><?php else: ?><?php echo e($seoDefDesc); ?><?php endif; ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
     <!-- OG Tags -->
-    <meta property="og:title" content="<?php if (! empty(trim($__env->yieldContent('title')))): ?><?php echo $__env->yieldContent('title'); ?> <?php echo e($seoTitleSep); ?> <?php endif; ?><?php echo e($seoDefTitle); ?>">
+    <meta property="og:title" content="<?php echo e($dmFullTitle); ?>">
     <meta property="og:description" content="<?php if (! empty(trim($__env->yieldContent('meta_description')))): ?><?php echo $__env->yieldContent('meta_description'); ?><?php else: ?><?php echo e($seoDefDesc); ?><?php endif; ?>">
     <meta property="og:type" content="<?php echo $__env->yieldContent('og_type', 'website'); ?>">
     <meta property="og:url" content="<?php echo e(request()->url()); ?>">
@@ -32,7 +40,7 @@
     <meta property="og:site_name" content="<?php echo e($seoDefTitle); ?>">
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?php if (! empty(trim($__env->yieldContent('title')))): ?><?php echo $__env->yieldContent('title'); ?> <?php echo e($seoTitleSep); ?> <?php endif; ?><?php echo e($seoDefTitle); ?>">
+    <meta name="twitter:title" content="<?php echo e($dmFullTitle); ?>">
     <meta name="twitter:description" content="<?php if (! empty(trim($__env->yieldContent('meta_description')))): ?><?php echo $__env->yieldContent('meta_description'); ?><?php else: ?><?php echo e($seoDefDesc); ?><?php endif; ?>">
     <?php if (! empty(trim($__env->yieldContent('og_image')))): ?>
     <meta name="twitter:image" content="<?php echo $__env->yieldContent('og_image'); ?>">

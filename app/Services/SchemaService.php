@@ -72,14 +72,47 @@ class SchemaService
         $logo    = self::logoUrl();
 
         $schema = [
-            '@context' => 'https://schema.org',
-            '@type'    => 'Organization',
-            'name'     => self::companyName(),
-            'url'      => self::siteUrl(),
-            'logo'     => $logo ? [
+            '@context'    => 'https://schema.org',
+            '@type'       => ['Organization', 'FinancialService'],
+            'name'        => self::companyName(),
+            'legalName'   => 'Dev Mantra Financial Services',
+            'url'         => self::siteUrl(),
+            'logo'        => $logo ? [
                 '@type'  => 'ImageObject',
                 'url'    => $logo,
             ] : null,
+            'description' => 'Audit-grade, CA-led India execution partner for cross-border M&A, India entry / FDI structuring, Virtual CFO, and GCC setup. ₹5,000 Cr+ transactions advised; 20+ years of cross-border execution.',
+            'foundingDate' => '2008',
+            'areaServed'   => ['India', 'Worldwide'],
+            'knowsAbout'   => [
+                'Mergers and Acquisitions',
+                'Cross-border M&A',
+                'India entry and FDI structuring',
+                'Virtual CFO services',
+                'Global Capability Centers (GCC)',
+                'IPO advisory',
+                'DTAA and treaty structuring',
+                'Corporate governance',
+                'Transfer pricing',
+                'GIFT City',
+            ],
+            'founder'     => [
+                '@type' => 'Person',
+                'name'  => 'CA Nidhi Tatia',
+                'jobTitle' => 'Founder Director',
+            ],
+            'address'     => $contact->address ? [
+                '@type'           => 'PostalAddress',
+                'streetAddress'   => $contact->address,
+                'addressLocality' => 'Bengaluru',
+                'addressRegion'   => 'Karnataka',
+                'addressCountry'  => 'IN',
+            ] : [
+                '@type'           => 'PostalAddress',
+                'addressLocality' => 'Bengaluru',
+                'addressRegion'   => 'Karnataka',
+                'addressCountry'  => 'IN',
+            ],
             'sameAs'   => array_values(array_filter([
                 $contact->facebook_url  ?? null,
                 $contact->twitter_url   ?? null,

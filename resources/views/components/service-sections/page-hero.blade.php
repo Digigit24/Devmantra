@@ -180,9 +180,9 @@
                     <div class="tp-section-subtitle-gradient ct  tp_fade_anim" data-delay=".3">
                         {{ $subtitle }}
                     </div>
-                    <h4 class="tp-section-title-onest fs-68 tp-text-revel-anim hero-titlee" data-delay=".5">
+                    <h1 class="tp-section-title-onest fs-68 tp-text-revel-anim hero-titlee" data-delay=".5">
                         {!! nl2br(e($title)) !!}
-                    </h4>
+                    </h1>
                 </div>
                 <div class="cr-hero-content text-center z-index-2">
                     <div class="tp_text_anim">

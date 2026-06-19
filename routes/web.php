@@ -217,6 +217,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('password', [AccountController::class, 'updatePassword'])->name('password.update');
     Route::get('settings', [AccountController::class, 'settings'])->name('settings');
     Route::put('settings', [AccountController::class, 'updateSettings'])->name('settings.update');
+
+    // Artisan cache management
+    Route::post('cache/clear-config', [AccountController::class, 'clearConfig'])->name('cache.clear-config');
+    Route::post('cache/clear-views',  [AccountController::class, 'clearViews'])->name('cache.clear-views');
+    Route::post('cache/clear-cache',  [AccountController::class, 'clearCache'])->name('cache.clear-cache');
+    Route::post('cache/clear-all',    [AccountController::class, 'clearAll'])->name('cache.clear-all');
 });
 
 // Redirect /dashboard to /admin

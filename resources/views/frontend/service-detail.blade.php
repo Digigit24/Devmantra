@@ -17,10 +17,19 @@
 @section('noindex', '1')
 @endif
 
-{{-- Schema stored in custom_head field (Service + BreadcrumbList per service) --}}
+{{-- Schema: manual custom_head wins; otherwise auto-inject Service + Breadcrumb --}}
 @if($service->custom_head)
 @push('custom_head')
 {!! $service->custom_head !!}
+@endpush
+@else
+@push('schema')
+{!! \App\Services\SchemaService::serviceSchema($service) !!}
+{!! \App\Services\SchemaService::breadcrumb([
+    ['name' => 'Home', 'url' => '/'],
+    ['name' => 'Services', 'url' => '/#services'],
+    ['name' => $service->meta_title ?: $service->title],
+]) !!}
 @endpush
 @endif
 

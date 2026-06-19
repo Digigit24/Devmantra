@@ -33,25 +33,29 @@ class PageSeeder extends Seeder
                 'features_title'       => 'Services to Boost Business Growth',
                 'features_description' => 'We know navigating financial documentation and regulations can be challenging. Rest easy our expert guidance in financial planning and risk management is designed to enhance your performance and ensure lasting success.',
             ]],
-            ['section_type' => 'page-strategy-6a', 'sort_order' => 3, 'section_data' => [
+            ['section_type' => 'page-memberships', 'sort_order' => 3, 'section_data' => [
+                'title'    => 'Our Memberships',
+                'subtitle' => 'Proud members of leading industry bodies and chambers of commerce.',
+            ]],
+            ['section_type' => 'page-strategy-6a', 'sort_order' => 4, 'section_data' => [
                 'label'    => 'Our Framework',
                 'title'    => 'The 6A Strategy Framework',
                 'subtitle' => 'A proven, structured approach that guides businesses from assessment to transformation — at every stage of growth.',
             ]],
-            ['section_type' => 'page-ai-platform', 'sort_order' => 4, 'section_data' => [
+            ['section_type' => 'page-ai-platform', 'sort_order' => 5, 'section_data' => [
                 'subtitle' => 'Technology at the Core',
                 'title'    => 'AI-Enabled Financial Platform',
             ]],
-            ['section_type' => 'page-world-map', 'sort_order' => 5, 'section_data' => [
+            ['section_type' => 'page-world-map', 'sort_order' => 6, 'section_data' => [
                 'title'    => 'Countries that we serve',
                 'subtitle' => 'We work with clients across the globe, delivering solutions without borders.',
             ]],
-            ['section_type' => 'page-commitment-grid', 'sort_order' => 6, 'section_data' => [
+            ['section_type' => 'page-commitment-grid', 'sort_order' => 7, 'section_data' => [
                 'label'       => 'Our Commitment',
                 'title'       => 'Our Commitment to Your Financial Success',
                 'description' => 'Dev Mantra is a strategic partner in progress for businesses operating in a global and digital economy',
             ]],
-            ['section_type' => 'page-team', 'sort_order' => 7, 'section_data' => [
+            ['section_type' => 'page-team', 'sort_order' => 8, 'section_data' => [
                 'title'    => 'Meet Our Team',
                 'subtitle' => 'The people behind Devmantra who drive excellence every day.',
                 'founders' => [
@@ -73,24 +77,24 @@ class PageSeeder extends Seeder
                     ['name' => 'Namrata Parakh',   'role' => 'Associate - Intl Relations',     'photo' => 'assets/img/team/5.png'],
                 ],
             ]],
-            ['section_type' => 'page-approach-lifecycle', 'sort_order' => 8, 'section_data' => [
+            ['section_type' => 'page-approach-lifecycle', 'sort_order' => 9, 'section_data' => [
                 'label'    => 'How We Work',
                 'title'    => 'Our Approach & Business Lifecycle',
                 'subtitle' => 'Building long-term relationships based on transparency, technical excellence, and measurable value creation.',
             ]],
-            ['section_type' => 'page-testimonials', 'sort_order' => 9, 'section_data' => [
+            ['section_type' => 'page-testimonials', 'sort_order' => 10, 'section_data' => [
                 'rating' => '4.8',
                 'label'  => 'Client Success Stories',
                 'title'  => 'Join the ranks of our satisfied clients and experience the Dev Mantra difference.',
             ]],
-            ['section_type' => 'page-blogs', 'sort_order' => 10, 'section_data' => [
+            ['section_type' => 'page-blogs', 'sort_order' => 11, 'section_data' => [
                 'title'             => "Explore our\nlatest insights & updates",
                 'subtitle'          => 'Insights',
                 'explore_link_text' => 'Explore more insights from Dev Mantra',
                 'explore_link_url'  => '/blog',
                 'count'             => 3,
             ]],
-            ['section_type' => 'page-cta', 'sort_order' => 11, 'section_data' => [
+            ['section_type' => 'page-cta', 'sort_order' => 12, 'section_data' => [
                 'title'    => "Ready to Elevate Your\nBusiness with Dev Mantra?",
                 'subtitle' => 'Dev Mantra is here to help you scale with confidence through future-ready financial, governance, and advisory solutions.',
             ]],

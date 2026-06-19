@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
@@ -100,5 +101,33 @@ class AccountController extends Controller
         SiteSetting::set('button_new_tab', $request->input('button_new_tab', '0') === '1' ? '1' : '0');
 
         return back()->with('success', 'Settings saved successfully.');
+    }
+
+    // ── Artisan Cache Management ──────────────────────────────
+
+    public function clearConfig()
+    {
+        Artisan::call('config:clear');
+        return response()->json(['message' => 'Config cache cleared.']);
+    }
+
+    public function clearViews()
+    {
+        Artisan::call('view:clear');
+        return response()->json(['message' => 'View cache cleared.']);
+    }
+
+    public function clearCache()
+    {
+        Artisan::call('cache:clear');
+        return response()->json(['message' => 'Application cache cleared.']);
+    }
+
+    public function clearAll()
+    {
+        Artisan::call('config:clear');
+        Artisan::call('view:clear');
+        Artisan::call('cache:clear');
+        return response()->json(['message' => 'All caches cleared successfully.']);
     }
 }

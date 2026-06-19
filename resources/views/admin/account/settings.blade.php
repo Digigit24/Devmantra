@@ -16,6 +16,22 @@
     border-bottom: 1px solid rgba(0,0,0,0.07);
     display: flex; align-items: center; gap: 8px;
 }
+/* Cache management buttons */
+.dm-cache-btn {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; padding: 10px 14px;
+    background: rgba(74,115,196,.07); border: 1px solid rgba(74,115,196,.18);
+    border-radius: 8px; font-size: 13px; font-weight: 500; color: #334155;
+    cursor: pointer; transition: background .15s, border-color .15s, opacity .15s;
+    text-align: left;
+}
+.dm-cache-btn:hover { background: rgba(74,115,196,.14); border-color: rgba(74,115,196,.35); }
+.dm-cache-btn:disabled { opacity: .6; cursor: not-allowed; }
+.dm-cache-btn-all {
+    background: linear-gradient(135deg,rgba(27,60,107,.12),rgba(74,115,196,.12));
+    border-color: rgba(74,115,196,.3); font-weight: 700;
+}
+.dm-cache-btn-all:hover { background: linear-gradient(135deg,rgba(27,60,107,.22),rgba(74,115,196,.22)); }
 </style>
 @endpush
 
@@ -261,6 +277,48 @@
             </table>
         </div>
 
+        {{-- Cache Management --}}
+        <div class="dm-table-wrap" style="padding:24px;margin-bottom:20px;">
+            <p class="st-title"><i class="fa-solid fa-rotate"></i> Cache Management</p>
+            <p style="font-size:12px;color:#94a3b8;margin-bottom:16px;">
+                Run after every deployment to serve fresh config, views &amp; data to users.
+            </p>
+
+            <div style="display:flex;flex-direction:column;gap:9px;">
+
+                <button type="button" class="dm-cache-btn" data-url="{{ route('admin.cache.clear-config') }}">
+                    <i class="fa-solid fa-gear fa-fw"></i>
+                    <span class="dm-cb-label">Clear Config Cache</span>
+                    <i class="fa-solid fa-spinner fa-spin dm-cb-spin" style="display:none;margin-left:auto;"></i>
+                    <i class="fa-solid fa-check dm-cb-ok" style="display:none;margin-left:auto;color:#22c55e;"></i>
+                </button>
+
+                <button type="button" class="dm-cache-btn" data-url="{{ route('admin.cache.clear-views') }}">
+                    <i class="fa-solid fa-eye fa-fw"></i>
+                    <span class="dm-cb-label">Clear View Cache</span>
+                    <i class="fa-solid fa-spinner fa-spin dm-cb-spin" style="display:none;margin-left:auto;"></i>
+                    <i class="fa-solid fa-check dm-cb-ok" style="display:none;margin-left:auto;color:#22c55e;"></i>
+                </button>
+
+                <button type="button" class="dm-cache-btn" data-url="{{ route('admin.cache.clear-cache') }}">
+                    <i class="fa-solid fa-database fa-fw"></i>
+                    <span class="dm-cb-label">Clear App Cache</span>
+                    <i class="fa-solid fa-spinner fa-spin dm-cb-spin" style="display:none;margin-left:auto;"></i>
+                    <i class="fa-solid fa-check dm-cb-ok" style="display:none;margin-left:auto;color:#22c55e;"></i>
+                </button>
+
+                <button type="button" class="dm-cache-btn dm-cache-btn-all" data-url="{{ route('admin.cache.clear-all') }}">
+                    <i class="fa-solid fa-broom fa-fw"></i>
+                    <span class="dm-cb-label">Clear All Caches</span>
+                    <i class="fa-solid fa-spinner fa-spin dm-cb-spin" style="display:none;margin-left:auto;"></i>
+                    <i class="fa-solid fa-check dm-cb-ok" style="display:none;margin-left:auto;color:#22c55e;"></i>
+                </button>
+
+            </div>
+
+            <div id="dm-cache-toast" style="display:none;margin-top:12px;padding:9px 13px;border-radius:8px;font-size:13px;font-weight:500;"></div>
+        </div>
+
         {{-- Quick Links --}}
         <div class="dm-table-wrap" style="padding:24px;">
             <p class="st-title"><i class="fa-solid fa-link"></i> Quick Links</p>
@@ -308,6 +366,54 @@
         }
         track.addEventListener('click', function () { chk.checked = !chk.checked; syncToggle(); });
     }
+
+    // ── Cache management buttons ──────────────────────────────
+    var toast = document.getElementById('dm-cache-toast');
+
+    function showToast(msg, ok) {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        toast.style.background = ok ? 'rgba(34,197,94,.12)' : 'rgba(239,68,68,.12)';
+        toast.style.color       = ok ? '#15803d'            : '#b91c1c';
+        toast.style.border      = '1px solid ' + (ok ? 'rgba(34,197,94,.3)' : 'rgba(239,68,68,.3)');
+        clearTimeout(toast._t);
+        toast._t = setTimeout(function(){ toast.style.display = 'none'; }, 4000);
+    }
+
+    document.querySelectorAll('.dm-cache-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var url  = btn.dataset.url;
+            var spin = btn.querySelector('.dm-cb-spin');
+            var ok   = btn.querySelector('.dm-cb-ok');
+
+            // Disable all buttons while running
+            document.querySelectorAll('.dm-cache-btn').forEach(function(b){ b.disabled = true; });
+            spin.style.display = 'inline-block';
+            ok.style.display   = 'none';
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(function(r){ return r.json(); })
+            .then(function(data) {
+                spin.style.display = 'none';
+                ok.style.display   = 'inline-block';
+                showToast('✓ ' + data.message, true);
+                setTimeout(function(){ ok.style.display = 'none'; }, 3000);
+            })
+            .catch(function() {
+                spin.style.display = 'none';
+                showToast('Something went wrong. Please try again.', false);
+            })
+            .finally(function() {
+                document.querySelectorAll('.dm-cache-btn').forEach(function(b){ b.disabled = false; });
+            });
+        });
+    });
 })();
 </script>
 @endpush

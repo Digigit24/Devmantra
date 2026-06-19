@@ -13,10 +13,19 @@
 @section('noindex', '1')
 @endif
 
-{{-- Schema stored in custom_head field (Article + BreadcrumbList per blog) --}}
+{{-- Schema: manual custom_head wins; otherwise auto-inject BlogPosting + Breadcrumb --}}
 @if($blog->custom_head)
 @push('custom_head')
 {!! $blog->custom_head !!}
+@endpush
+@else
+@push('schema')
+{!! \App\Services\SchemaService::blogSchema($blog) !!}
+{!! \App\Services\SchemaService::breadcrumb([
+    ['name' => 'Home', 'url' => '/'],
+    ['name' => 'Blog', 'url' => '/blog'],
+    ['name' => $blog->meta_title ?: $blog->title],
+]) !!}
 @endpush
 @endif
 
@@ -86,16 +95,12 @@
     .dm-article-featured-img img {
         width: 100%;
         height: auto;
-        aspect-ratio: 16 / 7;
+        aspect-ratio: 16 / 9;
         object-fit: cover;
         object-position: center center;
         display: block;
     }
-    @media (max-width: 991px) {
-        .dm-article-featured-img img { aspect-ratio: 16 / 8; }
-    }
     @media (max-width: 767px) {
-        .dm-article-featured-img img { aspect-ratio: 4 / 3; }
         .dm-article-featured-section { margin-top: -20px; padding-bottom: 40px; }
     }
 

@@ -36,6 +36,14 @@
 .tp-header-menu.tp-header-dropdown nav ul li.has-dropdown::after,
 .tp-header-menu nav ul li.has-dropdown::after { display: none !important; }
 
+/* ─── Fix mobile offcanvas z-index ──────────────────────────────
+   main.css sets .tp-offcanvas-wrapper at z-index:999 and .body-overlay
+   at z-index:99, both below the sticky header (z-index:9999). This causes
+   the header to bleed on top of the offcanvas, creating a "duplicate" look.
+   Stack order: overlay (10000) → offcanvas (10001) above everything. */
+.tp-offcanvas-wrapper { z-index: 10001 !important; }
+.body-overlay          { z-index: 10000 !important; }
+
 /* ─── BREAKPOINTS ───────────────────────────────────────────────── */
 @media (min-width:992px) and (max-width:1199px) {
     .tp-header-menu > nav > ul > li { margin: 0 5px; }
@@ -139,11 +147,37 @@
 .dm-mega-center {
     padding:28px 28px; border-left:1px solid rgba(0,0,0,.06);
     border-right:1px solid rgba(0,0,0,.06);
-    overflow-y:auto; scrollbar-width:thin;
+    overflow-y:auto;
     /* max-height driven by parent flex, not a fixed px value */
 }
-.dm-mega-center::-webkit-scrollbar { width:4px; }
-.dm-mega-center::-webkit-scrollbar-thumb { background:#ddd; border-radius:4px; }
+/* ─── Sleek scrollbars for all mega panels ──────────────────────── */
+.dm-mega-left,
+.dm-mega-center,
+.dm-mega-right { scrollbar-width: thin; scrollbar-color: rgba(0,0,0,.15) transparent; }
+
+.dm-mega-left::-webkit-scrollbar,
+.dm-mega-center::-webkit-scrollbar,
+.dm-mega-right::-webkit-scrollbar { width: 4px; background: transparent; }
+
+.dm-mega-left::-webkit-scrollbar-track,
+.dm-mega-center::-webkit-scrollbar-track,
+.dm-mega-right::-webkit-scrollbar-track { background: transparent; }
+
+.dm-mega-left::-webkit-scrollbar-thumb,
+.dm-mega-center::-webkit-scrollbar-thumb,
+.dm-mega-right::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.15);
+    border-radius: 99px;
+    transition: background .2s;
+}
+
+/* Left panel scrollbar is on a dark bg — use white tint instead */
+.dm-mega-left { scrollbar-color: rgba(255,255,255,.25) transparent; }
+.dm-mega-left::-webkit-scrollbar-thumb { background: rgba(255,255,255,.25); }
+
+.dm-mega-left:hover::-webkit-scrollbar-thumb  { background: rgba(255,255,255,.45); }
+.dm-mega-center:hover::-webkit-scrollbar-thumb,
+.dm-mega-right:hover::-webkit-scrollbar-thumb  { background: rgba(0,0,0,.28); }
 .dm-section-label {
     font-size:10.5px; font-weight:700; letter-spacing:1.8px;
     text-transform:uppercase; color:#aaa; margin-bottom:14px; display:block;

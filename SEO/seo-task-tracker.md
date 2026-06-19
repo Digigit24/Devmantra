@@ -5,6 +5,50 @@
 
 ---
 
+## 🆕 2026-06-13 SESSION — Schema / On-Page / AEO / GEO sprint
+
+**Corrected reality (verified against live site, not the stale May audit):**
+Blogs, services, reports, the case study, newsletters, alerts, and events **already have**
+meta_title, meta_description, and OG images populated. The May `seo-suggestions.md` audit is
+obsolete. The real defects found and fixed today:
+
+**Shipped (code — live in repo):**
+1. **Schema auto-injection** — `blog-detail.blade.php` & `service-detail.blade.php` now fall
+   back to `SchemaService::blogSchema()/serviceSchema()` + BreadcrumbList when `custom_head` is
+   empty. **Every blog/service (incl. all new blogs) now emits valid JSON-LD automatically.**
+   (Previously schema only appeared if `custom_head` was hand-filled → new blogs had none.)
+2. **Title double-suffix bug fixed site-wide** — stored `meta_title`s ended in "— DevMantra"
+   and the layout appended the brand again → "… — DevMantra — DevMantra". `frontend.blade.php`
+   now de-duplicates the trailing brand (regex, idempotent) and reuses one `$dmFullTitle` for
+   `<title>`, `og:title`, `twitter:title`. Verified against em-dash, hyphen, and clean cases.
+3. **Organization schema enriched (E-E-A-T / GEO)** — added legalName, FinancialService type,
+   foundingDate 2008, areaServed, `knowsAbout` (10 expertise entities), founder (CA Nidhi Tatia),
+   PostalAddress (Bengaluru). `app/Services/SchemaService.php`.
+4. **AEO** — visible FAQ section + matching `FAQPage` schema on `/about` (6 Q&As from one shared
+   array so schema mirrors visible content). `frontend/about.blade.php`.
+5. **GEO** — `public/llms.txt` fully rewritten: current content, key facts (NAP, ICAI FRN,
+   ₹5,000 Cr, founders, Korea Desk), removed banned phrase ("trusted partner") and
+   robots-disallowed `?page=`/`?tag=` URLs.
+6. **Homepage H1** (TASK 15) — homepage hero headline was `<h4 fs-68>` with **no H1 on the page**.
+   Promoted to `<h1>` (classes unchanged → zero visual change). `components/service-sections/page-hero.blade.php`.
+
+**Deliverable for client/PM to run:**
+- `SEO/sql/01_onpage_meta_fixes_2026-06-13.sql` — idempotent: audit + strip embedded brand suffix
+  from stored meta_title (frees varchar(60) space) + backfill empty canonical_url across all 7
+  content types + newsletter meta backfill. Run in phpMyAdmin → devmantranew (back up first).
+
+**Remaining / follow-ups:**
+- Apply the SQL above in phpMyAdmin.
+- Deploy the blade/PHP changes to production, then `php artisan view:cache`.
+- Validate with Google Rich Results Test (blog, service, /about FAQ, homepage Org) + resubmit sitemap in GSC.
+- Per-service FAQ blocks (extend the /about pattern to service pages) — next AEO win.
+- TASK 20 DMARC/SPF/DKIM — DNS task (human).
+- Internal linking (TASK 10) — **completed in the 2026-06-13 session (bulk SQL deployed).**
+
+---
+
+---
+
 ## Legend
 - ✅ DONE — Fully implemented and verified in codebase
 - 🟡 PARTIAL — Built but incomplete or not matching spec
@@ -179,22 +223,25 @@
 
 ---
 
-### ❌ TASK 10 — Build Internal Linking Structure Across All Pages
-**Status:** PENDING — Relational links exist but no structured internal linking system
+### ✅ TASK 10 — Build Internal Linking Structure Across All Pages
+**Status:** DONE — Bulk SQL deployed to devmantranew DB on 2026-06-13
 
-**What exists:**
-- Blog detail shows 3 related blogs + 5 sidebar blogs
-- Service detail shows related services in sidebar
-- BreadcrumbList schema on all detail pages
-- No dedicated internal linking helper, component, or strategy map
+**What was delivered (`bulk_internal_links.sql`):**
 
-**Remaining work:**
-- [ ] Define internal linking map: which pages should link to which
-- [ ] Identify pillar pages (e.g., main service pages) and cluster pages (blogs)
-- [ ] Add contextual in-content links from blogs to relevant service pages
-- [ ] Add "See also" / "Related service" blocks on blog posts
-- [ ] Ensure homepage links to all key service pages
-- [ ] Track links in a spreadsheet or add `internal_links` field to content
+- **TASK 10a** — Pillar → Cluster architecture map: 9 service pillar pages, 8 blogs + 40 newsletters + 1 alert mapped to primary/secondary pillars. Priority matrix (P0–P3) defined.
+- **TASK 10b** — In-content links: 8 anchor tags inserted via `REPLACE()` into 7 blogs, wrapping exact keyword phrases to point to relevant service pages.
+- **TASK 10c** — Related Services callout (`dm-blog-callout--tip`, gold) appended via `CONCAT()` to bottom of all 8 blogs. 2 contextual service links each.
+- **TASK 10d** — Related Reading callout (`dm-blog-callout--info`, navy) appended to 7 blogs as blog→blog cross-links for topical depth.
+- **TASK 10e** — Alert page (`/alert/importance-process-of-income-tax-clearance-certificate`): 1 in-content link + related services block. No longer an orphan.
+- **TASK 10f** — All 40 published newsletter editions: `DEV MANTRA SERVICES` callout block appended (Finance & Compliance + Virtual CFO links). All newsletters de-orphaned.
+- **TASK 10g** — Full SQL file generated, verified, and deployed via phpMyAdmin. All UPDATEs are idempotent (`NOT LIKE` guards). Step-1 single-blog test confirmed before bulk run.
+
+**Verified:** Links confirmed present in DB via SELECT verification queries + page source (Ctrl+U).
+
+**Not covered (requires JSON editing — out of SQL scope):**
+- Service → Service cross-sell links (`service_sections` JSON)
+- Homepage service card keyword anchors (`page_sections` JSON)
+- Breadcrumb template changes (Blade-level)
 
 ---
 
@@ -370,7 +417,7 @@
 | TASK 07 | Fix Broken Meta Tags on All Pages | ✅ DONE |
 | TASK 08 | Gate Tax Calculator with Lead Capture | ✅ DONE |
 | TASK 09 | Optimize Service Page Meta Tags | 🟡 PARTIAL |
-| TASK 10 | Build Internal Linking Structure | ❌ PENDING |
+| TASK 10 | Build Internal Linking Structure | ✅ DONE |
 | TASK 11 | Write & Publish 10 SEO Blog Posts | ❌ PENDING |
 | TASK 12 | Bulk Update Blog Meta Tags (DB) | ❌ PENDING |
 | TASK 13 | Bulk Add Schema Markup (DB) | 🟡 PARTIAL |

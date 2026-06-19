@@ -26,9 +26,18 @@
 </IfModule>
 
 <IfModule mod_headers.c>
+    # HTML: never cache — browser always fetches fresh HTML, which carries
+    # the new ?v= query strings that force CSS/JS re-download on deploy
+    <FilesMatch "\.html$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+    # CSS/JS: 1 month — bump $assetVer in frontend.blade.php on each deploy to bust
     <FilesMatch "\.(css|js)$">
         Header set Cache-Control "max-age=2592000, public"
     </FilesMatch>
+    # Images/fonts: 1 year immutable
     <FilesMatch "\.(png|jpg|jpeg|gif|ico|svg|webp|woff|woff2)$">
         Header set Cache-Control "max-age=31536000, public, immutable"
     </FilesMatch>
