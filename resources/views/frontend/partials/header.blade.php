@@ -651,8 +651,8 @@ $secondSvc = $navServices->skip(1)->first();
         <div class="tp-offcanvas-top d-flex align-items-center justify-content-between">
             <div class="tp-offcanvas-logo">
                 <a href="{{ route('home') }}">
-                    <img class="logo-1" data-width="120" src="{{ asset('assets/img/logo/logo.jpeg') }}" alt="Dev Mantra" style="border-radius:50px;">
-                    <img class="logo-2" data-width="120" src="{{ asset('assets/img/logo/logo.jpeg') }}" alt="Dev Mantra" style="border-radius:50px;">
+                    <img class="logo-1" width="120" data-width="120" src="{{ asset('assets/img/logo/logo.jpeg') }}" alt="Dev Mantra" style="border-radius:50px;width:120px;height:auto;">
+                    <img class="logo-2" width="120" data-width="120" src="{{ asset('assets/img/logo/logo.jpeg') }}" alt="Dev Mantra" style="border-radius:50px;width:120px;height:auto;">
                 </a>
             </div>
             <div class="tp-offcanvas-close">
@@ -694,7 +694,7 @@ $secondSvc = $navServices->skip(1)->first();
                 <div class="col-xl-2 col-lg-3 col-5">
                     <div class="tp-header-logo">
                         <a href="{{ route('home') }}">
-                            <img style="border-radius:50px;" data-width="140" src="{{ asset('assets/img/logo/logo.jpeg') }}" alt="Dev Mantra">
+                            <img style="border-radius:50px;width:140px;height:auto;" width="140" data-width="140" src="{{ asset('assets/img/logo/logo.jpeg') }}" alt="Dev Mantra">
                         </a>
                     </div>
                 </div>

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') - DevMantra Admin</title>
-    <link rel="shortcut icon" href="{{ asset('assets/img/favicon/favicon.png') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <title><?php echo $__env->yieldContent('title', 'Dashboard'); ?> - DevMantra Admin</title>
+    <link rel="shortcut icon" href="<?php echo e(asset('assets/img/favicon/favicon.png')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/bootstrap.css')); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
@@ -415,10 +415,10 @@
             .dm-sidebar-overlay.open { display: block; }
         }
     </style>
-    @if(!request()->routeIs('admin.blogs.create') && !request()->routeIs('admin.blogs.edit'))
+    <?php if(!request()->routeIs('admin.blogs.create') && !request()->routeIs('admin.blogs.edit')): ?>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
-    @endif
-    @stack('styles')
+    <?php endif; ?>
+    <?php echo $__env->yieldPushContent('styles'); ?>
 </head>
 <body>
     <!-- Sidebar Overlay (mobile) -->
@@ -427,118 +427,118 @@
     <!-- Sidebar -->
     <aside class="dm-sidebar" id="sidebar">
         <div class="dm-sidebar-logo d-flex align-items-center">
-            <img src="{{ asset('assets/img/logo/logo.jpeg') }}" alt="DevMantra">
+            <img src="<?php echo e(asset('assets/img/logo/logo.jpeg')); ?>" alt="DevMantra">
             <span>DevMantra</span>
         </div>
         <nav class="dm-sidebar-nav">
             <div class="dm-sidebar-label">Main</div>
-            <a href="{{ route('admin.dashboard') }}" class="dm-sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.dashboard')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.dashboard') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-chart-pie"></i> Dashboard
             </a>
 
             <div class="dm-sidebar-label">Content</div>
-            <a href="{{ route('admin.blogs.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.blogs.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.blogs.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-pen-to-square"></i> Blogs
             </a>
-            <a href="{{ route('admin.services.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.services.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.services.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-briefcase"></i> Services
             </a>
-            <a href="{{ route('admin.sections.library') }}" class="dm-sidebar-link {{ request()->routeIs('admin.sections.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.sections.library')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.sections.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-swatchbook"></i> Sections
             </a>
-            <a href="{{ route('admin.newsletters.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.newsletters.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.newsletters.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.newsletters.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-newspaper"></i> Newsletters
             </a>
-            <a href="{{ route('admin.reports.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.reports.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.reports.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-file-lines"></i> Reports
             </a>
-            <a href="{{ route('admin.case-studies.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.case-studies.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.case-studies.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.case-studies.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-magnifying-glass-chart"></i> Case Studies
             </a>
-            <a href="{{ route('admin.alerts.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.alerts.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.alerts.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.alerts.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-bell"></i> Alerts
             </a>
 
             <div class="dm-sidebar-label">Events</div>
-            <a href="{{ route('admin.events.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.events.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.events.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.events.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-calendar-days"></i> Events
             </a>
 
             <div class="dm-sidebar-label">Link in Bio</div>
-            <a href="{{ route('admin.bookmarks.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.bookmarks.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.bookmarks.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.bookmarks.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-link"></i> Bookmarks
             </a>
 
             <div class="dm-sidebar-label">Recruitment</div>
-            <a href="{{ route('admin.careers.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.careers.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.careers.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.careers.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-user-tie"></i> Careers
             </a>
-            <a href="{{ route('admin.career-applications.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.career-applications.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.career-applications.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.career-applications.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-file-lines"></i> Applications
             </a>
 
             <div class="dm-sidebar-label">Enquiries</div>
-            <a href="{{ route('admin.subscribers.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.subscribers.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.subscribers.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-users"></i> Subscribers
             </a>
-            <a href="{{ route('admin.contact-submissions.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.contact-submissions.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.contact-submissions.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.contact-submissions.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-envelope-open-text"></i> Contact Submissions
             </a>
-            <a href="{{ route('admin.fundability-leads.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.fundability-leads.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.fundability-leads.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.fundability-leads.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-chart-line"></i> Fundability Leads
             </a>
-            <a href="{{ route('admin.vision-leads.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.vision-leads.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.vision-leads.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.vision-leads.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-lightbulb"></i> Vision Card Leads
             </a>
-            <a href="{{ route('admin.calculator-leads.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.calculator-leads.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.calculator-leads.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.calculator-leads.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-calculator"></i> India vs Europe Leads
             </a>
 
             <div class="dm-sidebar-label">Pages</div>
-            <a href="{{ route('admin.pages.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.pages.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.pages.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-file-lines"></i> Pages
             </a>
-            <a href="{{ route('admin.contact-settings.edit') }}" class="dm-sidebar-link {{ request()->routeIs('admin.contact-settings.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.contact-settings.edit')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.contact-settings.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-address-book"></i> Contact Settings
             </a>
-            <a href="{{ route('admin.popup.edit') }}" class="dm-sidebar-link {{ request()->routeIs('admin.popup.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.popup.edit')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.popup.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-rectangle-ad"></i> Popup Banner
             </a>
 
             <div class="dm-sidebar-label">Account</div>
-            <a href="{{ route('admin.profile') }}" class="dm-sidebar-link {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.profile')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.profile') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-user"></i> Profile
             </a>
-            <a href="{{ route('admin.password') }}" class="dm-sidebar-link {{ request()->routeIs('admin.password') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.password')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.password') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-lock"></i> Change Password
             </a>
-            <a href="{{ route('admin.settings') }}" class="dm-sidebar-link {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.settings')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.settings') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-gear"></i> Settings
             </a>
-            <a href="{{ route('admin.typography.edit') }}" class="dm-sidebar-link {{ request()->routeIs('admin.typography.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.typography.edit')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.typography.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-font"></i> Typography
             </a>
 
             <div class="dm-sidebar-label">Media</div>
-            <a href="{{ route('admin.gallery.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}">
+            <a href="<?php echo e(route('admin.gallery.index')); ?>" class="dm-sidebar-link <?php echo e(request()->routeIs('admin.gallery.*') ? 'active' : ''); ?>">
                 <i class="fa-solid fa-images"></i> Media Gallery
             </a>
 
             <div class="dm-sidebar-label">System</div>
-            <a href="{{ url('/') }}" target="_blank" class="dm-sidebar-link">
+            <a href="<?php echo e(url('/')); ?>" target="_blank" class="dm-sidebar-link">
                 <i class="fa-solid fa-arrow-up-right-from-square"></i> View Site
             </a>
         </nav>
         <div class="dm-sidebar-footer">
             <div class="dm-user-info">
-                <div class="dm-user-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+                <div class="dm-user-avatar"><?php echo e(strtoupper(substr(auth()->user()->name, 0, 1))); ?></div>
                 <div>
-                    <div class="dm-user-name">{{ auth()->user()->name }}</div>
-                    <div class="dm-user-email">{{ auth()->user()->email }}</div>
+                    <div class="dm-user-name"><?php echo e(auth()->user()->name); ?></div>
+                    <div class="dm-user-email"><?php echo e(auth()->user()->email); ?></div>
                 </div>
             </div>
-            <form method="POST" action="{{ route('logout') }}" class="mt-3">
-                @csrf
+            <form method="POST" action="<?php echo e(route('logout')); ?>" class="mt-3">
+                <?php echo csrf_field(); ?>
                 <button type="submit" class="dm-btn dm-btn-outline dm-btn-sm w-100">
                     <i class="fa-solid fa-right-from-bracket"></i> Sign Out
                 </button>
@@ -553,50 +553,52 @@
                 <button class="dm-sidebar-toggle" onclick="toggleSidebar()">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <div class="dm-topbar-title">@yield('title', 'Dashboard')</div>
+                <div class="dm-topbar-title"><?php echo $__env->yieldContent('title', 'Dashboard'); ?></div>
             </div>
             <div class="dm-topbar-actions">
-                @yield('actions')
+                <?php echo $__env->yieldContent('actions'); ?>
             </div>
         </div>
         <div class="dm-content">
-            @if(session('success'))
+            <?php if(session('success')): ?>
                 <div class="dm-alert dm-alert-success">
-                    <i class="fa-solid fa-check-circle"></i> {{ session('success') }}
+                    <i class="fa-solid fa-check-circle"></i> <?php echo e(session('success')); ?>
+
                 </div>
-            @endif
-            @if(session('error'))
+            <?php endif; ?>
+            <?php if(session('error')): ?>
                 <div class="dm-alert dm-alert-error">
-                    <i class="fa-solid fa-circle-exclamation"></i> {{ session('error') }}
+                    <i class="fa-solid fa-circle-exclamation"></i> <?php echo e(session('error')); ?>
+
                 </div>
-            @endif
-            @if($errors->any())
+            <?php endif; ?>
+            <?php if($errors->any()): ?>
                 <div class="dm-alert dm-alert-error" style="flex-direction:column;align-items:flex-start;">
                     <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
                         <i class="fa-solid fa-circle-exclamation"></i>
                         <strong>Please fix the following errors:</strong>
                     </div>
                     <ul style="margin:0;padding-left:24px;font-size:13px;">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
+                        <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <li><?php echo e($error); ?></li>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </ul>
                 </div>
-            @endif
-            @yield('content')
+            <?php endif; ?>
+            <?php echo $__env->yieldContent('content'); ?>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    @if(!request()->routeIs('admin.blogs.create') && !request()->routeIs('admin.blogs.edit'))
+    <?php if(!request()->routeIs('admin.blogs.create') && !request()->routeIs('admin.blogs.edit')): ?>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
-    @endif
+    <?php endif; ?>
     <script>
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
             document.getElementById('sidebarOverlay').classList.toggle('open');
         }
-        @if(!request()->routeIs('admin.blogs.create') && !request()->routeIs('admin.blogs.edit'))
+        <?php if(!request()->routeIs('admin.blogs.create') && !request()->routeIs('admin.blogs.edit')): ?>
         $(document).ready(function() {
             $('.summernote').summernote({
                 height: 350,
@@ -617,7 +619,7 @@
                         data.append('image', files[0]);
                         data.append('_token', $('meta[name="csrf-token"]').attr('content'));
                         $.ajax({
-                            url: '{{ route("admin.upload-image") }}',
+                            url: '<?php echo e(route("admin.upload-image")); ?>',
                             method: 'POST',
                             data: data,
                             processData: false,
@@ -633,8 +635,9 @@
                 }
             });
         });
-        @endif
+        <?php endif; ?>
     </script>
-    @stack('scripts')
+    <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 </html>
+<?php /**PATH C:\xampp\htdocs\Devmantranew\resources\views/layouts/admin.blade.php ENDPATH**/ ?>

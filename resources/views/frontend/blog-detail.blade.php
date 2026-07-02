@@ -96,7 +96,7 @@
         width: 100%;
         height: auto;
         aspect-ratio: 16 / 9;
-        object-fit: cover;
+        object-fit: contain;
         object-position: center center;
         display: block;
     }
@@ -427,7 +427,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="dm-article-featured-img tp_fade_anim" data-delay=".3">
-                    <img src="{{ asset('storage/' . $blog->featured_image) }}" alt="{{ $blog->title }}" loading="lazy">
+                    <img style="object-fit:contain" src="{{ asset('storage/' . $blog->featured_image) }}" alt="{{ $blog->title }}" loading="lazy">
                 </div>
             </div>
         </div>

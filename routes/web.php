@@ -27,7 +27,9 @@ use App\Http\Controllers\CostBenchmarkController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\VisionCardController;
 use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
+use App\Http\Controllers\Admin\VisionLeadController;
 use Illuminate\Support\Facades\Route;
 
 // Sitemap
@@ -64,6 +66,10 @@ Route::get('/api/calculator/exchange-rate', [CostBenchmarkController::class, 'ge
 Route::get('/api/calculator/freight-rate',  [CostBenchmarkController::class, 'getFreightRates']);
 Route::get('/api/calculator/duty-rate',     [CostBenchmarkController::class, 'getDutyRate']);
 Route::post('/india-europe-benchmarking-calculator/lead', [CostBenchmarkController::class, 'storeLead'])->name('cost-calculator.lead')->middleware('throttle:10,1');
+
+// Vision Card / Growth Blueprint
+Route::get('/vision-card', [VisionCardController::class, 'index'])->name('vision-card.index');
+Route::post('/vision-card/generate', [VisionCardController::class, 'generate'])->name('vision-card.generate')->middleware('throttle:10,1');
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -151,6 +157,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('calculator-leads', [CalculatorLeadController::class, 'index'])->name('calculator-leads.index');
     Route::put('calculator-leads/{calculatorLead}/status', [CalculatorLeadController::class, 'updateStatus'])->name('calculator-leads.update-status');
     Route::delete('calculator-leads/{calculatorLead}', [CalculatorLeadController::class, 'destroy'])->name('calculator-leads.destroy');
+
+    // Vision Card / Growth Blueprint Leads
+    Route::get('vision-leads', [VisionLeadController::class, 'index'])->name('vision-leads.index');
+    Route::get('vision-leads/{visionLead}', [VisionLeadController::class, 'show'])->name('vision-leads.show');
+    Route::put('vision-leads/{visionLead}/status', [VisionLeadController::class, 'updateStatus'])->name('vision-leads.update-status');
+    Route::delete('vision-leads/{visionLead}', [VisionLeadController::class, 'destroy'])->name('vision-leads.destroy');
 
     // Fundability Leads (proxied server-side — credentials never exposed to browser)
     Route::get('fundability-leads', [FundabilityLeadController::class, 'index'])->name('fundability-leads.index');

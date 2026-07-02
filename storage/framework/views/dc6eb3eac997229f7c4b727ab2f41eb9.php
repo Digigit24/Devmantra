@@ -110,10 +110,12 @@
     <?php endif; ?>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="<?php echo e(asset('assets/css/bootstrap.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(asset('assets/css/swiper-bundle.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(asset('assets/css/spacing.css')); ?>">
-    <link rel="stylesheet" href="<?php echo e(asset('assets/css/main.css')); ?>">
+    
+    <?php $assetVer = '2025061301'; ?>
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/bootstrap.css')); ?>?v=<?php echo e($assetVer); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/swiper-bundle.css')); ?>?v=<?php echo e($assetVer); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/spacing.css')); ?>?v=<?php echo e($assetVer); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/css/main.css')); ?>?v=<?php echo e($assetVer); ?>">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
@@ -216,157 +218,54 @@
 <body class="tp-magic-cursor agntix-light">
 
     
-    <div id="dm-loader">
-        <div class="dm-l-aurora"></div>
-        <div class="dm-l-ring" style="--d:0s"></div>
-        <div class="dm-l-ring" style="--d:.9s"></div>
-        <div class="dm-l-ring" style="--d:1.8s"></div>
-        <div class="dm-l-stage">
-            <div class="dm-l-orbit" style="--s:160px;--dur:3.2s;--dir:1"></div>
-            <div class="dm-l-orbit" style="--s:220px;--dur:5s;--dir:-1"></div>
-            <img src="<?php echo e(asset('assets/img/favicon/favicon.png')); ?>" alt="DevMantra" class="dm-l-logo" width="130" height="130">
-        </div>
-        <div class="dm-l-dots"><span></span><span></span><span></span></div>
+    <div id="dm-shimmer">
+        <div id="dm-shimmer-bar"></div>
     </div>
     <style>
-    #dm-loader{
-        position:fixed;inset:0;z-index:999999;overflow:hidden;
-        background:radial-gradient(ellipse at 40% 40%,#1b3c6b 0%,#0d1f3c 60%,#060f1e 100%);
-        display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;
-        transition:opacity .6s ease,transform .6s ease;
-    }
-
-    /* ── Aurora shimmer ── */
-    .dm-l-aurora{
-        position:absolute;inset:0;pointer-events:none;
-        background:
-            radial-gradient(ellipse 70% 50% at 20% 30%,rgba(74,115,196,.28) 0%,transparent 60%),
-            radial-gradient(ellipse 55% 45% at 80% 70%,rgba(27,60,107,.45) 0%,transparent 60%),
-            radial-gradient(ellipse 40% 60% at 60% 20%,rgba(99,141,219,.18) 0%,transparent 55%);
-        animation:dm-aurora 7s ease-in-out infinite alternate;
-    }
-    @keyframes dm-aurora{
-        0%  {opacity:.6;transform:scale(1)   rotate(0deg)}
-        50% {opacity:1; transform:scale(1.15) rotate(8deg)}
-        100%{opacity:.7;transform:scale(1.05) rotate(-4deg)}
-    }
-
-    /* ── Ripple rings ── */
-    .dm-l-ring{
-        position:absolute;
-        width:200px;height:200px;
-        border-radius:50%;
-        border:1.5px solid rgba(74,115,196,.55);
-        animation:dm-ripple 2.7s ease-out infinite;
-        animation-delay:var(--d);
+    #dm-shimmer{
+        position:fixed;inset:0;z-index:999999;
+        background:#060f1e;
+        opacity:1;
+        transition:opacity .35s ease;
         pointer-events:none;
     }
-    @keyframes dm-ripple{
-        0%  {transform:scale(.5);opacity:.7}
-        100%{transform:scale(4);opacity:0}
+    #dm-shimmer-bar{
+        position:absolute;top:0;left:0;height:3px;width:0;
+        background:linear-gradient(90deg,#3b6fd4 0%,#638ddb 60%,#3b6fd4 100%);
+        background-size:200% 100%;
+        animation:dm-bar-fill 1.4s ease-out forwards, dm-bar-shine .9s linear infinite;
     }
-
-    /* ── Centre stage ── */
-    .dm-l-stage{
-        position:relative;
-        width:200px;height:200px;
-        display:flex;align-items:center;justify-content:center;
-        flex-shrink:0;
+    @keyframes dm-bar-fill{
+        0%  {width:0%}
+        60% {width:80%}
+        100%{width:95%}
     }
-
-    /* ── Orbit arcs ── */
-    .dm-l-orbit{
-        position:absolute;
-        width:var(--s);height:var(--s);
-        border-radius:50%;
-        border:1px dashed rgba(99,141,219,.35);
-        animation:dm-spin calc(var(--dur)) linear infinite;
-        animation-direction:calc(var(--dir) * 1s > 0s ? normal : reverse);
-    }
-    /* inline calc on animation-direction won't work — use two classes instead */
-    .dm-l-orbit:nth-child(1){animation:dm-spin-cw  3.2s linear infinite}
-    .dm-l-orbit:nth-child(2){animation:dm-spin-ccw 5s   linear infinite}
-    @keyframes dm-spin-cw {from{transform:rotate(0deg)}  to{transform:rotate(360deg)}}
-    @keyframes dm-spin-ccw{from{transform:rotate(0deg)}  to{transform:rotate(-360deg)}}
-
-    /* dot on each orbit arc */
-    .dm-l-orbit::after{
-        content:'';position:absolute;top:-4px;left:50%;
-        width:8px;height:8px;margin-left:-4px;
-        border-radius:50%;
-        background:rgba(99,141,219,.9);
-        box-shadow:0 0 8px 2px rgba(74,115,196,.7);
-    }
-
-    /* ── Logo ── */
-    .dm-l-logo{
-        position:relative;z-index:2;
-        width:130px;height:auto;
-        user-select:none;pointer-events:none;
-        animation:
-            dm-spring  2.4s cubic-bezier(.36,.07,.19,.97) infinite,
-            dm-glow    3s   ease-in-out              infinite,
-            dm-tilt    6s   ease-in-out              infinite;
-        will-change:transform,filter;
-        transform-origin:center bottom;
-    }
-
-    /* Spring bounce with proper squash-and-stretch */
-    @keyframes dm-spring{
-        0%  {transform:translateY(0)    scale(1,1)      rotate(0deg)}
-        12% {transform:translateY(-36px) scale(1.06,.95) rotate(-1.5deg)}
-        24% {transform:translateY(6px)  scale(.95,1.06) rotate(.8deg)}
-        36% {transform:translateY(-18px) scale(1.04,.97) rotate(-.8deg)}
-        48% {transform:translateY(3px)  scale(.98,1.03) rotate(.4deg)}
-        60% {transform:translateY(-8px) scale(1.02,.99) rotate(-.3deg)}
-        72% {transform:translateY(1px)  scale(.99,1.01) rotate(.1deg)}
-        84% {transform:translateY(-3px) scale(1.01,1)   rotate(0deg)}
-        100%{transform:translateY(0)    scale(1,1)      rotate(0deg)}
-    }
-
-    /* Brand-blue glow pulse */
-    @keyframes dm-glow{
-        0%,100%{filter:drop-shadow(0 0 10px rgba(74,115,196,.45)) drop-shadow(0 0 30px rgba(27,60,107,.3))  brightness(1)}
-        50%    {filter:drop-shadow(0 0 28px rgba(99,141,219,.95)) drop-shadow(0 0 70px rgba(74,115,196,.55)) brightness(1.12)}
-    }
-
-    /* Slow pendulum tilt */
-    @keyframes dm-tilt{
-        0%,100%{--tilt:0deg}
-        25%    {--tilt:2deg}
-        75%    {--tilt:-2deg}
-    }
-
-    /* ── Loading dots ── */
-    .dm-l-dots{display:flex;gap:.55rem;align-items:center}
-    .dm-l-dots span{
-        display:block;width:8px;height:8px;border-radius:50%;
-        background:rgba(74,115,196,.7);
-        animation:dm-dot 1.4s ease-in-out infinite;
-    }
-    .dm-l-dots span:nth-child(1){animation-delay:0s}
-    .dm-l-dots span:nth-child(2){animation-delay:.22s}
-    .dm-l-dots span:nth-child(3){animation-delay:.44s}
-    @keyframes dm-dot{
-        0%,80%,100%{transform:scale(.55) translateY(0);opacity:.3;background:rgba(74,115,196,.5)}
-        40%        {transform:scale(1.15) translateY(-6px);opacity:1;background:rgba(99,141,219,1);
-                    box-shadow:0 0 10px rgba(74,115,196,.8)}
-    }
-
-    @media(max-width:768px){
-        .dm-l-logo{width:100px}
-        .dm-l-ring{width:150px;height:150px}
+    @keyframes dm-bar-shine{
+        0%  {background-position:200% 0}
+        100%{background-position:-200% 0}
     }
     </style>
     <script>
-    window.addEventListener('load',function(){
-        var l=document.getElementById('dm-loader');
-        setTimeout(function(){
-            l.style.opacity='0';
-            l.style.transform='scale(1.04)';
-            setTimeout(function(){l.style.display='none'},600);
-        },400);
-    });
+    (function(){
+        var el=document.getElementById('dm-shimmer');
+        var bar=document.getElementById('dm-shimmer-bar');
+        var gone=false;
+        function hide(){
+            if(gone)return;gone=true;
+            bar.style.transition='width .2s ease';
+            bar.style.width='100%';
+            setTimeout(function(){
+                el.style.opacity='0';
+                setTimeout(function(){el.style.display='none';},360);
+            },150);
+        }
+        // Hide as soon as DOM is parsed — don't wait for images/scripts
+        if(document.readyState==='loading'){
+            document.addEventListener('DOMContentLoaded',hide);
+        } else { hide(); }
+        // Hard cap: always gone by 1.5s
+        setTimeout(hide,1500);
+    })();
     </script>
 
     
@@ -402,17 +301,17 @@
     </div>
 
     <!-- JS — all deferred so they never block HTML rendering -->
-    <script src="<?php echo e(asset('assets/js/vendor/jquery.js')); ?>" defer></script>
-    <script src="<?php echo e(asset('assets/js/bootstrap-bundle.js')); ?>" defer></script>
-    <script src="<?php echo e(asset('assets/js/swiper-bundle.js')); ?>" defer></script>
-    <script src="<?php echo e(asset('assets/js/plugin.js')); ?>" defer></script>
-    <script src="<?php echo e(asset('assets/js/purecounter.js')); ?>" defer></script>
-    <script src="<?php echo e(asset('assets/js/Observer.min.js')); ?>" defer></script>
-    <script src="<?php echo e(asset('assets/js/splitting.min.js')); ?>" defer></script>
-    <script src="<?php echo e(asset('assets/js/slider-active.js')); ?>" defer></script>
-    <script src="<?php echo e(asset('assets/js/main.js')); ?>" defer></script>
-    <script src="<?php echo e(asset('assets/js/tp-cursor.js')); ?>" defer></script>
-    <script src="<?php echo e(asset('assets/js/portfolio-slider-1.js')); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/js/vendor/jquery.js')); ?>?v=<?php echo e($assetVer); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/js/bootstrap-bundle.js')); ?>?v=<?php echo e($assetVer); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/js/swiper-bundle.js')); ?>?v=<?php echo e($assetVer); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/js/plugin.js')); ?>?v=<?php echo e($assetVer); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/js/purecounter.js')); ?>?v=<?php echo e($assetVer); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/js/Observer.min.js')); ?>?v=<?php echo e($assetVer); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/js/splitting.min.js')); ?>?v=<?php echo e($assetVer); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/js/slider-active.js')); ?>?v=<?php echo e($assetVer); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/js/main.js')); ?>?v=<?php echo e($assetVer); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/js/tp-cursor.js')); ?>?v=<?php echo e($assetVer); ?>" defer></script>
+    <script src="<?php echo e(asset('assets/js/portfolio-slider-1.js')); ?>?v=<?php echo e($assetVer); ?>" defer></script>
 
     <?php echo $__env->yieldPushContent('scripts'); ?>
 

@@ -105,43 +105,45 @@
 
 /* Left panel */
 .dm-mega-left {
-    background: linear-gradient(155deg, #001d30 0%, var(--dm-brand-to) 100%);
-    padding: 36px 28px 32px; display: flex; flex-direction: column;
-    color: #fff; position: relative; overflow-y: auto;
+    background: linear-gradient(155deg, var(--dm-brand-from, #1b3c6b) 0%, #2f5faa 100%);
+    padding: 28px 24px 24px; display: flex; flex-direction: column;
+    color: #fff; position: relative; overflow: hidden;
 }
 .dm-mega-left::before {
-    content:''; position:absolute; top:-40px; right:-40px;
-    width:180px; height:180px; background:rgba(255,255,255,.06); border-radius:50%;
+    content:''; position:absolute; top:-30px; right:-30px;
+    width:140px; height:140px; background:rgba(255,255,255,.05); border-radius:50%;
+    pointer-events:none;
 }
 .dm-mega-left::after {
-    content:''; position:absolute; bottom:-60px; left:-30px;
-    width:220px; height:220px; background:rgba(255,255,255,.04); border-radius:50%;
+    content:''; position:absolute; bottom:-40px; left:-20px;
+    width:160px; height:160px; background:rgba(255,255,255,.04); border-radius:50%;
+    pointer-events:none;
 }
 .dm-mega-left-icon {
-    width:46px; height:46px; border-radius:12px;
-    background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.25);
+    width:40px; height:40px; border-radius:10px;
+    background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.22);
     display:flex; align-items:center; justify-content:center;
-    font-size:20px; color:#fff; margin-bottom:20px; position:relative; z-index:1;
+    font-size:17px; color:#fff; margin-bottom:14px; position:relative; z-index:1;
+    flex-shrink:0;
 }
 .dm-mega-left-eyebrow {
     font-size:10px; font-weight:700; letter-spacing:2px;
-    text-transform:uppercase; opacity:.65; margin-bottom:10px; position:relative; z-index:1;
+    text-transform:uppercase; opacity:.65; margin-bottom:8px; position:relative; z-index:1;
 }
 .dm-mega-left-heading {
-    font-size:22px; font-weight:700; line-height:1.3;
-    color:#fff; margin-bottom:10px; position:relative; z-index:1;
+    font-size:18px; font-weight:700; line-height:1.3;
+    color:#fff; margin-bottom:8px; position:relative; z-index:1;
 }
 .dm-mega-left-body {
-    font-size:13px; line-height:1.65; color:#fff; flex:1; position:relative; z-index:1;
+    font-size:12.5px; line-height:1.6; color:rgba(255,255,255,.85); position:relative; z-index:1;
 }
 .dm-mega-left-cta {
-    display:inline-flex; align-items:center; gap:8px; margin-top:28px;
-    padding:10px 20px; background:rgba(255,255,255,.2);
-    border:1px solid rgba(255,255,255,.35); border-radius:30px;
-    color:#fff; font-size:13px; font-weight:600; text-decoration:none; width:fit-content;
-    transition:background .2s,transform .2s; position:relative; z-index:1;
+    display:inline-flex; align-items:center; gap:8px; margin-top:auto; padding-top:18px;
+    padding:18px 0 0; background:none; border:none; border-top:1px solid rgba(255,255,255,.15);
+    color:rgba(255,255,255,.9); font-size:12.5px; font-weight:600; text-decoration:none; width:100%;
+    transition:color .2s,gap .2s; position:relative; z-index:1;
 }
-.dm-mega-left-cta:hover { background:rgba(255,255,255,.32); transform:translateX(4px); color:#fff; }
+.dm-mega-left-cta:hover { color:#fff; gap:12px; }
 
 /* Center panel */
 .dm-mega-center {
@@ -150,34 +152,13 @@
     overflow-y:auto;
     /* max-height driven by parent flex, not a fixed px value */
 }
-/* ─── Sleek scrollbars for all mega panels ──────────────────────── */
-.dm-mega-left,
+/* ─── Scrollbars for center/right panels only ──────────────────── */
 .dm-mega-center,
-.dm-mega-right { scrollbar-width: thin; scrollbar-color: rgba(0,0,0,.15) transparent; }
-
-.dm-mega-left::-webkit-scrollbar,
+.dm-mega-right { scrollbar-width: thin; scrollbar-color: rgba(0,0,0,.12) transparent; }
 .dm-mega-center::-webkit-scrollbar,
-.dm-mega-right::-webkit-scrollbar { width: 4px; background: transparent; }
-
-.dm-mega-left::-webkit-scrollbar-track,
-.dm-mega-center::-webkit-scrollbar-track,
-.dm-mega-right::-webkit-scrollbar-track { background: transparent; }
-
-.dm-mega-left::-webkit-scrollbar-thumb,
+.dm-mega-right::-webkit-scrollbar { width: 3px; background: transparent; }
 .dm-mega-center::-webkit-scrollbar-thumb,
-.dm-mega-right::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,.15);
-    border-radius: 99px;
-    transition: background .2s;
-}
-
-/* Left panel scrollbar is on a dark bg — use white tint instead */
-.dm-mega-left { scrollbar-color: rgba(255,255,255,.25) transparent; }
-.dm-mega-left::-webkit-scrollbar-thumb { background: rgba(255,255,255,.25); }
-
-.dm-mega-left:hover::-webkit-scrollbar-thumb  { background: rgba(255,255,255,.45); }
-.dm-mega-center:hover::-webkit-scrollbar-thumb,
-.dm-mega-right:hover::-webkit-scrollbar-thumb  { background: rgba(0,0,0,.28); }
+.dm-mega-right::-webkit-scrollbar-thumb { background: rgba(0,0,0,.15); border-radius: 99px; }
 .dm-section-label {
     font-size:10.5px; font-weight:700; letter-spacing:1.8px;
     text-transform:uppercase; color:#aaa; margin-bottom:14px; display:block;
@@ -214,6 +195,29 @@
     font-size:11px; align-self:center; flex-shrink:0;
 }
 .dm-svc-card:hover .dm-svc-arrow { opacity:1; transform:translateX(0); }
+
+/* Featured / cross-category service card (dark blue gradient, white text) */
+.dm-svc-card--feature {
+    background:linear-gradient(135deg,var(--dm-brand-from,#1b3c6b) 0%,#2f5faa 100%);
+    border-color:transparent; color:#fff;
+    box-shadow:0 6px 20px rgba(27,60,107,.22);
+}
+.dm-svc-card--feature .dm-svc-title { color:#fff; }
+.dm-svc-card--feature .dm-svc-desc { color:rgba(255,255,255,.82); }
+.dm-svc-card--feature .dm-svc-arrow { color:#fff; opacity:1; transform:translateX(0); }
+.dm-svc-card--feature .dm-svc-icon {
+    background:rgba(255,255,255,.16); color:#fff;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);
+}
+.dm-svc-card--feature:hover {
+    background:linear-gradient(135deg,#1b3c6b 0%,#3768bd 100%); color:#fff;
+    border-color:transparent;
+    box-shadow:0 10px 28px rgba(27,60,107,.34); transform:translateY(-1px);
+}
+.dm-svc-card--feature:hover .dm-svc-icon {
+    background:rgba(255,255,255,.24); transform:scale(1.1);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),0 4px 12px rgba(0,0,0,.25);
+}
 
 /* Insight cards */
 .dm-ins-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
@@ -345,6 +349,16 @@ $secondSvc = $navServices->skip(1)->first();
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <p style="color:#aaa;font-size:13px;grid-column:span 2;">No services listed yet.</p>
                         <?php endif; ?>
+                        <a href="https://www.devmantra.com/Korea-india-entry.html" class="dm-svc-card dm-svc-card--feature" tabindex="-1" data-mf>
+                            <div class="dm-svc-icon">
+                                <i class="fa-solid fa-earth-asia"></i>
+                            </div>
+                            <div style="flex:1;min-width:0;">
+                                <div class="dm-svc-title">Korea–India Entry</div>
+                                <div class="dm-svc-desc">End-to-end market entry support for Korean businesses expanding into India — strategy, compliance, and on-ground execution.</div>
+                            </div>
+                            <span class="dm-svc-arrow">→</span>
+                        </a>
                     </div>
                 </div>
                 <div class="dm-mega-right">
@@ -638,8 +652,8 @@ $secondSvc = $navServices->skip(1)->first();
         <div class="tp-offcanvas-top d-flex align-items-center justify-content-between">
             <div class="tp-offcanvas-logo">
                 <a href="<?php echo e(route('home')); ?>">
-                    <img class="logo-1" data-width="120" src="<?php echo e(asset('assets/img/logo/logo.jpeg')); ?>" alt="Dev Mantra" style="border-radius:50px;">
-                    <img class="logo-2" data-width="120" src="<?php echo e(asset('assets/img/logo/logo.jpeg')); ?>" alt="Dev Mantra" style="border-radius:50px;">
+                    <img class="logo-1" width="120" data-width="120" src="<?php echo e(asset('assets/img/logo/logo.jpeg')); ?>" alt="Dev Mantra" style="border-radius:50px;width:120px;height:auto;">
+                    <img class="logo-2" width="120" data-width="120" src="<?php echo e(asset('assets/img/logo/logo.jpeg')); ?>" alt="Dev Mantra" style="border-radius:50px;width:120px;height:auto;">
                 </a>
             </div>
             <div class="tp-offcanvas-close">
@@ -681,7 +695,7 @@ $secondSvc = $navServices->skip(1)->first();
                 <div class="col-xl-2 col-lg-3 col-5">
                     <div class="tp-header-logo">
                         <a href="<?php echo e(route('home')); ?>">
-                            <img style="border-radius:50px;" data-width="140" src="<?php echo e(asset('assets/img/logo/logo.jpeg')); ?>" alt="Dev Mantra">
+                            <img style="border-radius:50px;width:140px;height:auto;" width="140" data-width="140" src="<?php echo e(asset('assets/img/logo/logo.jpeg')); ?>" alt="Dev Mantra">
                         </a>
                     </div>
                 </div>
@@ -709,6 +723,7 @@ $secondSvc = $navServices->skip(1)->first();
                                             <?php $__currentLoopData = $navServices; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $navService): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <li><a href="<?php echo e(route('service.show', $navService->slug)); ?>"><?php echo e($navService->title); ?></a></li>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <li><a href="https://www.devmantra.com/Korea-india-entry.html">Korea–India Entry</a></li>
                                         </ul>
                                     </li>
                                     
