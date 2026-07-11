@@ -6,6 +6,7 @@ import { wait } from './utils.js';
 import { collectData } from './navigation.js';
 import { renderBoard } from './board/render.js';
 import { showCongrats } from './navigation.js';
+import { buildPayload, clearLeadId } from './autosave.js';
 
 export async function runGenerate() {
   collectData();
@@ -83,38 +84,12 @@ export async function runGenerate() {
   document.getElementById('tb-sub').textContent = (state.name || 'Founder') + ' · Strategic Vision Board';
   document.getElementById('cgrats-name').textContent = state.name || 'Founder';
 
+  // Journey complete — the lead is now persisted server-side, so drop the
+  // stored lead id to avoid a later session overwriting this finished lead.
+  clearLeadId();
+
   renderBoard('executive');
   showCongrats();
-}
-
-function buildPayload() {
-  return {
-    name: state.name,
-    email: state.email,
-    phone: state.phone,
-    company: state.company,
-    city: state.city,
-    website: state.website,
-    industry: state.industry,
-    business_type: state.btype,
-    years_in_business: state.years,
-    team_size: state.team,
-    annual_revenue: state.revenue,
-    current_stage: state.stage,
-    challenges: state.challenges,
-    y1_goal: state.y1goal,
-    y1_detail: state.y1detail,
-    y1_excitement: state.excite1,
-    y3_goal: state.y3goal,
-    y3_proud: state.proud3,
-    y5_known: state.y5known,
-    y5_achievements: state.y5achieve,
-    y5_headline: state.y5headline,
-    founder_identity: state.founder,
-    focus_areas: state.focus,
-    personal_goals: state.personal,
-    other_answers: state.otherAnswers,
-  };
 }
 
 function showInlineErrors(errors) {

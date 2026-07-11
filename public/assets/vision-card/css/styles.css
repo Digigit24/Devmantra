@@ -237,7 +237,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 /* ── NAV BUTTONS ───────────────────────────────── */
-.q-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+.q-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; gap: 16px; flex-wrap: wrap; }
 .btn-next {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--navy); color: var(--white);
@@ -903,4 +903,23 @@ input[type=range]::-webkit-slider-thumb {
 @keyframes errorSlide {
   from { opacity: 0; transform: translateY(-6px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── FINAL SCREEN BUTTON LAYOUT ─────────────────── */
+.q-nav-final {
+  justify-content: center;
+  margin-top: 36px;
+  gap: 20px;
+}
+@media (max-width: 520px) {
+  .q-nav-final {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .q-nav-final .btn-back,
+  .q-nav-final .btn-generate {
+    width: 100%;
+    justify-content: center;
+  }
 }

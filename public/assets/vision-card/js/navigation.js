@@ -4,6 +4,7 @@
 import { state } from './state.js';
 import { v } from './utils.js';
 import { applyBoardScale } from './board/render.js';
+import { autosave } from './autosave.js';
 
 export const SCREENS = ['screen-hero', 'screen-intro', 'screen-industry', 'screen-profile', 'screen-today', 'screen-year1', 'screen-year3', 'screen-year5', 'screen-founder', 'screen-contact'];
 export let currentIdx = 0;
@@ -48,6 +49,10 @@ export function nextScreen() {
   }
 
   if (currentIdx < SCREENS.length - 1) { currentIdx++; showScreen(SCREENS[currentIdx]); updateProg(); }
+
+  // Persist progress to the server on every step (fire-and-forget so the
+  // UI is never blocked). No-ops until an email exists.
+  autosave(currentIdx);
 }
 
 export function showErrors(screenId, errors) {

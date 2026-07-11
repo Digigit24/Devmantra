@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\VisionCardResultMail;
 use App\Models\VisionLead;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class VisionCardController extends Controller
@@ -51,6 +53,7 @@ class VisionCardController extends Controller
             'focus_areas'       => 'nullable|array',
             'personal_goals'    => 'nullable|array',
             'other_answers'     => 'nullable|array',
+            'lead_id'           => 'nullable|integer',
         ]);
 
         // Normalise array fields
@@ -61,8 +64,8 @@ class VisionCardController extends Controller
             }
         }
 
-        // Persist the lead first so nothing is lost even if AI fails.
-        $lead = VisionLead::create([
+        // Build the completed lead payload.
+        $leadData = [
             'name'              => $validated['name'],
             'email'             => $validated['email'],
             'phone'             => $validated['phone'] ?? null,
@@ -91,11 +94,37 @@ class VisionCardController extends Controller
             'status'            => 'new',
             'ip_address'        => $request->ip(),
             'user_agent'        => $request->userAgent(),
-        ]);
+        ];
+
+        // Reuse the partial row created by autosave (if the frontend sent its
+        // id) so we don't create a duplicate; otherwise create a fresh lead.
+        // Either way the lead is persisted BEFORE the AI call, so nothing is
+        // lost even if the AI fails.
+        $lead = !empty($validated['lead_id']) ? VisionLead::find($validated['lead_id']) : null;
+        if ($lead) {
+            $lead->update($leadData);
+        } else {
+            $lead = VisionLead::create($leadData);
+        }
 
         $aiContent = $this->callAi($validated);
 
         $lead->update(['ai_content' => $aiContent]);
+
+        // Email the finished blueprint to the person who submitted the form,
+        // using the site's configured (Brevo) mailer. Best-effort: a mail
+        // failure must never break the API response or the result screen.
+        if (!empty($lead->email)) {
+            try {
+                Mail::to($lead->email, $lead->name)->send(new VisionCardResultMail(
+                    name: (string) ($lead->name ?? ''),
+                    company: (string) ($lead->company ?? ''),
+                    blueprint: is_array($aiContent) ? $aiContent : [],
+                ));
+            } catch (\Throwable $e) {
+                Log::error('VisionCard result email failed: ' . $e->getMessage(), ['email' => $lead->email]);
+            }
+        }
 
         return response()->json([
             'success'    => true,
@@ -105,58 +134,207 @@ class VisionCardController extends Controller
     }
 
     /**
-     * Build the prompt and call the Kimi (Moonshot) API, falling back to a
-     * local template if the API is unavailable or unconfigured.
+     * Autosave a partial lead as the visitor progresses through the form.
+     *
+     * Called on every step so nothing is lost if the visitor abandons the
+     * form. Returns the lead id so subsequent saves — and the final generate
+     * call — update the same row instead of creating duplicates.
+     *
+     * Migration-free: the first server-side row is written from the moment a
+     * name + email exist (step 2), which is when the lead first becomes
+     * contactable. Earlier keystrokes are still held in the browser.
+     */
+    public function autosave(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'lead_id'           => 'nullable|integer',
+            'step'              => 'nullable|integer',
+            'name'              => 'nullable|string|max:255',
+            'email'             => 'nullable|email|max:255',
+            'phone'             => 'nullable|string|max:50',
+            'company'           => 'nullable|string|max:255',
+            'city'              => 'nullable|string|max:255',
+            'website'           => 'nullable|string|max:255',
+            'industry'          => 'nullable|string|max:255',
+            'business_type'     => 'nullable|string|max:255',
+            'years_in_business' => 'nullable|string|max:255',
+            'team_size'         => 'nullable|string|max:255',
+            'annual_revenue'    => 'nullable|string|max:255',
+            'current_stage'     => 'nullable|string|max:255',
+            'challenges'        => 'nullable|array',
+            'y1_goal'           => 'nullable|string|max:255',
+            'y1_detail'         => 'nullable|string|max:1000',
+            'y1_excitement'     => 'nullable|string|max:2000',
+            'y3_goal'           => 'nullable|string|max:255',
+            'y3_proud'          => 'nullable|string|max:2000',
+            'y5_known'          => 'nullable|string|max:2000',
+            'y5_achievements'   => 'nullable|array',
+            'y5_headline'       => 'nullable|string|max:1000',
+            'founder_identity'  => 'nullable|array',
+            'focus_areas'       => 'nullable|array',
+            'personal_goals'    => 'nullable|array',
+            'other_answers'     => 'nullable|array',
+        ]);
+
+        // Normalise array fields.
+        foreach (['challenges', 'y5_achievements', 'founder_identity', 'focus_areas', 'personal_goals', 'other_answers'] as $field) {
+            if (!isset($data[$field]) || !is_array($data[$field])) {
+                $data[$field] = [];
+            }
+        }
+
+        $email = trim((string) ($data['email'] ?? ''));
+        $name  = trim((string) ($data['name'] ?? ''));
+
+        // Find the existing partial row: by id first, then by email.
+        $lead = !empty($data['lead_id']) ? VisionLead::find($data['lead_id']) : null;
+        if (!$lead && $email !== '') {
+            $lead = VisionLead::where('email', $email)->where('status', 'partial')->latest()->first();
+        }
+
+        // A brand-new row needs at least the DB-required name + email. Until
+        // then we acknowledge without persisting (browser keeps the data).
+        if (!$lead && ($email === '' || $name === '')) {
+            return response()->json(['success' => true, 'lead_id' => null, 'saved' => false]);
+        }
+
+        $payload = [
+            'name'              => $name !== '' ? $name : ($lead->name ?? ''),
+            'email'             => $email !== '' ? $email : ($lead->email ?? ''),
+            'phone'             => $data['phone'] ?? null,
+            'company'           => $data['company'] ?? null,
+            'city'              => $data['city'] ?? null,
+            'website'           => $data['website'] ?? null,
+            'industry'          => $data['industry'] ?? null,
+            'business_type'     => $data['business_type'] ?? null,
+            'years_in_business' => $data['years_in_business'] ?? null,
+            'team_size'         => $data['team_size'] ?? null,
+            'annual_revenue'    => $data['annual_revenue'] ?? null,
+            'current_stage'     => $data['current_stage'] ?? null,
+            'challenges'        => $data['challenges'],
+            'y1_goal'           => $data['y1_goal'] ?? null,
+            'y1_detail'         => $data['y1_detail'] ?? null,
+            'y1_excitement'     => $data['y1_excitement'] ?? null,
+            'y3_goal'           => $data['y3_goal'] ?? null,
+            'y3_proud'          => $data['y3_proud'] ?? null,
+            'y5_known'          => $data['y5_known'] ?? null,
+            'y5_achievements'   => $data['y5_achievements'],
+            'y5_headline'       => $data['y5_headline'] ?? null,
+            'founder_identity'  => $data['founder_identity'],
+            'focus_areas'       => $data['focus_areas'],
+            'personal_goals'    => $data['personal_goals'],
+            'other_answers'     => $data['other_answers'],
+            'ip_address'        => $request->ip(),
+            'user_agent'        => $request->userAgent(),
+        ];
+
+        if ($lead) {
+            // Only keep the "partial" flag while the lead is still partial —
+            // never downgrade an already-completed lead.
+            if ($lead->status === 'partial') {
+                $payload['status'] = 'partial';
+            }
+            $lead->update($payload);
+        } else {
+            $payload['status'] = 'partial';
+            $lead = VisionLead::create($payload);
+        }
+
+        return response()->json(['success' => true, 'lead_id' => $lead->id, 'saved' => true]);
+    }
+
+    /**
+     * Generate the AI blueprint, trying each configured provider in order
+     * (Kimi first, then Grok) and falling back to a local template only if
+     * every provider is unconfigured or fails. The provider that produced the
+     * content is logged and tagged onto the payload (_provider) for reporting.
      */
     private function callAi(array $state): array
     {
-        $apiKey = env('KIMI_API_KEY');
-        $model  = env('KIMI_MODEL', 'kimi-latest');
-
-        if (empty($apiKey)) {
-            Log::warning('VisionCard AI skipped: KIMI_API_KEY is not set. Using fallback content.', ['email' => $state['email'] ?? null]);
-            return $this->fallbackAiContent($state);
-        }
-
         $prompt = $this->buildPrompt($state);
 
-        try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $apiKey,
-                'content-type'  => 'application/json',
-            ])->timeout(90)->post('https://api.moonshot.cn/v1/chat/completions', [
-                'model'       => $model,
-                'max_tokens'  => 2500,
-                'temperature' => 0.7,
-                'messages'    => [
-                    ['role' => 'user', 'content' => $prompt],
-                ],
-            ]);
+        foreach ($this->aiProviders() as $provider) {
+            if (empty($provider['key'])) {
+                Log::info("VisionCard AI: skipping {$provider['name']} — no API key configured.");
+                continue;
+            }
 
-            if (!$response->successful()) {
-                Log::error('VisionCard Kimi API error', [
-                    'status' => $response->status(),
-                    'body'   => $response->body(),
+            try {
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $provider['key'],
+                    'Content-Type'  => 'application/json',
+                ])->timeout($provider['timeout'])->post($provider['endpoint'], [
+                    'model'       => $provider['model'],
+                    'max_tokens'  => 2500,
+                    'temperature' => 0.7,
+                    'messages'    => [
+                        ['role' => 'user', 'content' => $prompt],
+                    ],
                 ]);
-                return $this->fallbackAiContent($state);
+
+                if (!$response->successful()) {
+                    Log::error("VisionCard AI: {$provider['name']} HTTP {$response->status()} — trying next provider.", [
+                        'body' => mb_substr((string) $response->body(), 0, 500),
+                    ]);
+                    continue;
+                }
+
+                $text   = $response->json('choices.0.message.content', '');
+                $clean  = trim(preg_replace('/```json|```/', '', (string) $text));
+                $parsed = json_decode($clean, true);
+
+                if (!is_array($parsed) || json_last_error() !== JSON_ERROR_NONE) {
+                    Log::warning("VisionCard AI: {$provider['name']} returned non-JSON — trying next provider.", [
+                        'snippet' => mb_substr((string) $text, 0, 300),
+                    ]);
+                    continue;
+                }
+
+                Log::info("VisionCard AI: blueprint generated via {$provider['name']} ({$provider['model']}).");
+                $content = $this->normaliseAiContent($parsed, $state);
+                $content['_provider'] = $provider['name'];
+
+                return $content;
+            } catch (\Throwable $e) {
+                Log::error("VisionCard AI: {$provider['name']} exception — trying next provider. " . $e->getMessage());
+                continue;
             }
-
-            $data = $response->json();
-            $text = $data['choices'][0]['message']['content'] ?? '';
-            $clean = preg_replace('/```json|```/', '', $text);
-            $clean = trim($clean);
-
-            $parsed = json_decode($clean, true);
-            if (!is_array($parsed) || json_last_error() !== JSON_ERROR_NONE) {
-                Log::warning('VisionCard AI response was not valid JSON; using fallback.', ['response' => $text]);
-                return $this->fallbackAiContent($state);
-            }
-
-            return $this->normaliseAiContent($parsed, $state);
-        } catch (\Throwable $e) {
-            Log::error('VisionCard AI exception: ' . $e->getMessage());
-            return $this->fallbackAiContent($state);
         }
+
+        Log::warning('VisionCard AI: all providers unavailable — using local template fallback.');
+        $content = $this->fallbackAiContent($state);
+        $content['_provider'] = 'template';
+
+        return $content;
+    }
+
+    /**
+     * AI providers in fallback order. Each is an OpenAI-compatible
+     * /chat/completions endpoint, so reordering or adding a provider is just
+     * an .env change — no code edit required. Kimi activates automatically the
+     * moment KIMI_API_KEY is added to .env. The Grok entry mirrors the working
+     * alt-text command (api.x.ai / grok-3-mini) and is left untouched.
+     */
+    private function aiProviders(): array
+    {
+        // Read via config() (with an env() fallback) so the keys resolve
+        // whether or not `php artisan config:cache` has been run on the server.
+        return [
+            [
+                'name'     => 'kimi',
+                'key'      => config('services.kimi.key', env('KIMI_API_KEY', '')),
+                'endpoint' => rtrim(config('services.kimi.base', env('KIMI_API_BASE', 'https://api.moonshot.ai/v1')), '/') . '/chat/completions',
+                'model'    => config('services.kimi.model', env('KIMI_MODEL', 'kimi-latest')),
+                'timeout'  => 90,
+            ],
+            [
+                'name'     => 'grok',
+                'key'      => config('services.grok.key', env('GROK_API_KEY', '')),
+                'endpoint' => rtrim(config('services.grok.base', env('GROK_API_BASE', 'https://api.x.ai/v1')), '/') . '/chat/completions',
+                'model'    => config('services.grok.model', env('GROK_MODEL', 'grok-3-mini')),
+                'timeout'  => 90,
+            ],
+        ];
     }
 
     /**

@@ -48,5 +48,5 @@ class VisionLead extends Model
         'ai_content'       => 'array',
     ];
 
-    public const STATUSES = ['new', 'read', 'archived'];
+    public const STATUSES = ['partial', 'new', 'read', 'archived'];
 }

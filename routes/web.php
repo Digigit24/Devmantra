@@ -69,6 +69,7 @@ Route::post('/india-europe-benchmarking-calculator/lead', [CostBenchmarkControll
 
 // Vision Card / Growth Blueprint
 Route::get('/vision-card', [VisionCardController::class, 'index'])->name('vision-card.index');
+Route::post('/vision-card/autosave', [VisionCardController::class, 'autosave'])->name('vision-card.autosave')->middleware('throttle:60,1');
 Route::post('/vision-card/generate', [VisionCardController::class, 'generate'])->name('vision-card.generate')->middleware('throttle:10,1');
 
 // Admin routes

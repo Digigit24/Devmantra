@@ -9,6 +9,7 @@ export const state = {
   founder: [], focus: [], personal: [],
   email: '', phone: '', website: '',
   aiContent: null,
+  leadId: null,
   otherAnswers: {}
 };
 
@@ -23,7 +24,7 @@ export function updateRev(v) {
 // Load saved scalar state
 try {
   const s = JSON.parse(localStorage.getItem('gbv2') || '{}');
-  const scalar = ['name', 'company', 'city', 'industry', 'btype', 'years', 'team', 'revenue', 'stage', 'y1goal', 'y1detail', 'excite1', 'y3goal', 'proud3', 'y5known', 'y5headline', 'email', 'phone', 'website'];
+  const scalar = ['name', 'company', 'city', 'industry', 'btype', 'years', 'team', 'revenue', 'stage', 'y1goal', 'y1detail', 'excite1', 'y3goal', 'proud3', 'y5known', 'y5headline', 'email', 'phone', 'website', 'leadId'];
   scalar.forEach(k => { if (s[k]) state[k] = s[k]; });
 } catch (e) { /* ignore */ }
 

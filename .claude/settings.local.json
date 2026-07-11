@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd c:\\\\xampp\\\\htdocs\\\\Devmantranew; php -r \"require 'vendor/autoload.php'; \\\\$app = require 'bootstrap/app.php'; \\\\$app->make\\('Illuminate\\\\Contracts\\\\Console\\\\Kernel'\\)->bootstrap\\(\\); \\\\$sections = DB::table\\('page_sections'\\)->select\\('id','page_id','section_type','sort_order'\\)->orderBy\\('page_id'\\)->orderBy\\('sort_order'\\)->get\\(\\); foreach\\(\\\\$sections as \\\\$s\\) { echo \\\\$s->id . ' | page:' . \\\\$s->page_id . ' | ' . \\\\$s->section_type . ' | order:' . \\\\$s->sort_order . PHP_EOL; }\")",
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"c:\\\\xampp\\\\htdocs\\\\Devmantranew\\\\public\\\\assets\\\\img\\\\memberships\")",
+      "Skill(firecrawl)",
+      "Skill(firecrawl:*)",
+      "Bash(wait)",
+      "Bash(python3 -c \"import json; data=json.load\\(open\\('.firecrawl/search-cwe.json'\\)\\); [print\\(f\\\\\"{x['title']}: {x['url']}\\\\\"\\) for x in data['data']['web']]\")",
+      "Bash(firecrawl scrape *)",
+      "mcp__claude_ai_firecrawl__firecrawl_scrape"
+    ]
+  }
+}

@@ -36,7 +36,15 @@ return [
     ],
 
     'grok' => [
-        'key' => env('GROK_API_KEY'),
+        'key'   => env('GROK_API_KEY'),
+        'base'  => env('GROK_API_BASE', 'https://api.x.ai/v1'),
+        'model' => env('GROK_MODEL', 'grok-3-mini'),
+    ],
+
+    'kimi' => [
+        'key'   => env('KIMI_API_KEY'),
+        'base'  => env('KIMI_API_BASE', 'https://api.moonshot.ai/v1'),
+        'model' => env('KIMI_MODEL', 'kimi-latest'),
     ],
 
 ];

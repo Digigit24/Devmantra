@@ -62,6 +62,7 @@
                     <td>
                         @php
                             $colors = [
+                                'partial'  => 'background:rgba(217,119,6,0.12);color:#b45309;',
                                 'new'      => 'background:rgba(59,130,246,0.15);color:#2563eb;',
                                 'read'     => 'background:rgba(245,158,11,0.15);color:#d97706;',
                                 'archived' => 'background:rgba(148,163,184,0.15);color:#64748b;',

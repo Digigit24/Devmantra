@@ -406,7 +406,7 @@
     <div style="margin:32px 0;">
       <svg width="56" height="56" fill="none" stroke="var(--gold)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
     </div>
-    <div class="q-nav" style="justify-content:center;">
+    <div class="q-nav q-nav-final">
       <button class="btn-back" onclick="goBack()">Back</button>
       <button class="btn-generate" onclick="runGenerate()">
         Generate My Blueprint
