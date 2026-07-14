@@ -2,8 +2,9 @@ import { state } from '../state.js';
 import { card } from './components.js';
 
 // ── COMPACT LANDSCAPE MAGAZINE (for PDF export) ───────────────────────────
-// Spreads the same content across 4 columns so the board is shorter and
-// fills more of an A4 landscape page.
+// UNCHANGED — this renderer is intentionally kept separate from the live
+// view (see renderMagazine below). It already uses CSS Grid with no
+// absolute positioning, so it is not affected by the live-layout rework.
 export function renderCompactMagazine(area, imgURL) {
   const ai = state.aiContent;
   area.style.cssText = 'width:1200px;min-height:680px;position:relative;';
@@ -70,117 +71,129 @@ export function renderCompactMagazine(area, imgURL) {
   `));
 }
 
-// ── MAGAZINE LAYOUT ───────────────────────────
+// ── MAGAZINE LAYOUT (live) ─────────────────────
+// Normal-flow CSS Grid at every viewport width — no absolute positioning,
+// no pixel x/y coordinates, no JS height/footer calculation. The hero and
+// three content columns are ordinary flow children, so the board's own
+// height (and the footer position below it) fall out of normal layout
+// automatically, and cards below a taller neighbour move down on their own.
+//
+// Cards keep the same visual grouping as before (column A/B/C) so the
+// desktop/tablet composition matches the original design; at mobile the
+// column groups collapse via CSS `display:contents` (see styles.css) so
+// each card can be placed independently in the requested reading order
+// through `data-board-card` + `order`, without duplicating any markup.
 export function renderMagazine(area, imgURL) {
   const ai = state.aiContent;
-  area.style.minHeight = '980px';
-  area.style.width = '1200px';
+  area.style.cssText = 'width:100%;max-width:1200px;';
 
-  // Full-width hero bar
-  const hero = document.createElement('div');
-  hero.className = 'bc paper';
-  hero.style.cssText = 'position:absolute;left:0;top:0;width:1200px;height:300px;padding:0;overflow:hidden;';
-  hero.innerHTML = `
-    <div class="bc-img-wrap"><img src="${imgURL}" alt="" loading="lazy" style="filter:saturate(0.7) brightness(0.65);"><div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,31,61,0.97) 0%,rgba(15,31,61,0.6) 50%,rgba(15,31,61,0.2) 100%);"></div></div>
-    <div style="position:absolute;top:0;left:0;bottom:0;width:600px;padding:40px 48px;display:flex;flex-direction:column;justify-content:center;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">Business Growth Blueprint · ${state.industry || ''} · ${new Date().getFullYear()}</div>
-      <div style="font-family:'Cormorant Garant',serif;font-size:54px;font-weight:700;color:#fff;line-height:1.0;letter-spacing:-0.025em;">${state.company || 'Your Company'}</div>
-      <div style="font-family:'Cormorant Garant',serif;font-size:20px;font-style:italic;color:rgba(255,255,255,0.85);margin-top:10px;">"${ai.tagline || ''}"</div>
-    </div>
-    <div style="position:absolute;right:48px;bottom:40px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.72);margin-bottom:8px;">Strategic Theme</div>
-      <div style="font-family:'Cormorant Garant',serif;font-size:32px;font-weight:700;color:var(--gold-lt);">${ai.growthTheme || ''}</div>
-    </div>
-  `;
+  // ── Hero — image is an absolutely-positioned decorative background
+  // layer; the caption sits in normal flow so it can never be clipped and
+  // simply grows the hero (and pushes everything below it down) if the
+  // dynamic tagline/theme text is unusually long.
+  const hero = card({
+    cardId: 'business-identity',
+    role: 'hero',
+    cls: 'bc-hero',
+    extra: 'position:relative;min-height:300px;padding:0;display:flex;flex-direction:column;justify-content:center;',
+    html: `
+    <div class="bc-img-wrap" style="position:absolute;inset:0;overflow:hidden;"><img src="${imgURL}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;filter:saturate(0.7) brightness(0.65);"><div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,31,61,0.97) 0%,rgba(15,31,61,0.6) 50%,rgba(15,31,61,0.2) 100%);"></div></div>
+    <div class="bc-hero-inner" style="position:relative;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;padding:40px 48px;">
+      <div style="min-width:0;flex:1 1 360px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">Business Growth Blueprint · ${state.industry || ''} · ${new Date().getFullYear()}</div>
+        <div style="font-family:'Cormorant Garant',serif;font-size:clamp(30px,4vw,54px);font-weight:700;color:#fff;line-height:1.05;letter-spacing:-0.025em;overflow-wrap:anywhere;">${state.company || 'Your Company'}</div>
+        <div style="font-family:'Cormorant Garant',serif;font-size:20px;font-style:italic;color:rgba(255,255,255,0.85);margin-top:10px;">"${ai.tagline || ''}"</div>
+      </div>
+      <div style="min-width:0;flex:0 1 280px;text-align:right;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.72);margin-bottom:8px;">Strategic Theme</div>
+        <div style="font-family:'Cormorant Garant',serif;font-size:28px;font-weight:700;color:var(--gold-lt);">${ai.growthTheme || ''}</div>
+      </div>
+    </div>`
+  });
   area.appendChild(hero);
 
-  // Three columns below hero
-  // Col A: 0–360
-  area.appendChild(card({ x: 0, y: 316, w: 360, h: 160, html: `
-    <span class="bt-overline">Mission</span>
-    <div class="bt-quote" style="font-size:17px;">${ai.mission || ''}</div>
-  ` }));
+  function magColumn(items, role) {
+    const d = document.createElement('div');
+    d.className = 'magazine-column magazine-column--' + role;
+    d.dataset.boardColumn = role;
+    d.style.cssText = 'display:flex;flex-direction:column;gap:12px;min-width:0;';
+    items.forEach(el => d.appendChild(el));
+    return d;
+  }
 
-  area.appendChild(card({ x: 0, y: 488, w: 360, h: 200, cls: 'bc-pale', html: `
-    <span class="bt-overline">12-Month Priority</span>
-    <div class="bt-h3" style="color:var(--navy);margin-bottom:10px;">${state.y1goal || 'Growth'}</div>
-    ${(ai.y1milestones || []).map(m => `<div style="font-size:13px;padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.06);">${m}</div>`).join('')}
-  ` }));
+  // ── Column A ──
+  area.appendChild(magColumn([
+    card({ cardId: 'mission', html: `
+      <span class="bt-overline">Mission</span>
+      <div class="bt-quote" style="font-size:17px;">${ai.mission || ''}</div>
+    ` }),
+    card({ cardId: 'year-one-priority', cls: 'bc-pale', html: `
+      <span class="bt-overline">12-Month Priority</span>
+      <div class="bt-h3" style="color:var(--navy);margin-bottom:10px;">${state.y1goal || 'Growth'}</div>
+      ${(ai.y1milestones || []).map(m => `<div style="font-size:13px;padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.06);">${m}</div>`).join('')}
+    ` }),
+    card({ cardId: 'founder', cls: 'bc-charcoal', html: `
+      <span class="bt-overline" style="color:rgba(255,255,255,0.72)">Founder</span>
+      <div class="bt-h3" style="color:#fff;overflow-wrap:anywhere;">${state.name || 'Founder'}</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.78);margin-top:4px;">${Array.isArray(state.founder) ? state.founder.join(', ') : state.founder} · ${Array.isArray(state.focus) ? state.focus.join(' · ') : state.focus}</div>
+    ` }),
+    card({ cardId: 'action-plan', html: `
+      <span class="bt-overline">30-Day Start</span>
+      ${(ai.actions30 || []).slice(0, 2).map(a => `<div style="font-size:13px;padding:5px 0;border-bottom:1px solid var(--border);">${a}</div>`).join('')}
+    ` })
+  ], 'a'));
 
-  area.appendChild(card({ x: 0, y: 700, w: 360, h: 120, cls: 'bc-charcoal', html: `
-    <span class="bt-overline" style="color:rgba(255,255,255,0.72)">Founder</span>
-    <div class="bt-h3" style="color:#fff;">${state.name || 'Founder'}</div>
-    <div style="font-size:12px;color:rgba(255,255,255,0.78);margin-top:4px;">${Array.isArray(state.founder) ? state.founder.join(', ') : state.founder} · ${Array.isArray(state.focus) ? state.focus.join(' · ') : state.focus}</div>
-  ` }));
+  // ── Column B ──
+  area.appendChild(magColumn([
+    card({ cardId: 'vision', cls: 'bc-navy', html: `
+      <span class="bt-overline" style="color:rgba(255,255,255,0.72)">Vision</span>
+      <div class="bt-quote" style="color:#fff;font-size:17px;">${ai.vision || ''}</div>
+    ` }),
+    card({ cardId: 'strategic-priorities', html: `
+      <span class="bt-overline">Strategic Priorities</span>
+      <div class="bt-plist">
+        ${(ai.topPriorities || []).map((p, i) => `<div class="bt-plist-item"><div class="bt-plist-n">${i + 1}</div><div class="bt-plist-txt">${p}</div></div>`).join('')}
+      </div>
+    ` }),
+    card({ cardId: 'five-year-vision', cls: 'bc-gold', html: `
+      <span class="bt-overline" style="color:rgba(15,31,61,0.45)">5-Year Vision</span>
+      <div style="font-family:'Cormorant Garant',serif;font-size:16px;font-style:italic;color:var(--navy);line-height:1.5;">"${state.company || 'Our business'} will be known for ${state.y5known || 'excellence'}."</div>
+    ` }),
+    card({ cardId: 'core-values', html: `
+      <span class="bt-overline">Core Values</span>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        ${(ai.values || []).map(v => `<span class="bt-tag" style="background:var(--bone);border:1px solid var(--border);color:var(--navy);font-size:11px;font-weight:700;">${v}</span>`).join('')}
+      </div>
+    ` })
+  ], 'b'));
 
-  area.appendChild(card({ x: 0, y: 832, w: 360, h: 110, html: `
-    <span class="bt-overline">30-Day Start</span>
-    ${(ai.actions30 || []).slice(0, 2).map(a => `<div style="font-size:13px;padding:5px 0;border-bottom:1px solid var(--border);">${a}</div>`).join('')}
-  ` }));
+  // ── Column C ──
+  area.appendChild(magColumn([
+    card({ cardId: 'roadmap', extra: 'flex:1;', html: `
+      <span class="bt-overline">Roadmap to the Future</span>
+      <div class="bt-tl">
+        <div class="bt-tl-item"><div class="bt-tl-spine"><div class="bt-tl-dot"></div><div class="bt-tl-line"></div></div><div><div class="bt-tl-yr">Year 1</div>${(ai.y1milestones || []).map(m => `<div class="bt-tl-txt" style="margin-bottom:3px;">${m}</div>`).join('')}</div></div>
+        <div class="bt-tl-item"><div class="bt-tl-spine"><div class="bt-tl-dot"></div><div class="bt-tl-line"></div></div><div><div class="bt-tl-yr">Year 3</div>${(ai.y3milestones || []).map(m => `<div class="bt-tl-txt" style="margin-bottom:3px;">${m}</div>`).join('')}</div></div>
+        <div class="bt-tl-item"><div class="bt-tl-spine"><div class="bt-tl-dot"></div></div><div><div class="bt-tl-yr">Year 5</div>${(ai.y5milestones || []).map(m => `<div class="bt-tl-txt" style="margin-bottom:3px;">${m}</div>`).join('')}</div></div>
+      </div>
+    ` }),
+    card({ cardId: 'closing-insight', cls: 'bc-bone', html: `
+      <div style="width:24px;height:2px;background:var(--gold);margin-bottom:14px;"></div>
+      <div class="bt-quote" style="font-size:18px;">${ai.quote || ''}</div>
+    ` }),
+    card({ cardId: 'kpis', html: `
+      <span class="bt-overline">Key Metrics</span>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        ${(ai.kpis || []).map(k => `<div style="padding:8px 10px;background:var(--warm);border-radius:3px;font-size:11px;font-weight:600;color:var(--navy);">${k}</div>`).join('')}
+      </div>
+    ` }),
+    card({ cardId: 'strategic-intelligence', html: `
+      <span class="bt-overline">Strategic Intelligence</span>
+      <div class="bt-body" style="font-size:13px;opacity:1;">${ai.biggestOpportunity || ''}</div>
+    ` })
+  ], 'c'));
 
-  // Col B: 372–768
-  area.appendChild(card({ x: 372, y: 316, w: 396, h: 130, cls: 'bc-navy', html: `
-    <span class="bt-overline" style="color:rgba(255,255,255,0.72)">Vision</span>
-    <div class="bt-quote" style="color:#fff;font-size:17px;">${ai.vision || ''}</div>
-  ` }));
-
-  area.appendChild(card({ x: 372, y: 458, w: 396, h: 240, html: `
-    <span class="bt-overline">Strategic Priorities</span>
-    <div class="bt-plist">
-      ${(ai.topPriorities || []).map((p, i) => `<div class="bt-plist-item"><div class="bt-plist-n">${i + 1}</div><div class="bt-plist-txt">${p}</div></div>`).join('')}
-    </div>
-  ` }));
-
-  area.appendChild(card({ x: 372, y: 710, w: 396, h: 110, cls: 'bc-gold', html: `
-    <span class="bt-overline" style="color:rgba(15,31,61,0.45)">5-Year Vision</span>
-    <div style="font-family:'Cormorant Garant',serif;font-size:16px;font-style:italic;color:var(--navy);line-height:1.5;">"${state.company || 'Our business'} will be known for ${state.y5known || 'excellence'}."</div>
-  ` }));
-
-  area.appendChild(card({ x: 372, y: 832, w: 396, h: 110, html: `
-    <span class="bt-overline">Core Values</span>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;">
-      ${(ai.values || []).map(v => `<span class="bt-tag" style="background:var(--bone);border:1px solid var(--border);color:var(--navy);font-size:11px;font-weight:700;">${v}</span>`).join('')}
-    </div>
-  ` }));
-
-  // Col C: 780–1200
-  area.appendChild(card({ x: 780, y: 316, w: 408, h: 200, html: `
-    <span class="bt-overline">Roadmap to the Future</span>
-    <div class="bt-tl">
-      <div class="bt-tl-item"><div class="bt-tl-spine"><div class="bt-tl-dot"></div><div class="bt-tl-line"></div></div><div><div class="bt-tl-yr">Year 1</div>${(ai.y1milestones || []).map(m => `<div class="bt-tl-txt" style="margin-bottom:3px;">${m}</div>`).join('')}</div></div>
-      <div class="bt-tl-item"><div class="bt-tl-spine"><div class="bt-tl-dot"></div><div class="bt-tl-line"></div></div><div><div class="bt-tl-yr">Year 3</div>${(ai.y3milestones || []).map(m => `<div class="bt-tl-txt" style="margin-bottom:3px;">${m}</div>`).join('')}</div></div>
-      <div class="bt-tl-item"><div class="bt-tl-spine"><div class="bt-tl-dot"></div></div><div><div class="bt-tl-yr">Year 5</div>${(ai.y5milestones || []).map(m => `<div class="bt-tl-txt" style="margin-bottom:3px;">${m}</div>`).join('')}</div></div>
-    </div>
-  ` }));
-
-  area.appendChild(card({ x: 780, y: 528, w: 408, h: 130, cls: 'bc-bone', html: `
-    <div style="width:24px;height:2px;background:var(--gold);margin-bottom:14px;"></div>
-    <div class="bt-quote" style="font-size:18px;">${ai.quote || ''}</div>
-  ` }));
-
-  area.appendChild(card({ x: 780, y: 670, w: 408, h: 140, html: `
-    <span class="bt-overline">Key Metrics</span>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-      ${(ai.kpis || []).map(k => `<div style="padding:8px 10px;background:var(--warm);border-radius:3px;font-size:11px;font-weight:600;color:var(--navy);">${k}</div>`).join('')}
-    </div>
-  ` }));
-
-  area.appendChild(card({ x: 780, y: 822, w: 408, h: 120, html: `
-    <span class="bt-overline">Strategic Intelligence</span>
-    <div class="bt-body" style="font-size:13px;opacity:1;">${ai.biggestOpportunity || ''}</div>
-  ` }));
-
-  // Compute true bottom from rendered card heights to prevent footer overlap
-  requestAnimationFrame(() => {
-    let maxBottom = 0;
-    area.querySelectorAll('.bc').forEach(c => {
-      const top = parseInt(c.style.top || 0);
-      const h = c.getBoundingClientRect().height;
-      if (top + h > maxBottom) maxBottom = top + h;
-    });
-    const needed = maxBottom + 20; // 20px safety gap
-    area.style.minHeight = needed + 'px';
-    const inner = area.querySelector('.magazine-inner');
-    if (inner) inner.style.minHeight = needed + 'px';
-  });
+  // No JS height/footer calculation: every card above is a normal-flow
+  // element, so the board's height (and the footer docked below it in
+  // render.js) is produced entirely by ordinary document flow.
 }

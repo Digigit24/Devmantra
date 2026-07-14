@@ -342,13 +342,21 @@ input[type=range]::-webkit-slider-thumb {
   position: sticky; top: 0; z-index: 100; gap: 16px; flex-wrap: wrap;
   flex-shrink: 0;
 }
-.board-topbar-left { display: flex; align-items: baseline; gap: 12px; }
+.board-topbar-left {
+  display: flex; align-items: baseline; gap: 12px;
+  min-width: 0; flex: 1 1 auto;
+}
 .board-topbar-co {
   font-family: 'Cormorant Garant', serif;
-  font-size: 20px; font-weight: 700; color: var(--navy); letter-spacing: -0.01em;
+  font-size: clamp(14px, 1.6vw, 20px); font-weight: 700; color: var(--navy);
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
 }
-.board-topbar-sub { font-size: 12px; color: var(--slate); letter-spacing: 0.04em; }
-.board-topbar-right { display: flex; gap: 8px; align-items: center; }
+.board-topbar-sub {
+  font-size: 12px; color: var(--slate); letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+}
+.board-topbar-right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .board-topbar-center {
   display: flex;
   align-items: center;
@@ -356,27 +364,35 @@ input[type=range]::-webkit-slider-thumb {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  min-width: 0;
 }
 .btn-tb {
-  padding: 8px 16px; border-radius: var(--r-sm); font-size: 12px; font-weight: 600;
+  padding: 8px 16px; min-height: 40px; border-radius: var(--r-sm); font-size: 12px; font-weight: 600;
   cursor: pointer; border: 1.5px solid var(--border); background: var(--white);
   color: var(--charcoal); letter-spacing: 0.05em; text-transform: uppercase;
   transition: all 0.15s; font-family: 'Inter', sans-serif;
+  display: inline-flex; align-items: center; justify-content: center;
 }
 .btn-tb:hover { border-color: var(--charcoal); }
+.btn-tb:focus-visible,
+.ltab:focus-visible {
+  outline: 2px solid var(--gold); outline-offset: 2px;
+}
 .btn-tb.primary { background: var(--navy); color: var(--white); border-color: var(--navy); }
 .btn-tb.primary:hover { background: #162d54; }
 .layout-tabs {
   display: flex; gap: 6px; padding: 16px 32px 0;
-  flex-shrink: 0;
+  flex-shrink: 0; flex-wrap: wrap;
 }
 .ltab {
-  padding: 8px 18px; border-radius: var(--r-sm); font-size: 12px; font-weight: 600;
+  padding: 8px 18px; min-height: 40px; border-radius: var(--r-sm); font-size: 12px; font-weight: 600;
   cursor: pointer; border: 1.5px solid var(--border); background: var(--white);
   color: var(--slate); transition: all 0.15s; font-family: 'Inter', sans-serif;
   letter-spacing: 0.04em; text-transform: uppercase;
+  display: inline-flex; align-items: center; justify-content: center;
 }
 .ltab.on { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.ltab[aria-selected="true"] { background: var(--navy); color: var(--white); border-color: var(--navy); }
 .board-area {
   flex: 1;
   padding: 28px 32px;
@@ -423,23 +439,38 @@ input[type=range]::-webkit-slider-thumb {
 .bf-right img { height: 18px; width: auto; }
 
 /* ── BOARD CANVAS ──────────────────────────────── */
+/* Responsive width is the primary sizing mechanism — no transform:scale().
+   The canvas simply shrinks with the viewport up to its 1200px design
+   width; CSS Grid (below) handles the actual column reflow per tier. */
 #board-render-area {
   background: var(--white);
   border-radius: 4px;
   overflow: visible;
   transition: opacity 0.3s;
   padding: 16px;
-  transform-origin: top left;
-  transform: scale(var(--board-scale, 1));
+  width: min(100%, 1200px);
+  transform: none;
   margin: 0 auto;
 }
-/* Executive layout — flex/grid, not absolute */
-.bl-executive { width: 1200px; }
-/* Editorial layout — flex, not absolute */
+/* Executive layout — normal-flow CSS Grid, no absolute positioning */
+.bl-executive { width: 100%; max-width: 1200px; }
+/* Editorial layout — flex, not absolute (unreachable via UI; unchanged) */
 .bl-pinterest { width: 1200px; }
-/* Magazine layout */
-.bl-magazine { width: 1200px; min-height: 960px; position: relative; }
-.magazine-inner { position: relative; width: 1200px; min-height: 980px; }
+/* Magazine layout — normal-flow CSS Grid at every breakpoint, including
+   desktop. Hero + the three content columns are ordinary grid items, so
+   the canvas height is produced entirely by document flow: cards below a
+   taller neighbour move down automatically, and nothing needs JS to
+   measure or set a height. */
+.bl-magazine { width: 100%; max-width: 1200px; }
+.magazine-inner {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: start;
+  gap: 20px;
+  width: 100%;
+}
+/* Hero always spans every available column, at any tier */
+.magazine-inner [data-board-role="hero"] { grid-column: 1 / -1; }
 
 /* Compact landscape magazine for PDF export */
 .bl-magazine.compact-magazine, .compact-export.compact-magazine {
@@ -567,20 +598,37 @@ input[type=range]::-webkit-slider-thumb {
 }
 .compact-export .bf-right img { height: 14px !important; }
 
-/* Board card base */
+/* Board card base — normal-flow (live Magazine no longer positions cards
+   with fixed top/left coordinates; components.js:card() no longer sets
+   any). `overflow:hidden` is safe here because every live card sizes with
+   `min-height`/auto height, never a fixed `height`, so there is never
+   text content taller than the box to clip. The one exception (the hero,
+   whose caption previously relied on a fixed height) opts out below via
+   `.bc-hero`. */
 .bc {
-  position: absolute;
+  position: relative;
+  min-width: 0;
   background: var(--white);
   border-radius: 4px;
   padding: 24px;
   overflow: hidden;
 }
+/* Hero card: min-height only (never a hard height), and never clips —
+   its caption is normal-flow content, so if the dynamic tagline/theme
+   text is long the card simply grows and pushes the columns below it
+   down naturally. */
+.bc-hero { overflow: visible; padding: 0; }
 /* Paper shadow — the premium touch */
 .bc.paper {
   box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04),
               0 0 0 0.5px rgba(0,0,0,0.03);
 }
 .bc.pinned { /* slight rotation handled inline */ }
+/* Executive column groups — normal-flow flex columns, tagged with a
+   semantic role (not a sibling index) so responsive placement never
+   depends on nth-child. */
+.executive-column { min-width: 0; }
+.magazine-column { min-width: 0; }
 /* Card color variants */
 .bc-navy   { background: var(--navy) !important; color: var(--white) !important; }
 .bc-bone   { background: var(--bone) !important; }
@@ -681,104 +729,87 @@ input[type=range]::-webkit-slider-thumb {
 }
 .btn-view-board:hover { background: var(--gold-lt); transform: translateY(-1px); }
 
-/* ── RESPONSIVE ────────────────────────────────── */
-@media(max-width: 1240px) {
-  .board-area { padding: 16px; }
-}
+/* ── RESPONSIVE ────────────────────────────────────────────────────────
+   Three tiers, source order matters (later rules win at the same
+   specificity, so mobile must be declared after tablet):
+     Desktop : implicit, ≥1200px — no query needed, base rules above apply
+     Tablet  : max-width: 1199px  (covers ~769px–1199px)
+     Mobile  : max-width: 768px   (768px and below)
+   Board canvas sizing uses `width: min(100%, 1200px)` (see above) instead
+   of a transform-scale shrink, so there is no "compressed 1200px canvas"
+   state anywhere below 1200px — the grid itself reflows.
+   ─────────────────────────────────────────────────────────────────── */
 
-/* Tablet and below: reflow board into readable columns instead of tiny scaled canvas */
-@media(max-width: 1024px) {
-  #screen-board {
-    overflow-x: hidden;
-  }
-  .board-area {
-    padding: 16px;
-    overflow-x: hidden;
-    justify-content: flex-start;
-  }
-  #board-render-area {
-    transform: none !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-  }
+/* ── TABLET: 769px–1199px — intentional two-column layout ── */
+@media(max-width: 1199px) {
+  .board-area { padding: 16px; overflow-x: hidden; justify-content: center; }
 
-  /* Executive: single column stack */
+  /* Executive: two columns. The primary column (vision + executive
+     summary + roadmap + strategic intelligence) spans both columns and
+     leads, matching "stronger visual priority"; identity and supporting
+     columns sit side by side underneath. */
   .bl-executive {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    width: 100% !important;
-    min-height: auto !important;
-    padding: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important;
   }
-  .bl-executive > div {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  .bl-executive > div > div {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box;
+  .executive-column--primary {
+    grid-column: 1 / -1 !important;
+    order: -1 !important;
   }
 
-  /* Magazine: un-pin absolute cards and stack vertically */
-  .bl-magazine,
-  .bl-magazine .magazine-inner {
-    width: 100% !important;
-    min-height: auto !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
+  /* Magazine: two columns. Hero already spans every column via the base
+     rule above; the three content columns auto-flow into the 2-track
+     grid (A, B beside it, C wraps to the next row). */
+  .magazine-inner {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important;
   }
-  .bl-magazine .bc {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: auto !important;
-    transform: none !important;
-    box-sizing: border-box;
-    padding: 18px !important;
-  }
-  .bl-magazine .bc:first-child {
-    order: -1;
-    padding: 0 !important;
-    min-height: 280px !important;
-    overflow: hidden !important;
-  }
-  .bl-magazine .bc:first-child > div[style*="position:absolute"]:not(.bc-img-wrap) {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    width: 100% !important;
-    padding: 20px !important;
-    box-sizing: border-box;
-  }
-  .bl-magazine .bc-img-wrap,
-  .bl-magazine .bc-img-wrap img {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-  }
+
+  .board-topbar-co { overflow-wrap: anywhere; }
 }
 
-/* Mobile: header, tabs, footer tighten up */
+/* ── MOBILE: ≤768px — single column, full semantic reading order ──
+   The column-group wrappers are collapsed with `display:contents`, which
+   promotes every card to be a direct grid item of `.bl-executive` /
+   `.magazine-inner`. Each card is then placed purely by `order`, keyed off
+   its stable `data-board-card` value — never by sibling position. */
 @media(max-width: 768px) {
+  .bl-executive,
+  .magazine-inner {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .executive-column,
+  .magazine-column {
+    display: contents !important;
+  }
+
+  /* Requested reading order (business identity → closing insight).
+     Values are spaced by 10 so extra/optional cards can be inserted
+     without renumbering the whole sequence. Shared concept names are
+     reused across Executive and Magazine on purpose — only one layout's
+     markup exists in the DOM at a time, so there is no collision. */
+  [data-board-card="business-identity"]      { order: 10; }
+  [data-board-card="vision"]                 { order: 20; }
+  [data-board-card="mission"]                { order: 30; }
+  [data-board-card="executive-summary"]      { order: 40; }
+  [data-board-card="strategic-theme"]        { order: 50; }
+  [data-board-card="core-values"]            { order: 60; }
+  [data-board-card="year-one-priority"]      { order: 65; }
+  [data-board-card="strategic-priorities"]   { order: 70; }
+  [data-board-card="roadmap"]                { order: 80; }
+  [data-board-card="action-plan"]            { order: 90; }
+  [data-board-card="five-year-vision"]       { order: 100; }
+  [data-board-card="five-year-headline"]     { order: 105; }
+  [data-board-card="kpis"]                   { order: 110; }
+  [data-board-card="founder"]                { order: 120; }
+  [data-board-card="strategic-intelligence"] { order: 130; }
+  [data-board-card="closing-insight"]        { order: 140; }
+
+  /* 30-day / 90-day stay in one Action Plan card, but stack vertically
+     for a readable single column instead of a cramped two-up grid. */
+  .ap-grid { grid-template-columns: 1fr !important; gap: 18px !important; }
+
   .board-topbar {
     flex-direction: column;
     align-items: stretch;
@@ -793,7 +824,6 @@ input[type=range]::-webkit-slider-thumb {
     text-align: center;
     gap: 2px;
   }
-  .board-topbar-co { font-size: 16px; }
   .board-topbar-sub { font-size: 10px; }
   .board-topbar-center {
     position: static;
@@ -829,9 +859,33 @@ input[type=range]::-webkit-slider-thumb {
   .bf-right img { height: 14px; }
 }
 
-/* ── PDF EXPORT: keep fixed 1200px layout on all viewports ── */
+@media (prefers-reduced-motion: reduce) {
+  .screen.active,
+  .gen-item,
+  .btn-tb,
+  .ltab,
+  .btn-cta,
+  .btn-generate,
+  .btn-view-board {
+    animation: none !important;
+    transition: none !important;
+  }
+  .gen-item.active .gen-dot { animation: none !important; }
+}
+
+/* ── PDF EXPORT: keep fixed 1200px layout on all viewports ──
+   html2canvas renders `#pdf-capture-wrapper` inside a cloned iframe forced
+   to `windowWidth:1240` (see export.js), so the tablet/mobile `@media`
+   rules above should not match during capture — but since Executive's PDF
+   path reuses the live `renderExecutive()` function, these overrides are
+   kept as an explicit second line of defence: if a capture is ever
+   triggered while the real window is narrow, the compact/PDF layout still
+   forces the desktop three-column structure and cancels the mobile
+   `display:contents` + `order` reflow so nothing shifts, hides, or
+   reorders in the exported file. */
 .compact-export.bl-executive {
   display: grid !important;
+  grid-template-columns: 300px 1fr 320px !important;
   flex-direction: row !important;
   width: 1200px !important;
   min-height: auto !important;
@@ -844,6 +898,17 @@ input[type=range]::-webkit-slider-thumb {
 .compact-export.bl-executive > div > div {
   width: auto !important;
   max-width: none !important;
+}
+.compact-export .executive-column {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.compact-export .executive-column--primary {
+  grid-column: auto !important;
+}
+.compact-export [data-board-card],
+.compact-export [data-board-role] {
+  order: initial !important;
 }
 .compact-export.bl-magazine,
 .compact-export.bl-magazine .magazine-inner {

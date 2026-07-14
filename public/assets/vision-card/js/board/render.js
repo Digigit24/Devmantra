@@ -11,8 +11,14 @@ import { createFooter } from './footer.js';
 export let currentLayout = 'executive';
 
 export function setLayout(l, tabEl) {
-  document.querySelectorAll('.ltab').forEach(t => t.classList.remove('on'));
-  if (tabEl) tabEl.classList.add('on');
+  document.querySelectorAll('.ltab').forEach(t => {
+    t.classList.remove('on');
+    t.setAttribute('aria-selected', 'false');
+  });
+  if (tabEl) {
+    tabEl.classList.add('on');
+    tabEl.setAttribute('aria-selected', 'true');
+  }
   currentLayout = l;
   renderBoard(l);
 }
@@ -35,13 +41,14 @@ export function renderBoard(layout) {
   else if (layout === 'pinterest') renderEditorial(area, imgURL);
   else renderMagazine(area, imgURL);
 
-  // Magazine needs its absolute children wrapped so the area can have a real height
+  // Magazine's hero + three columns are wrapped in `.magazine-inner` purely
+  // to preserve the existing `.bl-magazine .magazine-inner` CSS hook — the
+  // wrapper carries no positioning of its own; the live layout is normal
+  // document flow (CSS Grid), so no explicit width/height is set here.
   if (layout === 'magazine') {
     const inner = document.createElement('div');
     inner.className = 'magazine-inner';
-    inner.style.cssText = 'position:relative;width:1200px;min-height:980px;';
     while (area.firstChild) { inner.appendChild(area.firstChild); }
-    area.style.cssText = 'width:1200px;display:flex;flex-direction:column;gap:0;background:transparent;';
     area.appendChild(inner);
   }
 
@@ -50,7 +57,8 @@ export function renderBoard(layout) {
   if (footerSlot) footerSlot.appendChild(footer);
   else area.appendChild(footer); // fallback
 
-  // After render, recalculate mobile scale
+  // Kept for API compatibility — no longer performs transform-based scaling
+  // (see function below), but still safe/cheap to call after every render.
   applyBoardScale();
 }
 
@@ -74,24 +82,20 @@ export function renderCompactBoard(layout, container) {
   }
 }
 
-// Responsive scaling for the board canvas
+// Compatibility shim. The live board used to be shrunk with a CSS
+// `transform: scale()` between ~1024–1240px so a fixed 1200px canvas would
+// still fit. That is no longer the responsive mechanism: `#board-render-area`
+// now uses `width: min(100%, 1200px)` (see styles.css) and CSS Grid handles
+// tablet/mobile reflow directly, so there is nothing left to scale.
+//
+// The function name and its call sites (here, and the `resize` listener
+// below) are kept unchanged in case anything else imports/calls it — it now
+// simply guarantees no leftover transform/scale ever lingers on the board.
 export function applyBoardScale() {
   const area = document.getElementById('board-render-area');
-  const container = document.querySelector('.board-area');
   if (!area) return;
-
-  // On narrow viewports the CSS reflows the board into a single column,
-  // so we keep the scale at 1 and let the responsive styles take over.
-  if (window.innerWidth <= 1024) {
-    area.style.setProperty('--board-scale', 1);
-    return;
-  }
-
-  const boardWidth = 1240; // 1200 + padding
-  let available = container ? container.clientWidth : window.innerWidth;
-  if (!available) available = window.innerWidth;
-  const scale = available < boardWidth ? available / boardWidth : 1;
-  area.style.setProperty('--board-scale', scale);
+  area.style.removeProperty('--board-scale');
+  area.style.transform = 'none';
 }
 
 window.addEventListener('resize', applyBoardScale);
