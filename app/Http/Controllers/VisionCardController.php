@@ -54,6 +54,7 @@ class VisionCardController extends Controller
             'personal_goals'    => 'nullable|array',
             'other_answers'     => 'nullable|array',
             'lead_id'           => 'nullable|integer',
+            'event_id'          => 'nullable|string|max:255',
         ]);
 
         // Normalise array fields
@@ -110,6 +111,12 @@ class VisionCardController extends Controller
         $aiContent = $this->callAi($validated);
 
         $lead->update(['ai_content' => $aiContent]);
+
+        // Fire the Meta Conversions API event for this completed lead. Shares
+        // event_id with the browser-side fbq('track', 'CompleteRegistration')
+        // call in generate.js so Meta de-duplicates rather than double-counting.
+        // Best-effort: never allowed to break the response to the frontend.
+        $this->sendMetaConversionEvent($lead, $request, $validated['event_id'] ?? null);
 
         // Email the finished blueprint to the person who submitted the form,
         // using the site's configured (Brevo) mailer. Best-effort: a mail
@@ -244,6 +251,79 @@ class VisionCardController extends Controller
     }
 
     /**
+     * Send a CompleteRegistration event to the Meta Conversions API for a
+     * finalized Vision Card lead. This mirrors the browser-side fbq() event
+     * fired from generate.js, using the same event_id so Meta de-dupes them
+     * instead of counting the conversion twice. Silently no-ops if the CAPI
+     * access token isn't configured — the browser pixel keeps working either
+     * way, this just adds a server-side backstop against ad blockers / iOS
+     * tracking prevention dropping the browser event.
+     */
+    private function sendMetaConversionEvent(VisionLead $lead, Request $request, ?string $eventId): void
+    {
+        $pixelId = config('services.meta.pixel_id');
+        $token   = config('services.meta.capi_token');
+
+        if (empty($pixelId) || empty($token)) {
+            Log::info('VisionCard Meta CAPI: skipped — pixel_id or capi_token not configured.');
+
+            return;
+        }
+
+        try {
+            $userData = [
+                'client_ip_address' => $request->ip(),
+                'client_user_agent' => $request->userAgent(),
+            ];
+
+            if (!empty($lead->email)) {
+                $userData['em'] = [hash('sha256', strtolower(trim($lead->email)))];
+            }
+
+            if (!empty($lead->phone)) {
+                $digits = preg_replace('/\D/', '', $lead->phone);
+                if ($digits !== '') {
+                    $userData['ph'] = [hash('sha256', $digits)];
+                }
+            }
+
+            // _fbc / _fbp are first-party cookies the Pixel script sets itself;
+            // forwarding them lets Meta tie this server event back to the same
+            // browser/ad click as the client-side event.
+            if ($request->cookie('_fbc')) {
+                $userData['fbc'] = $request->cookie('_fbc');
+            }
+            if ($request->cookie('_fbp')) {
+                $userData['fbp'] = $request->cookie('_fbp');
+            }
+
+            $version = config('services.meta.capi_version', 'v19.0');
+
+            $response = Http::asForm()->post("https://graph.facebook.com/{$version}/{$pixelId}/events", [
+                'access_token' => $token,
+                'data' => json_encode([[
+                    'event_name'       => 'CompleteRegistration',
+                    'event_time'       => now()->timestamp,
+                    'event_id'         => $eventId,
+                    'event_source_url' => $request->headers->get('referer', config('app.url') . '/vision-card'),
+                    'action_source'    => 'website',
+                    'user_data'        => $userData,
+                ]]),
+            ]);
+
+            if (!$response->successful()) {
+                Log::warning('VisionCard Meta CAPI: request failed.', [
+                    'lead_id' => $lead->id,
+                    'status'  => $response->status(),
+                    'body'    => mb_substr((string) $response->body(), 0, 500),
+                ]);
+            }
+        } catch (\Throwable $e) {
+            Log::error('VisionCard Meta CAPI: exception — ' . $e->getMessage(), ['lead_id' => $lead->id]);
+        }
+    }
+
+    /**
      * Generate the AI blueprint, trying each configured provider in order
      * (Kimi first, then Grok) and falling back to a local template only if
      * every provider is unconfigured or fails. The provider that produced the
@@ -309,17 +389,24 @@ class VisionCardController extends Controller
     }
 
     /**
-     * AI providers in fallback order. Each is an OpenAI-compatible
+     * AI providers in fallback order: OpenAI (ChatGPT) first, then Kimi,
+     * then Grok, then the local template. Each is an OpenAI-compatible
      * /chat/completions endpoint, so reordering or adding a provider is just
-     * an .env change — no code edit required. Kimi activates automatically the
-     * moment KIMI_API_KEY is added to .env. The Grok entry mirrors the working
-     * alt-text command (api.x.ai / grok-3-mini) and is left untouched.
+     * an .env change — no code edit required. A provider is skipped
+     * automatically whenever its *_API_KEY is empty.
      */
     private function aiProviders(): array
     {
         // Read via config() (with an env() fallback) so the keys resolve
         // whether or not `php artisan config:cache` has been run on the server.
         return [
+            [
+                'name'     => 'openai',
+                'key'      => config('services.openai.key', env('OPENAI_API_KEY', '')),
+                'endpoint' => rtrim(config('services.openai.base', env('OPENAI_API_BASE', 'https://api.openai.com/v1')), '/') . '/chat/completions',
+                'model'    => config('services.openai.model', env('OPENAI_MODEL', 'gpt-4o-mini')),
+                'timeout'  => 90,
+            ],
             [
                 'name'     => 'kimi',
                 'key'      => config('services.kimi.key', env('KIMI_API_KEY', '')),

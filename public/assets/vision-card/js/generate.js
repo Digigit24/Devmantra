@@ -2,7 +2,7 @@
 // GENERATE
 // ════════════════════════════════════════════════
 import { state } from './state.js';
-import { wait } from './utils.js';
+import { wait, sha256Hex, normalizeEmailForMatching, normalizePhoneForMatching, generateEventId } from './utils.js';
 import { collectData } from './navigation.js';
 import { renderBoard } from './board/render.js';
 import { showCongrats } from './navigation.js';
@@ -41,7 +41,12 @@ export async function runGenerate() {
 
   // Persist the lead and generate the AI blueprint via the Laravel backend.
   // This keeps the API key secure and guarantees the response is logged.
-  const payload = buildPayload();
+  // event_id is generated up front and sent to the backend so the browser
+  // pixel event (below) and the server-side Conversions API event fired
+  // from VisionCardController@generate share one id — Meta uses this to
+  // de-duplicate the two instead of counting the conversion twice.
+  const eventId = generateEventId();
+  const payload = { ...buildPayload(), event_id: eventId };
   try {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
     const res = await fetch('/vision-card/generate', {
@@ -70,6 +75,12 @@ export async function runGenerate() {
     } else {
       state.aiContent = fallback();
     }
+
+    // The blueprint was generated and the lead is finalized server-side —
+    // this is the real conversion moment, so fire it to Meta now. Fires
+    // even if the AI call itself fell back to the template, since the
+    // lead was still captured either way.
+    trackCompleteRegistration(eventId);
   } catch (e) {
     console.error('Vision generation failed:', e);
     state.aiContent = fallback();
@@ -90,6 +101,32 @@ export async function runGenerate() {
 
   renderBoard('executive');
   showCongrats();
+}
+
+// Fire the Meta Pixel conversion event for a completed Growth Blueprint
+// submission. Advanced Matching data (em/ph) is hashed client-side per
+// Meta's requirements before it ever reaches fbq(). Best-effort: pixel
+// failures (blocked script, no fbq, etc.) must never break the funnel.
+async function trackCompleteRegistration(eventId) {
+  if (typeof fbq !== 'function') return;
+  try {
+    const [em, ph] = await Promise.all([
+      sha256Hex(normalizeEmailForMatching(state.email)),
+      sha256Hex(normalizePhoneForMatching(state.phone)),
+    ]);
+    const matchData = {};
+    if (em) matchData.em = em;
+    if (ph) matchData.ph = ph;
+    if (Object.keys(matchData).length) {
+      fbq('init', window.META_PIXEL_ID, matchData);
+    }
+    fbq('track', 'CompleteRegistration', {
+      content_name: 'Growth Blueprint',
+      status: true,
+    }, { eventID: eventId });
+  } catch (e) {
+    // Swallow — tracking must never block the user's result screen.
+  }
 }
 
 function showInlineErrors(errors) {

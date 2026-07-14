@@ -18,6 +18,7 @@
      page. Fires a standard PageView on load.
 ══════════════════════════════════════════════ --}}
 <script>
+window.META_PIXEL_ID = '{{ config('services.meta.pixel_id') }}';
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -26,14 +27,19 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1298473208904876');
+fbq('init', window.META_PIXEL_ID);
 fbq('track', 'PageView');
 </script>
-{{-- ─────────── End Meta Pixel ─────────── --}}
+{{-- ─────────── End Meta Pixel ───────────
+     NOTE: the actual conversion (form submission) is tracked from
+     assets/vision-card/js/generate.js as a CompleteRegistration event,
+     fired only after /vision-card/generate succeeds. It shares an
+     eventID with the server-side Conversions API call fired from
+     VisionCardController@generate so Meta de-duplicates the two. --}}
 </head>
 <body>
 <noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1298473208904876&ev=PageView&noscript=1"/></noscript>
+src="https://www.facebook.com/tr?id={{ config('services.meta.pixel_id') }}&ev=PageView&noscript=1"/></noscript>
 
 <div id="progress-track"><div id="progress-fill"></div></div>
 <div id="step-label">Introduction</div>
