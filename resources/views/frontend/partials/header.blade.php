@@ -333,6 +333,16 @@ $secondSvc = $navServices->skip(1)->first();
                 <div class="dm-mega-center">
                     <span class="dm-section-label">Services</span>
                     <div class="dm-svc-grid">
+                        <a href="https://www.devmantra.com/Korea-india-entry.html" class="dm-svc-card dm-svc-card--feature" tabindex="-1" data-mf>
+                            <div class="dm-svc-icon">
+                                <i class="fa-solid fa-earth-asia"></i>
+                            </div>
+                            <div style="flex:1;min-width:0;">
+                                <div class="dm-svc-title">Korea–India Entry</div>
+                                <div class="dm-svc-desc">End-to-end market entry support for Korean businesses expanding into India — strategy, compliance, and on-ground execution.</div>
+                            </div>
+                            <span class="dm-svc-arrow">→</span>
+                        </a>
                         @forelse($navServices as $i => $svc)
                         <a href="{{ route('service.show', $svc->slug) }}" class="dm-svc-card" tabindex="-1" data-mf>
                             <div class="dm-svc-icon">
@@ -349,16 +359,6 @@ $secondSvc = $navServices->skip(1)->first();
                         @empty
                         <p style="color:#aaa;font-size:13px;grid-column:span 2;">No services listed yet.</p>
                         @endforelse
-                        <a href="https://www.devmantra.com/Korea-india-entry.html" class="dm-svc-card dm-svc-card--feature" tabindex="-1" data-mf>
-                            <div class="dm-svc-icon">
-                                <i class="fa-solid fa-earth-asia"></i>
-                            </div>
-                            <div style="flex:1;min-width:0;">
-                                <div class="dm-svc-title">Korea–India Entry</div>
-                                <div class="dm-svc-desc">End-to-end market entry support for Korean businesses expanding into India — strategy, compliance, and on-ground execution.</div>
-                            </div>
-                            <span class="dm-svc-arrow">→</span>
-                        </a>
                     </div>
                 </div>
                 <div class="dm-mega-right">
@@ -719,10 +719,10 @@ $secondSvc = $navServices->skip(1)->first();
                                         </a>
                                         {{-- Hidden on desktop; cloned to mobile accordion by main.js --}}
                                         <ul class="tp-submenu submenu">
+                                            <li><a href="https://www.devmantra.com/Korea-india-entry.html">Korea–India Entry</a></li>
                                             @foreach($navServices as $navService)
                                             <li><a href="{{ route('service.show', $navService->slug) }}">{{ $navService->title }}</a></li>
                                             @endforeach
-                                            <li><a href="https://www.devmantra.com/Korea-india-entry.html">Korea–India Entry</a></li>
                                         </ul>
                                     </li>
                                     {{-- Insights: mega on desktop, accordion on mobile --}}

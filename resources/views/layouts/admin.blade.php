@@ -493,6 +493,9 @@
             <a href="{{ route('admin.calculator-leads.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.calculator-leads.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-calculator"></i> India vs Europe Leads
             </a>
+            <a href="{{ route('admin.esop-leads.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.esop-leads.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-chart-pie"></i> ESOP Calculator Leads
+            </a>
 
             <div class="dm-sidebar-label">Pages</div>
             <a href="{{ route('admin.pages.index') }}" class="dm-sidebar-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">

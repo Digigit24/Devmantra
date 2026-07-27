@@ -7,6 +7,7 @@ import { collectData } from './navigation.js';
 import { renderBoard } from './board/render.js';
 import { showCongrats } from './navigation.js';
 import { buildPayload, clearLeadId } from './autosave.js';
+import { renderResults } from './results/render.js';
 
 export async function runGenerate() {
   collectData();
@@ -99,6 +100,12 @@ export async function runGenerate() {
   // stored lead id to avoid a later session overwriting this finished lead.
   clearLeadId();
 
+  // The redesigned interactive web results (screen-board) render from
+  // state.aiContent here. The original board renderer below still builds
+  // #board-render-area separately — that hidden markup is exportBoard()'s
+  // capture target and must keep receiving state exactly as before so the
+  // downloadable PDF is unaffected by this web redesign.
+  renderResults();
   renderBoard('executive');
   showCongrats();
 }

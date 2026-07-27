@@ -28,7 +28,17 @@ export function updateProg() {
   }
 }
 
-export function startJourney() { currentIdx = 1; showScreen(SCREENS[1]); updateProg(); clearErrors(SCREENS[1]); }
+export function startJourney() {
+  // Re-show the progress bar / step label — landing.js hides both while
+  // the redesigned landing screen is up, since they otherwise float over
+  // its nav bar.
+  const track = document.getElementById('progress-track');
+  const label = document.getElementById('step-label');
+  if (track) track.style.display = '';
+  if (label) label.style.display = '';
+
+  currentIdx = 1; showScreen(SCREENS[1]); updateProg(); clearErrors(SCREENS[1]);
+}
 export function goBack() {
   if (currentIdx > 1) {
     clearErrors(SCREENS[currentIdx]);

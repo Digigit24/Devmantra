@@ -30,6 +30,8 @@ use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\VisionCardController;
 use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
 use App\Http\Controllers\Admin\VisionLeadController;
+use App\Http\Controllers\EsopCalculatorController;
+use App\Http\Controllers\Admin\EsopLeadController;
 use Illuminate\Support\Facades\Route;
 
 // Sitemap
@@ -71,6 +73,12 @@ Route::post('/india-europe-benchmarking-calculator/lead', [CostBenchmarkControll
 Route::get('/vision-card', [VisionCardController::class, 'index'])->name('vision-card.index');
 Route::post('/vision-card/autosave', [VisionCardController::class, 'autosave'])->name('vision-card.autosave')->middleware('throttle:60,1');
 Route::post('/vision-card/generate', [VisionCardController::class, 'generate'])->name('vision-card.generate')->middleware('throttle:10,1');
+
+// ESOP Allocation Calculator
+Route::get('/esop-calculator', [EsopCalculatorController::class, 'index'])->name('esop-calculator.index');
+Route::get('/esop-calculator/app', [EsopCalculatorController::class, 'app'])->name('esop-calculator.app');
+Route::post('/esop-calculator/submit', [EsopCalculatorController::class, 'submit'])->name('esop-calculator.submit')->middleware('throttle:10,1');
+Route::get('/esop-calculator/report/{token}', [EsopCalculatorController::class, 'report'])->name('esop-calculator.report');
 
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -164,6 +172,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('vision-leads/{visionLead}', [VisionLeadController::class, 'show'])->name('vision-leads.show');
     Route::put('vision-leads/{visionLead}/status', [VisionLeadController::class, 'updateStatus'])->name('vision-leads.update-status');
     Route::delete('vision-leads/{visionLead}', [VisionLeadController::class, 'destroy'])->name('vision-leads.destroy');
+
+    // ESOP Calculator Leads
+    Route::get('esop-leads', [EsopLeadController::class, 'index'])->name('esop-leads.index');
+    Route::get('esop-leads/{esopLead}', [EsopLeadController::class, 'show'])->name('esop-leads.show');
+    Route::put('esop-leads/{esopLead}/status', [EsopLeadController::class, 'updateStatus'])->name('esop-leads.update-status');
+    Route::delete('esop-leads/{esopLead}', [EsopLeadController::class, 'destroy'])->name('esop-leads.destroy');
 
     // Fundability Leads (proxied server-side — credentials never exposed to browser)
     Route::get('fundability-leads', [FundabilityLeadController::class, 'index'])->name('fundability-leads.index');

@@ -24,3 +24,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# opendesign workspace (has its own local git history, not tracked by main repo)
+/design/

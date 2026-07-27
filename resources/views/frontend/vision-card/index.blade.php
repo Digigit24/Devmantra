@@ -9,7 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="{{ asset('assets/vision-card/css/styles.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vision-card/css/experience.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vision-card/css/results.css') }}">
 
 {{-- ══════════════════════════════════════════════
      Meta (Facebook) Pixel — /vision-card ONLY
@@ -48,23 +51,7 @@ src="https://www.facebook.com/tr?id={{ config('services.meta.pixel_id') }}&ev=Pa
      SCREEN: HERO
 ══════════════════════════════════════════════ -->
 <div class="screen active" id="screen-hero">
-  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:60px 24px;text-align:center;position:relative;z-index:1;">
-    <div class="hero-overline">Strategic Growth Planning</div>
-    <h1 class="hero-h1">Design the Next<br><em>Chapter</em> of Your Business</h1>
-    <p class="hero-body">Every successful business is built twice — first through clear strategic thinking, then through disciplined execution. In the next 12 minutes, build your roadmap for the next 1, 3 and 5 years.</p>
-    <div class="hero-meta">
-      <div class="hero-meta-item"><span class="hero-meta-num">3</span><div class="hero-meta-label">Time Horizons</div></div>
-      <div class="hero-meta-sep"></div>
-      <div class="hero-meta-item"><span class="hero-meta-num">12<sup>min</sup></span><div class="hero-meta-label">Average Time</div></div>
-      <div class="hero-meta-sep"></div>
-      <div class="hero-meta-item"><span class="hero-meta-num">1</span><div class="hero-meta-label">Premium Board</div></div>
-    </div>
-    <button class="btn-cta" onclick="startJourney()">
-      Begin Your Blueprint
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </button>
-    <p class="hero-trust">For existing business owners &nbsp;·&nbsp; No registration required &nbsp;·&nbsp; AI-powered strategic insights</p>
-  </div>
+  @include('frontend.vision-card.partials.landing')
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -466,6 +453,7 @@ src="https://www.facebook.com/tr?id={{ config('services.meta.pixel_id') }}&ev=Pa
      SCREEN: BOARD
 ══════════════════════════════════════════════ -->
 <div class="screen" id="screen-board" style="flex-direction:column;">
+  <div class="vc-pdf-mount">
   <div class="board-topbar">
     <div class="board-topbar-left">
       <div class="board-topbar-co" id="tb-company">Growth Blueprint</div>
@@ -488,6 +476,9 @@ src="https://www.facebook.com/tr?id={{ config('services.meta.pixel_id') }}&ev=Pa
     <div id="board-render-area" class="bl-executive"></div>
   </div>
   <div id="board-footer"></div>
+  </div>
+
+  @include('frontend.vision-card.partials.results')
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -513,6 +504,11 @@ src="https://www.facebook.com/tr?id={{ config('services.meta.pixel_id') }}&ev=Pa
     <div class="export-sub">This may take a moment — please wait</div>
   </div>
 </div>
+
+{{-- Consultation modal — required so the results page's "Book a review" /
+     "#contact" links work. This page doesn't extend layouts.frontend, so
+     the partial (normally included there) needs an explicit include here. --}}
+@include('frontend.partials.consultation-modal')
 
 <script type="module" src="{{ asset('assets/vision-card/js/main.js') }}"></script>
 </body>

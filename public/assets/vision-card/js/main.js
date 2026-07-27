@@ -14,6 +14,10 @@ import {
 import { runGenerate } from './generate.js';
 import { setLayout, renderBoard, applyBoardScale } from './board/render.js';
 import { exportBoard } from './export.js';
+import { initLanding } from './landing.js';
+import { renderResults } from './results/render.js';
+import { initResultsInteractions } from './results/interactions.js';
+import { initResultsShare } from './results/share.js';
 
 // Expose handlers used by inline onclick attributes
 window.startJourney = startJourney;
@@ -38,7 +42,18 @@ window.updateRev = updateRev;
 // Initialize
 updateRev(3);
 
-// If aiContent exists (e.g. page reload), re-render board
+// Redesigned landing (#screen-hero) and results (#screen-board) experiences.
+// Both are safe to boot unconditionally: landing's effects only touch
+// elements inside #vcLanding, and results' interactions only bind to
+// static chrome (progress bar, tabs, share modal) — the actual AI content
+// is filled in by renderResults(), called below on reload and from
+// generate.js's runGenerate() on first completion.
+initLanding();
+initResultsInteractions();
+initResultsShare();
+
+// If aiContent exists (e.g. page reload), re-render both the legacy PDF
+// board mount and the new interactive results content.
 if (state.aiContent) {
   const tbCompany = document.getElementById('tb-company');
   const tbSub = document.getElementById('tb-sub');
@@ -46,6 +61,7 @@ if (state.aiContent) {
   if (tbCompany) tbCompany.textContent = state.company || 'Growth Blueprint';
   if (tbSub) tbSub.textContent = (state.name || 'Founder') + ' · Strategic Vision Board';
   if (cgratsName) cgratsName.textContent = state.name || 'Founder';
+  renderResults();
 }
 
 // Initial board scale
