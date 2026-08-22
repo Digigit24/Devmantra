@@ -283,7 +283,14 @@ class EsopCalculatorController extends Controller
         $token   = config('services.meta.capi_token');
 
         if (empty($pixelId) || empty($token)) {
-            Log::info('EsopCalculator Meta CAPI: skipped — pixel_id or capi_token not configured.');
+            // Name the missing value explicitly. These two fail for very
+            // different reasons — an absent pixel_id means the browser Pixel is
+            // broken too, whereas an absent capi_token means only the
+            // server-side backstop is off and the browser Pixel is fine. The
+            // old combined wording made a missing token read as a missing pixel.
+            Log::info('EsopCalculator Meta CAPI: skipped — ' . (empty($pixelId)
+                ? 'META_PIXEL_ID is not set.'
+                : 'META_CAPI_ACCESS_TOKEN is not set, so only the server-side Conversions API is disabled; the browser Pixel is unaffected.'));
 
             return;
         }

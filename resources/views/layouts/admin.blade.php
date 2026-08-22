@@ -366,24 +366,73 @@
             color: var(--dm-danger);
         }
 
-        /* Pagination */
+        /* Pagination
+           Markup comes from resources/views/vendor/pagination/devmantra.blade.php,
+           registered as the app-wide default paginator in AppServiceProvider.
+           The previous rules here targeted Bootstrap's .page-link / .page-item,
+           which that view never emits — so the paginator was effectively
+           unstyled. */
         .dm-pagination {
-            display: flex;
-            gap: 4px;
             padding: 16px 24px;
         }
-        .dm-pagination .page-link {
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            color: var(--dm-text-muted);
-            background: transparent;
-            border: 1px solid var(--dm-border);
+        /* Admin index views wrap the paginator in their own .dm-pagination div,
+           so the partial's <nav class="dm-pagination"> nests inside it. Strip the
+           inner copy's padding rather than editing all 22 views. */
+        .dm-pagination .dm-pagination {
+            padding: 0;
         }
-        .dm-pagination .page-item.active .page-link {
+        .dm-pagination ul {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .dm-pagination li a,
+        .dm-pagination li span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 34px;
+            height: 34px;
+            padding: 0 10px;
+            border-radius: 6px;
+            border: 1px solid var(--dm-border);
+            background: transparent;
+            color: var(--dm-text-muted);
+            font-size: 13px;
+            line-height: 1;
+            text-decoration: none;
+            transition: background .15s ease, border-color .15s ease, color .15s ease;
+        }
+        .dm-pagination li a:hover {
+            border-color: var(--dm-purple);
+            color: var(--dm-purple);
+        }
+        .dm-pagination li.active span {
             background: var(--dm-purple);
             border-color: var(--dm-purple);
             color: #fff;
+            font-weight: 600;
+        }
+        .dm-pagination li.disabled span {
+            opacity: .45;
+            cursor: not-allowed;
+        }
+        .dm-pagination li.dots span {
+            border-color: transparent;
+            min-width: 20px;
+            padding: 0 2px;
+        }
+        /* Safety net: should any view still render Laravel's Tailwind paginator,
+           this stops its inline chevron SVGs from expanding to full width — the
+           exact failure this block replaces. */
+        .dm-pagination svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
         }
 
         /* Mobile sidebar toggle */

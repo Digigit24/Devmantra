@@ -90,6 +90,7 @@
     .dm-related-card-title a:hover { opacity: 0.6; }
 </style>
 @endpush
+<link rel="stylesheet" href="{{ asset('assets/css/dm-blog-components.css') }}">
 
 @section('content')
 <div class="dm-article-hero">

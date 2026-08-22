@@ -169,12 +169,21 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Vision Card / Growth Blueprint Leads
     Route::get('vision-leads', [VisionLeadController::class, 'index'])->name('vision-leads.index');
+    // NOTE: the export route must be declared BEFORE vision-leads/{visionLead},
+    // otherwise route-model binding tries to resolve a lead with the id
+    // "export" and the download 404s.
+    Route::get('vision-leads/export', [VisionLeadController::class, 'export'])->name('vision-leads.export');
     Route::get('vision-leads/{visionLead}', [VisionLeadController::class, 'show'])->name('vision-leads.show');
     Route::put('vision-leads/{visionLead}/status', [VisionLeadController::class, 'updateStatus'])->name('vision-leads.update-status');
     Route::delete('vision-leads/{visionLead}', [VisionLeadController::class, 'destroy'])->name('vision-leads.destroy');
 
     // ESOP Calculator Leads
     Route::get('esop-leads', [EsopLeadController::class, 'index'])->name('esop-leads.index');
+    // NOTE: both export routes must be declared BEFORE esop-leads/{esopLead},
+    // otherwise route-model binding tries to resolve a lead with the id
+    // "export" and the download 404s.
+    Route::get('esop-leads/export', [EsopLeadController::class, 'export'])->name('esop-leads.export');
+    Route::get('esop-leads/export-employees', [EsopLeadController::class, 'exportEmployees'])->name('esop-leads.export-employees');
     Route::get('esop-leads/{esopLead}', [EsopLeadController::class, 'show'])->name('esop-leads.show');
     Route::put('esop-leads/{esopLead}/status', [EsopLeadController::class, 'updateStatus'])->name('esop-leads.update-status');
     Route::delete('esop-leads/{esopLead}', [EsopLeadController::class, 'destroy'])->name('esop-leads.destroy');

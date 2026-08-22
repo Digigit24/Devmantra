@@ -164,7 +164,10 @@
     gap: 1.25rem;
     margin-bottom: 1.25rem;
 }
-.esop-dash-grid-2.even { grid-template-columns: 1fr 1fr; }
+/* Cards in this row size to their own content. The department panel can hold a
+   single row while seniority always holds five, and stretching both to the
+   taller one left a large void under a one-employee department list. */
+.esop-dash-grid-2.even { grid-template-columns: 1fr 1fr; align-items: start; }
 @media (max-width: 880px) {
     .esop-dash-grid-2, .esop-dash-grid-2.even { grid-template-columns: 1fr; }
 }
@@ -232,6 +235,48 @@
 /* ---------------- Chart boxes ---------------- */
 .esop-chart-box { position: relative; height: 230px; }
 .esop-chart-box canvas { max-width: 100%; }
+
+/* ---------------- Distribution bars (department / seniority) ----------------
+   Used by EsopDashboard.renderDistribution(). Deliberately CSS rather than a
+   canvas chart so a single-row panel still looks composed, and so the bars
+   survive the html2canvas PDF export. */
+.esop-dist { display: flex; flex-direction: column; gap: 1.05rem; }
+.esop-dist-row { display: flex; flex-direction: column; gap: 0.4rem; }
+.esop-dist-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.esop-dist-label { font-size: 0.85rem; font-weight: 700; color: var(--ink); line-height: 1.35; }
+.esop-dist-val {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--money);
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+}
+.esop-dist-track {
+    position: relative;
+    height: 9px;
+    border-radius: 5px;
+    background: #eef2f7;
+    overflow: hidden;
+}
+.esop-dist-fill { height: 100%; border-radius: 5px; min-width: 4px; }
+.esop-dist-meta { font-size: 0.72rem; color: var(--muted-2); line-height: 1.4; }
+
+/* A tier nobody was scored against is still shown — an explicit 0% says
+   "this level is unallocated", which an omitted row does not. Muted so it
+   recedes behind the rows that carry real allocation. */
+.esop-dist-row.is-zero .esop-dist-label { color: var(--muted-2); font-weight: 600; }
+.esop-dist-row.is-zero .esop-dist-val { color: var(--muted-2); font-weight: 700; }
+.esop-dist-row.is-zero .esop-dist-track { background: #f4f6fa; }
+
+.esop-dist-empty { font-size: 0.82rem; color: var(--muted-2); text-align: center; padding: 1.75rem 0; }
+.esop-dist-note {
+    margin-top: 1.15rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.72rem;
+    color: var(--muted-2);
+    line-height: 1.5;
+}
 
 /* ---------------- Employee table ---------------- */
 .esop-dash-table-wrap {

@@ -139,10 +139,8 @@ class EsopAllocationCalculator
             $peerTotals[$key] = ($peerTotals[$key] ?? 0) + (int) ($emp['total_score'] ?? 0);
         }
 
-        // Rank (ties share the same rank, standard Excel RANK behaviour).
-        $scores = array_map(fn ($e) => (int) ($e['total_score'] ?? 0), $employees);
-        rsort($scores);
-
+        // NOTE: rank is assigned after this loop, off the final grant rather
+        // than the raw score — see the ranking block below.
         $results = [];
         $totalAllocated = 0.0;
 
@@ -163,16 +161,6 @@ class EsopAllocationCalculator
             // pool (total pool minus hiring reserve) — not the total pool.
             $shareOfPool = $allocatablePool > 0 ? ($finalGrant / $allocatablePool) : 0.0;
 
-            $rank = 0;
-            if ($totalScore > 0) {
-                $rank = 1;
-                foreach ($scores as $s) {
-                    if ($s > $totalScore) {
-                        $rank++;
-                    }
-                }
-            }
-
             $totalAllocated += $finalGrant;
 
             $results[$emp['id']] = [
@@ -186,8 +174,37 @@ class EsopAllocationCalculator
                 'final_grant_percent'     => round($finalGrant, 6),
                 'share_of_pool_percent'   => round($shareOfPool * 100, 2),
                 'tier_pool_applied'       => $hasTier,
-                'rank'                    => $rank,
+                'rank'                    => 0, // assigned below, off the final grant
             ];
+        }
+
+        // Rank by the recommended grant rather than the raw score. The table
+        // this feeds leads with the grant column, and under tier pools a high
+        // scorer inside a small tier can legitimately receive less equity than
+        // a lower scorer in a large one — so a score-derived rank read as wrong
+        // sitting next to the numbers. Ties share a rank (standard competition
+        // ranking, matching the previous behaviour), and anyone allocated
+        // nothing stays rank 0 so the UI keeps showing them as "—".
+        //
+        // Presentation only: nothing in the allocation maths reads `rank`, and
+        // every figure above is already final by this point.
+        $grantsDesc = array_map(fn ($r) => $r['final_grant_percent'], $results);
+        rsort($grantsDesc);
+
+        foreach ($results as $id => $result) {
+            $grant = $result['final_grant_percent'];
+            if ($grant <= 0) {
+                continue;
+            }
+
+            $rank = 1;
+            foreach ($grantsDesc as $g) {
+                if ($g > $grant) {
+                    $rank++;
+                }
+            }
+
+            $results[$id]['rank'] = $rank;
         }
 
         return [
@@ -250,16 +267,29 @@ class EsopAllocationCalculator
             ->values()
             ->all();
 
+        // Seniority is a closed list of five tiers, and each one can carry its
+        // own tier pool — so every level is seeded here, including the ones
+        // nobody was scored against. A level sitting at 0% is meaningful
+        // information (that tier is still entirely unallocated), whereas simply
+        // omitting the row leaves the reader to notice an absence. Any
+        // unexpected or legacy value still in the data keeps its own row and is
+        // appended after the five known tiers.
         $seniorityOrder = EsopQuestionBank::SENIORITY_LEVELS;
-        $byLevel = $employees
-            ->groupBy(fn ($e) => $e->emp_seniority ?: 'Unspecified')
-            ->map(fn ($group, $name) => [
-                'label'     => $name,
-                'employees' => $group->count(),
-                'allocated' => (float) $group->sum('final_grant_percent'),
-            ])
-            ->sortBy(fn ($row, $key) => array_search($key, $seniorityOrder) === false ? 999 : array_search($key, $seniorityOrder))
+        $groupedByLevel = $employees->groupBy(fn ($e) => $e->emp_seniority ?: 'Unspecified');
+
+        $byLevel = collect($seniorityOrder)
+            ->merge($groupedByLevel->keys())
+            ->unique()
             ->values()
+            ->map(function ($name) use ($groupedByLevel) {
+                $group = $groupedByLevel->get($name);
+
+                return [
+                    'label'     => $name,
+                    'employees' => $group ? $group->count() : 0,
+                    'allocated' => $group ? (float) $group->sum('final_grant_percent') : 0.0,
+                ];
+            })
             ->all();
 
         return ['byDepartment' => $byDepartment, 'byLevel' => $byLevel];

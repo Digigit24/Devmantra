@@ -1,3 +1,14 @@
+@php
+    // Cache-buster for the shared dashboard CSS/JS — see the matching block in
+    // app.blade.php. In production the web-served folder is separate from the
+    // Laravel root, so public_path() can't be used to stat these files.
+    $esopAssetRoot = app()->environment('local') ? public_path() : '/home2/devmasjc/public_html';
+    $esopAssetVer = function (string $relative) use ($esopAssetRoot) {
+        $path = rtrim($esopAssetRoot, '/') . '/' . ltrim($relative, '/');
+
+        return is_file($path) ? filemtime($path) : time();
+    };
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="{{ asset('assets/esop-calculator/css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/esop-calculator/css/dashboard.css') }}?v={{ $esopAssetVer('assets/esop-calculator/css/dashboard.css') }}">
 <style>
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0;background:#f4f6f9;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
@@ -51,8 +62,17 @@ body{margin:0;background:#f4f6f9;font-family:'Inter',-apple-system,BlinkMacSyste
                     <div class="esop-dash-eyebrow">Dev Mantra &middot; ESOP Advisory</div>
                     <h1 class="esop-dash-hero-title">{{ $company }}</h1>
                 </div>
+                @php
+                    // Timestamps are stored in UTC (config/app.php timezone), so convert
+                    // for display — otherwise an Indian founder sees a time 5h30m behind
+                    // when they actually ran it. Pinned to IST (not the viewer's locale)
+                    // so a forwarded report reads the same for everyone who opens it.
+                    $generatedAt = ($lead->submitted_at ?? $lead->created_at)
+                        ->timezone('Asia/Kolkata')
+                        ->format('d M Y, g:i A') . ' IST';
+                @endphp
                 <div class="esop-dash-hero-meta">
-                    Generated {{ $lead->submitted_at?->format('d M Y') ?? $lead->created_at->format('d M Y') }}<br>
+                    Generated {{ $generatedAt }}<br>
                     {{ $lead->industry ?: '—' }} &middot; {{ $lead->company_stage ?: '—' }}
                 </div>
             </div>
@@ -93,8 +113,12 @@ body{margin:0;background:#f4f6f9;font-family:'Inter',-apple-system,BlinkMacSyste
         <div class="esop-dash-card">
             <div class="esop-dash-card-title">Key Metrics</div>
             <div class="esop-dash-stat-grid">
-                <div class="esop-dash-stat"><div class="lbl">Allocatable Pool</div><div class="val">{{ number_format($allocatable, 2) }}%</div></div>
-                <div class="esop-dash-stat"><div class="lbl">Pool To Distribute</div><div class="val">{{ number_format($pool['pool_to_distribute_percent'] ?? 0, 2) }}%</div></div>
+                {{-- These two tiles mirror the Pool Overview donut legend exactly, so the two
+                     cards can never appear to disagree. (The older labels showed the gross
+                     allocatable figure — mathematically right, but it read as a contradiction
+                     next to the donut's allocated / remaining split.) --}}
+                <div class="esop-dash-stat"><div class="lbl">Total Allocated</div><div class="val money">{{ number_format($totalAllocated, 4) }}%</div></div>
+                <div class="esop-dash-stat"><div class="lbl">Remaining To Allocate</div><div class="val">{{ number_format(max(0, $remaining), 4) }}%</div></div>
                 <div class="esop-dash-stat"><div class="lbl">Employees Scored</div><div class="val">{{ $pool['scored_count'] ?? $employees->count() }} / {{ $pool['planned_headcount'] ?? '—' }}</div></div>
                 <div class="esop-dash-stat"><div class="lbl">Score Range</div><div class="val small">{{ $pool['score_range_low'] ?? '—' }} – {{ $pool['score_range_high'] ?? '—' }} / 100</div></div>
                 <div class="esop-dash-stat"><div class="lbl">Average Grant</div><div class="val money">{{ isset($pool['average_grant_percent']) ? number_format($pool['average_grant_percent'], 4).'%' : '—' }}</div></div>
@@ -111,11 +135,11 @@ body{margin:0;background:#f4f6f9;font-family:'Inter',-apple-system,BlinkMacSyste
     <div class="esop-dash-grid-2 even">
         <div class="esop-dash-card">
             <div class="esop-dash-card-title">Allocation By Department</div>
-            <div class="esop-chart-box"><canvas id="deptChart"></canvas></div>
+            <div id="deptDist"></div>
         </div>
         <div class="esop-dash-card">
             <div class="esop-dash-card-title">Allocation By Seniority</div>
-            <div class="esop-chart-box"><canvas id="levelChart"></canvas></div>
+            <div id="levelDist"></div>
         </div>
     </div>
     @endif
@@ -224,8 +248,8 @@ body{margin:0;background:#f4f6f9;font-family:'Inter',-apple-system,BlinkMacSyste
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
-<script src="{{ asset('assets/esop-calculator/js/dashboard.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js"></script>
+<script src="{{ asset('assets/esop-calculator/js/dashboard.js') }}?v={{ $esopAssetVer('assets/esop-calculator/js/dashboard.js') }}"></script>
 <script>
 (function () {
     var byDepartment = @json(collect($byDepartment)->take(12));
@@ -237,12 +261,17 @@ body{margin:0;background:#f4f6f9;font-family:'Inter',-apple-system,BlinkMacSyste
         { label: 'Hiring reserve', value: @json(round($reserve, 6)), color: '#d9a441' }
     ]);
 
-    if (byDepartment.length) {
-        EsopDashboard.renderBar('deptChart', byDepartment.map(function (r) { return r.label; }), byDepartment.map(function (r) { return r.allocated; }), '#4a73c4');
-    }
-    if (byLevel.length) {
-        EsopDashboard.renderBar('levelChart', byLevel.map(function (r) { return r.label; }), byLevel.map(function (r) { return r.allocated; }), '#1b3c6b');
-    }
+    var deptTotal = @json(count(\App\Services\EsopQuestionBank::DEPARTMENTS));
+    EsopDashboard.renderDistribution('deptDist', byDepartment, {
+        accent: '#4a73c4', accentSoft: '#7aa2e8',
+        note: 'Only departments with at least one scored employee are listed — ' +
+              byDepartment.length + ' of ' + deptTotal + ' represented in this cycle.'
+    });
+    EsopDashboard.renderDistribution('levelDist', byLevel, {
+        accent: '#1b3c6b', accentSoft: '#4a73c4',
+        emptyLabel: 'No one scored at this level yet',
+        note: 'Every seniority tier is listed. A tier at 0% has nobody scored against it yet, so any pool set aside for that level is still unallocated.'
+    });
 
     EsopDashboard.initRowToggles('.esop-dash-table-wrap');
 

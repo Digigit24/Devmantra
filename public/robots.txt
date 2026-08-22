@@ -1,5 +1,5 @@
 # ==============================================================
-# robots.txt for https://www.devmantra.com/
+# robots.txt for https://devmantra.com/
 # Generated: April 2026
 # Purpose: SEO-optimized crawl control for financial advisory site
 # ==============================================================
@@ -221,13 +221,13 @@ Allow: /
 # SECTION 5: Sitemap declaration
 # ---------------------------------------------------------------
 
-Sitemap: https://www.devmantra.com/sitemap.xml
+Sitemap: https://devmantra.com/sitemap.xml
 
 # If you have multiple sitemaps, add them:
-#https://www.devmantra.com/sitemap.xml
-#https://www.devmantra.com/llms.txt
+#https://devmantra.com/sitemap.xml
+#https://devmantra.com/llms.txt
 # ---------------------------------------------------------------
 # SECTION 6: Host directive (canonical domain preference)
 # ---------------------------------------------------------------
 
-Host: https://www.devmantra.com
+Host: https://devmantra.com

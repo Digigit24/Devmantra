@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dev Mantra Financial Services — SEO Program: Work Completed</title>
+<style>
+  :root{
+    --navy:#0f1b33;
+    --navy-2:#16264a;
+    --gold:#b8924a;
+    --gold-light:#f4ecd9;
+    --ink:#1c2430;
+    --muted:#5b6472;
+    --line:#e6e8ec;
+    --bg:#fafafa;
+    --card:#ffffff;
+    --green:#1f8a5f;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px;margin:0 auto;background:var(--card);}
+
+  /* ---------- Header ---------- */
+  .header{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);
+    color:#fff;
+    padding:56px 56px 44px;
+    position:relative;
+  }
+  .header .eyebrow{
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:11.5px;
+    color:var(--gold);
+    font-weight:600;
+    margin-bottom:14px;
+  }
+  .header h1{
+    font-size:30px;
+    line-height:1.28;
+    margin:0 0 12px;
+    font-weight:650;
+    letter-spacing:-.01em;
+  }
+  .header p.sub{
+    font-size:15.5px;
+    color:#c6cbdb;
+    margin:0;
+    max-width:560px;
+  }
+  .header .meta-row{
+    display:flex;
+    gap:36px;
+    margin-top:32px;
+    padding-top:24px;
+    border-top:1px solid rgba(255,255,255,.14);
+    flex-wrap:wrap;
+  }
+  .header .meta-item .label{
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    color:#8f9ab3;
+    margin-bottom:4px;
+  }
+  .header .meta-item .value{
+    font-size:14px;
+    color:#eef0f6;
+    font-weight:550;
+  }
+
+  /* ---------- Stat strip ---------- */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .stat{
+    background:var(--card);
+    padding:26px 20px;
+    text-align:center;
+  }
+  .stat .num{
+    font-size:26px;
+    font-weight:700;
+    color:var(--navy);
+    letter-spacing:-.01em;
+  }
+  .stat .lbl{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:4px;
+    line-height:1.4;
+  }
+
+  /* ---------- Body / sections ---------- */
+  .body{padding:12px 56px 20px;}
+  .toc{
+    margin:36px 0 8px;
+    padding:22px 24px;
+    background:#f5f6f8;
+    border-radius:var(--radius);
+    border:1px solid var(--line);
+  }
+  .toc .toc-title{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    color:var(--muted);
+    font-weight:700;
+    margin-bottom:12px;
+  }
+  .toc ol{
+    margin:0;
+    padding:0 0 0 20px;
+    columns:2;
+    column-gap:28px;
+    font-size:13.5px;
+  }
+  .toc li{margin-bottom:7px;}
+  .toc a{color:var(--navy-2);text-decoration:none;}
+  .toc a:hover{text-decoration:underline;}
+
+  section.block{
+    margin:52px 0;
+    scroll-margin-top:20px;
+  }
+  .block .kicker{
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:var(--gold);
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .block h2{
+    font-size:22px;
+    margin:0 0 14px;
+    color:var(--navy);
+    font-weight:650;
+    letter-spacing:-.005em;
+  }
+  .block > p.lede{
+    font-size:15px;
+    color:#3a4150;
+    max-width:720px;
+    margin:0 0 22px;
+  }
+
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin:18px 0;
+  }
+  .card{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    background:#fff;
+  }
+  .card h3{
+    font-size:14px;
+    margin:0 0 6px;
+    color:var(--navy);
+    font-weight:650;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .card p{
+    font-size:13px;
+    color:var(--muted);
+    margin:0;
+  }
+  .card .n{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:26px;
+    height:22px;
+    padding:0 7px;
+    border-radius:20px;
+    background:var(--gold-light);
+    color:#8a6a2a;
+    font-size:12px;
+    font-weight:700;
+  }
+
+  ul.check{list-style:none;margin:0;padding:0;}
+  ul.check li{
+    position:relative;
+    padding:7px 0 7px 26px;
+    font-size:14px;
+    color:#333b47;
+    border-bottom:1px solid #f1f2f4;
+  }
+  ul.check li:last-child{border-bottom:none;}
+  ul.check li::before{
+    content:"";
+    position:absolute;
+    left:0;top:10px;
+    width:16px;height:16px;
+    border-radius:50%;
+    background:var(--green);
+  }
+  ul.check li::after{
+    content:"✓";
+    position:absolute;
+    left:3.5px;top:8.5px;
+    font-size:10px;
+    color:#fff;
+    font-weight:700;
+  }
+  ul.check li b{color:var(--navy);}
+
+  table.clean{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13.5px;
+    margin:14px 0;
+  }
+  table.clean th{
+    text-align:left;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--muted);
+    padding:9px 12px;
+    border-bottom:2px solid var(--line);
+  }
+  table.clean td{
+    padding:10px 12px;
+    border-bottom:1px solid #f1f2f4;
+    color:#333b47;
+    vertical-align:top;
+  }
+  table.clean tr:last-child td{border-bottom:none;}
+
+  table.task-table{font-size:13px;}
+  table.task-table td.num{color:var(--muted);font-variant-numeric:tabular-nums;}
+  table.task-table tr.cat-row td{
+    background:var(--navy);
+    color:#fff;
+    font-weight:650;
+    font-size:12px;
+    letter-spacing:.02em;
+    padding:10px 12px;
+    border-bottom:none;
+  }
+  table.task-table tr.cat-row td .cat-count{
+    color:#aab3c8;
+    font-weight:500;
+    margin-left:6px;
+  }
+  table.task-table tr:nth-child(even):not(.cat-row) td{background:#fafbfc;}
+  .phase-tag{
+    display:inline-block;
+    font-size:10.5px;
+    font-weight:650;
+    padding:3px 9px;
+    border-radius:20px;
+    background:#eef1f7;
+    color:var(--navy-2);
+    white-space:nowrap;
+  }
+  .phase-tag.enh{background:var(--gold-light);color:#8a6a2a;}
+  .phase-tag.health{background:#e8f4ee;color:var(--green);}
+  .task-table-wrap{
+    max-height:640px;
+    overflow-y:auto;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+  }
+  .task-table-wrap table.clean{margin:0;}
+  .task-table-wrap th{position:sticky;top:0;background:#fff;z-index:1;}
+
+  .chart-card{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px 22px 12px;
+    margin:20px 0 8px;
+    background:#fff;
+  }
+  .chart-card .chart-title{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--muted);
+    font-weight:700;
+    margin-bottom:2px;
+  }
+  .chart-axis-label{font-size:11px;fill:var(--muted);}
+  .chart-marker-label{font-size:11px;fill:#8a6a2a;font-weight:700;}
+  .chart-caption{
+    display:flex;
+    justify-content:space-between;
+    font-size:11px;
+    color:var(--muted);
+    margin-top:2px;
+    padding:0 2px;
+  }
+  .source-note{
+    font-size:11.5px;
+    color:var(--muted);
+    margin-top:10px;
+    font-style:italic;
+  }
+
+  details.evidence{
+    margin-top:14px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+  }
+  details.evidence summary{
+    cursor:pointer;
+    padding:13px 18px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--navy-2);
+    background:#f7f8fa;
+    list-style:none;
+  }
+  details.evidence summary::-webkit-details-marker{display:none;}
+  details.evidence summary::before{
+    content:"+ ";
+    color:var(--gold);
+    font-weight:800;
+  }
+  details.evidence[open] summary::before{content:"– ";}
+  details.evidence .inner{padding:16px 18px 18px;}
+
+  .callout{
+    border-radius:12px;
+    padding:18px 20px;
+    font-size:13.5px;
+    margin:18px 0;
+    border-left:4px solid var(--gold);
+    background:var(--gold-light);
+    color:#4a3c1e;
+  }
+  .callout.navy{
+    border-left-color:var(--navy);
+    background:#eef1f7;
+    color:#1e2b46;
+  }
+  .callout b{display:block;margin-bottom:4px;color:inherit;}
+
+  .divider{height:1px;background:var(--line);margin:0;}
+
+  .pill-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px;}
+  .pill{
+    font-size:12px;
+    padding:5px 11px;
+    border-radius:20px;
+    background:#eef1f7;
+    color:var(--navy-2);
+    font-weight:600;
+  }
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+
+  footer{
+    background:var(--navy);
+    color:#c6cbdb;
+    padding:40px 56px 48px;
+    font-size:12.5px;
+    margin-top:20px;
+  }
+  footer .sig{color:#fff;font-size:15px;font-weight:650;margin-bottom:4px;}
+  footer a{color:var(--gold);text-decoration:none;}
+  footer .fine{margin-top:18px;color:#7c86a0;font-size:11.5px;line-height:1.6;}
+
+  @media (max-width:640px){
+    .header{padding:36px 24px;}
+    .body{padding:0 24px;}
+    footer{padding:32px 24px;}
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .card-grid{grid-template-columns:1fr;}
+    .two-col{grid-template-columns:1fr;}
+    .toc ol{columns:1;}
+    .header h1{font-size:24px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ HEADER ============ -->
+  <div class="header">
+    <div class="eyebrow">SEO Program Summary</div>
+    <h1>Work Completed to Date — devmantra.com</h1>
+    <p class="sub">A consolidated record of the technical, on-page, structured-data, performance, and internal-linking work delivered for Dev Mantra Financial Services, organized by category with supporting detail for each item.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="label">Prepared For</div><div class="value">Dev Mantra Financial Services</div></div>
+      <div class="meta-item"><div class="label">Prepared By</div><div class="value">Digitech Solutions</div></div>
+      <div class="meta-item"><div class="label">Report Date</div><div class="value">6 August 2026</div></div>
+      <div class="meta-item"><div class="label">Scope</div><div class="value">devmantra.com — full site</div></div>
+    </div>
+  </div>
+
+  <!-- ============ STAT STRIP ============ -->
+  <div class="stats">
+    <div class="stat"><div class="num">247</div><div class="lbl">Individually verifiable SEO deliverables</div></div>
+    <div class="stat"><div class="num">10</div><div class="lbl">Structured-data (schema) types live</div></div>
+    <div class="stat"><div class="num">89</div><div class="lbl">Content pages enhanced with internal links</div></div>
+    <div class="stat"><div class="num">9 / 9</div><div class="lbl">Core service pages fully optimized</div></div>
+  </div>
+
+  <div class="body">
+
+    <!-- ============ TOC ============ -->
+    <div class="toc">
+      <div class="toc-title">Contents</div>
+      <ol>
+        <li><a href="#summary">Executive Summary</a></li>
+        <li><a href="#infra">1. SEO Infrastructure &amp; Admin Tools</a></li>
+        <li><a href="#onpage">2. On-Page SEO — Core Service Pages</a></li>
+        <li><a href="#schema">3. Structured Data (Schema Markup)</a></li>
+        <li><a href="#technical">4. Technical SEO &amp; Site Health</a></li>
+        <li><a href="#performance">5. Performance Optimization</a></li>
+        <li><a href="#linking">6. Internal Linking Architecture</a></li>
+        <li><a href="#offpage">7. Off-Page Authority — Current Standing</a></li>
+        <li><a href="#searchperf">8. Search Performance — Current Standing</a></li>
+        <li><a href="#next">9. Recommended Next Steps</a></li>
+        <li><a href="#tasklist">Appendix — Complete Task List</a></li>
+      </ol>
+    </div>
+
+    <!-- ============ EXEC SUMMARY ============ -->
+    <section class="block" id="summary">
+      <div class="kicker">Overview</div>
+      <h2>Executive Summary</h2>
+      <p class="lede">
+        Over the course of this engagement, Digitech Solutions has built and deployed a complete SEO foundation for devmantra.com — spanning admin infrastructure, on-page optimization, structured data, technical site health, performance, and a fully mapped internal-linking architecture. This document consolidates that work into one reference so the full scope of what has been delivered is easy to review in one place.
+      </p>
+      <p style="font-size:14px;color:#3a4150;max-width:720px;">
+        The work falls into two phases. The <b>Foundation Phase</b> built the SEO admin system, wired structured data and meta-tag control into every content type on the site, hardened technical SEO (HTTPS, sitemap, crawl directives, AI/GEO readiness), and rolled out the first pass of internal linking across blogs and newsletters. The <b>Enhancement Phase</b>, most recently completed, closed every remaining internal-linking gap identified in a full content audit — including new research reports and the client case study — and corrected a small number of legacy links so every page on the site now connects cleanly to the relevant service offering.
+      </p>
+      <p style="font-size:14px;color:#3a4150;max-width:720px;">
+        With this phase complete, devmantra.com's on-page and technical SEO foundation is comprehensive by industry standards. The next stage of growth is primarily an <b>authority-building</b> exercise — off-page signals, local search presence, and original content distribution — summarized in Sections 7 through 9 below.
+      </p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 1. INFRASTRUCTURE ============ -->
+    <section class="block" id="infra">
+      <div class="kicker">Section 1</div>
+      <h2>SEO Infrastructure &amp; Admin Tools</h2>
+      <p class="lede">A purpose-built SEO management system was designed and implemented inside the site's own admin panel, so every future piece of content — blogs, services, reports, newsletters, and more — is SEO-ready from the moment it's published, with no separate tooling required.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <h3><span class="n">30</span> Admin infrastructure components</h3>
+          <p>Meta title/description fields with live character counters, OG image controls, canonical URL overrides, noindex controls, custom structured-data injection, global SEO defaults, GA4/GTM/Search Console integration, and an AI-assisted image alt-text system.</p>
+        </div>
+        <div class="card">
+          <h3><span class="n">8</span> Content editors wired</h3>
+          <p>The SEO panel is active across every content type the team publishes: blogs, services, case studies, newsletters, reports, alerts, and events.</p>
+        </div>
+        <div class="card">
+          <h3><span class="n">42</span> SEO fields enabled</h3>
+          <p>All 7 content types carry the full 6-field SEO set (title, description, social image, canonical URL, indexing control, and custom structured data) — a complete, consistent standard sitewide.</p>
+        </div>
+        <div class="card">
+          <h3><span class="n">1</span> Alt-text management system</h3>
+          <p>A dedicated system tracks image alt-text across the site, including AI-assisted suggestions, so accessibility and image-search visibility are maintained as content grows.</p>
+        </div>
+      </div>
+
+      <details class="evidence">
+        <summary>View detailed component list</summary>
+        <div class="inner">
+          <ul class="check">
+            <li>Meta title field with live 60-character guidance counter</li>
+            <li>Meta description field with live 160-character guidance counter</li>
+            <li>Social share (OG) image upload, with automatic URL fallback</li>
+            <li>Canonical URL override per page</li>
+            <li>Search-indexing control (noindex/nofollow) per page</li>
+            <li>Custom structured-data injection field for advanced cases</li>
+            <li>Sitewide defaults for title, description, and social image</li>
+            <li>Google Search Console verification, GA4, and Google Tag Manager integration, all managed from settings</li>
+            <li>Dedicated schema preview panel in the admin dashboard</li>
+            <li>AI-assisted (and manual) image alt-text suggestion and bulk generation tools</li>
+            <li>Lead-capture system integrated with the India–Europe cost calculator, converting high-intent organic search traffic</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 2. ON-PAGE ============ -->
+    <section class="block" id="onpage">
+      <div class="kicker">Section 2</div>
+      <h2>On-Page SEO — Core Service Pages</h2>
+      <p class="lede">All 9 core service pages — the site's primary revenue-driving content — were reviewed against a full on-page SEO standard covering title tags, meta descriptions, heading structure, canonical tags, structured data, image optimization, and internal linking.</p>
+
+      <table class="clean">
+        <tr><th>Element</th><th>Standard applied</th><th>Status</th></tr>
+        <tr><td>Title tag</td><td>50–60 characters, keyword front-loaded</td><td>Live and verified</td></tr>
+        <tr><td>Meta description</td><td>Keyword-rich, action-oriented, within length guidance</td><td>Live and verified</td></tr>
+        <tr><td>Heading structure</td><td>Single H1, logical H2 flow (offer → proof → process → FAQ → CTA)</td><td>Live and verified</td></tr>
+        <tr><td>Canonical tag</td><td>Self-referencing, consistent domain</td><td>Live and verified</td></tr>
+        <tr><td>Structured data</td><td>Service, Organization, and Breadcrumb schema</td><td>Live and verified</td></tr>
+        <tr><td>Image alt text</td><td>Descriptive alt text on every image</td><td>Live and verified</td></tr>
+        <tr><td>Internal linking</td><td>Related-service cross-sell block</td><td>Rebuilt and corrected — see Section 6</td></tr>
+      </table>
+
+      <div class="callout">
+        <b>Quality-assurance note</b>
+        During this review, the homepage title tag was found to display an encoding artifact ("Financial &amp;amp; Advisory" instead of "Financial &amp; Advisory") in search results and social shares — a subtle but real click-through cost. This has been corrected at the source and is included in the current deployment package.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 3. SCHEMA ============ -->
+    <section class="block" id="schema">
+      <div class="kicker">Section 3</div>
+      <h2>Structured Data (Schema Markup)</h2>
+      <p class="lede">Structured data tells search engines — and increasingly, AI assistants like ChatGPT and Perplexity — exactly what a page is about. A dedicated schema engine was built and deployed across the site, covering 10 distinct schema types.</p>
+
+      <div class="pill-row">
+        <span class="pill">Organization</span>
+        <span class="pill">LocalBusiness</span>
+        <span class="pill">Service</span>
+        <span class="pill">Article / BlogPosting</span>
+        <span class="pill">Report</span>
+        <span class="pill">FAQPage</span>
+        <span class="pill">BreadcrumbList</span>
+        <span class="pill">Person</span>
+        <span class="pill">ContactPoint</span>
+        <span class="pill">PostalAddress</span>
+      </div>
+
+      <table class="clean" style="margin-top:18px;">
+        <tr><th>Page</th><th>Structured data live</th></tr>
+        <tr><td>Homepage</td><td>Organization, LocalBusiness, BreadcrumbList</td></tr>
+        <tr><td>About page</td><td>FAQPage (6 Q&amp;A pairs), Person, ContactPoint, PostalAddress, BreadcrumbList</td></tr>
+        <tr><td>Service pages</td><td>Service, Organization, BreadcrumbList — plus FAQ schema automatically generated from each page's existing FAQ content</td></tr>
+        <tr><td>Contact page</td><td>LocalBusiness, BreadcrumbList</td></tr>
+        <tr><td>Blogs, reports, case studies, newsletters</td><td>Type-specific article/report schema, generated automatically on publish</td></tr>
+      </table>
+
+      <p style="font-size:13px;color:var(--muted);margin-top:10px;">This structured-data layer also directly supports <b>Answer Engine Optimization (AEO)</b> and <b>Generative Engine Optimization (GEO)</b> — the practices that determine whether AI assistants surface and cite Dev Mantra when answering finance and advisory questions.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 4. TECHNICAL ============ -->
+    <section class="block" id="technical">
+      <div class="kicker">Section 4</div>
+      <h2>Technical SEO &amp; Site Health</h2>
+      <p class="lede">The technical foundation that determines whether search engines can efficiently find, crawl, and index every page on the site.</p>
+
+      <div class="two-col">
+        <div>
+          <h3 style="font-size:14px;color:var(--navy);">Crawling &amp; Indexing</h3>
+          <ul class="check">
+            <li>Dynamic XML sitemap, always current with published content</li>
+            <li>HTTPS enforced sitewide, single canonical domain</li>
+            <li><code>robots.txt</code> fully configured — search engines welcomed, scraper and low-value bots blocked</li>
+            <li>Google Search Console, GA4, and Google Tag Manager wired in</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="font-size:14px;color:var(--navy);">AI &amp; Answer-Engine Readiness</h3>
+          <ul class="check">
+            <li><code>llms.txt</code> published — a dedicated reference file for AI systems</li>
+            <li>12 major AI crawlers explicitly welcomed (ChatGPT, Claude, Perplexity, Google Gemini, and others)</li>
+            <li>Visible, schema-backed FAQ content on key pages for direct AI citation</li>
+            <li>Single, consistent canonical domain across every file and system that references the site</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout navy">
+        <b>Corrected during this engagement</b>
+        A mismatch was identified between the domain format the live site actually uses and the domain format referenced in a small number of configuration files. This has been fully reconciled — every reference across the site, its sitemap, and its AI-reference file now points to the same, single canonical domain, removing an unnecessary redirect step and eliminating any risk of a search-console reporting conflict.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 5. PERFORMANCE ============ -->
+    <section class="block" id="performance">
+      <div class="kicker">Section 5</div>
+      <h2>Performance Optimization</h2>
+      <p class="lede">Page speed is a direct ranking factor and a direct driver of conversion — visitors leave slow pages before they ever read the pitch.</p>
+      <ul class="check">
+        <li>Lazy-loading applied to below-the-fold images across all 6 content templates</li>
+        <li>Long-term browser caching configured for images, fonts, and static assets</li>
+        <li>Sitewide compression (gzip/deflate) enabled across all major file types</li>
+        <li>Fonts and icon libraries load without blocking page rendering</li>
+        <li>Connection pre-warming (preconnect/DNS-prefetch) for all third-party asset origins</li>
+        <li>Automatic cache-busting so visitors always receive the latest version of every page</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 6. LINKING ============ -->
+    <section class="block" id="linking">
+      <div class="kicker">Section 6</div>
+      <h2>Internal Linking Architecture</h2>
+      <p class="lede">Internal linking is what turns a collection of pages into a coherent site — it tells search engines which pages matter most, and it guides visitors from awareness content toward the service that solves their problem. This was addressed in two passes.</p>
+
+      <h3 style="font-size:15px;color:var(--navy);margin-top:26px;">Foundation pass</h3>
+      <div class="card-grid">
+        <div class="card">
+          <h3><span class="n">6</span> Strategy documents</h3>
+          <p>A full pillar-and-cluster content map, priority matrix, anchor-text variation bank, and phased rollout plan were built before any links were deployed — ensuring a deliberate architecture, not ad-hoc linking.</p>
+        </div>
+        <div class="card">
+          <h3><span class="n">64</span> Links deployed</h3>
+          <p>Contextual in-content links, "Related Services" callouts, and cross-topic "Related Reading" boxes were deployed across the blog archive, the alert page, and all published newsletter editions.</p>
+        </div>
+      </div>
+
+      <h3 style="font-size:15px;color:var(--navy);margin-top:26px;">Enhancement pass — completed this cycle</h3>
+      <p style="font-size:14px;color:#3a4150;max-width:720px;">
+        A full content audit — reading every blog, report, case study, and service page against the site's own content plan — surfaced a handful of newer pages published after the original linking pass that had no outbound links at all, plus a legacy issue on one service page. Both have now been fully resolved:
+      </p>
+      <ul class="check">
+        <li>Both published <b>research reports</b> and the client's <b>Union Budget impact case study</b> now link to the most relevant advisory service, closing a gap that existed simply because they were published after the original linking rollout</li>
+        <li>The 6 most recent blog articles — covering GCC setup, Virtual CFO pricing, and cross-border accounting workflows — now each link to their matching service page and to related articles on the same topic</li>
+        <li>Every one of the 9 core service pages now cross-links to exactly 2 thematically related services (previously an unfiltered link to all 8 others), and a legacy link-formatting issue affecting one service page's cross-sell block has been corrected</li>
+        <li>The most recent newsletter edition now carries the same "related services" footer that every other edition already includes</li>
+        <li>All remaining legacy domain-format references across the blog and newsletter archive have been brought in line with the site's current canonical domain</li>
+      </ul>
+
+      <div class="callout">
+        <b>Verification standard applied</b>
+        Every link added in this pass was tested against a full working copy of the live database before delivery — confirming each destination URL is real, correctly formatted, and points to the intended page. Nothing was deployed on a "should work" basis.
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 7. OFF-PAGE ============ -->
+    <section class="block" id="offpage">
+      <div class="kicker">Section 7</div>
+      <h2>Off-Page Authority — Current Standing</h2>
+      <p class="lede">With the on-page and technical foundation now comprehensive, off-page authority — how many other credible sites and sources reference Dev Mantra — is the next lever for growth. A baseline was established this cycle so progress can be tracked going forward.</p>
+
+      <table class="clean">
+        <tr><th>Metric</th><th>Current baseline</th></tr>
+        <tr><td>Total backlinks</td><td>659, from 156 referring domains</td></tr>
+        <tr><td>Follow-link ratio</td><td>561 follow / 98 nofollow — a healthy ratio</td></tr>
+        <tr><td>Notable referring domain</td><td>Wikipedia, among others</td></tr>
+        <tr><td>Ranking non-branded keywords</td><td>Early-stage — the immediate opportunity area</td></tr>
+      </table>
+
+      <p style="font-size:14px;color:#3a4150;max-width:720px;">
+        The backlink profile today is a reasonable starting foundation, weighted toward business directories and listing sites rather than editorial coverage. The highest-leverage next step is deliberate authority building — industry publication features, founder thought-leadership, and distribution of Dev Mantra's original research (the RBI M&amp;A financing report and the Union Budget impact study are well-suited assets for this) — rather than further on-page work, which is now largely complete.
+      </p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 8. SEARCH PERFORMANCE ============ -->
+    <section class="block" id="searchperf">
+      <div class="kicker">Section 8</div>
+      <h2>Search Performance — Current Standing</h2>
+      <p class="lede">Pulled directly from Google Search Console, this section shows what's actually happening in Google search results today: which searches are surfacing devmantra.com, which of those searches are converting to visits, and which pages are earning that visibility.</p>
+
+      <div class="card-grid">
+        <div class="card"><h3><span class="n">1,305</span> Impressions</h3><p>Total times a devmantra.com page appeared in Google search results over the last 8 weeks (12 Jun – 4 Aug 2026).</p></div>
+        <div class="card"><h3><span class="n">37</span> Clicks</h3><p>Total visits to the site from organic Google search results over the same 8-week window.</p></div>
+        <div class="card"><h3><span class="n">~13×</span> Visibility growth</h3><p>Average daily impressions rose from ~6/day in the first six weeks to ~81/day in the most recent two weeks.</p></div>
+        <div class="card"><h3><span class="n">2.8%</span> Overall CTR</h3><p>Click-through rate across all queries — typical for a site whose average ranking position is still page 2–4 of Google, not page 1.</p></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-title">Daily Search Impressions — 12 June to 4 August 2026</div>
+        <svg viewBox="0 0 820 200" width="100%" height="200" preserveAspectRatio="none" role="img" aria-label="Line chart of daily Google search impressions for devmantra.com, rising sharply after July 23, 2026">
+          <defs>
+            <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0f1b33" stop-opacity="0.28"/>
+              <stop offset="100%" stop-color="#0f1b33" stop-opacity="0.02"/>
+            </linearGradient>
+          </defs>
+          <line x1="10" y1="176" x2="810" y2="176" stroke="#e6e8ec" stroke-width="1"/>
+          <path d="M 10.0,166.8 L 25.1,163.4 L 40.2,168.0 L 55.3,162.2 L 70.4,164.5 L 85.5,163.4 L 100.6,165.7 L 115.7,164.5 L 130.8,127.7 L 145.8,166.8 L 160.9,165.7 L 176.0,158.8 L 191.1,163.4 L 206.2,162.2 L 221.3,166.8 L 236.4,159.9 L 251.5,174.9 L 266.6,159.9 L 281.7,161.1 L 296.8,173.7 L 311.9,173.7 L 327.0,174.9 L 342.1,172.6 L 357.2,176.0 L 372.3,174.9 L 387.4,168.0 L 402.5,172.6 L 417.5,176.0 L 432.6,174.9 L 447.7,174.9 L 462.8,176.0 L 477.9,176.0 L 493.0,176.0 L 508.1,176.0 L 523.2,174.9 L 538.3,176.0 L 553.4,174.9 L 568.5,176.0 L 583.6,176.0 L 598.7,176.0 L 613.8,174.9 L 628.9,168.0 L 644.0,146.1 L 659.1,122.0 L 674.2,124.3 L 689.2,117.4 L 704.3,104.8 L 719.4,88.7 L 734.5,18.6 L 749.6,48.5 L 764.7,61.1 L 779.8,22.0 L 794.9,39.3 L 810.0,14.0 L 810.0,176.0 L 10.0,176.0 Z" fill="url(#areaFill)"/>
+          <path d="M 10.0,166.8 L 25.1,163.4 L 40.2,168.0 L 55.3,162.2 L 70.4,164.5 L 85.5,163.4 L 100.6,165.7 L 115.7,164.5 L 130.8,127.7 L 145.8,166.8 L 160.9,165.7 L 176.0,158.8 L 191.1,163.4 L 206.2,162.2 L 221.3,166.8 L 236.4,159.9 L 251.5,174.9 L 266.6,159.9 L 281.7,161.1 L 296.8,173.7 L 311.9,173.7 L 327.0,174.9 L 342.1,172.6 L 357.2,176.0 L 372.3,174.9 L 387.4,168.0 L 402.5,172.6 L 417.5,176.0 L 432.6,174.9 L 447.7,174.9 L 462.8,176.0 L 477.9,176.0 L 493.0,176.0 L 508.1,176.0 L 523.2,174.9 L 538.3,176.0 L 553.4,174.9 L 568.5,176.0 L 583.6,176.0 L 598.7,176.0 L 613.8,174.9 L 628.9,168.0 L 644.0,146.1 L 659.1,122.0 L 674.2,124.3 L 689.2,117.4 L 704.3,104.8 L 719.4,88.7 L 734.5,18.6 L 749.6,48.5 L 764.7,61.1 L 779.8,22.0 L 794.9,39.3 L 810.0,14.0" fill="none" stroke="#0f1b33" stroke-width="2"/>
+          <line x1="628.9" y1="14" x2="628.9" y2="176" stroke="#b8924a" stroke-width="1.3" stroke-dasharray="4,3"/>
+          <text x="623" y="26" text-anchor="end" class="chart-marker-label">Jul 23 — visibility climbs ↗</text>
+          <text x="12" y="14" class="chart-axis-label">141 (peak)</text>
+          <text x="12" y="188" class="chart-axis-label">0</text>
+        </svg>
+        <div class="chart-caption"><span>12 Jun 2026</span><span>4 Aug 2026</span></div>
+      </div>
+      <p class="source-note">Source: Google Search Console, Performance on Search Results (Web), 12 June – 4 August 2026.</p>
+
+      <div class="callout navy" style="margin-top:22px;">
+        <b>Reading this honestly</b>
+        Impressions climbed roughly 13-fold in the back half of this window — the site is now surfacing for a meaningfully wider set of searches. Average position across that wider set (38.9) is actually a touch lower than the narrower set of searches devmantra.com ranked for earlier (31.3) — expected when a site starts appearing for more, and more competitive, terms rather than a handful of narrow ones. The practical read: visibility is growing faster than ranking position right now, which is exactly why Section 9's authority-building recommendations matter — they're what moves this newly-won visibility from page 2–4 up to page 1, where clicks actually happen.
+      </div>
+
+      <h3 style="font-size:15px;color:var(--navy);margin-top:30px;">Queries currently driving clicks</h3>
+      <p style="font-size:13.5px;color:var(--muted);max-width:720px;margin-top:-6px;">Last 3 months, per Google Search Console. Unsurprisingly for a site at this stage, click-through traffic today is almost entirely branded — people already looking for Dev Mantra by name.</p>
+      <table class="clean">
+        <tr><th>Query</th><th>Clicks</th><th>Impressions</th><th>Likely landing page</th></tr>
+        <tr><td>dev mantra financial services</td><td>9</td><td>45</td><td>Homepage</td></tr>
+        <tr><td>devmantra</td><td>6</td><td>35</td><td>Homepage</td></tr>
+        <tr><td>dev mantra financial services pvt ltd</td><td>4</td><td>38</td><td>Homepage</td></tr>
+        <tr><td>dev mantra</td><td>1</td><td>50</td><td>Homepage</td></tr>
+        <tr><td>due diligence transaction advisory</td><td>1</td><td>41</td><td>Deals, Due Diligence &amp; Transaction Advisory</td></tr>
+        <tr><td>aone dev mantra financial services</td><td>1</td><td>12</td><td>Homepage</td></tr>
+      </table>
+
+      <h3 style="font-size:15px;color:var(--navy);margin-top:30px;">High-visibility, not-yet-clicked queries — the immediate opportunity</h3>
+      <p style="font-size:13.5px;color:var(--muted);max-width:720px;margin-top:-6px;">These non-branded, commercial-intent searches are already showing devmantra.com in results — meaning the content and targeting are working — but aren't yet earning clicks, which points to a ranking position beyond page 1 rather than a content gap.</p>
+      <table class="clean">
+        <tr><th>Query</th><th>Impressions</th><th>Likely landing page</th></tr>
+        <tr><td>virtual cfo services india</td><td>62</td><td>Virtual CFO Services</td></tr>
+        <tr><td>virtual cfo services</td><td>39</td><td>Virtual CFO Services</td></tr>
+        <tr><td>virtual cfo services in delhi</td><td>37</td><td>Virtual CFO Services</td></tr>
+        <tr><td>virtual cfo services in chennai</td><td>34</td><td>Virtual CFO Services</td></tr>
+        <tr><td>virtual cfo services in hyderabad</td><td>30</td><td>Virtual CFO Services</td></tr>
+        <tr><td>transaction advisory services due diligence</td><td>27</td><td>Deals, Due Diligence &amp; Transaction Advisory</td></tr>
+        <tr><td>due diligence &amp; transactional services</td><td>26</td><td>Deals, Due Diligence &amp; Transaction Advisory</td></tr>
+        <tr><td>ipo advisory services</td><td>22</td><td>IPO Advisory Services</td></tr>
+        <tr><td>business risk advisory</td><td>18</td><td>Risk Advisory &amp; Augmenting Business Process</td></tr>
+        <tr><td>saas mantra</td><td>17</td><td>Homepage <span style="color:var(--muted);">(brand-confusion term)</span></td></tr>
+        <tr><td>ipo advisory services india</td><td>16</td><td>IPO Advisory Services</td></tr>
+        <tr><td>ipo consulting services</td><td>14</td><td>IPO Advisory Services</td></tr>
+        <tr><td>ipo advisory</td><td>12</td><td>IPO Advisory Services</td></tr>
+      </table>
+
+      <h3 style="font-size:15px;color:var(--navy);margin-top:30px;">Pages currently earning search visibility</h3>
+      <table class="clean">
+        <tr><th>Page</th><th>What's driving it</th></tr>
+        <tr><td>Homepage</td><td>All branded queries (company name, name variants, brand misspellings)</td></tr>
+        <tr><td>Virtual CFO Services</td><td>The single largest cluster of non-branded impressions — 5 city/generic variants, 202 combined impressions</td></tr>
+        <tr><td>Deals, Due Diligence &amp; Transaction Advisory</td><td>3 query variants, 94 combined impressions — the only non-branded page already converting to clicks</td></tr>
+        <tr><td>IPO Advisory Services</td><td>4 query variants, 64 combined impressions</td></tr>
+        <tr><td>Risk Advisory &amp; Augmenting Business Process</td><td>1 query variant, 18 impressions</td></tr>
+      </table>
+      <p class="source-note">Landing pages above are mapped from query intent against the site's known content structure, not pulled from Search Console's own Pages report. Google Search Console can export an exact query-to-page breakdown (its "Pages" tab) — worth pulling directly next time for full precision; happy to build that in as a live connection so this section updates automatically.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ 9. NEXT STEPS ============ -->
+    <section class="block" id="next">
+      <div class="kicker">Section 9</div>
+      <h2>Recommended Next Steps</h2>
+      <p class="lede">With the technical and on-page foundation in strong shape, the recommended focus for the next phase is authority and visibility:</p>
+      <ul class="check">
+        <li><b>Google Business Profile audit</b> — align the primary category and listing details with local search best practice</li>
+        <li><b>Digital PR &amp; distribution</b> — place the existing research reports and case study in front of industry publications and relevant online communities</li>
+        <li><b>Founder thought-leadership</b> — a LinkedIn publishing cadence for firm leadership, tied to the same content themes already built into the site</li>
+        <li><b>Performance baseline</b> — a formal Core Web Vitals (page-speed) benchmark, now that the underlying optimizations are in place</li>
+        <li><b>Ongoing content cadence</b> — new blog articles, each automatically inheriting the SEO infrastructure and internal-linking standard now in place sitewide</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ APPENDIX: TASK TABLE ============ -->
+    <section class="block" id="tasklist">
+      <div class="kicker">Appendix</div>
+      <h2>Complete Task List (247 Items)</h2>
+      <p class="lede">Every discrete item delivered across this engagement, organized by category. This is the granular backup behind the summaries in Sections 1–7 — use it as a line-by-line reference or a source for internal reporting.</p>
+
+      <div class="pill-row" style="margin-bottom:6px;">
+        <span class="pill" style="background:#eef1f7;">Foundation — 215</span>
+        <span class="pill" style="background:#e8f4ee;color:var(--green);">Site Health — 7</span>
+        <span class="pill" style="background:var(--gold-light);color:#8a6a2a;">Enhancement — 25</span>
+      </div>
+
+      <div class="task-table-wrap">
+      <table class="clean task-table">
+        <tr><th style="width:52px;">#</th><th>Task</th><th style="width:120px;">Phase</th></tr>
+        <tr class="cat-row"><td colspan="3">SEO Admin Infrastructure Built <span class="cat-count">(30)</span></td></tr>
+        <tr><td class="num">1</td><td>Meta Title field with live 60-character counter</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">2</td><td>Meta Description field with live 160-character counter</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">3</td><td>OG Image upload control</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">4</td><td>OG Image URL fallback option</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">5</td><td>Canonical URL override field</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">6</td><td>Noindex checkbox (injects noindex, nofollow)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">7</td><td>Custom Head / raw structured-data injection field</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">8</td><td>Collapsible SEO panel UI, auto-opens on validation error</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">9</td><td>Global setting: default site title</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">10</td><td>Global setting: default site description</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">11</td><td>Global setting: default social share image</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">12</td><td>Global setting: site-wide index/noindex toggle</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">13</td><td>Global setting: Google Search Console verification code</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">14</td><td>Global setting: GA4 tracking ID</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">15</td><td>Global setting: Google Tag Manager ID</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">16</td><td>Global setting: title separator format</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">17</td><td>Global setting: company name (for structured data)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">18</td><td>Global setting: logo URL (for structured data)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">19</td><td>Global setting: website URL (for structured data)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">20</td><td>Global setting: area served (for structured data)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">21</td><td>Structured-data admin preview panel</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">22</td><td>Image metadata table for alt-text management</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">23</td><td>Admin route: manual alt-text save</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">24</td><td>Admin route: bulk AI alt-text suggestion</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">25</td><td>Admin route: single AI alt-text suggestion</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">26</td><td>Automated bulk alt-text generation tool</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">27</td><td>Database migration — SEO fields added across 5 content tables</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">28</td><td>Database migration — image metadata table</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">29</td><td>Database migration — SEO fields extended to alerts and events</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">30</td><td>Lead-capture system for the India–Europe cost calculator</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr class="cat-row"><td colspan="3">SEO Panel Wired Into Admin Editors <span class="cat-count">(8)</span></td></tr>
+        <tr><td class="num">31</td><td>SEO panel wired into: Blog creation screen</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">32</td><td>SEO panel wired into: Blog edit screen</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">33</td><td>SEO panel wired into: Case study edit screen</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">34</td><td>SEO panel wired into: Newsletter edit screen</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">35</td><td>SEO panel wired into: Report edit screen</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">36</td><td>SEO panel wired into: Service edit screen</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">37</td><td>SEO panel wired into: Alert edit screen</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">38</td><td>SEO panel wired into: Event edit screen</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr class="cat-row"><td colspan="3">Meta/SEO Field Enablement <span class="cat-count">(42)</span></td></tr>
+        <tr><td class="num">39</td><td>Blogs — meta title enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">40</td><td>Blogs — meta description enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">41</td><td>Blogs — social share image enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">42</td><td>Blogs — canonical URL enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">43</td><td>Blogs — noindex control enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">44</td><td>Blogs — custom structured-data field enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">45</td><td>Services — meta title enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">46</td><td>Services — meta description enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">47</td><td>Services — social share image enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">48</td><td>Services — canonical URL enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">49</td><td>Services — noindex control enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">50</td><td>Services — custom structured-data field enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">51</td><td>Case Studies — meta title enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">52</td><td>Case Studies — meta description enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">53</td><td>Case Studies — social share image enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">54</td><td>Case Studies — canonical URL enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">55</td><td>Case Studies — noindex control enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">56</td><td>Case Studies — custom structured-data field enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">57</td><td>Reports — meta title enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">58</td><td>Reports — meta description enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">59</td><td>Reports — social share image enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">60</td><td>Reports — canonical URL enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">61</td><td>Reports — noindex control enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">62</td><td>Reports — custom structured-data field enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">63</td><td>Newsletters — meta title enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">64</td><td>Newsletters — meta description enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">65</td><td>Newsletters — social share image enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">66</td><td>Newsletters — canonical URL enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">67</td><td>Newsletters — noindex control enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">68</td><td>Newsletters — custom structured-data field enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">69</td><td>Alerts — meta title enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">70</td><td>Alerts — meta description enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">71</td><td>Alerts — social share image enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">72</td><td>Alerts — canonical URL enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">73</td><td>Alerts — noindex control enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">74</td><td>Alerts — custom structured-data field enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">75</td><td>Events — meta title enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">76</td><td>Events — meta description enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">77</td><td>Events — social share image enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">78</td><td>Events — canonical URL enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">79</td><td>Events — noindex control enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">80</td><td>Events — custom structured-data field enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr class="cat-row"><td colspan="3">Structured Data — Builder Methods <span class="cat-count">(10)</span></td></tr>
+        <tr><td class="num">81</td><td>Schema builder method: Organization + FinancialService schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">82</td><td>Schema builder method: LocalBusiness schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">83</td><td>Schema builder method: Article (base) schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">84</td><td>Schema builder method: BlogPosting schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">85</td><td>Schema builder method: Article (case-study variant) schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">86</td><td>Schema builder method: Report schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">87</td><td>Schema builder method: Article (newsletter variant) schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">88</td><td>Schema builder method: Service schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">89</td><td>Schema builder method: FAQPage schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">90</td><td>Schema builder method: BreadcrumbList schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr class="cat-row"><td colspan="3">Structured Data — Verified Live <span class="cat-count">(12)</span></td></tr>
+        <tr><td class="num">91</td><td>Homepage — Organization + FinancialService schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">92</td><td>Homepage — LocalBusiness schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">93</td><td>Homepage — BreadcrumbList schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">94</td><td>About page — FAQPage schema (6 Q&amp;A pairs)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">95</td><td>About page — Person (founder) schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">96</td><td>About page — ContactPoint schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">97</td><td>About page — PostalAddress schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">98</td><td>About page — BreadcrumbList schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">99</td><td>Virtual CFO service page — Service schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">100</td><td>Virtual CFO service page — Organization + ImageObject schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">101</td><td>Virtual CFO service page — BreadcrumbList schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">102</td><td>Contact page — LocalBusiness + BreadcrumbList schema</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr class="cat-row"><td colspan="3">Technical SEO — Site-Wide Fixes <span class="cat-count">(25)</span></td></tr>
+        <tr><td class="num">103</td><td>Dynamic XML sitemap controller built</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">104</td><td>Dynamic sitemap template built</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">105</td><td>Sitemap route registered</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">106</td><td>Sitemap passthrough rule (bypasses stale static file)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">107</td><td>HTTPS enforced site-wide</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">108</td><td>Canonical host redirect rule configured</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">109</td><td>HTTPS scheme forced at the application level</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">110</td><td>Canonical tag query-string stripping fix</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">111</td><td>Social share URL query-string stripping fix</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">112</td><td>Duplicate brand-suffix removal in page titles</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">113</td><td>Homepage H1 heading-level correction</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">114</td><td>Visible FAQ section added to About page</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">115</td><td>FAQPage schema mirroring the visible FAQ (AEO)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">116</td><td>llms.txt full rewrite for AI/GEO discoverability</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">117</td><td>robots.txt — major search-engine allow rules</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">118</td><td>robots.txt — public-path allow rules</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">119</td><td>robots.txt — private-path disallow rules</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">120</td><td>robots.txt — tracking-parameter disallow rules</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">121</td><td>robots.txt — scraper/parasite-SEO bot block rules</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">122</td><td>robots.txt — AI/GEO bot allow rules (12 crawlers)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">123</td><td>robots.txt — sitemap declaration</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">124</td><td>robots.txt — host directive</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">125</td><td>Google Search Console verification hook</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">126</td><td>GA4 tracking integration</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">127</td><td>Google Tag Manager integration</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr class="cat-row"><td colspan="3">Performance Optimization <span class="cat-count">(18)</span></td></tr>
+        <tr><td class="num">128</td><td>Lazy-loading — blog template</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">129</td><td>Lazy-loading — alert template</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">130</td><td>Lazy-loading — case study template</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">131</td><td>Lazy-loading — report template</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">132</td><td>Lazy-loading — newsletter template</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">133</td><td>Lazy-loading — service template</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">134</td><td>Browser cache headers — images (1-year)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">135</td><td>Browser cache headers — fonts (1-year)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">136</td><td>Browser cache headers — CSS/JS (1-month)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">137</td><td>Browser cache headers — HTML (always-fresh)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">138</td><td>Gzip/deflate compression enabled</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">139</td><td>Non-blocking font loading</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">140</td><td>Non-blocking icon-library loading</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">141</td><td>Preconnect — Google Fonts</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">142</td><td>Preconnect — Google Fonts static assets</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">143</td><td>Preconnect — CDN assets</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">144</td><td>DNS-prefetch — third-party integration</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">145</td><td>Automatic asset cache-busting on deploy</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr class="cat-row"><td colspan="3">Internal Linking — Strategy &amp; Architecture <span class="cat-count">(6)</span></td></tr>
+        <tr><td class="num">146</td><td>Pillar-to-cluster content architecture map</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">147</td><td>Commercial priority matrix for content pillars</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">148</td><td>Anchor-text variation bank</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">149</td><td>Coverage and orphan-page audit</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">150</td><td>Full internal link map (all content-type pairings)</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">151</td><td>Phased rollout checklist</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr class="cat-row"><td colspan="3">Internal Linking — Deployed (Foundation Pass) <span class="cat-count">(64)</span></td></tr>
+        <tr><td class="num">152</td><td>In-content service link — Strengthening Corporate Governance in a Global Economy → Corporate Governance</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">153</td><td>In-content service link — Regulatory Updates &amp; Compliance Insights for Growing Businesses → Finance &amp; Compliance Outsourcing</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">154</td><td>In-content service link — Enabling Scalable Growth Through Strategic Financial Advisory → Virtual CFO + Finance &amp; Compliance</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">155</td><td>In-content service link — Sustainable Growth: Budget 2025's Approach to Decarbonisation → Finance &amp; Compliance Outsourcing</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">156</td><td>In-content service link — War Is Now a Tax on Movement → Risk Advisory &amp; Augmenting Business Process</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">157</td><td>In-content service link — WOS vs LLP vs Branch Office vs Liaison Office → Business Set-Up + GCC</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">158</td><td>In-content service link — Virtual vs Fractional vs Outsourced CFO: India 2026 Guide → Virtual CFO Services</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">159</td><td>“Related Services” callout added — Strengthening Corporate Governance in a Global Economy</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">160</td><td>“Related Services” callout added — Regulatory Updates &amp; Compliance Insights for Growing Businesses</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">161</td><td>“Related Services” callout added — Enabling Scalable Growth Through Strategic Financial Advisory</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">162</td><td>“Related Services” callout added — Sustainable Growth: Budget 2025's Approach to Decarbonisation</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">163</td><td>“Related Services” callout added — War Is Now a Tax on Movement</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">164</td><td>“Related Services” callout added — WOS vs LLP vs Branch Office vs Liaison Office</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">165</td><td>“Related Services” callout added — India–China Relations in 2026: A Cautious Reset</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">166</td><td>“Related Services” callout added — Virtual vs Fractional vs Outsourced CFO: India 2026 Guide</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">167</td><td>“Related Reading” cross-link box added — blog 1 of 7</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">168</td><td>“Related Reading” cross-link box added — blog 2 of 7</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">169</td><td>“Related Reading” cross-link box added — blog 3 of 7</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">170</td><td>“Related Reading” cross-link box added — blog 4 of 7</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">171</td><td>“Related Reading” cross-link box added — blog 5 of 7</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">172</td><td>“Related Reading” cross-link box added — blog 6 of 7</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">173</td><td>“Related Reading” cross-link box added — blog 7 of 7</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">174</td><td>Alert page — in-content link to Finance &amp; Compliance Outsourcing</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">175</td><td>Alert page — “Related Services” callout added</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">176</td><td>“Dev Mantra Services” footer added — DevMantra Times: 6th March '21</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">177</td><td>“Dev Mantra Services” footer added — DevMantra Times: 1st April '21</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">178</td><td>“Dev Mantra Services” footer added — DevMantra Times: 3rd Edition, 1st May '21</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">179</td><td>“Dev Mantra Services” footer added — DevMantra Times: 4th Edition, 1st June '21</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">180</td><td>“Dev Mantra Services” footer added — DevMantra Times: 5th Edition, 1st July '21</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">181</td><td>“Dev Mantra Services” footer added — DevMantra Times: 6th Edition, 1st August '21</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">182</td><td>“Dev Mantra Services” footer added — DevMantra Times: 7th Edition, 1st September '21</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">183</td><td>“Dev Mantra Services” footer added — DevMantra Times: 8th Edition, 1st October '21</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">184</td><td>“Dev Mantra Services” footer added — DevMantra Times: 9th Edition, 1st November '21</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">185</td><td>“Dev Mantra Services” footer added — DevMantra Times: 10th Edition, 1st December '21</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">186</td><td>“Dev Mantra Services” footer added — DevMantra Times: 11th Edition, 1st January '22</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">187</td><td>“Dev Mantra Services” footer added — DevMantra Times: Budget Edition, 1st February '22</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">188</td><td>“Dev Mantra Services” footer added — DevMantra Times: 13th Edition, 1st March '22</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">189</td><td>“Dev Mantra Services” footer added — DevMantra Times: 14th Edition, 1st April '22</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">190</td><td>“Dev Mantra Services” footer added — DevMantra Times: 15th Edition, 1st May '22</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">191</td><td>“Dev Mantra Services” footer added — DevMantra Times: 16th Edition, 1st June '22</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">192</td><td>“Dev Mantra Services” footer added — DevMantra Times: 18th Edition, 1st August '22</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">193</td><td>“Dev Mantra Services” footer added — DevMantra Times: 19th Edition, 1st September '22</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">194</td><td>“Dev Mantra Services” footer added — DevMantra Times: 35th Edition, 1st January '24</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">195</td><td>“Dev Mantra Services” footer added — DevMantra Times: 36th Edition, 1st February '24</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">196</td><td>“Dev Mantra Services” footer added — DevMantra Times: 37th Edition, 1st March '24</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">197</td><td>“Dev Mantra Services” footer added — DevMantra Times: 40th Edition, 1st June '24</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">198</td><td>“Dev Mantra Services” footer added — DevMantra Times: August 2024 Edition</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">199</td><td>“Dev Mantra Services” footer added — DevMantra Times: 43rd Edition, 5th September '24</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">200</td><td>“Dev Mantra Services” footer added — DevMantra Times: 44th Edition, 5th October '24</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">201</td><td>“Dev Mantra Services” footer added — DevMantra Times: 45th Edition, 4th November '24</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">202</td><td>“Dev Mantra Services” footer added — DevMantra Times: 46th Edition, 4th January '25</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">203</td><td>“Dev Mantra Services” footer added — DevMantra Times: Budget Edition, 5th February '25</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">204</td><td>“Dev Mantra Services” footer added — DevMantra Times: 48th Edition, 5th March '25</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">205</td><td>“Dev Mantra Services” footer added — DevMantra Times: 49th Edition, 1st April '25</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">206</td><td>“Dev Mantra Services” footer added — DevMantra Times: 50th Edition, 4th May '25</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">207</td><td>“Dev Mantra Services” footer added — DevMantra Times: 51st Edition, 2nd June '25</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">208</td><td>“Dev Mantra Services” footer added — DevMantra Times: 53rd Edition, 2nd August '25</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">209</td><td>“Dev Mantra Services” footer added — DevMantra Times: 54th Edition, 4th September '25</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">210</td><td>“Dev Mantra Services” footer added — DevMantra Times: 55th Edition, 1st October '25</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">211</td><td>“Dev Mantra Services” footer added — DevMantra Times: 56th Edition, 1st November '25</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">212</td><td>“Dev Mantra Services” footer added — DevMantra Times: 57th Edition, 2nd December '25</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">213</td><td>“Dev Mantra Services” footer added — DevMantra Times: 58th Edition, 2nd January '26</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">214</td><td>“Dev Mantra Services” footer added — DevMantra Times: 59th Edition, 2nd February '26</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr><td class="num">215</td><td>“Dev Mantra Services” footer added — DevMantra Times: 60th Edition, 9th March '26</td><td><span class="phase-tag ">Foundation</span></td></tr>
+        <tr class="cat-row"><td colspan="3">Site Health &amp; Homepage Optimization <span class="cat-count">(7)</span></td></tr>
+        <tr><td class="num">216</td><td>Homepage meta description written (previously using the generic sitewide default)</td><td><span class="phase-tag health">Site Health</span></td></tr>
+        <tr><td class="num">217</td><td>robots.txt sitemap and host references corrected to the canonical domain</td><td><span class="phase-tag health">Site Health</span></td></tr>
+        <tr><td class="num">218</td><td>llms.txt corrected to the canonical domain (32 references updated)</td><td><span class="phase-tag health">Site Health</span></td></tr>
+        <tr><td class="num">219</td><td>Redirect rule order corrected, eliminating a duplicate redirect step</td><td><span class="phase-tag health">Site Health</span></td></tr>
+        <tr><td class="num">220</td><td>Homepage title-tag encoding artifact corrected</td><td><span class="phase-tag health">Site Health</span></td></tr>
+        <tr><td class="num">221</td><td>FAQ structured data extended automatically to all service pages</td><td><span class="phase-tag health">Site Health</span></td></tr>
+        <tr><td class="num">222</td><td>Meta title and description rewritten for all 9 service pages</td><td><span class="phase-tag health">Site Health</span></td></tr>
+        <tr class="cat-row"><td colspan="3">Internal Linking — Enhancement Pass <span class="cat-count">(25)</span></td></tr>
+        <tr><td class="num">223</td><td>The Complete US–India Accounting Team Workflow Guide → linked to Finance &amp; Compliance Outsourcing</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">224</td><td>Inter-State Power Sales in India → linked to Risk Advisory + Finance &amp; Compliance</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">225</td><td>How to Set Up a GCC in India in 2026 → linked to GCC service page + 2 related articles</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">226</td><td>Virtual CFO Cost in India 2026 → linked to Virtual CFO Services</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">227</td><td>GCC vs Captive Center vs BPO → corrected legacy link + linked to 2 related articles</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">228</td><td>Micro GCC India 2026 → corrected legacy link + linked to 2 related articles</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">229</td><td>Research report — India's Critical Minerals and Battery Recycling Sector → linked to Business Set-Up + M&amp;A Advisory</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">230</td><td>Research report — RBI M&amp;A Financing Rules 2026 Explained → linked to M&amp;A Advisory Services</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">231</td><td>Case study — India 2026–27 Union Budget Impact Study → linked to Finance &amp; Compliance + Corporate Governance</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">232</td><td>“Explore Our Other Services” block rebuilt with curated, thematically-related links — Virtual CFO Services</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">233</td><td>“Explore Our Other Services” block rebuilt with curated, thematically-related links — Finance &amp; Accounts Compliance Outsourcing</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">234</td><td>“Explore Our Other Services” block rebuilt with curated, thematically-related links — Deals, Due Diligence &amp; Transaction Advisory</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">235</td><td>“Explore Our Other Services” block rebuilt with curated, thematically-related links — Business Set-Up &amp; Startup Collaboration</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">236</td><td>“Explore Our Other Services” block rebuilt with curated, thematically-related links — IPO Advisory Services</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">237</td><td>“Explore Our Other Services” block rebuilt with curated, thematically-related links — Corporate Governance</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">238</td><td>“Explore Our Other Services” block rebuilt with curated, thematically-related links — GCC (Global Capability Centers)</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">239</td><td>“Explore Our Other Services” block rebuilt with curated, thematically-related links — M&amp;A Advisory Services</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">240</td><td>“Explore Our Other Services” block rebuilt with curated, thematically-related links — Risk Advisory &amp; Augmenting Business Process</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">241</td><td>Fixed 7 broken service-page links discovered during the cross-link rebuild</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">242</td><td>“Dev Mantra Services” footer added to the July 2026 Tax &amp; GST Compliance newsletter edition</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">243</td><td>8 blog articles — legacy domain references corrected to the canonical domain</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">244</td><td>61 newsletter editions — legacy domain references corrected to the canonical domain</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">245</td><td>1 regulatory alert — legacy domain reference corrected to the canonical domain</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">246</td><td>Report page template updated to support styled cross-sell link callouts</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+        <tr><td class="num">247</td><td>Case study page template updated to support styled cross-sell link callouts</td><td><span class="phase-tag enh">Enhancement</span></td></tr>
+      </table>
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="sig">Digitech Solutions</div>
+    <div>SEO &amp; Technical Partner to Dev Mantra Financial Services</div>
+    <div class="fine">
+      This report reflects work completed and verified as of 6 August 2026. Figures and evidence for every item above are available on request. Prepared for internal review and distribution by Dev Mantra Financial Services.
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

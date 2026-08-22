@@ -23,8 +23,22 @@
 {!! $service->custom_head !!}
 @endpush
 @else
+@php
+    // AEO (2026-08-06): mirror the on-page FAQ section (service-sections.faq) into
+    // FAQPage schema automatically, the same "one source of truth" pattern used on
+    // /about. If a service has no faq section configured yet, no schema is emitted --
+    // never emit FAQPage schema without a matching visible FAQ block on the page.
+    $dmServiceFaqSection = ($service->activeSections ?? collect())->firstWhere('section_type', 'faq');
+    $dmServiceFaqs = collect($dmServiceFaqSection?->section_data['items'] ?? [])
+        ->filter(fn($item) => !empty($item['question']) && !empty($item['answer']))
+        ->values()
+        ->all();
+@endphp
 @push('schema')
 {!! \App\Services\SchemaService::serviceSchema($service) !!}
+@if(count($dmServiceFaqs))
+{!! \App\Services\SchemaService::faqSchema($dmServiceFaqs) !!}
+@endif
 {!! \App\Services\SchemaService::breadcrumb([
     ['name' => 'Home', 'url' => '/'],
     ['name' => 'Services', 'url' => '/#services'],

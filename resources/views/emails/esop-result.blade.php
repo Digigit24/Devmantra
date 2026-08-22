@@ -1,6 +1,11 @@
 @php
     $companyLabel = trim((string) $lead->company) !== '' ? trim($lead->company) : 'your business';
-    $rankedEmployees = $employees->sortBy(fn ($e) => $e->rank ?: 999999)->values();
+    // EsopResultMail hands employees to Content::with() wrapped in collect(),
+    // but Mailable::buildViewData() applies the mailable's PUBLIC properties
+    // *after* the with() data — so the raw `public array $employees` property
+    // wins and this view actually receives a plain array. Wrapping in collect()
+    // here is what makes the sort work whichever of the two arrives.
+    $rankedEmployees = collect($employees)->sortBy(fn ($e) => $e->rank ?: 999999)->values();
     $overall = $aiContent['overall'] ?? [];
     $empNotes = $aiContent['employees'] ?? [];
 @endphp

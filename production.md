@@ -34,18 +34,18 @@ $app = require_once __DIR__.'/../devmantra/bootstrap/app.php';
 1. **Delete the old static sitemap** — after uploading `.htaccess`, delete `/home2/devmasjc/public_html/sitemap.xml`
    - If you don't delete it, Apache serves the stale static file instead of the dynamic Laravel one
 
-2. **Verify dynamic sitemap works** — visit `https://www.devmantra.com/sitemap.xml` in browser
+2. **Verify dynamic sitemap works** — visit `https://devmantra.com/sitemap.xml` in browser
    - Should show live XML with all published content, real `lastmod` dates, no `?tag=` or `?page=` junk URLs
 
 3. **Re-submit sitemap in GSC**:
    - Google Search Console → Sitemaps
    - Remove the old entry if shown as error
-   - Re-add: `https://www.devmantra.com/sitemap.xml`
+   - Re-add: `https://devmantra.com/sitemap.xml`
 
 4. **Test redirects** — open browser incognito:
-   - `http://devmantra.com` → should redirect to `https://www.devmantra.com`
-   - `https://devmantra.com` (no www) → should redirect to `https://www.devmantra.com`
-   - `http://www.devmantra.com` → should redirect to `https://www.devmantra.com`
+   - `http://devmantra.com` → should redirect to `https://devmantra.com`
+   - `https://devmantra.com` (no www) → this **is** the canonical URL — should return 200, no redirect
+   - `http://www.devmantra.com` → should redirect to `https://devmantra.com` (single hop, per the 2026-08-06 .htaccess reorder)
 
 5. **Check canonical tags** — view source on any blog post that previously had `?tag=` params:
    - `<link rel="canonical">` must NOT contain query strings
@@ -57,7 +57,7 @@ $app = require_once __DIR__.'/../devmantra/bootstrap/app.php';
 
 ### Before Upload
 - [ ] Confirm `APP_ENV=production` and `APP_DEBUG=false` in server `.env`
-- [ ] Confirm `APP_URL=https://www.devmantra.com` in server `.env`
+- [ ] Confirm `APP_URL=https://devmantra.com` in server `.env`
 
 ### Files to Upload
 - [ ] Upload changed files from `public/` → `/home2/devmasjc/public_html/`
@@ -76,5 +76,5 @@ $app = require_once __DIR__.'/../devmantra/bootstrap/app.php';
 - [ ] Images and assets load (check browser console for 404s)
 - [ ] Forms submit correctly
 - [ ] No Laravel errors in `/home2/devmasjc/devmantra/storage/logs/laravel.log`
-- [ ] `https://www.devmantra.com/sitemap.xml` returns live XML
-- [ ] HTTP and non-www redirect to `https://www.devmantra.com`
+- [ ] `https://devmantra.com/sitemap.xml` returns live XML
+- [ ] HTTP and www redirect to `https://devmantra.com` (non-www is canonical — decided 2026-08-06; robots.txt/llms.txt updated to match)

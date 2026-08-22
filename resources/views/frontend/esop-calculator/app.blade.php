@@ -1,3 +1,25 @@
+@php
+    // Cache-buster for the ESOP calculator's own CSS/JS.
+    //
+    // production.md: the live server runs Laravel from /home2/devmasjc/devmantra
+    // while the actual web-served directory is the separate /home2/devmasjc/public_html
+    // — so public_path() does NOT point at the real asset folder in production
+    // (same reason config/filesystems.php hardcodes the 'links' target). Resolve
+    // the real on-disk public folder the same way before touching filemtime(),
+    // and fall back to time() if a file isn't found so a missing or renamed
+    // asset can never crash this page.
+    //
+    // Every locally-hosted asset on this page goes through here. dashboard.js and
+    // dashboard.css were previously unversioned, so a browser holding an old copy
+    // could pair a stale dashboard.js with a freshly-deployed calculator.js and
+    // blow up on a helper that didn't exist yet.
+    $esopAssetRoot = app()->environment('local') ? public_path() : '/home2/devmasjc/public_html';
+    $esopAssetVer = function (string $relative) use ($esopAssetRoot) {
+        $path = rtrim($esopAssetRoot, '/') . '/' . ltrim($relative, '/');
+
+        return is_file($path) ? filemtime($path) : time();
+    };
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +34,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link rel="stylesheet" href="{{ asset('assets/esop-calculator/css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/esop-calculator/css/dashboard.css') }}?v={{ $esopAssetVer('assets/esop-calculator/css/dashboard.css') }}">
 <style>
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
@@ -163,8 +185,8 @@ src="https://www.facebook.com/tr?id={{ config('services.meta.pixel_id') }}&ev=Pa
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
-<script src="{{ asset('assets/esop-calculator/js/dashboard.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js"></script>
+<script src="{{ asset('assets/esop-calculator/js/dashboard.js') }}?v={{ $esopAssetVer('assets/esop-calculator/js/dashboard.js') }}"></script>
 <script>
 window.ESOP_DATA = {
     params: @json($params),
@@ -178,20 +200,6 @@ window.ESOP_DATA = {
     heroImageUrl: "{{ asset('assets/esop-calculator/img/hero-banner.jpg') }}",
 };
 </script>
-@php
-    // production.md: the live server runs Laravel from /home2/devmasjc/devmantra
-    // while the actual web-served directory is the separate /home2/devmasjc/public_html
-    // — so public_path() does NOT point at the real asset folder in production
-    // (same reason config/filesystems.php hardcodes the 'links' target below).
-    // Resolve the real on-disk public folder the same way before touching
-    // filemtime(), and fall back to time() if the file still isn't found so a
-    // missing/renamed asset can never crash this page again.
-    $esopCalcJsRoot = app()->environment('local')
-        ? public_path()
-        : '/home2/devmasjc/public_html';
-    $esopCalcJsPath = $esopCalcJsRoot.'/assets/esop-calculator/js/calculator.js';
-    $esopCalcJsVer = is_file($esopCalcJsPath) ? filemtime($esopCalcJsPath) : time();
-@endphp
-<script src="{{ asset('assets/esop-calculator/js/calculator.js') }}?v={{ $esopCalcJsVer }}"></script>
+<script src="{{ asset('assets/esop-calculator/js/calculator.js') }}?v={{ $esopAssetVer('assets/esop-calculator/js/calculator.js') }}"></script>
 </body>
 </html>

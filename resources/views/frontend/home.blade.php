@@ -1,5 +1,6 @@
 @extends('layouts.frontend')
 @section('title', 'DevMantra - Strategic Financial & Advisory Services')
+@section('meta_description', 'On-demand Virtual CFO services for Indian & cross-border businesses, backed by M&A, India-entry and GCC-setup expertise. ₹5,000 Cr+ advised. Book a free consult.')
 
 @push('schema')
 {!! \App\Services\SchemaService::organization() !!}

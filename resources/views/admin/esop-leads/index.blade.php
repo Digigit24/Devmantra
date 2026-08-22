@@ -3,7 +3,13 @@
 
 @section('content')
 <div class="dm-table-wrap">
-    <div class="dm-table-header">
+    @php
+        // Carry the active filters into the export links so a download always
+        // matches the rows on screen rather than dumping the whole table.
+        $exportFilters = array_filter(request()->only('search', 'status'));
+    @endphp
+
+    <div class="dm-table-header" style="flex-wrap:wrap;gap:12px;">
         <form method="GET" class="d-flex gap-2 flex-wrap">
             <input type="text" name="search" value="{{ request('search') }}"
                    placeholder="Search name, email or company..."
@@ -16,8 +22,36 @@
             </select>
             <button type="submit" class="dm-btn dm-btn-outline dm-btn-sm">Filter</button>
         </form>
-        <div style="font-size:13px;color:var(--dm-text-muted);">
-            {{ $leads->total() }} session{{ $leads->total() !== 1 ? 's' : '' }}
+        <div class="d-flex gap-2 flex-wrap align-items-center" style="margin-left:auto;">
+            <span style="font-size:13px;color:var(--dm-text-muted);">
+                {{ $leads->total() }} session{{ $leads->total() !== 1 ? 's' : '' }}
+            </span>
+            <a href="{{ route('admin.esop-leads.export', $exportFilters) }}"
+               class="dm-btn dm-btn-outline dm-btn-sm"
+               title="One row per session — contact, pool setup and headline result">
+                <i class="fa-solid fa-file-csv"></i> Export Sessions
+            </a>
+            <a href="{{ route('admin.esop-leads.export-employees', $exportFilters) }}"
+               class="dm-btn dm-btn-outline dm-btn-sm"
+               title="One row per scored employee — score, rank and recommended grant">
+                <i class="fa-solid fa-users"></i> Export Employees
+            </a>
+        </div>
+    </div>
+
+    <!-- Selection action bar (hidden until rows are checked) -->
+    <div id="selection-bar" style="display:none;padding:10px 16px;background:var(--dm-purple-light);border-bottom:1px solid rgba(116,99,255,0.2);align-items:center;justify-content:space-between;gap:12px;">
+        <span style="font-size:13px;color:var(--dm-purple);font-weight:600;">
+            <i class="fa-solid fa-check-square" style="margin-right:6px;"></i>
+            <span id="selected-count">0</span> session(s) selected
+        </span>
+        <div class="d-flex gap-2">
+            <button onclick="exportSelected()" class="dm-btn dm-btn-sm" style="background:var(--dm-purple);color:#fff;border-color:var(--dm-purple);">
+                <i class="fa-solid fa-file-csv"></i> Export Selected
+            </button>
+            <button onclick="clearSelection()" class="dm-btn dm-btn-outline dm-btn-sm">
+                <i class="fa-solid fa-xmark"></i> Clear
+            </button>
         </div>
     </div>
 
@@ -31,6 +65,10 @@
         <table class="dm-table" style="min-width:820px;">
             <thead>
                 <tr>
+                    <th style="width:40px;padding-left:16px;">
+                        <input type="checkbox" id="select-all" title="Select all on this page"
+                               style="width:15px;height:15px;cursor:pointer;accent-color:var(--dm-purple);">
+                    </th>
                     <th>Contact</th>
                     <th>Company</th>
                     <th>Pool</th>
@@ -42,7 +80,24 @@
             </thead>
             <tbody>
                 @forelse($leads as $lead)
+                @php $summary = is_array($lead->result_summary) ? $lead->result_summary : []; @endphp
                 <tr>
+                    <td style="padding-left:16px;width:40px;">
+                        <input type="checkbox" class="row-checkbox"
+                               style="width:15px;height:15px;cursor:pointer;accent-color:var(--dm-purple);"
+                               data-name="{{ $lead->name }}"
+                               data-email="{{ $lead->email }}"
+                               data-phone="{{ $lead->phone }}"
+                               data-company="{{ $lead->company }}"
+                               data-industry="{{ $lead->industry }}"
+                               data-stage="{{ $lead->company_stage }}"
+                               data-pool="{{ $lead->esop_pool_percent !== null ? number_format($lead->esop_pool_percent, 2) : '' }}"
+                               data-reserve="{{ $lead->hiring_reserve_percent !== null ? number_format($lead->hiring_reserve_percent, 2) : '' }}"
+                               data-scored="{{ $lead->employees_count }}"
+                               data-allocated="{{ isset($summary['total_allocated_percent']) ? number_format($summary['total_allocated_percent'], 4) : '' }}"
+                               data-status="{{ $lead->status }}"
+                               data-date="{{ optional($lead->submitted_at ?? $lead->created_at)->timezone('Asia/Kolkata')->format('d M Y, g:i A') }}">
+                    </td>
                     <td>
                         <a href="{{ route('admin.esop-leads.show', $lead) }}"
                            style="font-weight:600;color:var(--dm-text);text-decoration:none;display:block;"
@@ -97,7 +152,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" style="text-align:center;padding:40px;color:var(--dm-text-muted);">
+                    <td colspan="8" style="text-align:center;padding:40px;color:var(--dm-text-muted);">
                         <i class="fa-solid fa-chart-pie" style="font-size:32px;display:block;margin-bottom:12px;"></i>
                         No ESOP calculator sessions yet.
                     </td>
@@ -113,4 +168,72 @@
     </div>
     @endif
 </div>
+
+<script>
+// Row selection + client-side CSV of the checked sessions. "Export Sessions"
+// above hits the server and covers every filtered row across all pages; this
+// covers an ad-hoc pick from the current page only, built from the data-*
+// attributes already in the DOM.
+(function () {
+    const selectAll = document.getElementById('select-all');
+    const selBar    = document.getElementById('selection-bar');
+    const selCount  = document.getElementById('selected-count');
+    if (!selectAll || !selBar || !selCount) return;
+
+    const allBoxes = () => [...document.querySelectorAll('.row-checkbox')];
+    const getChecked = () => [...document.querySelectorAll('.row-checkbox:checked')];
+
+    function updateBar() {
+        const checked = getChecked();
+        const total   = allBoxes().length;
+        selBar.style.display = checked.length ? 'flex' : 'none';
+        selCount.textContent = checked.length;
+        selectAll.indeterminate = checked.length > 0 && checked.length < total;
+        selectAll.checked = total > 0 && checked.length === total;
+    }
+
+    selectAll.addEventListener('change', function () {
+        allBoxes().forEach(cb => { cb.checked = this.checked; });
+        updateBar();
+    });
+
+    allBoxes().forEach(cb => cb.addEventListener('change', updateBar));
+
+    window.clearSelection = function () {
+        allBoxes().forEach(cb => { cb.checked = false; });
+        selectAll.checked = false;
+        selectAll.indeterminate = false;
+        updateBar();
+    };
+
+    function csvEscape(val) {
+        const str = String(val ?? '');
+        return /[",\n\r]/.test(str) ? '"' + str.replace(/"/g, '""') + '"' : str;
+    }
+
+    window.exportSelected = function () {
+        const checked = getChecked();
+        if (!checked.length) return;
+
+        const cols = ['Contact Name', 'Email', 'Phone', 'Company', 'Industry', 'Company Stage',
+                      'ESOP Pool %', 'Hiring Reserve %', 'Employees Scored', 'Total Allocated %',
+                      'Status', 'Submitted'];
+        const rows = checked.map(cb => [
+            cb.dataset.name, cb.dataset.email, cb.dataset.phone, cb.dataset.company,
+            cb.dataset.industry, cb.dataset.stage, cb.dataset.pool, cb.dataset.reserve,
+            cb.dataset.scored, cb.dataset.allocated, cb.dataset.status, cb.dataset.date,
+        ]);
+
+        // Leading BOM so Excel reads it as UTF-8, matching the server exports.
+        const csv  = '﻿' + [cols, ...rows].map(r => r.map(csvEscape).join(',')).join('\r\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href     = url;
+        a.download = 'esop-sessions-selected-{{ now()->format("Y-m-d") }}.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+})();
+</script>
 @endsection

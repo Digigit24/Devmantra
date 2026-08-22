@@ -97,6 +97,71 @@ window.EsopDashboard = (function () {
         });
     }
 
+    function escapeHtml(s) {
+        return (s == null ? '' : String(s)).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+    }
+
+    /* ---------------- Distribution bars ----------------
+       Renders the "Allocation by Department / Seniority" panels as plain
+       HTML + CSS rather than Chart.js. Three reasons: these panels routinely
+       hold a single row (a one-employee session), where a full chart axis
+       reads as empty; a CSS bar always survives the html2canvas PDF export;
+       and it removes any dependency on the Chart.js CDN being reachable.
+
+       Bar WIDTH is scaled against the largest row so the panel always fills
+       its space — a width proportional to, say, a 0.35% slice of a 7% pool
+       would be a sliver. The true share is stated as text beneath instead.
+    */
+    function renderDistribution(containerId, rows, options) {
+        var el = document.getElementById(containerId);
+        if (!el) return;
+
+        rows = rows || [];
+        options = options || {};
+
+        if (!rows.length) {
+            el.innerHTML = '<div class="esop-dist-empty">No employees scored yet.</div>';
+            return;
+        }
+
+        var accent = options.accent || '#4a73c4';
+        var accentSoft = options.accentSoft || '#7aa2e8';
+        var emptyLabel = options.emptyLabel || 'Nobody scored here yet';
+
+        var total = 0, max = 0;
+        rows.forEach(function (r) {
+            var v = Number(r.allocated) || 0;
+            total += v;
+            if (v > max) max = v;
+        });
+
+        el.innerHTML = '<div class="esop-dist">' + rows.map(function (r) {
+            var v = Number(r.allocated) || 0;
+            var n = Number(r.employees) || 0;
+            var width = max > 0 ? (v / max) * 100 : 0;
+            var share = total > 0 ? (v / total) * 100 : 0;
+            var meta = n === 0
+                ? emptyLabel
+                : n + ' employee' + (n === 1 ? '' : 's') + ' &middot; ' + share.toFixed(1) + '% of allocated';
+
+            return '<div class="esop-dist-row' + (v > 0 ? '' : ' is-zero') + '">' +
+                '<div class="esop-dist-head">' +
+                    '<span class="esop-dist-label">' + escapeHtml(r.label) + '</span>' +
+                    '<span class="esop-dist-val">' + v.toFixed(4) + '%</span>' +
+                '</div>' +
+                '<div class="esop-dist-track">' +
+                    (v > 0
+                        ? '<div class="esop-dist-fill" style="width:' + width.toFixed(2) + '%;background:linear-gradient(90deg,' + accent + ',' + accentSoft + ')"></div>'
+                        : '') +
+                '</div>' +
+                '<div class="esop-dist-meta">' + meta + '</div>' +
+            '</div>';
+        }).join('') + '</div>' +
+        (options.note ? '<div class="esop-dist-note">' + escapeHtml(options.note) + '</div>' : '');
+    }
+
     /* ---------------- row expand/collapse (AI notes) ---------------- */
     function initRowToggles(tableSelector) {
         document.querySelectorAll(tableSelector + ' tr.emp-row').forEach(function (row) {
@@ -142,7 +207,23 @@ window.EsopDashboard = (function () {
             scrollX: 0,
             scrollY: 0,
             windowWidth: document.documentElement.scrollWidth,
-            windowHeight: document.documentElement.scrollHeight
+            windowHeight: document.documentElement.scrollHeight,
+            // html2canvas cannot rasterise `background-clip: text`, so the big
+            // "Total Recommended Allocation" figure — which uses a gradient
+            // clipped to the glyphs — came out as an empty gradient block in the
+            // downloaded PDF. Swap the gradient for a solid fill in the CLONED
+            // DOM only, so the on-screen dashboard keeps its gradient treatment
+            // and only the exported copy is flattened.
+            onclone: function (clonedDoc) {
+                var nodes = clonedDoc.querySelectorAll('.esop-dash-headline-value');
+                Array.prototype.forEach.call(nodes, function (el) {
+                    el.style.background = 'none';
+                    el.style.webkitBackgroundClip = 'border-box';
+                    el.style.backgroundClip = 'border-box';
+                    el.style.webkitTextFillColor = '#ffffff';
+                    el.style.color = '#ffffff';
+                });
+            }
         }).then(function (canvas) {
             window.scrollTo(scrollX, scrollY);
 
@@ -194,6 +275,8 @@ window.EsopDashboard = (function () {
         fmtPct: fmtPct,
         renderDonut: renderDonut,
         renderBar: renderBar,
+        renderDistribution: renderDistribution,
+        escapeHtml: escapeHtml,
         initRowToggles: initRowToggles,
         copyLink: copyLink,
         exportPdf: exportPdf

@@ -591,7 +591,7 @@
         updateProgress('Phone (optional)');
         screen(
             '<div class="esop-eyebrow">Step 4 of 5 &middot; Get your report</div>' +
-            '<h1 class="esop-q-title">Phone number? <span style="color:rgba(255,255,255,0.35);font-weight:400;">(optional)</span></h1>' +
+            '<h1 class="esop-q-title">Phone number? <span style="color:#94a3b8;font-weight:400;">(optional)</span></h1>' +
             '<div class="esop-field"><input type="text" class="esop-input" id="fContactPhone" value="' + esc(state.contact.phone) + '"></div>' +
             navBar({ nextLabel: 'Review my session' })
         );
@@ -609,9 +609,12 @@
         var rows = state.employees.map(function (e) {
             var total = 0;
             PARAMS.forEach(function (p) { total += (e.answers[p.key] || 0); });
-            return '<div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.08);">' +
-                '<span>' + esc(e.emp_name) + ' <span style="color:rgba(255,255,255,0.4);">&middot; ' + esc(e.emp_seniority) + '</span></span>' +
-                '<span style="color:#7aa2e8;font-weight:700;">' + total + '/100</span></div>';
+            // Colours here are light-theme values. The wizard renders on white,
+            // so the earlier rgba(255,255,255,…) values left the seniority label
+            // and the row divider invisible.
+            return '<div style="display:flex;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid #e2e8f0;">' +
+                '<span style="color:#0f172a;">' + esc(e.emp_name) + ' <span style="color:#64748b;">&middot; ' + esc(e.emp_seniority) + '</span></span>' +
+                '<span style="color:#4a73c4;font-weight:700;">' + total + '/100</span></div>';
         }).join('');
 
         screen(
@@ -629,7 +632,7 @@
         screen(
             '<div class="esop-loading">' +
             '<div class="esop-spinner"></div>' +
-            '<p style="color:rgba(255,255,255,0.6);font-size:0.9rem;">Scoring every employee and splitting the pool…</p>' +
+            '<p style="color:#64748b;font-size:0.9rem;">Scoring every employee and splitting the pool…</p>' +
             '</div>'
         );
     }
@@ -680,7 +683,22 @@
             // even if the AI commentary itself fell back to the template, since
             // the lead + report were still captured either way.
             trackCompleteRegistration(esopEventId);
-            renderResults(data);
+
+            // By this point the lead is saved and the report exists at its own
+            // URL. A fault while DRAWING it is therefore not a submission
+            // failure, and must not dump the user back on the form as though
+            // their work was lost — fall back to the server-rendered report,
+            // which carries the same content.
+            try {
+                renderResults(data);
+            } catch (renderErr) {
+                if (window.console && console.error) console.error('ESOP results render failed:', renderErr);
+                if (data && data.report_url) {
+                    window.location.href = data.report_url;
+                    return;
+                }
+                throw renderErr;
+            }
         }).catch(function (err) {
             var msg = (err && err.message) ? err.message : 'Something went wrong while generating your report. Please check your answers and try again.';
             goTo('review', { replace: true, isBack: true });
@@ -698,7 +716,15 @@
         stage.classList.add('is-results');
 
         var pool = data.pool || {};
-        var employees = data.employees || [];
+        // Order the table by rank, which is now driven by the recommended grant
+        // (see EsopAllocationCalculator) — so the Rank column reads top-down and
+        // matches the order on the shareable report page. Unranked (zero-grant)
+        // people fall to the bottom rather than being scattered through it.
+        var employees = (data.employees || []).slice().sort(function (a, b) {
+            var ra = a.rank || 999999, rb = b.rank || 999999;
+            if (ra !== rb) return ra - rb;
+            return (Number(b.final_grant_percent) || 0) - (Number(a.final_grant_percent) || 0);
+        });
         var byDepartment = (data.by_department || []).slice(0, 12);
         var byLevel = data.by_level || [];
         var ai = data.ai_overall || {};
@@ -710,6 +736,22 @@
         var remaining = Number(pool.remaining_pool_percent || 0);
         var reserve = Number(state.pool.hiring_reserve_percent || 0);
         var underPlanned = pool.scored_count < pool.planned_headcount;
+
+        // Stamp the actual generation time rather than "just now" — the results
+        // screen can sit open in a tab for hours, and the PDF exported from it
+        // needs a real timestamp on it. Pinned to IST so this always matches the
+        // shareable report page (which renders server-side), instead of drifting
+        // when the founder happens to be viewing from another timezone.
+        var generatedAt;
+        try {
+            generatedAt = new Date().toLocaleString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                day: '2-digit', month: 'short', year: 'numeric',
+                hour: 'numeric', minute: '2-digit', hour12: true
+            }) + ' IST';
+        } catch (e) {
+            generatedAt = new Date().toLocaleString();
+        }
 
         var rows = employees.map(function (e) {
             var scoreColor = D.scoreColor(e.total_score);
@@ -745,7 +787,7 @@
             '<div class="esop-dash-hero-content">' +
                 '<div class="esop-dash-hero-top">' +
                     '<div><div class="esop-dash-eyebrow">Dev Mantra &middot; ESOP Advisory</div><h1 class="esop-dash-hero-title">' + esc(company) + '</h1></div>' +
-                    '<div class="esop-dash-hero-meta">Generated just now<br>' + esc(state.pool.industry || '—') + ' &middot; ' + esc(state.pool.company_stage || '—') + '</div>' +
+                    '<div class="esop-dash-hero-meta">Generated ' + esc(generatedAt) + '<br>' + esc(state.pool.industry || '—') + ' &middot; ' + esc(state.pool.company_stage || '—') + '</div>' +
                 '</div>' +
                 '<p class="esop-dash-hero-sub">A copy has been emailed to ' + esc(state.contact.email) + '. Figures are indicative — confirm with your cap table administrator and legal counsel before communicating any number.</p>' +
                 '<div class="esop-dash-hero-bottom">' +
@@ -772,8 +814,12 @@
                 '</div>' +
                 '<div class="esop-dash-card"><div class="esop-dash-card-title">Key Metrics</div>' +
                     '<div class="esop-dash-stat-grid">' +
-                        '<div class="esop-dash-stat"><div class="lbl">Allocatable Pool</div><div class="val">' + allocatable.toFixed(2) + '%</div></div>' +
-                        '<div class="esop-dash-stat"><div class="lbl">Pool To Distribute</div><div class="val">' + Number(pool.pool_to_distribute_percent || 0).toFixed(2) + '%</div></div>' +
+                        // These two tiles mirror the Pool Overview donut legend exactly, so the
+                        // two cards can never appear to disagree. (The older labels showed the
+                        // 7% gross allocatable figure — mathematically right, but it read as a
+                        // contradiction next to the donut's 0.35% / 6.65% split.)
+                        '<div class="esop-dash-stat"><div class="lbl">Total Allocated</div><div class="val money">' + totalAllocated.toFixed(4) + '%</div></div>' +
+                        '<div class="esop-dash-stat"><div class="lbl">Remaining To Allocate</div><div class="val">' + Math.max(0, remaining).toFixed(4) + '%</div></div>' +
                         '<div class="esop-dash-stat"><div class="lbl">Employees Scored</div><div class="val">' + pool.scored_count + ' / ' + pool.planned_headcount + '</div></div>' +
                         '<div class="esop-dash-stat"><div class="lbl">Score Range</div><div class="val small">' + (pool.score_range_low != null ? pool.score_range_low + ' – ' + pool.score_range_high : '—') + ' / 100</div></div>' +
                         '<div class="esop-dash-stat"><div class="lbl">Average Grant</div><div class="val money">' + (pool.average_grant_percent != null ? Number(pool.average_grant_percent).toFixed(4) + '%' : '—') + '</div></div>' +
@@ -783,10 +829,10 @@
                 '</div>' +
             '</div>' +
 
-            (byDepartment.length ?
+            (byDepartment.length || byLevel.length ?
             '<div class="esop-dash-grid-2 even">' +
-                '<div class="esop-dash-card"><div class="esop-dash-card-title">Allocation By Department</div><div class="esop-chart-box"><canvas id="esopDeptChart"></canvas></div></div>' +
-                '<div class="esop-dash-card"><div class="esop-dash-card-title">Allocation By Seniority</div><div class="esop-chart-box"><canvas id="esopLevelChart"></canvas></div></div>' +
+                '<div class="esop-dash-card"><div class="esop-dash-card-title">Allocation By Department</div><div id="esopDeptDist"></div></div>' +
+                '<div class="esop-dash-card"><div class="esop-dash-card-title">Allocation By Seniority</div><div id="esopLevelDist"></div></div>' +
             '</div>' : '') +
 
             '<div class="esop-dash-section-title"><span class="bar"></span> Recommended Allocation By Employee</div>' +
@@ -820,14 +866,35 @@
             '</div>'
         );
 
-        if (D) {
+        // Every call below is feature-detected. dashboard.js is a separately
+        // cached file, so a browser can pair an older copy of it with a newer
+        // calculator.js; when that happens the affected panel should simply be
+        // absent rather than throwing and taking the whole report down with it.
+        if (D && D.renderDonut) {
             D.renderDonut('esopPoolDonut', [
                 { label: 'Allocated', value: totalAllocated, color: '#059669' },
                 { label: 'Remaining (allocatable)', value: Math.max(0, remaining), color: '#4a73c4' },
                 { label: 'Hiring reserve', value: reserve, color: '#d9a441' }
             ]);
-            if (byDepartment.length) D.renderBar('esopDeptChart', byDepartment.map(function (r) { return r.label; }), byDepartment.map(function (r) { return r.allocated; }), '#4a73c4');
-            if (byLevel.length) D.renderBar('esopLevelChart', byLevel.map(function (r) { return r.label; }), byLevel.map(function (r) { return r.allocated; }), '#1b3c6b');
+        }
+
+        if (D && D.renderDistribution) {
+            var deptTotal = (DATA.departments || []).length;
+            D.renderDistribution('esopDeptDist', byDepartment, {
+                accent: '#4a73c4', accentSoft: '#7aa2e8',
+                note: deptTotal
+                    ? 'Only departments with at least one scored employee are listed — ' +
+                      byDepartment.length + ' of ' + deptTotal + ' represented in this cycle.'
+                    : ''
+            });
+            D.renderDistribution('esopLevelDist', byLevel, {
+                accent: '#1b3c6b', accentSoft: '#4a73c4',
+                emptyLabel: 'No one scored at this level yet',
+                note: 'Every seniority tier is listed. A tier at 0% has nobody scored against it yet, so any pool set aside for that level is still unallocated.'
+            });
+        }
+
+        if (D && D.initRowToggles) {
             D.initRowToggles('.esop-dash-table-wrap');
         }
 
